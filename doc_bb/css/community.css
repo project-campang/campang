@@ -1,0 +1,169 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'SBAggro';
+}
+
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    margin: auto;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 70px;
+    border-bottom: solid 3px black;
+}
+
+header a {
+    margin: 10px;
+    color: black;
+    text-decoration: none;
+}
+.main-container {
+    width: 100vw;
+    height: 100vh;
+    background-color: #E6F7DC;
+    display: grid;
+    grid-template-columns: 400px auto;
+}
+
+.nav-container {
+    width: 400px;
+    height: 100vh;
+    /* background-color: red; */
+    display: grid;
+
+}
+
+.nav-box {
+    margin: 50px auto 0 auto;
+    width: 300px;
+    height: 600px;
+    background-color: white;
+    border-radius: 20px;
+    
+}
+
+.page-title {
+    margin: 0;
+    height: 200px;
+    background-color: #97D270;
+    border-radius: 20px 20px 0 0;
+    display: grid;
+}
+
+.page-title > span {
+    margin: auto;
+    color: white;
+    font-size: 1.7rem;
+    font-weight: 900;
+    text-align: center;
+    line-height: 200px;
+}
+
+.board-name-list {
+    display: grid;
+}
+
+.board-name {
+    width: 170px;
+    height: 300px;
+    margin: 50px auto;
+    /* background-color: yellow; */
+}
+
+.board-name > p {
+    margin: 20px;
+    font-size: 1.1rem;
+}
+
+.content-container {
+    display: grid;
+    grid-template-rows: 120px auto;
+    /* background-color: red */
+}
+
+.content-top {
+    width: 100%;
+    height: 120px;
+    line-height: 120px;
+    display: grid;
+    grid-template-columns: 300px auto 300px;
+    /* background-color: BLUE; */
+}
+
+.board-select {
+    padding-left: 100px;
+}
+
+.board-select > span {
+    font-size: 1.5rem;
+    font-weight: 600;
+}
+
+.board-comment {
+    justify-content: baseline;
+    color: grey;
+}
+
+
+.content-bottom {
+    /* background-color: red; */
+}
+
+.content-box {
+    margin: auto;
+    width: 1600px;
+    height: 100%;
+    background-color: white;
+    border-radius: 20px;
+}
+
+.content-column {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    /* background-color: pink; */
+}
+
+.content-column > * {
+    width: 100%;
+    height: 100px;
+    font-size: 1.2rem;
+    line-height: 100px;
+    height: 100px;
+    font-size: 600;
+}
+
+hr {
+    border: solid 2px grey;
+}
+
+.content-item {
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    height: 70px;
+    /* background-color: pink; */
+}
+
+.content-item > * {
+    width: 100%;
+    height: 100px;
+    line-height: 70px;
+}
+
+.item-hr {
+    border: solid 1px rgb(190, 190, 190);
+}

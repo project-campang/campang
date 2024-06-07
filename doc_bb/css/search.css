@@ -1,0 +1,195 @@
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: 'SBAggro';
+}
+
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+header {
+    margin: auto;
+    width: 100%;
+    height: 70px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 1rem;
+    text-align: center;
+    line-height: 70px;
+    border-bottom: solid 3px black;
+}
+
+header a {
+    margin: 10px;
+    color: black;
+    text-decoration: none;
+}
+
+.main-container {
+    display: grid;
+    grid-template-columns: 650px auto;
+}
+
+.search-container {
+    height: 100vh;
+    padding: 0 20px 0 20px;
+    border-right: solid 4px #FFD84F;
+}
+
+.search-box {
+    margin: auto;
+    height: 70px;
+    display: grid;
+}
+
+.search-box form {
+    margin: auto;
+}
+
+form #address {
+    width: 150px;
+    height: 40px;
+    border-radius: 10px;
+    border: solid 1px rgb(171, 171, 171);
+    color: #737070;
+}
+
+.search-btn {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgb(171, 171, 171);
+    color: #737070;
+}
+
+.btn-bg-yellow {
+    background-color: #FFD84F;
+}
+
+.btn-bg-grey {
+    background-color: #D9D9D9;
+}
+
+.accordion-container {
+    background-color: #EDF4F8;
+    height: 200px;
+    border-radius: 10px;
+    /* display: none; */
+}
+
+.acc-category {
+    padding: 15px;
+}
+
+.result {
+    height: 50px;
+    line-height: 50px;
+}
+
+hr {
+    margin: auto;
+    background-color: #737070;
+    width: 100%;
+    height: 2px;
+}
+
+.search-item {
+    padding: 10px;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    height: 100px;
+}
+
+.search-item:hover {
+    background-color: #f7f7f7;
+}
+
+
+.img {
+    margin: auto;
+    width: 120px;
+    height: 70px;
+    background-color: grey;
+    border-radius: 10px;
+}
+
+.item-info {
+    display: grid;
+    margin-left: 30px;
+}
+
+.item-name {
+    font-size: 1.1rem;
+}
+
+.item-info-2 > *{
+    font-size: 0.7rem;
+    margin-right: 10px;
+}
+
+.item-price {
+    font-size: 0.9em;
+}
+
+.item-price-2 {
+    font-size: 0.7rem;
+    margin-right: 10px;
+    color: #737070;
+}
+
+.item-tel {
+    font-size: 0.7em;
+}
+
+.item-detail {
+    margin: auto;
+}
+
+.item-detail button{
+    width: 100px;
+    height: 40px;
+    color: #737070;
+    background-color: #FFD84F;
+    border-radius: 5px;
+    border: none;
+}
+
+.item-detail:hover{
+
+}
+
+/* .map-container {
+} */
+
+.float-btn {
+    position: fixed;
+    bottom: 50px;
+    right: 30px;
+}
+
+.float-btn > * {
+    margin: 10px;
+    width: 50px;
+    height: 50px;
+    background-color: grey;
+    border-radius: 50px;
+    bottom : 10px
+}
+
+.result-pin {
+    background-color: yellowgreen;    
+}
+
+.wishlist-pin {
+    background-color: #ffa4b4;
+}
+.complete-pin {
+    background-color: #FFD84F;
+}
