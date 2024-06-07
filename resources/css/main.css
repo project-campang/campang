@@ -1,0 +1,79 @@
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    font-family: 'SBAggroB';
+    margin: 0;
+    padding: 0;
+}
+
+main {
+    width: 100%;
+    background-image: url("/public/img/main.gif");
+    background-size: cover;
+    padding: 2rem 1rem;
+    box-sizing: border-box;
+}
+
+.my-logo-img {
+    background-image: url("/public/img/logo-ko3.png");
+    width: 150px;
+    height: 150px;
+    background-size: cover;
+}
+
+.main-logo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.main-logo img {
+    max-width: 200px;
+    height: auto;
+}
+
+@media (max-width: 768px) {
+    .main-logo img {
+        max-width: 120px;
+    }
+}
+
+.main-search {
+    margin: 1rem auto;
+    background-color: #FFD649;
+    max-width: 800px;
+    border-radius: 30px;
+    padding: 2rem;
+    font-size: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-select-box {
+    position: relative;
+    margin: 0.5rem;
+}
+
+.main-select-box select {
+    width: 100%;
+    height: 35px;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.main-search-button {
+    background-color: #006400;
+    color: white;
+    border: none;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.main-search-button:hover {
+    background-color: #004d00;
+}
