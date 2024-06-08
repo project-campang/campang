@@ -13,14 +13,14 @@ body {
 
 main {
     width: 100%;
-    background-image: url("/public/img/main.gif");
+    background-image: url("/img/main.gif");
     background-size: cover;
     padding: 2rem 1rem;
     box-sizing: border-box;
 }
 
 .my-logo-img {
-    background-image: url("/public/img/logo-ko3.png");
+    background-image: url("/img/logo-ko3.png");
     width: 150px;
     height: 150px;
     background-size: cover;

@@ -7,10 +7,14 @@ import store from './store';
 import MainComponent from '../components/MainComponent.vue';
 
 const routes = [
-		{
-            path: '/',
-            components: MainComponent,
-        },
+    {
+        path: "/",
+        redirect: "/main",
+    },
+    {
+        path: "/main",
+        component: MainComponent,
+    },
      
 ];
 

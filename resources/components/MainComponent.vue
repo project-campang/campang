@@ -1,6 +1,6 @@
 <template>
     <div class="main-logo">
-        <img src="/public/img/logo-ko3.png" class="img-fluid" alt="Logo">
+        <img src="/img/logo-ko3.png" class="img-fluid" alt="Logo">
           </div>
           <div class="main-search">
               <div class="d-flex flex-wrap align-items-center justify-content-center">
