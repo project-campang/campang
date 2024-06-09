@@ -1,5 +1,5 @@
 <?php
-
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,4 +17,10 @@ Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '^(?!api).*$');
 
+// 커뮤니티컨트롤러
 Route::get('/community', [CommunityController::class, 'community']);
+
+// 유저컨트롤러
+Route::post('/api/login', [UserController::class, 'login']);
+Route::post('/api/register', [UserController::class, 'register']);
+Route::post('/api/logout', [UserController::class, 'logout']);
