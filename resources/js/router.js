@@ -5,6 +5,7 @@ import store from './store';
 
 
 import MainComponent from '../components/MainComponent.vue';
+import CommunityComponent from '../components/CommunityComponent.vue';
 
 const routes = [
     {
@@ -14,6 +15,10 @@ const routes = [
     {
         path: "/main",
         component: MainComponent,
+    },
+    {
+        path: "/community",
+        component: CommunityComponent,
     },
      
 ];
