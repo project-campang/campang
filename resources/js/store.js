@@ -1,96 +1,43 @@
 import { createStore } from 'vuex';
 import router from './router';
+import axios from 'axios';
 
-const store = createStore({
-    state() {
-        return {
-            authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
-            userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
-            boardData: [],
-            moreBoardFlg: true,
-        }
+export default createStore({
+    state: {
+        authFlg: false,
     },
     mutations: {
-        // 인증 플레그 저장
-        setAuthFlg(state, flg) {
-            state.authFlg = flg;
-        },
-        // 유저 정보 저장
-        setUserInfo(state, userInfo) {
-            state.userInfo = userInfo;
-        },
-       
+        setAuthFlg(state, value) {
+            state.authFlg = value;
+        }
     },
     actions: {
-        /**
-         * 로그인 처리
-         * 
-         * @param {store} context 
-         */
-        login(context) {
-            const url = '/api/login';
-            const form = document.querySelector('#loginForm');
-            const data = new FormData(form);
-            axios.post(url, data)
-            .then(response => {
-                console.log(response.data); // TODO
-                localStorage.setItem('userInfo', JSON.stringify(response.data.data));
-                context.commit('setUserInfo', response.data.data);
-
-                //인증처리
-                context.commit('setAuthFlg', true);
-
-                router.replace('/board');
-            })
-            .catch(error => {
-                console.log(error.response); // TODO
-                alert('로그인에 실패했습니다.(' + error.response.data.code + ')');
-            });
+        login({ commit }, loginForm) {
+            return axios.post('/api/login', loginForm)
+                .then(response => {
+                    commit('setAuthFlg', true);
+                })
+                .catch(error => {
+                    console.error('로그인 실패:', error.response.data.message);
+                });
         },
-
-        /**
-         * 로그아웃
-         * @param {*} context 
-         */
-        logout(context) {
-            const url = '/api/logout';
-
-            axios.post(url)
-            .then(response => {
-                console.log(response.data); // TODO
-            })
-            .catch(error => {
-                console.log(error.response); // TODO
-                alert('문제가 발생해 강제 로그아웃합니다. (' + error.response.data.code + ')');
-            })
-            .finally(() => {
-                localStorage.clear();
-
-                context.commit('setAuthFlg', false);
-                context.commit('setUserInfo', null);
-
-                router.replace('/login');
-            });
+        register({ commit }, registerForm) {
+            return axios.post('/api/register', registerForm)
+                .then(response => {
+                    commit('setAuthFlg', true);
+                })
+                .catch(error => {
+                    console.error('회원가입 실패:', error.response.data.message);
+                });
         },
-
-        // 회원가입
-        registration(context) {
-            const url = '/api/registration';
-            const data = new FormData(document.querySelector('#registrationForm'));
-
-            axios.post(url, data)
-            .then(response => {
-                console.log(response.data); // TODO
-                router.replace('/login');
-            })
-            .catch(error => {
-                console.log(error.response.data); // TODO
-                alert('회원가입에 실패했습니다.(' + error.response.data.code +')');
-            });
-
-        },
-
+        logout({ commit }) {
+            return axios.post('/api/logout')
+                .then(response => {
+                    commit('setAuthFlg', false);
+                })
+                .catch(error => {
+                    console.error('로그아웃 실패:', error.response.data.message);
+                });
+        }
     }
 });
-
-export default store;
