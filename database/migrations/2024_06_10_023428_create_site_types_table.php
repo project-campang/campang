@@ -13,15 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('communities', function (Blueprint $table) {
+        Schema::create('site_types', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->string('title', 50);
-            $table->string('content', 500);
-            $table->string('img', 100)->nullable();
-            $table->integer('views')->default(0);
-            $table->timestamps();
-            $table->softDeletes();
+            $table->string('name');
+            $table->string('img');
         });
     }
 
@@ -32,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('communities');
+        Schema::dropIfExists('site_types');
     }
 };
