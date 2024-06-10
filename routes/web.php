@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\CommentController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,6 +24,9 @@ Route::get('/{any}', function () {
 Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/register', [UserController::class, 'register']);
 Route::post('/api/logout', [UserController::class, 'logout']);
+
+// 댓글 컨트롤러
+Route::post('/api/comment', [CommentController::class, 'comment']);
 
 // 커뮤니티컨트롤러
 Route::get('/community', [CommunityController::class, 'community']);
