@@ -7,6 +7,7 @@ import store from './store';
 import MainComponent from '../components/MainComponent.vue';
 import CommunityComponent from '../components/CommunityComponent.vue';
 import CampComponent from '../components/CampComponent.vue';
+import SearchComponent from '../components/SearchComponent.vue';
 
 const routes = [
     {
@@ -24,6 +25,10 @@ const routes = [
     {
         path: "/camp",
         component: CampComponent,
+    },
+    {
+        path: "/search",
+        component: SearchComponent,
     },
      
 ];
