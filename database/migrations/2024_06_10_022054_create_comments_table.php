@@ -13,13 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('communities', function (Blueprint $table) {
+        Schema::create('comments', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id')->unsigned();
-            $table->string('title', 50);
-            $table->string('content', 500);
-            $table->string('img', 100)->nullable();
-            $table->integer('views')->default(0);
+            $table->bigInteger('user_id');
+            $table->bigInteger('camp_id');
+            $table->string('comment', 200);
             $table->timestamps();
             $table->softDeletes();
         });
@@ -32,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('communities');
+        Schema::dropIfExists('comments');
     }
 };
