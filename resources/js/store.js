@@ -2,42 +2,55 @@ import { createStore } from 'vuex';
 import router from './router';
 import axios from 'axios';
 
-export default createStore({
+const store = createStore({
     state: {
         authFlg: false,
+        userInfo: null,
     },
     mutations: {
         setAuthFlg(state, value) {
             state.authFlg = value;
-        }
+        },
+        setUserInfo(state, userInfo) {
+            state.userInfo = userInfo;
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        },
     },
     actions: {
-        login({ commit }, loginForm) {
-            return axios.post('/api/login', loginForm)
-                .then(response => {
-                    commit('setAuthFlg', true);
-                })
-                .catch(error => {
-                    console.error('로그인 실패:', error.response.data.message);
-                });
+        async login({ commit }, loginForm) {
+            try {
+                const response = await axios.post('/api/login', loginForm);
+                commit('setAuthFlg', true);
+                commit('setUserInfo', response.data.data);
+                router.replace('/main');
+            } catch (error) {
+                console.error('로그인 실패:', error.response.data.message);
+            }
         },
-        register({ commit }, registerForm) {
-            return axios.post('/api/register', registerForm)
-                .then(response => {
-                    commit('setAuthFlg', true);
-                })
-                .catch(error => {
-                    console.error('회원가입 실패:', error.response.data.message);
-                });
+
+        async register({ commit }, registerForm) {
+            try {
+                const response = await axios.post('/api/register', registerForm);
+                commit('setAuthFlg', true);
+                commit('setUserInfo', response.data.data);
+                router.replace('/main');
+            } catch (error) {
+                console.error('회원가입 실패:', error.response.data.message);
+            }
         },
-        logout({ commit }) {
-            return axios.post('/api/logout')
-                .then(response => {
-                    commit('setAuthFlg', false);
-                })
-                .catch(error => {
-                    console.error('로그아웃 실패:', error.response.data.message);
-                });
-        }
-    }
+
+        async logout({ commit }) {
+            try {
+                await axios.post('/api/logout');
+                commit('setAuthFlg', false);
+                commit('setUserInfo', null);
+                localStorage.removeItem('userInfo');
+                router.replace('/login');
+            } catch (error) {
+                console.error('로그아웃 실패:', error.response.data.message);
+            }
+        },
+    },
 });
+
+export default store;
