@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('amusements', function (Blueprint $table) {
             $table->id();
-            $table->integer('amusement_no');
-            $table->string('amusement_name');
+            $table->string('name');
+            $table->string('img');
         });
     }
 

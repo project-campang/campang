@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('camp_site_types', function (Blueprint $table) {
+        Schema::create('topos', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('camp_id');
-            $table->bigInteger('site_type_no');
+            $table->string('name');
+            $table->string('img');
         });
     }
 
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('camp_site_types');
+        Schema::dropIfExists('topos');
     }
 };

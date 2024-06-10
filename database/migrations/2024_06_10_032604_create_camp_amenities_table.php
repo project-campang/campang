@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('camp_amenities', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('camp_id');
-            $table->integer('amenity_no');
+            $table->bigInteger('amenity_no');
         });
     }
 

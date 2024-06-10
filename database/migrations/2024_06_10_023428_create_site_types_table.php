@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::create('site_types', function (Blueprint $table) {
             $table->id();
-            $table->integer('site_type_no');
-            $table->string('site_type_name');
+            $table->string('name');
+            $table->string('img');
         });
     }
 
