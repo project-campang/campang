@@ -13,11 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('camp_site_types', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('camp_id');
-            $table->bigInteger('site_type_no');
-        });
+        Schema::table('camp_topos', function(Blueprint $table) {
+            $table->foreign('topo_no')->references('id')->on('topos');
+        }); 
     }
 
     /**
@@ -27,6 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('camp_site_types');
+        Schema::table('camp_topos', function(Blueprint $table) {
+            $table->dropForeign(['topo_no']);
+        }); 
     }
 };

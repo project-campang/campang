@@ -3,8 +3,8 @@
         <nav class="navbar navbar-expand-lg bg-body-tertiary">
             <div class="container-fluid">
                 <router-link to="/" class="navbar-brand my-logo-img"></router-link>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false">
-                    <span class="navbar-toggler-icon"></span>
+                <button @click="toggleMenu" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
+                  <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -40,6 +40,7 @@
                 </div>
             </div>
         </nav>
+        
     </header>
 
     <!-- loginModal -->
@@ -65,6 +66,7 @@
                             <a href="#" @click.prevent="goToRegistration">회원가입하러가기</a>
                         </div>
                         <div class="modal-footer">
+                          <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt=""></button>
                             <button @click="closeLogin" type="button" class="btn btn-secondary">취소</button>
                             <button type="submit" class="btn btn-primary">로그인</button>
                         </div>
@@ -89,10 +91,6 @@
                             <input type="text" v-model="registerForm.name" class="form-control" id="name" autocomplete="name">
                         </div>
                         <div class="mb-3">
-                            <label for="id" class="form-label">아이디</label>
-                            <input type="text" v-model="registerForm.id" class="form-control"  id="id"  required autocomplete="id"/>
-                        </div>    
-                        <div class="mb-3">
                             <label for="email" class="form-label">이메일</label>
                             <input type="email" v-model="registerForm.email" class="form-control" id="email" autocomplete="email">
                         </div>
@@ -100,8 +98,8 @@
                             <button type="button" class="btn btn-outline-secondary">이메일 중복 확인</button>
                         </div>
                         <div class="mb-3">
-                            <label for="nickname" class="form-label">닉네임</label>
-                            <input type="text" v-model="registerForm.nickname" class="form-control" id="nickname" autocomplete="nickname">
+                            <label for="nick_name" class="form-label">닉네임</label>
+                            <input type="text" v-model="registerForm.nick_name" class="form-control" id="nick_name" autocomplete="nickname">
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">비밀번호</label>
@@ -112,10 +110,11 @@
                             <input type="password" v-model="registerForm.ps_chk" class="form-control" id="ps_chk" autocomplete="ps_chk">
                         </div>
                         <div class="mb-3">
-                            <label for="phone_number" class="form-label">휴대폰 번호</label>
-                            <input type="text"  v-model="registerForm.phone_number" class="form-control"  id="phone_num" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
+                            <label for="tel" class="form-label">휴대폰 번호</label>
+                            <input type="text"  v-model="registerForm.tel" class="form-control"  id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
                         </div>
                         <div class="modal-footer">
+                          <button class="btn" href="https://kauth.kakao.com/oauth/authorize"><img src="/img/kakao-login.png" alt=""></button>
                             <button @click="closeRegistration" type="button" class="btn btn-secondary">취소</button>
                             <button type="submit" class="btn btn-primary">회원가입</button>
                         </div>
@@ -143,10 +142,10 @@ const loginForm = ref({
 const registerForm = ref({
     name: '',
     email: '',
-    nickname: '',
+    nick_name: '',
     password: '',
     ps_chk: '',
-    id:'',
+    tel:'',
 });
 
 const loginFlg = ref(false);
@@ -157,13 +156,23 @@ let registrationModal;
 
 const store = useStore();
 
+// 햄버거바
+function toggleMenu() {
+    const navbarCollapse = document.getElementById('navbarSupportedContent');
+    if (navbarCollapse.classList.contains('show')) {
+        navbarCollapse.classList.remove('show');
+    } else {
+        navbarCollapse.classList.add('show');
+    }
+}
+
 onMounted(() => {
     const loginModalElement = document.getElementById('loginModal');
     if (loginModalElement) {
         import('bootstrap').then(({ Modal }) => {
             loginModal = new Modal(loginModalElement);
         }).catch(err => {
-            console.error('Bootstrap Modal import error:', err);
+            console.error('부트스트랩 error:', err);
         });
     }
 
@@ -172,7 +181,7 @@ onMounted(() => {
         import('bootstrap').then(({ Modal }) => {
             registrationModal = new Modal(registrationModalElement);
         }).catch(err => {
-            console.error('Bootstrap Modal import error:', err);
+            console.error('부트스트랩 error:', err);
         });
     }
 });
@@ -231,6 +240,16 @@ function oninputPhone(event) {
     event.target.value = event.target.value
         .replace(/[^0-9]/g, '')
         .replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
+}
+
+// 카카오 로그인
+const client_id = 'd7c42425629cbc0e91436aca75ca6fcc'; 
+const redirect_uri = 'http://127.0.0.1:8000/oauth/kakao'; 
+
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code`;
+
+function kakao_login() {
+  window.location.href = KAKAO_AUTH_URL
 }
 </script>
   
