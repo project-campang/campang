@@ -11,6 +11,10 @@ const store = createStore({
         }
     },
     mutations: {
+        setAuth(state, payload) {
+            state.authFlg = payload.authFlg;
+            state.userInfo = payload.userInfo;
+        },
         setAuthFlg(state, value) {
             state.authFlg = value;
         },
@@ -58,6 +62,17 @@ const store = createStore({
             } catch (error) {
                 console.error('로그아웃 실패:', error.response.data.message);
             }
+        },
+        async kakao_login({ commit }, code) {
+            try {
+              const response = await axios.get('/kakao/callback', {
+                params: { code }
+              });
+              commit('setAuth', { authFlg: true, userInfo: response.data });
+            } catch (error) {
+              console.error('Kakao callback failed:', error);
+            }
+          },
         },
         /**
          * 댓글작성
@@ -107,6 +122,7 @@ const store = createStore({
             })
         }
     },
-});
+    
+);
 
 export default store;

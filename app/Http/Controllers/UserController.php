@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -28,7 +29,6 @@ class UserController extends Controller
         }
     }
 
-       // 회원가입 처리
     // 회원가입 처리
     public function register(Request $request)
     {
@@ -78,5 +78,54 @@ class UserController extends Controller
           Auth::logout();
           return response()->json(['message' => '로그아웃 성공']);
       }
-  
+      
+
+
+    
+    // public function getKakaoLoginUrl() {
+    //     $clientId = config('services.kakao.client_id');
+    //     $redirectUri = config('services.kakao.redirect_uri');
+
+    //     $loginUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={$clientId}&redirect_uri={$redirectUri}";
+
+    //     return response()->json($loginUrl);
+    // }
+
+    // 카카오 콜백
+    public function kakaoCallback(Request $request) {
+        $code = $request->query('code');
+
+        $client = new Client();
+        $response = $client->post('https://kauth.kakao.com/oauth/token', [
+            'form_params' => [
+                'grant_type' => 'authorization_code',
+                'client_id' => 'd7c42425629cbc0e91436aca75ca6fcc',  
+                'client_secret' => '카카오_앱_클라이언트_비밀키',  
+                'redirect_uri' => 'http://127.0.0.1:8000/oauth/kakao', 
+                'code' => $code,
+            ],
+        ]);
+
+        $accessTokenData = json_decode($response->getBody(), true);
+
+        $accessToken = $accessTokenData['access_token'];
+
+        // Access token을 사용하여 사용자 정보를 요청하는 예제
+        $userResponse = $client->get('https://kapi.kakao.com/v2/user/me', [
+            'headers' => [
+                'Authorization' => "Bearer {$accessToken}",
+            ],
+        ]);
+
+        $userData = json_decode($userResponse->getBody(), true);
+
+
+        return response()->json([
+            'profile_image' => $userData['profile'],
+            'profile_nickname' => $userData['properties']['nickname'],
+        ]);
+    }
 }
+
+      
+
