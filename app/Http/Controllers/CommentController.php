@@ -43,7 +43,10 @@ class CommentController extends Controller
 
     // 댓글 획득
     public function comment_get() {
-        $commentData = Comment::select('comment')->orderBy('id', 'DESC')->get();
+        $commentData = Comment::select('boards.*', 'users.nick_name')
+                                ->join('users','users.id','=','boards.user_id')
+                                ->orderBy('id', 'DESC')
+                                ->get();
 
         $responseData = [
             'code' => '0',
