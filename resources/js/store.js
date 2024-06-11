@@ -3,9 +3,12 @@ import router from './router';
 import axios from 'axios';
 
 const store = createStore({
-    state: {
-        authFlg: false,
-        userInfo: null,
+    state() {
+        return{
+            authFlg: false,
+            userInfo: null,
+            commentData: [],
+        }
     },
     mutations: {
         setAuthFlg(state, value) {
@@ -14,6 +17,10 @@ const store = createStore({
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        },
+        //작성된 댓글 맨위로 정렬
+        setUnshiftCommentData(state,data) {
+            state.CommentData.unshift(data);
         },
     },
     actions: {
@@ -50,6 +57,34 @@ const store = createStore({
                 console.error('로그아웃 실패:', error.response.data.message);
             }
         },
+        /**
+         * 댓글작성
+         * 
+         * @param {*} context 
+         */
+        commentStore(context) {
+            const url = '/api/comment';
+            const data = new FormData(document.querySelector('#commentForm'));
+            
+            console.log(data);
+            // console.log(response);
+            // console.log(response.data);
+            // console.log(context);
+            axios.post(url, data)
+                .then(response => {
+                context.commit('setUnshiftCommentData', response.data.data); //댓글 가장 앞에 추가
+
+                router.replace('/camp');
+            })
+            .catch(error => {
+                
+            // console.log('캐치' + data);
+            // console.log('캐치' + context);
+            // console.log('캐치' + response);
+                console.log(error.response.data);
+                alert('댓글 작성 실패'+error.response.data.code)
+            })
+        }
     },
 });
 

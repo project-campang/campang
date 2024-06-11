@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('img_3', 100)->nullable();
             $table->string('img_4', 100)->nullable();
             $table->string('img_5', 100)->nullable();
-            $table->char('rating');
+            $table->char('rating', 1);
             $table->timestamps();
             $table->softDeletes();
         });

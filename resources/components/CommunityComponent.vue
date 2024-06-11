@@ -5,14 +5,14 @@
                 <div class="page-title">
                     <span>캠핑 Talk</span>
                 </div>
-                <div class="board-name-list">
-                    <ul class="board-name list-group">
-                        <li class="list-group-item">가입인사</li>
-                        <li class="list-group-item">자유 게시판</li>
-                        <li class="list-group-item">캠핑꿀팁</li>
-                        <li class="list-group-item">리뷰 게시판</li>
-                        <li class="list-group-item">랭킹 게시판</li>
-                    </ul>
+                <div class="board-name-list list-group">
+                    <div class="board-name list-group">
+                        <a href="" class="list-group-item">가입인사</a>
+                        <a href="" class="list-group-item">자유 게시판</a>
+                        <a href="" class="list-group-item">캠핑꿀팁</a>
+                        <a href="" class="list-group-item">리뷰 게시판</a>
+                        <a href="" class="list-group-item">랭킹 게시판</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -22,14 +22,14 @@
                     <div class="container-fluid">
                         <div>
                             <span class="board-select">자유 게시판</span>
-                            <button @click="openModal" class="btn btn-outline-success">+</button>
+                            <button @click="openCreateModal" class="btn btn-outline-success">+</button>
                         </div>
                         <div class="board-comment nav-item" id="navbarSupportedContent">
                                 <span>어쩌구 저쩌구를 남겨보세요.</span>
                         </div>
                         <div class="nav-item board-btn">
-                            <button class="btn btn-outline-success">최신순</button>
-                            <button class="btn btn-outline-success">인기순</button>
+                            <button class="btn btn-outline-secondary">최신순</button>
+                            <button class="btn btn-outline-secondary">인기순</button>
                         </div>
                     </div>
                     </nav>
@@ -44,7 +44,7 @@
                             <span>작성일</span>
                             <span>조회수</span>
                         </div>
-                        <div class="content-item">
+                        <div @click="openDetailModal" class="content-item">
                             <span>10</span>
                             <span>뭐라뭐라뭐라</span>
                             <span>가나다</span>
@@ -74,8 +74,8 @@
         </div>
     </main>
 
-<!-- 상세 모달 -->
-<div v-show="modalFlg" class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+<!-- 작성 모달 -->
+<div v-show="modalFlg" class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -84,13 +84,14 @@
       </div>
       <form action="">
           <div class="modal-body">
-            <p>Modal body text goes here.</p>
-            <input type="text" name="title" placeholder="제목을 적어주세요." max="50">
+            <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요." max="50">
             <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
-          </div>
-          <div class="modal-body">
-            <p>Modal body text goes here.</p>
+            </div>
+            <div class="modal-body">
             <input type="file" name="img" accept="image/*">
+            <div class="img-box">
+                <img src="/public/img/sample1.jpg" alt="">
+            </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -100,16 +101,94 @@
     </div>
   </div>
 </div>
+
+<!-- 상세 모달 -->
+<div v-show="modalFlg" class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">상세</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form action="">
+          <div class="modal-body">
+            <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요." max="50">
+            <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
+            </div>
+            <div class="modal-body">
+            <input type="file" name="img" accept="image/*">
+            <div class="img-box">
+                <img src="/public/img/sample1.jpg" alt="">
+            </div>
+          </div>
+          <div class="modal-footer">
+            <div>
+                <button type="button" class="btn btn-outline-warning start-0">수정</button>
+                <button type="button" class="btn btn-outline-danger">삭제</button>
+            </div>
+            <div>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 import store from '../js/store';
 import router from '../js/router';
 
-// 상세 모달
+// 모달 플래그
 const modalFlg = ref(true);
+let createModal;
 let detailModal;
+
+onMounted(() => {
+    const createModalElement = document.getElementById('createModal');
+    if (createModalElement) {
+        import('bootstrap').then(({ Modal }) => {
+            createModal = new Modal(createModalElement);
+        }).catch(err => {
+            console.error('Bootstrap Modal import error:', err);
+        });
+    }
+});
+
+// 작성 모달 열기
+function openCreateModal() {
+    if(createModal) {
+        modalFlg.value = true;
+        createModal.show();
+    }
+}
+
+// 작성
+const boardInfo = reactive({
+    // content: '',
+    // img: null,
+});
+
+// const preview = ref('');
+
+// function setFile(e) {
+//     // 저장
+//     boardInfo.img = e.target.files[0];
+//     // 화면 표시
+//     preview.value = URL.createObjectURL(boardInfo.img);
+// }
+
+// 상세 모달 열기
+function openDetailModal() {
+    if(detailModal) {
+        modalFlg.value = true;
+        detailModal.show();
+    }
+}
 
 onMounted(() => {
     const detailModalElement = document.getElementById('detailModal');
@@ -121,29 +200,6 @@ onMounted(() => {
         });
     }
 });
-
-// 모달 열기
-function openModal() {
-    if(detailModal) {
-        modalFlg.value = true;
-        detailModal.show();
-    }
-}
-
-// 작성
-const boardInfo = reactive({
-    content: '',
-    img: null,
-});
-
-const preview = ref('');
-
-function setFile(e) {
-    // 저장
-    boardInfo.img = e.target.files[0];
-    // 화면 표시
-    preview.value = URL.createObjectURL(boardInfo.img);
-}
 
 </script>
 

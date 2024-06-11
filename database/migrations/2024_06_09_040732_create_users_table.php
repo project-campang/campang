@@ -16,6 +16,8 @@ class CreateUsersTable extends Migration
             $table->string('tel', 20);
             $table->string('nick_name', 10);
             $table->string('profile', 200)->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
