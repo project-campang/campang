@@ -184,17 +184,17 @@
 </template>
 
 <script setup>
-import { useKakao } from 'vue3-kakao-maps/@utils';
+// import { useKakao } from 'vue3-kakao-maps/@utils';
 
-useKakao('API key');
-createApp(App).mount('#app');
+// useKakao('API key');
+// createApp(App).mount('#app');
 
-import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-import MapComponent from './MapComponent.vue';
-const coordinate = {
-  lat: 37.566826,
-  lng: 126.9786567
-};
+// import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
+// import MapComponent from './MapComponent.vue';
+// const coordinate = {
+//   lat: 37.566826,
+//   lng: 126.9786567
+// };
 </script>
 
 <style>
