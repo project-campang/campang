@@ -19,7 +19,7 @@ const store = createStore({
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
         //댓글 초기 삽입
-        setCommentData(state, data){ state.setBoardData = data; },
+        setCommentData(state, data){ state.commentData = data; },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
@@ -98,10 +98,12 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
+                console.log(response.data.data);
                 context.commit('setCommentData', response.data.data);
             })
             .catch(error => {
-                alert('댓글 습득 실패');
+                console.log(error.response); // TODO
+                alert('댓글 습득 실패' + error);
             })
         }
     },

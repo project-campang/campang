@@ -31,7 +31,7 @@ Route::get('/search', [CampController::class, 'search']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment', [CommentController::class, 'comment']);
-Route::get('/api/comment', [CommentController::class, 'comment_get']);
+Route::get('/api/comment', [CommentController::class, 'commentGet']);
 
 // 커뮤니티컨트롤러
 Route::get('/community', [CommunityController::class, 'community']);
