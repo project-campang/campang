@@ -39,6 +39,7 @@
 .search-container {
     height: 100vh;
     padding: 0 20px 0 20px;
+    background-color: white;
     border-right: solid 4px #FFD84F;
 }
 
@@ -52,7 +53,7 @@
     margin: auto;
 }
 
-form #address {
+form .address {
     width: 150px;
     height: 40px;
     border-radius: 10px;
@@ -79,7 +80,7 @@ form #address {
 
 .accordion-container {
     background-color: #EDF4F8;
-    height: 200px;
+    height: auto;
     border-radius: 10px;
     /* display: none; */
 }

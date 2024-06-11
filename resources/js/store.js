@@ -23,7 +23,7 @@ const store = createStore({
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
         //댓글 초기 삽입
-        setCommentData(state, data){ state.commentData = data; },
+        setCommentData(state, data){ state.setBoardData = data; },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
@@ -68,13 +68,12 @@ const store = createStore({
               const response = await axios.get('/kakao/callback', {
                 params: { code }
               });
-              console.log(code);
               commit('setAuth', { authFlg: true, userInfo: response.data });
-              router.replace('/main');
             } catch (error) {
               console.error('Kakao callback failed:', error);
             }
           },
+        },
         /**
          * 댓글작성
          * 
@@ -94,24 +93,34 @@ const store = createStore({
             })
             .catch(error => {
                 
-                // console.log(error.response.data);
-                alert('댓글 작성 실패'+error.response.data)
+                console.log(error.response.data);
+                alert('댓글 작성 실패'+error.response.data.code)
             })
         },
+
+
+
+
+
+
+
+
+
+
+
         commentGet(context){
             const url = '/api/comment';
 
             axios.get(url)
             .then(response => {
-                // console.log(response.data.data);
                 context.commit('setCommentData', response.data.data);
             })
             .catch(error => {
-                // console.log(error.response); // TODO
-                alert('댓글 습득 실패' + error);
+                alert('댓글 습득 실패');
             })
-        },
+        }
     },
-});
+    
+);
 
 export default store;
