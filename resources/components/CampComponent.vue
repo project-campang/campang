@@ -151,12 +151,27 @@
                         <img src="" alt="">
                     </div>
                 </div>
+                <div class="comment-review-tap">
+                    <div class="comment-tap">댓글</div>
+                    <div class="review-tap">리뷰</div>
+                </div>
                 <div class="comment_store">
                     <CommentCreate />
                 </div>
                 <div class="comment-list">
-                    <!-- <div v-for="item in commentInfo" :key="item.comment_id" class="comment-box"> -->
-                    <CommentListItem />
+                    <div class="commentItem" v-for="(item, key) in $store.state.commentData" :key="key">
+                        <div class="co-card-box">
+                            <div class="co-text-box">
+                                <div class="co-nick">{{ item.nick_name }}</div>
+                                <div class="co-co">{{ item.comment }}</div>
+                                <div class="co-at">{{ item.created_at }}</div>
+                            </div>
+                            <div class="co-btn-box">
+                                <button type="button">수정</button>
+                                <button type="button">삭제</button>
+                            </div>
+                        </div>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -166,7 +181,18 @@
     
 <script setup>
 import CommentCreate from './CommentCreate.vue';
-import CommentListItem from './CommentListItem.vue';
+// import CommentListItem from './CommentListItem.vue';
+
+
+import { onBeforeMount } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+  onBeforeMount(() => {
+    store.dispatch('commentGet');
+  })
+
 
 </script>
 
