@@ -152,11 +152,11 @@
                     </div>
                 </div>
                 <div class="comment_store">
-                    <CommentCreate :reload="reload" />
+                    <CommentCreate />
                 </div>
-                <div class="comment-container">
+                <div class="comment-list">
                     <!-- <div v-for="item in commentInfo" :key="item.comment_id" class="comment-box"> -->
-                    <CommentListItem  v-for="item in commentItem" :key="item" />
+                    <CommentListItem />
                 </div>
             </div>
         </div>

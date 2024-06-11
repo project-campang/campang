@@ -39,8 +39,7 @@
                     </form>
                 </div>
             </div>
-        </nav>
-        
+        </nav>    
     </header>
 
     <!-- loginModal -->
@@ -249,8 +248,11 @@ const redirect_uri = 'http://127.0.0.1:8000/oauth/kakao';
 const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code`;
 
 function kakao_login() {
-  window.location.href = KAKAO_AUTH_URL
+  window.location.href = KAKAO_AUTH_URL;
+  store.dispatch('kakao_login');
 }
+
+
 </script>
   
   <style>
