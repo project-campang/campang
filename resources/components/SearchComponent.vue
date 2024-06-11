@@ -171,7 +171,9 @@
         </div>
         <div class="map-container">
             <div class="map">
-                <MapComponent></MapComponent>
+                <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true">
+                    <KakaoMapMarker :lat="coordinate.lat" :lng="coordinate.lng"></KakaoMapMarker>
+                </KakaoMap>
             </div>
             <div class="float-btn">
                 <div class="result-pin"></div>
@@ -180,21 +182,14 @@
             </div>
         </div>
     </main>
-    
 </template>
 
 <script setup>
-// import { useKakao } from 'vue3-kakao-maps/@utils';
-
-// useKakao('API key');
-// createApp(App).mount('#app');
-
-// import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-// import MapComponent from './MapComponent.vue';
-// const coordinate = {
-//   lat: 37.566826,
-//   lng: 126.9786567
-// };
+import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
+const coordinate = {
+  lat: 37.566826,
+  lng: 126.9786567
+};
 </script>
 
 <style>

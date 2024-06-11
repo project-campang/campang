@@ -19,7 +19,11 @@ return new class extends Migration
             $table->char('type', 1);
             $table->string('title', 50);
             $table->string('content', 500);
-            $table->string('img', 100)->nullable();
+            $table->string('main_img', 100);
+            $table->string('other_img2', 100)->nullable();
+            $table->string('other_img3', 100)->nullable();
+            $table->string('other_img4', 100)->nullable();
+            $table->string('other_img5', 100)->nullable();
             $table->integer('views')->default(0);
             $table->timestamps();
             $table->softDeletes();

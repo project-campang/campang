@@ -88,7 +88,9 @@
             <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
             </div>
             <div class="modal-body">
-            <input type="file" name="img" accept="image/*">
+            <!-- <button class="btn btn-secondary"> -->
+                <input class="" type="file" name="img" accept="image/*">
+            <!-- </button> -->
             <div class="img-box">
                 <img src="/public/img/sample1.jpg" alt="">
             </div>
