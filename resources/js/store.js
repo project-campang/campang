@@ -52,7 +52,7 @@ const store = createStore({
                 commit('setAuthFlg', false);
                 commit('setUserInfo', null);
                 localStorage.removeItem('userInfo');
-                router.replace('/login');
+                router.replace('/main');
             } catch (error) {
                 console.error('로그아웃 실패:', error.response.data.message);
             }

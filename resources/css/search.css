@@ -165,8 +165,14 @@ hr {
 
 }
 
-/* .map-container {
-} */
+.map-container {
+    background-color: blue;
+}
+
+.map {
+    width: 100%;
+    height: 100%;
+}
 
 .float-btn {
     position: fixed;
