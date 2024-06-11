@@ -8,6 +8,7 @@ import MainComponent from '../components/MainComponent.vue';
 import CommunityComponent from '../components/CommunityComponent.vue';
 import CampComponent from '../components/CampComponent.vue';
 import SearchComponent from '../components/SearchComponent.vue';
+import KakaoCallback from '../components/KakaoCallback.vue';
 
 const routes = [
     {
@@ -30,7 +31,11 @@ const routes = [
         path: "/search",
         component: SearchComponent,
     },
-     
+    {
+        path: "/oauth/kakao",
+        component:KakaoCallback,
+    },
+    
 ];
 
 // function chkAuth(to, from, next) {
