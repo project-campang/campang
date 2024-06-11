@@ -26,6 +26,11 @@ Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/register', [UserController::class, 'register']);
 Route::post('/api/logout', [UserController::class, 'logout']);
 
+// 카카오로그인
+// Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
+Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
+
+
 // 캠핑장 컨트롤러
 Route::get('/search', [CampController::class, 'search']);
 

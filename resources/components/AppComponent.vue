@@ -65,7 +65,7 @@
                             <a href="#" @click.prevent="goToRegistration">회원가입하러가기</a>
                         </div>
                         <div class="modal-footer">
-                          <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt=""></button>
+                            <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
                             <button @click="closeLogin" type="button" class="btn btn-secondary">취소</button>
                             <button type="submit" class="btn btn-primary">로그인</button>
                         </div>
@@ -110,10 +110,10 @@
                         </div>
                         <div class="mb-3">
                             <label for="tel" class="form-label">휴대폰 번호</label>
-                            <input type="text"  v-model="registerForm.tel" class="form-control"  id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
+                            <input type="text" v-model="registerForm.tel" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
                         </div>
                         <div class="modal-footer">
-                          <button class="btn" href="https://kauth.kakao.com/oauth/authorize"><img src="/img/kakao-login.png" alt=""></button>
+                            <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
                             <button @click="closeRegistration" type="button" class="btn btn-secondary">취소</button>
                             <button type="submit" class="btn btn-primary">회원가입</button>
                         </div>
@@ -133,6 +133,14 @@ import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 
+
+
+// 카카오 로그인
+const client_id = 'd7c42425629cbc0e91436aca75ca6fcc';
+const redirect_uri = 'http://127.0.0.1:8000/oauth/kakao'; 
+
+const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code`;
+
 const loginForm = ref({
     email: '',
     password: ''
@@ -144,7 +152,7 @@ const registerForm = ref({
     nick_name: '',
     password: '',
     ps_chk: '',
-    tel:'',
+    tel: '',
 });
 
 const loginFlg = ref(false);
@@ -170,8 +178,6 @@ onMounted(() => {
     if (loginModalElement) {
         import('bootstrap').then(({ Modal }) => {
             loginModal = new Modal(loginModalElement);
-        }).catch(err => {
-            console.error('부트스트랩 error:', err);
         });
     }
 
@@ -179,38 +185,40 @@ onMounted(() => {
     if (registrationModalElement) {
         import('bootstrap').then(({ Modal }) => {
             registrationModal = new Modal(registrationModalElement);
-        }).catch(err => {
-            console.error('부트스트랩 error:', err);
         });
     }
 });
 
 function openLogin() {
-    if (loginModal) {
-        loginFlg.value = true;
-        loginModal.show();
-    }
+    loginFlg.value = true;
+    loginModal.show();
 }
 
 function closeLogin() {
-    if (loginModal) {
-        loginFlg.value = false;
-        loginModal.hide();
-    }
+    loginFlg.value = false;
+    loginModal.hide();
 }
 
 function openRegistration() {
-    if (registrationModal) {
-        registrationFlg.value = true;
-        registrationModal.show();
-    }
+    registrationFlg.value = true;
+    registrationModal.show();
 }
 
 function closeRegistration() {
-    if (registrationModal) {
-        registrationFlg.value = false;
-        registrationModal.hide();
-    }
+    registrationFlg.value = false;
+    registrationModal.hide();
+}
+
+function login() {
+    store.dispatch('login', loginForm.value);
+}
+
+function logout() {
+    store.dispatch('logout');
+}
+
+function register() {
+    store.dispatch('register', registerForm.value);
 }
 
 function goToRegistration() {
@@ -218,44 +226,26 @@ function goToRegistration() {
     openRegistration();
 }
 
-function logout() {
-    store.dispatch('logout');
+function oninputPhone() {
+    const phone = registerForm.value.tel.replace(/[^0-9]/g, '');
+    const phoneLength = phone.length;
+
+    if (phoneLength < 4) {
+        registerForm.value.tel = phone;
+    } else if (phoneLength < 7) {
+        registerForm.value.tel = phone.slice(0, 3) + '-' + phone.slice(3);
+    } else if (phoneLength < 11) {
+        registerForm.value.tel = phone.slice(0, 3) + '-' + phone.slice(3, 6) + '-' + phone.slice(6);
+    } else {
+        registerForm.value.tel = phone.slice(0, 3) + '-' + phone.slice(3, 7) + '-' + phone.slice(7);
+    }
 }
-
-function login() {
-    store.dispatch('login', loginForm.value).then(() => {
-        closeLogin();
-    });
-}
-
-function register() {
-    store.dispatch('register', registerForm.value).then(() => {
-        closeRegistration();
-    });
-}
-
-// 휴대폰
-function oninputPhone(event) {
-    event.target.value = event.target.value
-        .replace(/[^0-9]/g, '')
-        .replace(/(^02.{0}|^01.{1}|[0-9]{3,4})([0-9]{3,4})([0-9]{4})/g, "$1-$2-$3");
-}
-
-// 카카오 로그인
-const client_id = 'd7c42425629cbc0e91436aca75ca6fcc'; 
-const redirect_uri = 'http://127.0.0.1:8000/oauth/kakao'; 
-
-const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code`;
 
 function kakao_login() {
   window.location.href = KAKAO_AUTH_URL;
   store.dispatch('kakao_login');
 }
-
-
 </script>
-  
-  <style>
-  @import url('../css/main.css');
-  </style>
-  
+<style>
+@import url(../css/main.css);
+</style>
