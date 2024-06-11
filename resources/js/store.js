@@ -90,7 +90,7 @@ const store = createStore({
                 .then(response => {
                 context.commit('setUnshiftCommentData', response.data.data); //댓글 가장 앞에 추가
 
-                router.replace('/camp');
+                router.go('/camp');
             })
             .catch(error => {
                 
