@@ -9,6 +9,7 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
     font-family: 'SBAggroB';
     font-weight: normal;
 }
@@ -171,4 +172,42 @@ main {
 }
 .site-info {
     display: flex;
+}
+
+/* 댓글,리뷰 */
+.comment-review-tap {
+    display: flex;
+    width: 100%;
+    justify-content: space-around;
+    border: 2px solid #B3DC9F;
+    border-bottom: none;
+}
+.comment-tap, .review-tap {
+    padding: 10px;
+}
+.comment-form {
+    margin-top: 10px;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: 2fr 1fr;
+}
+.comment-area {
+    grid-row: span 2;
+}
+
+/* 댓글리스트 */
+.co-card-box {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    justify-items: space-between;
+    gap: 100px;
+}
+.co-nick {
+    font-weight: 900;
+}
+.co-co {
+    font-size: 1.2rem;
+}
+.co-at {
+    font-size: 0.8rem;
 }

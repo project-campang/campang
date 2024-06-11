@@ -1,6 +1,6 @@
 <template>
   <div class="commentItem" v-for="item in $store.state.commentData" :key="item">
-    <div>{{ item.data.user_id }}</div>
+    <div >{{ item.data.user_id }}</div>
     <div>{{ item.data.created_at }}</div>
     <div>{{ item.data.comment }}</div>
     <button type="button">수정</button>

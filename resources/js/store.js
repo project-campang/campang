@@ -73,7 +73,6 @@ const store = createStore({
               console.error('Kakao callback failed:', error);
             }
           },
-        },
         /**
          * 댓글작성
          * 
@@ -93,36 +92,24 @@ const store = createStore({
             })
             .catch(error => {
                 
-                console.log(error.response.data);
-                alert('댓글 작성 실패'+error.response.data.code)
+                // console.log(error.response.data);
+                alert('댓글 작성 실패'+error.response.data)
             })
         },
-
-
-
-
-
-
-
-
-
-
-
         commentGet(context){
             const url = '/api/comment';
 
             axios.get(url)
             .then(response => {
-                console.log(response.data.data);
+                // console.log(response.data.data);
                 context.commit('setCommentData', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 alert('댓글 습득 실패' + error);
             })
-        }
+        },
     },
-    
-);
+});
 
 export default store;
