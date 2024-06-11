@@ -156,7 +156,14 @@
                 </div>
                 <div class="comment-list">
                     <!-- <div v-for="item in commentInfo" :key="item.comment_id" class="comment-box"> -->
-                    <CommentListItem />
+                    <!-- <CommentListItem /> -->
+                    <div class="commentItem" v-for="(item, key) in $store.state.commentData" :key="key">
+                        <div>{{ item.user_id }}</div>
+                        <div>{{ item.created_at }}</div>
+                        <div>{{ item.comment }}</div>
+                        <button type="button">수정</button>
+                        <button type="button">삭제</button>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -166,7 +173,16 @@
     
 <script setup>
 import CommentCreate from './CommentCreate.vue';
-import CommentListItem from './CommentListItem.vue';
+// import CommentListItem from './CommentListItem.vue';
+
+
+import { onBeforeMount } from 'vue';
+import store from '../js/store';
+
+  onBeforeMount(() => {
+    store.dispatch('commentGet');
+  })
+
 
 </script>
 
