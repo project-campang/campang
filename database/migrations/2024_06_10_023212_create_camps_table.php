@@ -20,6 +20,8 @@ return new class extends Migration
             $table->string('address', 100);
             $table->string('state', 100);
             $table->string('country', 100);
+            $table->decimal('latitude', 10, 8);
+            $table->decimal('longitude', 11, 8);
             $table->string('info_text', 500);
             $table->integer('max_capacity');
             $table->string('main_img', 200);
