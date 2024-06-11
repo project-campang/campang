@@ -4,7 +4,7 @@
             <div class="search-box">
                 <form action="">
                     <label for="address"></label>
-                    <select name="state" id="address">
+                    <select name="state">
                         <option>전체/도</option>
                         <option value="seoul">서울시</option>
                         <option value="busan">부산시</option>
@@ -56,34 +56,34 @@
                     </div> -->
                     <div class="acc-category">
                         <label for="topo">지형/환경</label>
-                        <input type="checkbox" name="revierside" id="topo">강변
-                        <input type="checkbox" name="valley" id="topo">계곡
-                        <input type="checkbox" name="city" id="topo">도심
-                        <input type="checkbox" name="ocean" id="topo">바다
-                        <input type="checkbox" name="mountain" id="topo">산
-                        <input type="checkbox" name="island" id="topo">섬
+                        <input type="checkbox" name="revierside" id="topo1">강변
+                        <input type="checkbox" name="valley" id="topo2">계곡
+                        <input type="checkbox" name="city" id="topo3">도심
+                        <input type="checkbox" name="ocean" id="topo4">바다
+                        <input type="checkbox" name="mountain" id="topo5">산
+                        <input type="checkbox" name="island" id="topo6">섬
                     </div>
-                    <div class="acc-category">
+                    <!-- <div class="acc-category">
                         <label for="amenities">편의 시설</label>
-                        <input type="checkbox" name="wash" id="amenities">개수대
-                        <input type="checkbox" name="store" id="amenities">편의점
-                        <input type="checkbox" name="barbecue" id="amenities">바비큐
-                        <input type="checkbox" name="shower-booth" id="amenities">샤워시설
-                        <input type="checkbox" name="heated-water" id="amenities">온수
-                        <input type="checkbox" name="wi-fi" id="amenities">와이파이
-                        <input type="checkbox" name="long-stay" id="amenities">장기숙박
-                        <input type="checkbox" name="electricity" id="amenities">전기
-                        <input type="checkbox" name="rental" id="amenities">캠핑용품 대여
-                        <input type="checkbox" name="restroom" id="amenities">화장실
-                    </div>
+                        <input type="checkbox" name="wash" id="amenities1">개수대
+                        <input type="checkbox" name="store" id="amenities2">편의점
+                        <input type="checkbox" name="barbecue" id="amenities3">바비큐
+                        <input type="checkbox" name="shower-booth" id="amenities4">샤워시설
+                        <input type="checkbox" name="heated-water" id="amenities5">온수
+                        <input type="checkbox" name="wi-fi" id="amenities6">와이파이
+                        <input type="checkbox" name="long-stay" id="amenities7">장기숙박
+                        <input type="checkbox" name="electricity" id="amenities8">전기
+                        <input type="checkbox" name="rental" id="amenities9">캠핑용품 대여
+                        <input type="checkbox" name="restroom" id="amenities10">화장실
+                    </div> -->
                     <div class="acc-category">
-                        <label for="amenities">즐길거리</label>
-                        <input type="checkbox" name="sea-fishing" id="amenities">바다낚시
-                        <input type="checkbox" name="river-fishing" id="amenities">민물낚시
-                        <input type="checkbox" name="pool" id="amenities">수영장
-                        <input type="checkbox" name="karaoke" id="amenities">노래방
-                        <input type="checkbox" name="leisure" id="amenities">수상레저
-                        <input type="checkbox" name="playground" id="amenities">체육시설(놀이터)
+                        <label for="amusement">즐길거리</label>
+                        <input type="checkbox" name="sea-fishing" id="amusement1">바다낚시
+                        <input type="checkbox" name="river-fishing" id="amusement2">민물낚시
+                        <input type="checkbox" name="pool" id="amusement3">수영장
+                        <input type="checkbox" name="karaoke" id="amusement4">노래방
+                        <input type="checkbox" name="leisure" id="amusement5">수상레저
+                        <input type="checkbox" name="playground" id="amusement6">체육시설(놀이터)
                     </div>
                     <button class="search-btn btn-bg-grey">초기화</button>
                     <button class="search-btn btn-bg-yellow">검색</button>
@@ -126,7 +126,7 @@
                 <div class="item-info">
                     <span class="item-name">무슨무슨캠핑장</span>
                     <div class="item-info-2">
-                        <sapn class="item-distance">87.2km</sapn>
+                        <span class="item-distance">87.2km</span>
                         <span>|</span>
                         <span class="adress-depth">충남  >  보령시  >  청소면</span>
                     </div>
@@ -176,20 +176,24 @@
                 </KakaoMap>
             </div>
             <div class="float-btn">
-                <div class="result-pin"></div>
-                <div class="wishlist-pin"></div>
-                <div class="complete-pin"></div>
+                <button class="result-pin">검색</button>
+                <button class="wishlist-pin">찜</button>
+                <button class="complete-pin">정복</button>
             </div>
         </div>
     </main>
+    
 </template>
 
 <script setup>
-// import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-// const coordinate = {
-//   lat: 37.566826,
-//   lng: 126.9786567
-// };
+import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
+import { onMounted } from 'vue';
+
+const coordinate = {
+  lat: 37.566826,
+  lng: 126.9786567
+};
+
 </script>
 
 <style>

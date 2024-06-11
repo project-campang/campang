@@ -13,7 +13,7 @@
     font-style: normal;
 }
 
-header {
+/* header {
     margin: auto;
     width: 100%;
     height: 70px;
@@ -23,13 +23,13 @@ header {
     text-align: center;
     line-height: 70px;
     border-bottom: solid 3px black;
-}
+} */
 
-header a {
+/* header a {
     margin: 10px;
     color: black;
     text-decoration: none;
-}
+} */
 
 .main-container {
     display: grid;
@@ -161,30 +161,30 @@ hr {
     border: none;
 }
 
-.item-detail:hover{
-
-}
-
-.map-container {
-    background-color: blue;
-}
-
 .map {
-    width: 100%;
-    height: 100%;
+    position: relative;
+    display: contents;
+}
+
+.map > :first-child {
+    width: 100% !important ;
+    height: 100% !important;
+
 }
 
 .float-btn {
+    position: absolute;
     position: fixed;
     bottom: 50px;
     right: 30px;
+    z-index: 2;
 }
 
 .float-btn > * {
     margin: 10px;
-    width: 50px;
-    height: 50px;
-    background-color: grey;
+    width: 60px;
+    height: 60px;
+    border: solid 6px white;
     border-radius: 50px;
     bottom : 10px
 }

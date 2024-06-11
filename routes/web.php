@@ -25,7 +25,7 @@ Route::get('/{any}', function () {
 Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/register', [UserController::class, 'register']);
 Route::post('/api/logout', [UserController::class, 'logout']);
-
+Route::post('/api/check-email', [UserController::class, 'checkEmail']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
