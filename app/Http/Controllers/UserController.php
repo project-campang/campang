@@ -100,7 +100,6 @@ class UserController extends Controller
             'form_params' => [
                 'grant_type' => 'authorization_code',
                 'client_id' => 'd7c42425629cbc0e91436aca75ca6fcc',  
-                'client_secret' => '카카오_앱_클라이언트_비밀키',  
                 'redirect_uri' => 'http://127.0.0.1:8000/oauth/kakao', 
                 'code' => $code,
             ],
@@ -124,6 +123,8 @@ class UserController extends Controller
             'profile_image' => $userData['profile'],
             'profile_nickname' => $userData['properties']['nickname'],
         ]);
+
+        
     }
 }
 

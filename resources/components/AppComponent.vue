@@ -1,46 +1,44 @@
 <template>
-    <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <router-link to="/" class="navbar-brand my-logo-img"></router-link>
-                <button @click="toggleMenu" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">캠핑장 모아보기 |</a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                캠핑Talk 
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">가입인사</a></li>
-                                <li><a class="dropdown-item" href="#">자유게시판</a></li>
-                                <li><a class="dropdown-item" href="#">랭킹</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="#">리뷰 모아보기</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="#">FAQ</a>
-                        </li>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <div class="container-fluid">
+        <router-link to="/" class="navbar-brand my-logo-img"></router-link>
+        <button @click="toggleMenu" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" >
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">캠핑장 모아보기 |</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        캠핑Talk 
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#">가입인사</a></li>
+                        <li><a class="dropdown-item" href="#">자유게시판</a></li>
+                        <li><a class="dropdown-item" href="#">랭킹</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#">리뷰 모아보기</a></li>
                     </ul>
-                    <form class="d-flex" role="search">
-                        <div v-if="!$store.state.authFlg">
-                            <button @click.prevent="openLogin" class="btn btn-outline-success me-2">로그인</button>
-                            <button @click.prevent="openRegistration" class="btn btn-outline-success me-2">가입하기</button>
-                        </div>
-                        <div v-else>
-                            <button @click.prevent="logout" class="btn btn-outline-success">로그아웃</button>
-                            <button type="button" class="btn btn-outline-success">마이페이지</button>
-                        </div>
-                    </form>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">FAQ</a>
+                </li>
+            </ul>
+            <form class="d-flex" role="search">
+                <div v-if="!$store.state.authFlg">
+                    <button @click.prevent="openLogin" class="btn btn-outline-success me-2">로그인</button>
+                    <button @click.prevent="openRegistration" class="btn btn-outline-success me-2">가입하기</button>
                 </div>
-            </div>
-        </nav>    
-    </header>
+                <div v-else>
+                    <button @click.prevent="logout" class="btn btn-outline-success">로그아웃</button>
+                    <button type="button" class="btn btn-outline-success">마이페이지</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</nav>    
 
     <!-- loginModal -->
     <div v-show="loginFlg" class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
@@ -123,9 +121,9 @@
         </div>
     </div>
 
-    <main>
+    <div>
         <router-view></router-view>
-    </main>
+    </div>
 </template>
 
 <script setup>
@@ -243,7 +241,7 @@ function oninputPhone() {
 
 function kakao_login() {
   window.location.href = KAKAO_AUTH_URL;
-  store.dispatch('kakao_login');
+//   store.dispatch('kakao_login');
 }
 </script>
 <style>
