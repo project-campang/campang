@@ -18,6 +18,8 @@ const store = createStore({
             state.userInfo = userInfo;
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
+        //댓글 초기 삽입
+        setCommentData(state, data){ state.setBoardData = data; },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
@@ -67,9 +69,7 @@ const store = createStore({
             const data = new FormData(document.querySelector('#commentForm'));
             
             console.log(data);
-            // console.log(response);
-            // console.log(response.data);
-            // console.log(context);
+
             axios.post(url, data)
                 .then(response => {
                 context.commit('setUnshiftCommentData', response.data.data); //댓글 가장 앞에 추가
@@ -78,11 +78,30 @@ const store = createStore({
             })
             .catch(error => {
                 
-            // console.log('캐치' + data);
-            // console.log('캐치' + context);
-            // console.log('캐치' + response);
                 console.log(error.response.data);
                 alert('댓글 작성 실패'+error.response.data.code)
+            })
+        },
+
+
+
+
+
+
+
+
+
+
+
+        commentGet(context){
+            const url = '/api/comment';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setCommentData', response.data.data);
+            })
+            .catch(error => {
+                alert('댓글 습득 실패');
             })
         }
     },
