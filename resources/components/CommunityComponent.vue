@@ -22,7 +22,7 @@
                     <div class="container-fluid">
                         <div>
                             <span class="board-select">자유 게시판</span>
-                            <button @click="openCreateModal" class="btn btn-outline-success">+</button>
+                            <button @click="openInsertModal" class="btn btn-outline-success">+</button>
                         </div>
                         <div class="board-comment nav-item" id="navbarSupportedContent">
                                 <span>어쩌구 저쩌구를 남겨보세요.</span>
@@ -75,29 +75,27 @@
     </main>
 
 <!-- 작성 모달 -->
-<div v-show="modalFlg" class="modal fade" id="createModal" tabindex="-1" aria-labelledby="createModalLabel" aria-hidden="true">
+<div v-show="modalFlg" class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title">작성하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="">
+      <form action="" id="insertForm">
           <div class="modal-body">
             <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요." max="50">
             <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
             </div>
             <div class="modal-body">
-            <!-- <button class="btn btn-secondary"> -->
                 <input class="" type="file" name="img" accept="image/*">
-            <!-- </button> -->
             <div class="img-box">
                 <img src="/public/img/sample1.jpg" alt="">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-            <button type="button" class="btn btn-primary">작성</button>
+            <button @click="$store.dispatch('communityInsert')" type="button" class="btn btn-primary">작성</button>
           </div>
       </form>
     </div>
@@ -141,20 +139,28 @@
 </template>
 
 <script setup>
-import { onMounted, reactive, ref } from 'vue';
-import store from '../js/store';
-import router from '../js/router';
+import { onBeforeMount, onMounted, ref } from 'vue';
+import { useStore } from 'vuex'
+
+
+// 작성
+const store = useStore();
+
+onBeforeMount(() => {
+    store.dispatch('communityInsert');
+})
+
 
 // 모달 플래그
 const modalFlg = ref(true);
-let createModal;
+let insertModal;
 let detailModal;
 
 onMounted(() => {
-    const createModalElement = document.getElementById('createModal');
-    if (createModalElement) {
+    const insertModalElement = document.getElementById('insertModal');
+    if (insertModalElement) {
         import('bootstrap').then(({ Modal }) => {
-            createModal = new Modal(createModalElement);
+            insertModal = new Modal(insertModalElement);
         }).catch(err => {
             console.error('Bootstrap Modal import error:', err);
         });
@@ -162,27 +168,13 @@ onMounted(() => {
 });
 
 // 작성 모달 열기
-function openCreateModal() {
-    if(createModal) {
+function openInsertModal() {
+    if(insertModal) {
         modalFlg.value = true;
-        createModal.show();
+        insertModal.show();
     }
 }
 
-// 작성
-const boardInfo = reactive({
-    // content: '',
-    // img: null,
-});
-
-// const preview = ref('');
-
-// function setFile(e) {
-//     // 저장
-//     boardInfo.img = e.target.files[0];
-//     // 화면 표시
-//     preview.value = URL.createObjectURL(boardInfo.img);
-// }
 
 // 상세 모달 열기
 function openDetailModal() {
@@ -202,6 +194,8 @@ onMounted(() => {
         });
     }
 });
+
+
 
 </script>
 

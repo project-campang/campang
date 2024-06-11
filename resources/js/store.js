@@ -23,7 +23,7 @@ const store = createStore({
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
         //댓글 초기 삽입
-        setCommentData(state, data){ state.setBoardData = data; },
+        setCommentData(state, data){ state.commentData = data; },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
@@ -90,7 +90,6 @@ const store = createStore({
               console.error('Kakao callback failed:', error);
             }
           },
-        },
         /**
          * 댓글작성
          * 
@@ -110,8 +109,21 @@ const store = createStore({
             })
             .catch(error => {
                 
-                console.log(error.response.data);
-                alert('댓글 작성 실패'+error.response.data.code)
+                // console.log(error.response.data);
+                alert('댓글 작성 실패'+error.response.data)
+            })
+        },
+        commentGet(context){
+            const url = '/api/comment';
+
+            axios.get(url)
+            .then(response => {
+                // console.log(response.data.data);
+                context.commit('setCommentData', response.data.data);
+            })
+            .catch(error => {
+                // console.log(error.response); // TODO
+                alert('댓글 습득 실패' + error);
             })
         },
 
@@ -125,19 +137,41 @@ const store = createStore({
 
 
 
-        commentGet(context){
-            const url = '/api/comment';
+        /**
+         * 커뮤니티 게시글 작성
+         * 
+         * @param {*} context
+         */
+        communityInsert(context) {
+            const url = '/community';
+            const data = new FormData(document.querySelector('#insertForm'));
+
+            console.log(data);
+
+            axios.post(url, data)
+            .then(response => {
+                context.commit('setUnshiftCommentData', response.data.data);
+
+                router.go('/community');
+            })
+            .catch(error => {
+                alert('게시글 작성 실패'+error.response.data);
+            })
+        },
+
+        communityGet(context) {
+            const url = '/community';
 
             axios.get(url)
             .then(response => {
-                context.commit('setCommentData', response.data.data);
+                context.commit('setCommitData', response.data.data);
             })
             .catch(error => {
-                alert('댓글 습득 실패');
+                alert('게시글 습득 실패' + error);
             })
-        }
+        },
+         
     },
-    
-);
+});
 
 export default store;

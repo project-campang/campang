@@ -1,5 +1,5 @@
 <template>
-    <!-- <main class="main-container">
+    <main class="main-container">
         <div class="search-container">
             <div class="search-box">
                 <form action="">
@@ -168,12 +168,12 @@
         </div>
         <div class="map-container">
             <div class="map">
-                <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true">
+                <!-- <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true">
                     <KakaoMapMarker :lat="coordinate.lat" :lng="coordinate.lng"></KakaoMapMarker>
                     <KakaoMapMarker :lat="coordinate1.lat" :lng="coordinate1.lng"></KakaoMapMarker>
                     <KakaoMapMarker :lat="coordinate2.lat" :lng="coordinate2.lng"></KakaoMapMarker>
                     <KakaoMapMarker :lat="coordinate3.lat" :lng="coordinate3.lng"></KakaoMapMarker>
-                </KakaoMap>
+                </KakaoMap> -->
             </div>
             <div class="float-btn">
                 <button class="result-pin">검색</button>
@@ -181,7 +181,7 @@
                 <button class="complete-pin">정복</button>
             </div>
         </div>
-    </main> -->
+    </main>
     
 </template>
 
@@ -215,5 +215,5 @@
 </script>
 
 <style>
-/* @import url(../css/search.css); */
+@import url(../css/search.css);
 </style>
