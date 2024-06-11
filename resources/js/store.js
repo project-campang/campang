@@ -68,7 +68,9 @@ const store = createStore({
               const response = await axios.get('/kakao/callback', {
                 params: { code }
               });
+              console.log(code);
               commit('setAuth', { authFlg: true, userInfo: response.data });
+              router.replace('/main');
             } catch (error) {
               console.error('Kakao callback failed:', error);
             }
