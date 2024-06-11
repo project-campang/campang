@@ -5,8 +5,8 @@ import axios from 'axios';
 const store = createStore({
     state() {
         return{
-            authFlg: false,
-            userInfo: null,
+            authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
+            userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             commentData: [],
         }
     },
@@ -30,14 +30,16 @@ const store = createStore({
         },
     },
     actions: {
-        async login({ commit }, loginForm) {
+        async login(context, loginForm) {
             try {
                 const response = await axios.post('/api/login', loginForm);
-                commit('setAuthFlg', true);
-                commit('setUserInfo', response.data.data);
+                localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+                context.commit('setAuthFlg', true);
+                context.commit('setUserInfo', response.data.data);
                 router.replace('/main');
             } catch (error) {
-                console.error('로그인 실패:', error.response.data.message);
+                console.error('로그인 실패:', error.response);
+                console.log(error);
             }
         },
 
@@ -51,6 +53,16 @@ const store = createStore({
                 console.error('회원가입 실패:', error.response.data.message);
             }
         },
+        async checkEmailDuplicate(email) {
+            try {
+                const response = await axios.post('/api/check-email-duplicate', { email });
+                return response.data.duplicate;
+            } catch (error) {
+                console.error('이메일 중복 확인 실패:', error);
+                return false; // 실패 시 기본적으로 중복되지 않은 것으로 간주합니다.
+            }
+        },
+        
 
         async logout({ commit }) {
             try {
@@ -68,9 +80,12 @@ const store = createStore({
               const response = await axios.get('/kakao/callback', {
                 params: { code }
               });
-              console.log(code);
-              commit('setAuth', { authFlg: true, userInfo: response.data });
-              router.replace('/main');
+            console.log(code);
+            localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+            commit('setAuthFlg', true);
+            commit('setUserInfo', response.data.data);
+            commit('setAuth', { authFlg: true, userInfo: response.data });
+            router.replace('/main');
             } catch (error) {
               console.error('Kakao callback failed:', error);
             }
