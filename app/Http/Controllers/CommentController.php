@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\MyValidateException;
 use App\Models\Comment;
 use Exception;
 use Illuminate\Http\Request;
