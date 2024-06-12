@@ -1,19 +1,4 @@
 <template>
-    <!-- <header>
-        <div>
-            <a href="">캠핑장 모아보기</a>
-            <a href="">캠핑 Talk</a>
-            <a href="">FAQ</a>
-        </div>
-        <div>
-            <a class="logo">로고</a>
-        </div>
-        <div>
-            <a href="">예매 내역</a>
-            <a href="">마이 페이지</a>
-            <a href="">로그인 회원가입</a>
-        </div>
-    </header> -->
     <main>
         <div class="background-color">
             <div class="main-head">

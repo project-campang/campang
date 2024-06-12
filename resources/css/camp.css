@@ -42,13 +42,13 @@ hr {
 main {
     height: 300vh; /* TODO : 변경하기 */
     /* background-color: #f4fbf5; */
-    background-color: #f4fbf5;
-    background-image: url('../../public/img/main.gif');
+    background-color: #f7f7f7;
+    /* background-image: url('../../public/img_nr/워터마크_gray.png'); */
     padding: 0 120px;
 }
 .background-color {
     width: 100%;
-    background-color: rgba(0, 0, 0,0.4);
+    /* background-color: rgba(0, 0, 0,0.4); */
 }
 .main-head {
     padding: 10px;
@@ -105,6 +105,7 @@ main {
     text-align: center;
 }
 .shop-info-card {
+
     background-color: #fff;
     border: 1px solid #000;
     border-radius: 30px;
@@ -117,7 +118,7 @@ main {
     gap: 15px;
 }
 .info-name {
-    background-color: #B3DC9F;
+    background-color: #fbe132;
     width: 100px;
     padding: 5px;
     text-align: center;
@@ -160,7 +161,9 @@ main {
     text-align: center;
 }
 .info-card-main {
-    background-color: #fff;
+    /* background-color: #fff; */
+    background-image: url('../../public/img_nr/워터마크_white.png');
+    background-size: cover;
     border: 1px solid #000;
     border-radius: 20px;
     padding: 15px;
@@ -181,6 +184,10 @@ main {
     /* width: 50px; */
     height: 40px;
     margin-bottom: 10px;
+    /* background-color: #ffff; */
+    /* border-radius: px; */
+    /* padding: 10px; */
+    /* border: 1px solid #000; */
 }
 .site-info {
     display: flex;
@@ -193,6 +200,8 @@ main {
     /* justify-content: space-around; */
     /* border: 2px solid #B3DC9F; */
     border-bottom: none;
+    background-color: #fff;
+    border-radius: 20px 20px 0 0;
 }
 .comment-tap, .review-tap {
     border: none;
@@ -201,10 +210,10 @@ main {
 }
 .comment-tap {
     background-color: #B3DC9F;
+    border-radius: 20px 20px 0 0;
 }
-.review-tap {
-    background-color: #fff;
-}
+/* .review-tap {
+} */
 .comment-form {
     margin-top: 10px;
     display: grid;
@@ -218,6 +227,7 @@ main {
 textarea {
     background-color: #fff;
     resize: none;
+    border: 2px solid #fbe132;
 }
 .submit-btn{
     background-color: #fbe132;
