@@ -65,7 +65,7 @@ class UserController extends Controller
     public function register(Request $request)
     {
         $requestData = $request->all();
-
+        // LOG::debug($requestData);
         $validator = validator::make(
             $requestData,
             [
@@ -121,7 +121,6 @@ class UserController extends Controller
                 ->cookie('auth', '1', -1, null, null, false, false);
       }
       
-    // 이메일 중복체크
     // 이메일 중복체크
     public function checkEmail(Request $request)
     {
