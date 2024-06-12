@@ -16,13 +16,6 @@ class CommunitySeeder extends Seeder
      */
     public function run()
     {
-        $data = [
-            'user_id' => 1,
-            'title' =>'테스트',
-            'content' =>'테스트테스트',
-            'img' =>'/public/img/sample.jpg',
-        ];
-
-        Community::create($data);
+        //
     }
 }

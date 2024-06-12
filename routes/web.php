@@ -39,4 +39,5 @@ Route::post('/api/comment', [CommentController::class, 'comment']);
 Route::get('/api/comment', [CommentController::class, 'commentGet']);
 
 // 커뮤니티 컨트롤러
-Route::get('/community', [CommunityController::class, 'community']);
+Route::get('/api/community', [CommunityController::class, 'communityGet']);
+Route::post('/api/community', [CommunityController::class, 'communityStore']);

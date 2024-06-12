@@ -7,9 +7,9 @@
                 </div>
                 <div class="board-name-list list-group">
                     <div class="board-name list-group">
-                        <a href="" class="list-group-item">가입인사</a>
+                        <a href="" class="list-group-item">가입 인사</a>
                         <a href="" class="list-group-item">자유 게시판</a>
-                        <a href="" class="list-group-item">캠핑꿀팁</a>
+                        <a href="" class="list-group-item">캠핑 꿀팁</a>
                         <a href="" class="list-group-item">리뷰 게시판</a>
                         <a href="" class="list-group-item">랭킹 게시판</a>
                     </div>
@@ -21,7 +21,7 @@
                 <nav class="content-top-2 navbar navbar-expand-lg bg-body-tertiary">
                     <div class="container-fluid">
                         <div>
-                            <span class="board-select">자유 게시판</span>
+                            <span class="board-select"></span>
                             <button @click="openInsertModal" class="btn btn-outline-success">+</button>
                         </div>
                         <div class="board-comment nav-item" id="navbarSupportedContent">
@@ -44,12 +44,12 @@
                             <span>작성일</span>
                             <span>조회수</span>
                         </div>
-                        <div @click="openDetailModal" class="content-item">
-                            <span>10</span>
-                            <span>뭐라뭐라뭐라</span>
-                            <span>가나다</span>
-                            <span>2024-06-06</span>
-                            <span>66</span>
+                        <div @click="openDetailModal" class="content-item" v-for="item in $store.state.communityData" :key="item" >
+                            <span>{{ item.data.id }}</span>
+                            <span>{{ item.data.title }}</span>
+                            <span>{{ item.data.user_id }}</span>
+                            <span>{{ item.data.created_at }}</span>
+                            <span>{{ item.data.views }}</span>
                         </div>
                         <hr class="item-hr">
                         <div class="content-item">
@@ -82,20 +82,24 @@
         <h5 class="modal-title">작성하기</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <form action="" id="insertForm">
+      <form action="" id="insertForm" enctype="multipart/form-data">
           <div class="modal-body">
-            <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요." max="50">
+            <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요.">
             <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
             </div>
             <div class="modal-body">
-                <input class="" type="file" name="img" accept="image/*">
+                <input class="" type="file" name="main_img" accept="image/*">
             <div class="img-box">
-                <img src="/public/img/sample1.jpg" alt="">
+                <img src="" alt="">
+                <img src="" alt="">
+                <img src="" alt="">
+                <img src="" alt="">
+                <img src="" alt="">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-            <button @click="$store.dispatch('communityInsert')" type="button" class="btn btn-primary">작성</button>
+            <button @click="$store.dispatch('communityStore', communityData)" type="button" class="btn btn-primary">작성</button>
           </div>
       </form>
     </div>
@@ -104,42 +108,45 @@
 
 <!-- 상세 모달 -->
 <div v-show="modalFlg" class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">상세</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <form action="">
-          <div class="modal-body">
-            <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요." max="50">
-            <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">상세</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
+            <form action="">
+            <div class="modal-body detail-data" v-for="(item, key) in $store.state.communityData" :key="key">
+                <span>{{ item.data.title }}</span>
+                <span>{{ item.data.content }}</span>
+            </div>
+            <!-- <div class="modal-body detail-data">
+                <div>제목</div>
+                <div>내용</div>
+            </div> -->
             <div class="modal-body">
-            <input type="file" name="img" accept="image/*">
-            <div class="img-box">
-                <img src="/public/img/sample1.jpg" alt="">
+                <div class="img-box">
+                    <img src="" alt="">
+                </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <div>
-                <button type="button" class="btn btn-outline-warning start-0">수정</button>
-                <button type="button" class="btn btn-outline-danger">삭제</button>
+            <div class="modal-footer">
+                <div>
+                    <button type="button" class="btn btn-outline-warning start-0">수정</button>
+                    <button type="button" class="btn btn-outline-danger">삭제</button>
+                </div>
+                <div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
             </div>
-            <div>
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-            </div>
-          </div>
-      </form>
+        </form>
+        </div>
     </div>
-  </div>
 </div>
 
 
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref, reactive } from 'vue';
 import { useStore } from 'vuex'
 
 
@@ -147,12 +154,26 @@ import { useStore } from 'vuex'
 const store = useStore();
 
 onBeforeMount(() => {
-    store.dispatch('communityInsert');
+    store.dispatch('commentGet');
 })
+
+// onBeforeMount(() => {
+//     store.dispatch('communityStore');
+// })
+
+const communityData = reactive({
+    title: '',
+    content: '',
+    main_img: '/public/img/sample1.jpg',
+    other_img2: '/public/img/sample1.jpg',
+    other_img3: '/public/img/sample1.jpg',
+    other_img4: '/public/img/sample1.jpg',
+    other_img5: '/public/img/sample1.jpg',
+});
 
 
 // 모달 플래그
-const modalFlg = ref(true);
+const modalFlg = ref(false);
 let insertModal;
 let detailModal;
 

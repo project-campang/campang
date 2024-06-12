@@ -52,9 +52,9 @@ class CommentController extends Controller
             'msg' => '댓글 획득 완료',
             'data' => $commentData->toArray()
             ];
-        Log::debug('쿼리 작동됌', $commentData->toArray());
-        Log::debug('responseData', $responseData);
-        Log::debug('리턴');
+        // Log::debug('쿼리 작동됌', $commentData->toArray());
+        // Log::debug('responseData', $responseData);
+        // Log::debug('리턴');
         return response()->json($responseData, 200);
     }
 }
