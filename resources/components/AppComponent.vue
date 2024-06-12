@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
         <div class="container-fluid">
             <router-link to="/" class="navbar-brand my-logo-img"></router-link>
-            <button @click="toggleMenu" class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <button @click="toggleMenu" class="navbar-toggler" type="button" data-bs-toggle="collapse"  aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -165,12 +165,10 @@
     // 햄버거바
     function toggleMenu() {
     const navbarCollapse = document.getElementById('navbarSupportedContent');
-    if (navbarCollapse.classList.contains('show')) {
-        navbarCollapse.classList.remove('show');
-        navbarCollapse.setAttribute('aria-expanded',false);
-        navbarCollapse.style.display='none';
+    
+        navbarCollapse.classList.toggle('show');
     }
-}
+
 
 
     
