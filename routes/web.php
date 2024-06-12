@@ -21,7 +21,7 @@ Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '^(?!api).*$');
 
-// 유저컨트롤러
+// 유저 컨트롤러
 Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/register', [UserController::class, 'register']);
 Route::post('/api/logout', [UserController::class, 'logout']);
@@ -31,12 +31,12 @@ Route::post('/api/check-email', [UserController::class, 'checkEmail']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
 
 
-// 캠핑장 컨트롤러
+// 캠프 컨트롤러
 Route::get('/search', [CampController::class, 'search']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment', [CommentController::class, 'comment']);
 Route::get('/api/comment', [CommentController::class, 'commentGet']);
 
-// 커뮤니티컨트롤러
+// 커뮤니티 컨트롤러
 Route::get('/community', [CommunityController::class, 'community']);

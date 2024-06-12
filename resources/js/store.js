@@ -105,7 +105,7 @@ const store = createStore({
                 .then(response => {
                 context.commit('setUnshiftCommentData', response.data.data); //댓글 가장 앞에 추가
 
-                router.replace('/camp');
+                router.go('/camp');
             })
             .catch(error => {
                 
@@ -126,6 +126,51 @@ const store = createStore({
                 alert('댓글 습득 실패' + error);
             })
         },
+
+
+
+
+
+
+
+
+
+
+
+        /**
+         * 커뮤니티 게시글 작성
+         * 
+         * @param {*} context
+         */
+        communityInsert(context) {
+            const url = '/community';
+            const data = new FormData(document.querySelector('#insertForm'));
+
+            console.log(data);
+
+            axios.post(url, data)
+            .then(response => {
+                context.commit('setUnshiftCommentData', response.data.data);
+
+                router.go('/community');
+            })
+            .catch(error => {
+                alert('게시글 작성 실패'+error.response.data);
+            })
+        },
+
+        communityGet(context) {
+            const url = '/community';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setCommitData', response.data.data);
+            })
+            .catch(error => {
+                alert('게시글 습득 실패' + error);
+            })
+        },
+         
     },
 });
 
