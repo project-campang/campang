@@ -127,6 +127,19 @@
     <div>
         <router-view></router-view>
     </div>
+
+    <!-- 푸터 -->
+    <div class="main-footer">
+        <div class="main-footer-content">
+            <h2>CAMPANG <img src="/img/logo-ko3.png" alt=""></h2>
+            <p>개인정보처리방침 | 전자우편무단수집거부 | 캠핑장 | 등록안내 | 미등록야영장불법영업신고</p>
+            <hr>
+            <p>
+                대구시 달서구 남일동 109-2 그린컴퓨터아트학원 대구캠퍼스 TEL : 0507-1414-1018 (상담시간 : 평일 10:00~18:00)EMAIL : green@gampang.or.kr
+                Copyrights(c) 2024 GREEN COMPUTER ACADEMY DAEGU BRANCH 2ND PROJECT TEAM 3.
+            </p>
+        </div>
+   </div>
 </template>
 
 <script setup>

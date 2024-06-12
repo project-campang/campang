@@ -3,6 +3,10 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+p {
+    margin: 0;
+}
 @font-face {
     font-family: 'SBAggroB';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
@@ -210,7 +214,7 @@ a {
     align-items: center;
 }
 
-/* bg-white */
+/* bg-white 두번째  */
 .main-left-img {
     width: 200px;
     height: 200px;
@@ -222,7 +226,8 @@ a {
     display: grid;
     grid-template-columns: repeat( auto-fit, minmax(500px,1fr) );
     /* grid-template-columns: 1fr 1fr; */
-    margin: auto;
+    margin: 20rem auto;
+    /*  */
     border-radius: 30px;
     padding: 20px;
 }
@@ -306,5 +311,148 @@ a {
     /* align-items: center; */
     border-radius: 20px;
     text-align: center;
+    padding: 30px;
+}
+
+.main-right-board {
+    background-color: #FFAF66;
+    width: 150px;
+    text-align: center;
+}
+
+.main-right-bottom {
+    display:grid;
+    grid-template-columns: 150px 1.5fr 1fr;
+align-items: center;
+}
+
+.right-board {
+    background-color: #999;
+
+}
+
+.right-tv {
+    text-align: right;
+    
+}
+
+.right-tv a {
+    color: #000;
+    font-size: 1.5rem;
+    /* background-image: url(/img/tv.png);
+    background-size: cover;
+    height: 50px; */
+}
+
+.right-tv a img {
+    margin-bottom: 5px;
+}
+
+/* bg-white 끝 */
+
+/* 세번째시작 */
+.third-main {
+    background-image:url(/img/main-bg3.png);
+    margin-top: 15rem;
+    margin-bottom: 20rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.third-main-p {
+    padding: 150px;
+    color: #fff;
+}
+
+.third-main-fff {
+    background-color: rgb(0, 0, 0,0.5);
+}
+
+/* 세번째끝 */
+/* 네번째시작 */
+
+.last-main {
+    padding: 50px;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(100px,1fr) );
+    margin: 15rem auto;
+    text-align: center;
+    gap: 20px;
+    /* align-items: center;
+    justify-content: center; */
+
+}
+
+.last-left {
+    margin: auto;
     padding: 10px;
+    /* width: 50%; */
+    background-color: #ABE188;
+    border-radius: 20px;
+    /* text-align: center; */
+}
+
+.last-right {
+    margin: auto;
+    padding: 10px;
+    /* width: 50%; */
+}
+
+.last-left img {
+    width: 300px;
+    height: 300px;
+}
+
+.last-right-box {
+    padding: 10px;
+    margin: 20px;
+    gap: 20px;
+    /* width: 40%; */
+    display: grid;
+    grid-template-columns:repeat(2, 1fr);
+    
+}
+.last-right-box > div {
+    background-color: #ABE188;
+    /* padding: 15px; */
+    border-radius: 20px;
+}
+
+.last-right img {
+    width: 150px;
+    padding: 10px;
+}
+
+/* 푸터 */
+.main-footer {
+    background-color: #68726f;
+    padding: 30px;
+}
+
+.main-footer-content {
+    width: 800px;
+    margin: auto;
+    color: #fff;
+}
+.main-footer-content p {
+    font-size: 0.6rem;
+    letter-spacing:3px;
+    line-height:15px
+}
+.main-footer-content img {
+    width: 45px;
+}
+
+/* 끝 */
+
+/* 스크롤이벤트 */
+[data-section] {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+[data-section].visible {
+    opacity: 1;
+    transform: translateY(0);
 }
