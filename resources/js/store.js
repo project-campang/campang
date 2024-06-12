@@ -24,17 +24,28 @@ const store = createStore({
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
         //댓글 초기 삽입
-        setCommentData(state, data){ state.commentData = data; },
+        // setCommentData(state, data){ 
+        //     state.commentData = data;
+        // },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
         },
+        // 페이지네이션을 위한 댓글 리스트(TODO: 초기데이터삽입을 지우고 이거 사용할수있으면 쓰기) 
+        setCommentList(state, data) {
+            state.commentList = data;
+        },
+        setPagination(state, data) {
+            state.pagination = data;
+        }
+        
         // 게시글 삽입
         setCommunityData(state, data){ state.communityData = data; },
         // 작성된 게시글 맨 위로 정렬
         setUnshiftCommunityData(state,data) {
             state.communityData.unshift(data);
         }
+
     },
     actions: {
         async login(context, loginForm) {
@@ -120,43 +131,50 @@ const store = createStore({
                 alert('댓글 작성 실패'+error.response.data)
             })
         },
-        commentGet(context){
-            const url = '/api/comment';
+        /**
+         * 댓글 출력
+         * @param {*} context 
+         */
+        // commentGet(context){
+        //     const url = '/api/comment';
+
+        //     axios.get(url)
+        //     .then(response => {
+        //         // console.log(response.data.data);
+        //         context.commit('setCommentData', response.data.data);
+        //     })
+        //     .catch(error => {
+        //         // console.log(error.response); // TODO
+        //         alert('댓글 습득 실패' + error);
+        //     })
+        // },
+        /**
+         * 댓글 페이지네이션
+         * @param {*} context 
+         * @param {*} page 
+         */
+        commentPageGet(context, page=1) {
+            const url = ('/api/commentPage?page=' + page);
 
             axios.get(url)
             .then(response => {
-                // console.log(response.data.data);
-                context.commit('setCommentData', response.data.data);
+                context.commit('setCommentList', response.data.data.data);
+                context.commit('setPagination', {
+                    current_page: response.data.data.current_page, // 현재페이지
+                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                    last_page: response.data.data.last_page, // 마지막페이지
+                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                    total: response.data.data.total, // 총 페이지
+                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                    path: response.data.data.path, // TODO : 필요성 못느낌. 필요없으면 지우기
+                })
             })
-            .catch(error => {
-                // console.log(error.response); // TODO
-                alert('댓글 습득 실패' + error);
-            })
+            .catch((e) => {
+                    console.log(e);
+                })
         },
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

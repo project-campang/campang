@@ -1,3 +1,12 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+p {
+    margin: 0;
+}
 @font-face {
     font-family: 'SBAggroB';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
@@ -6,11 +15,19 @@
 }
 
 body {
-    font-family: 'SBAggroB';
+    /* font-family: 'SB 어그로'; */
     margin: 0;
     padding: 0;
 }
 
+button {
+        border: 0;
+        background-color: transparent;
+}
+
+a {
+    text-decoration: none;
+  }
 .main-main {
     width: 100%;
     background-image: url("/img/main.gif");
@@ -71,6 +88,15 @@ body {
 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
+.main-mini-search {
+    margin: 1rem auto;
+    background-color: #FFD649;
+    max-width: 800px;
+    border-radius: 30px;
+    padding: 2rem;
+
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
 
 .main-select-box {
     position: relative;
@@ -78,6 +104,7 @@ body {
 }
 
 .main-select-box select {
+    background-color: #fff;
     width: 100%;
     height: 45px;
     padding: 0.5rem;
@@ -158,19 +185,19 @@ body {
     transform: translateX(26px);
 }
 
-.main-rank {
+/* .main-rank {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-}
+} */
 
-.main-rank-users, .main-rank-camps {
+/* .main-rank-users, .main-rank-camps {
     width: 300px;
     margin: 30px;
     background-color: #E6F7DC;
     border: 2px solid #97D270;
     border-radius: 20px;
-}
+} */
 
 .main-scroll {
     padding: 20px;
@@ -185,4 +212,247 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+/* bg-white 두번째  */
+.main-left-img {
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+
+.white-main {
+    width: 95%;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(500px,1fr) );
+    /* grid-template-columns: 1fr 1fr; */
+    margin: 20rem auto;
+    /*  */
+    border-radius: 30px;
+    padding: 20px;
+}
+
+/* @media (max-width: 768px) {
+    .white-main {
+        grid-template-rows: repeat(auto-fill, 200px); 
+    }
+
+} */
+
+.main-right-top img {
+    width: 100px;
+    background-color: #6b6262;
+    border-radius: 50%;
+}
+
+.main-rank {
+    text-align: center;
+    width: 400px;
+    margin: auto;
+    border-radius:30px;
+
+}
+
+.main-rank-btn-left {
+    padding: 10px;
+    background-color: #FFAF66;
+    border-top-left-radius: 40px;
+    width: 50%;
+}
+.main-rank-btn-right {
+    padding: 10px;
+    background-color: #FFF3DD;
+    border-top-right-radius: 40px;
+    width: 50%;
+}
+
+.main-rank img {
+    width: 70px;
+    background-color: #999;
+    border-radius: 50%;
+}
+
+.main-rank-box {
+    display: grid;
+    border: 3px solid #FFAF66;
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    grid-template-columns: 1fr 1fr 1fr;
+    padding: 10px;
+    /* align-items: center; */
+}
+
+.main-rank-box p {
+    margin-bottom: 0;
+}
+
+.main-pang {
+    width: 300px;
+    height: 80px;
+    color: #fff;
+    text-align: center;
+    border-radius: 20px;
+    margin: 2rem auto;
+}
+
+.main-pang a {
+    color: #000;
+    font-size: 1.5rem;
+}
+
+.main-right-top {
+    padding: 10px;
+    margin:20px auto;
+    max-width: 800px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr ;
+    /* justify-content: center; */
+    background-color: #7EC636;
+    /* align-items: center; */
+    border-radius: 20px;
+    text-align: center;
+    padding: 30px;
+}
+
+.main-right-board {
+    background-color: #FFAF66;
+    width: 150px;
+    text-align: center;
+}
+
+.main-right-bottom {
+    display:grid;
+    grid-template-columns: 150px 1.5fr 1fr;
+align-items: center;
+}
+
+.right-board {
+    background-color: #999;
+
+}
+
+.right-tv {
+    text-align: right;
+    
+}
+
+.right-tv a {
+    color: #000;
+    font-size: 1.5rem;
+    /* background-image: url(/img/tv.png);
+    background-size: cover;
+    height: 50px; */
+}
+
+.right-tv a img {
+    margin-bottom: 5px;
+}
+
+/* bg-white 끝 */
+
+/* 세번째시작 */
+.third-main {
+    background-image:url(/img/main-bg3.png);
+    margin-top: 15rem;
+    margin-bottom: 20rem;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.third-main-p {
+    padding: 150px;
+    color: #fff;
+}
+
+.third-main-fff {
+    background-color: rgb(0, 0, 0,0.5);
+}
+
+/* 세번째끝 */
+/* 네번째시작 */
+
+.last-main {
+    padding: 50px;
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(100px,1fr) );
+    margin: 15rem auto;
+    text-align: center;
+    gap: 20px;
+    /* align-items: center;
+    justify-content: center; */
+
+}
+
+.last-left {
+    margin: auto;
+    padding: 10px;
+    /* width: 50%; */
+    background-color: #ABE188;
+    border-radius: 20px;
+    /* text-align: center; */
+}
+
+.last-right {
+    margin: auto;
+    padding: 10px;
+    /* width: 50%; */
+}
+
+.last-left img {
+    width: 300px;
+    height: 300px;
+}
+
+.last-right-box {
+    padding: 10px;
+    margin: 20px;
+    gap: 20px;
+    /* width: 40%; */
+    display: grid;
+    grid-template-columns:repeat(2, 1fr);
+    
+}
+.last-right-box > div {
+    background-color: #ABE188;
+    /* padding: 15px; */
+    border-radius: 20px;
+}
+
+.last-right img {
+    width: 150px;
+    padding: 10px;
+}
+
+/* 푸터 */
+.main-footer {
+    background-color: #68726f;
+    padding: 30px;
+}
+
+.main-footer-content {
+    width: 800px;
+    margin: auto;
+    color: #fff;
+}
+.main-footer-content p {
+    font-size: 0.6rem;
+    letter-spacing:3px;
+    line-height:15px
+}
+.main-footer-content img {
+    width: 45px;
+}
+
+/* 끝 */
+
+/* 스크롤이벤트 */
+[data-section] {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+}
+
+[data-section].visible {
+    opacity: 1;
+    transform: translateY(0);
 }
