@@ -61,7 +61,7 @@ class CommentController extends Controller
     // 댓글 페이지네이션
     public function commentPaginate() {
 
-        $comment = Comment::whereNull('deleted_at')->latest()->paginate(5);
+        $comment = Comment::latest()->paginate(5);
         Log::debug("comment", $comment->toArray());
 
         $responseData = [
@@ -69,6 +69,7 @@ class CommentController extends Controller
             'msg' => '댓글페이지네이션획득',
             'data' => $comment->toArray()
             ];
+        // Log::debug('response', $responseData);
 
         return response()->json($responseData, 200);
     }
