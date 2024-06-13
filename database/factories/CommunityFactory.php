@@ -17,7 +17,12 @@ class CommunityFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => 1,
+            'type' => 1,
+            'title' => $this->faker->realText(rand(10,50)),
+            'content' => $this->faker->realText(rand(10,500)),
+            'main_img' => '/public/img/sample1.jpg',
+            'views' => rand(1,300),
         ];
     }
 }

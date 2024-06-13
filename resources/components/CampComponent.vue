@@ -1,19 +1,4 @@
 <template>
-    <!-- <header>
-        <div>
-            <a href="">캠핑장 모아보기</a>
-            <a href="">캠핑 Talk</a>
-            <a href="">FAQ</a>
-        </div>
-        <div>
-            <a class="logo">로고</a>
-        </div>
-        <div>
-            <a href="">예매 내역</a>
-            <a href="">마이 페이지</a>
-            <a href="">로그인 회원가입</a>
-        </div>
-    </header> -->
     <main>
         <div class="background-color">
             <div class="main-head">
@@ -160,20 +145,7 @@
                         <CommentCreate />
                     </div>
                     <div class="comment-list">
-                        <div class="commentItem" v-for="(item, key) in $store.state.commentData" :key="key">
-                            <div class="co-card-box">
-                                <div class="co-text-box">
-                                    <div class="co-nick">{{ item.nick_name }}</div>
-                                    <div class="co-co">{{ item.comment }}</div>
-                                    <div class="co-at">{{ item.created_at }}</div>
-                                </div>
-                                <div class="co-btn-box">
-                                    <button type="button">수정</button>
-                                    <button type="button">삭제</button>
-                                </div>
-                            </div>
-                            <hr>
-                        </div>  
+                        <CommentListItem />
                     </div>
                 </div>
             </div>
@@ -184,17 +156,7 @@
     
 <script setup>
 import CommentCreate from './CommentCreate.vue';
-// import CommentListItem from './CommentListItem.vue';
-
-
-import { onBeforeMount } from 'vue';
-import { useStore } from 'vuex';
-
-const store = useStore();
-
-  onBeforeMount(() => {
-    store.dispatch('commentGet');
-  })
+import CommentListItem from './CommentListItem.vue';
 
 
 </script>

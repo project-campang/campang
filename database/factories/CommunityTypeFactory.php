@@ -17,7 +17,8 @@ class CommunityTypeFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'type' => 1,
+            'name' => '자유게시판',
         ];
     }
 }

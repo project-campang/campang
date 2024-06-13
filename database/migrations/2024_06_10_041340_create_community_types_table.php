@@ -16,7 +16,7 @@ return new class extends Migration
         Schema::create('community_types', function (Blueprint $table) {
             $table->id();
             $table->char('type', 1);
-            $table->bigInteger('name');
+            $table->string('name', 50);
         });
     }
 

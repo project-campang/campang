@@ -52,9 +52,25 @@ class CommentController extends Controller
             'msg' => '댓글 획득 완료',
             'data' => $commentData->toArray()
             ];
-        Log::debug('쿼리 작동됌', $commentData->toArray());
-        Log::debug('responseData', $responseData);
-        Log::debug('리턴');
+        // Log::debug('쿼리 작동됌', $commentData->toArray());
+        // Log::debug('responseData', $responseData);
+        // Log::debug('리턴');
+        return response()->json($responseData, 200);
+    }
+
+    // 댓글 페이지네이션
+    public function commentPaginate() {
+
+        $comment = Comment::latest()->paginate(5);
+        Log::debug("comment", $comment->toArray());
+
+        $responseData = [
+            'code' => '0',
+            'msg' => '댓글페이지네이션획득',
+            'data' => $comment->toArray()
+            ];
+        // Log::debug('response', $responseData);
+
         return response()->json($responseData, 200);
     }
 }
