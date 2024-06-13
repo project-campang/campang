@@ -44,7 +44,7 @@
                             <span>작성일</span>
                             <span>조회수</span>
                         </div>
-                        <div @click="openDetailModal" class="content-item" v-for="(item, key) in $store.state.communityData" :key="key">
+                        <div @click="openDetailModal(item)" class="content-item" v-for="(item, key) in $store.state.communityData" :key="key">
                             <span>{{ item.id }}</span>
                             <span>{{ item.title }}</span>
                             <span>{{ item.user_id }}</span>
@@ -58,7 +58,8 @@
             </div>
         </div>
     </main>
-
+    {{ console.log(store.state.communityData) }}
+    {{ console.log('데이터는 가져오나?', store.state.communityData) }}
 <!-- 작성 모달 -->
 <div v-show="modalFlg" class="modal fade" id="insertModal" tabindex="-1" aria-labelledby="insertModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -100,20 +101,11 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="">
-            <div class="modal-body detail-data" v-for="(item, key) in $store.state.communityData" :key="key">
-                <span class="detail-modal-title">{{ item.title }}</span>
-                <span class="detail-modal-content">{{ item.content }}</span>
-                <div class="img-box">
-                    <img :src="item.img">
-                </div>
-            </div>
             <div class="modal-body detail-data">
-                <div>제목</div>
-                <div>내용</div>
-            </div>
-            <div class="modal-body">
+                <span class="detail-modal-title">{{ $store.state.communityData.title }}</span>
+                <span class="detail-modal-content">{{ $store.state.communityData.content }}</span>
                 <div class="img-box">
-                    <img src="" alt="">
+                    <img :src="communityItem.img">
                 </div>
             </div>
             <div class="modal-footer">
@@ -135,6 +127,7 @@
 
 <script setup>
 import { onBeforeMount, onMounted, ref, reactive } from 'vue';
+// import { onBeforeMount, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -150,10 +143,11 @@ const store = useStore();
 const modalFlg = ref(false);
 let insertModal;
 let detailModal;
-// let communityData = reactive({});
-// let communityData = reactive({
-//     title: '',
-//     content: '',
+let communityItem = reactive({});
+
+// let communityItem = reactive({
+//     title: 'rsrgddh',
+//     content: 'aethaedf',
 //     main_img: '/public/img/sample1.jpg',
 //     other_img2: '/public/img/sample1.jpg',
 //     other_img3: '/public/img/sample1.jpg',
@@ -163,11 +157,14 @@ let detailModal;
 
 
 onBeforeMount(() => {
+    console.log('보드 비포 마운트');
     store.dispatch('communityGet');
+    console.log('서버 요청 보냄');
   })
 
 // onMounted
 onMounted(async () => {
+    // console.log('Initial communityItem:', communityItem);
     // 커뮤니티 데이터 가져오기
     // try {
     //     await store.dispatch('communityGet');
@@ -198,6 +195,9 @@ onMounted(async () => {
             console.error('Bootstrap Modal import error:', err);
         }
     }
+
+
+    // console.log('Initial communityItem:', communityItem);
 });
 
 
@@ -209,13 +209,17 @@ function openInsertModal() {
     }
 }
 
+
 // 상세 모달 열기
 function openDetailModal(data) {
+    // console.log('communityItem:', communityItem);
     if(detailModal) {
         modalFlg.value = true;
         detailModal.show();
-        communityData = data;
-    }
+        communityItem = data;
+        // console.log(communityItem);
+        // console.log(communityItem.title);
+    }        
 }
 
 </script>
