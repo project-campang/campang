@@ -21,36 +21,38 @@
                                 <div class="shop-name-under">산과 강이 보이는 힐링 캠핑장</div>
                             </div>
                             <div class="shop-info-card">
-                                <div class="shop-info-line">
-                                    <div class="info-name">캠핑장 주소</div>
-                                    <div class="info-text">사랑시 고백구 행복동 8282-1</div>
-                                </div>
-                                <div class="shop-info-line">
-                                    <div class="info-name">문의처</div>
-                                    <div class="info-text">051-486-8282</div>
-                                </div>
-                                <div class="shop-info-line">
-                                    <div class="info-name">유형</div>
-                                    <div class="info-text">글램핑 / 오토캠핑 / 차박</div>
+                                <div class="shop-info-text">
+                                    <div class="shop-info-line">
+                                        <div class="info-name">캠핑장 주소</div>
+                                        <div class="info-text">사랑시 고백구 행복동 8282-1</div>
+                                    </div>
+                                    <div class="shop-info-line">
+                                        <div class="info-name">문의처</div>
+                                        <div class="info-text">051-486-8282</div>
+                                    </div>
+                                    <div class="shop-info-line">
+                                        <div class="info-name">유형</div>
+                                        <div class="info-text">글램핑 / 오토캠핑 / 차박</div>
+                                    </div>
                                 </div>
                                 <div class="shop-info-btn-container">
                                     <div class="shop-info-btn-item">
-                                        <button class="shop-info-btn">
-                                            <img src="../../public/img_nr/공유하기.png" alt="공유">
+                                        <button class="btn-group">
+                                            <img class="shop-info-btn" src="../../public/img_nr/공유하기.png" alt="공유">
+                                            <div class="shop-info-btn-name">공유하기</div>
                                         </button>
-                                        <div class="shop-info-btn-name">공유하기</div>
                                     </div>
                                     <div class="shop-info-btn-item">
-                                        <button class="shop-info-btn">
-                                            <img src="../../public/img_nr/찜하기.png" alt="찜">
+                                        <button class="btn-group">
+                                            <img class="shop-info-btn" src="../../public/img_nr/찜하기.png" alt="찜">
+                                            <div class="shop-info-btn-name">찜하기</div>
                                         </button>
-                                        <div class="shop-info-btn-name">찜하기</div>
                                     </div>
                                     <div class="shop-info-btn-item">
-                                        <button class="shop-info-btn">
-                                            <img src="../../public/img_nr/예약하기.png" alt="예약">
+                                        <button class="btn-group">
+                                            <img class="shop-info-btn" src="../../public/img_nr/예약하기.png" alt="예약">
+                                            <div class="shop-info-btn-name">예약하기</div>
                                         </button>
-                                        <div class="shop-info-btn-name">예약하기</div>
                                     </div>
                                 </div>
                             </div>
@@ -124,17 +126,8 @@
                     </div>
                     <div class="detail-info-card">
                         <div class="info-card-name">캠핑장 전경</div>
-                        <div class="info-card-main">
-                            <img src="" alt="">
-                            <img src="" alt="">
-                            <img src="" alt="">
-                            <img src="" alt="">
-                            <img src="" alt="">
-                            <img src="" alt="">
-                            <img src="" alt="">
-                            <img src="" alt="">
-                            <img src="" alt="">
-                            <img src="" alt="">
+                        <div class="info-card-main camp-img-box">
+                            <img v-for="item in 10" :key="item" src="../../public/img/logo-ko3.png" alt="">
                         </div>
                     </div>
                     <div class="comment-review-tap">
@@ -151,14 +144,36 @@
             </div>
         </div>
     </main>
+
+<!-- 상세 모달 -->
+    <!-- <div v-if="modalFlg" class="board-detail-box">
+        <div class="item">
+            <img :src="boardData.img">
+            <hr>
+            <p>{{ boardData.content }}</p>
+            <hr>
+            <div class="etc-box">
+                <span>작성자 : {{ boardData.name }}</span>
+                <button @click="modalFlg = false" class="btn btn-close btn-bg-black" >닫기</button>
+            </div>
+        </div>
+    </div> -->
+
 </template>
     
     
 <script setup>
+// import { reactive, ref } from 'vue';
 import CommentCreate from './CommentCreate.vue';
 import CommentListItem from './CommentListItem.vue';
 
+// const modalFlg = ref(false);
+// let boardData = reactive({});
 
+// function openModal(data) {
+//     boardData = data;
+//     modalFlg.value = true;
+// }
 </script>
 
 <style>

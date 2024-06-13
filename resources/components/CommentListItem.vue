@@ -14,14 +14,16 @@
     <hr>
   </div>
   <div class="page-btn">
+    <button type="button" :disabled="$store.state.pagination.current_page == 1" @click="prevPage()">이전</button>
+    <button type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()">다음</button>
     <!-- 이전 페이지로 이동하는 버튼 -->
     <!-- <button @click="gotoPreviousPage" :disabled="pagination.prev_page_url === null">이전</button> -->
 
     <!-- 페이지 번호를 나타내는 버튼 -->
-    <!-- <button v-for="pageNumber in pagination.last_page" :key="pageNumber"
+    <button v-for="num in pagination.last_page" :key="num"
             @click="gotoPage(pageNumber)"
             :class="{ 'active': pageNumber === pagination.current_page }"
-            :disabled="pageNumber === pagination.current_page">{{ pageNumber }}</button> -->
+            :disabled="pageNumber === pagination.current_page">{{ pageNumber }}</button>
 
     <!-- 다음 페이지로 이동하는 버튼 -->
     <!-- <button @click="gotoNextPage" :disabled="pagination.next_page_url === null">다음</button> -->
@@ -34,35 +36,36 @@ import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
   const store = useStore();
-  // const pagination = ref(store.state.pagination);
+  const pagination = store.state.pagination;
+  // const pagination = reactive({});
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {
     store.dispatch('commentPageGet');
   })
 
-
-  const gotoPage = (pageNumber) => {
-  store.dispatch('commentPageGet', pageNumber); // 페이지 데이터를 가져오는 액션 호출
-};
-
-// const gotoPreviousPage = () => {
-//   const prevPage = pagination.value.current_page - 1;
-//   if (prevPage >= 1) {
-//     gotoPage(prevPage);
-//   }
+  // const gotoPage = (pageNumber) => {
+  // store.dispatch('commentPageGet', pageNumber); // 페이지 데이터를 가져오는 액션 호출
 // };
 
-const gotoNextPage = () => {
-  const nextPage = pagination.value.current_page + 1;
-  if (nextPage <= pagination.value.last_page) {
-    gotoPage(nextPage);
-  }
-};
+function gotoPage() {
+  store.dispatch('commentPageGet', store.state.pagination);
+}
+
+function prevPage() {
+ store.dispatch('commentPageGet', store.state.pagination.current_page-1);
+}
+
+function nextPage() {
+ store.dispatch('commentPageGet', store.state.pagination.current_page+1);
+}
+
 </script>
 
 <style>
   .active {
     font-weight: bold; /* 현재 페이지 표시를 위해 스타일링 */
   }
+
+  @import url(../css/camp.css);
 </style>

@@ -8,6 +8,7 @@ const store = createStore({
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             commentData: [],
+            pagination: {},
             communityData: [],
         }
     },
@@ -37,7 +38,7 @@ const store = createStore({
         },
         setPagination(state, data) {
             state.pagination = data;
-        }
+        },
         
         // 게시글 삽입
         setCommunityData(state, data){ state.communityData = data; },
@@ -124,6 +125,7 @@ const store = createStore({
                 context.commit('setUnshiftCommentData', response.data.data); //댓글 가장 앞에 추가
 
                 router.go('/camp');
+                // location.reload();
             })
             .catch(error => {
                 
@@ -155,7 +157,7 @@ const store = createStore({
          */
         commentPageGet(context, page=1) {
             const url = ('/api/commentPage?page=' + page);
-
+            console.log(url);
             axios.get(url)
             .then(response => {
                 context.commit('setCommentList', response.data.data.data);
@@ -169,7 +171,8 @@ const store = createStore({
                     prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
                     next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
                     path: response.data.data.path, // TODO : 필요성 못느낌. 필요없으면 지우기
-                })
+                });
+                console.log(response.data);
             })
             .catch((e) => {
                     console.log(e);
