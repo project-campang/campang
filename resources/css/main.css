@@ -30,8 +30,9 @@ a {
   }
 .main-main {
     width: 100%;
-    background-image: url("/img/main.gif");
+    background-image: url("/img/main3.webp");
     background-size: cover;
+    background-position: center;
     padding: 2rem 1rem;
     box-sizing: border-box;
 }
@@ -56,10 +57,13 @@ a {
 
 @media (max-width: 768px) {
     .main-logo img {
-        max-width: 350px;
+        max-width: 300px;
     }
 
     .main-select-box select, .main-search {
+        font-size: 0.7rem;
+    }
+    .main-search span {
         font-size: 1rem;
     }
 }
@@ -222,6 +226,7 @@ a {
 }
 
 .white-main {
+    padding: 10rem;
     width: 95%;
     display: grid;
     grid-template-columns: repeat( auto-fit, minmax(500px,1fr) );
@@ -229,7 +234,7 @@ a {
     margin: 20rem auto;
     /*  */
     border-radius: 30px;
-    padding: 20px;
+    /* padding: 20px; */
 }
 
 /* @media (max-width: 768px) {
@@ -241,7 +246,9 @@ a {
 
 .main-right-top img {
     width: 100px;
-    background-color: #6b6262;
+    padding: 15px;
+    margin: 5px;
+    background-color: #fff;
     border-radius: 50%;
 }
 
@@ -323,7 +330,7 @@ a {
 .main-right-bottom {
     display:grid;
     grid-template-columns: 150px 1.5fr 1fr;
-align-items: center;
+    align-items: center;
 }
 
 .right-board {
@@ -352,11 +359,13 @@ align-items: center;
 
 /* 세번째시작 */
 .third-main {
-    background-image:url(/img/main-bg3.png);
+    background-image:url(/img/main-bg3.webp);
     margin-top: 15rem;
     margin-bottom: 20rem;
     background-size: cover;
+    background-position: center;
     background-repeat: no-repeat;
+    background-attachment: fixed;
 }
 
 .third-main-p {
@@ -366,6 +375,8 @@ align-items: center;
 
 .third-main-fff {
     background-color: rgb(0, 0, 0,0.5);
+    padding-top: 5rem;
+    padding-bottom: 5rem;
 }
 
 /* 세번째끝 */
@@ -385,7 +396,7 @@ align-items: center;
 
 .last-left {
     margin: auto;
-    padding: 10px;
+    padding: 30px;
     /* width: 50%; */
     background-color: #ABE188;
     border-radius: 20px;
@@ -393,8 +404,10 @@ align-items: center;
 }
 
 .last-right {
+    background-color: #FFAF66;
     margin: auto;
-    padding: 10px;
+    padding: 30px;
+    border-radius: 20px;
     /* width: 50%; */
 }
 
@@ -421,6 +434,7 @@ align-items: center;
 .last-right img {
     width: 150px;
     padding: 10px;
+    
 }
 
 /* 푸터 */
@@ -456,3 +470,5 @@ align-items: center;
     opacity: 1;
     transform: translateY(0);
 }
+
+
