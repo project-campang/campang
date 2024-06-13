@@ -1,6 +1,5 @@
 import { createStore } from 'vuex';
 import router from './router';
-import axios from 'axios';
 
 const store = createStore({
     state() {

@@ -8,5 +8,3 @@ const axiosIsntance = axios.create({
     // axios로 api 요청할 때 세션 쿠키가 포함되도록 하는 설정 (기본 false)
     withCredentials: true,
 });
-
-export default axiosIsntance;

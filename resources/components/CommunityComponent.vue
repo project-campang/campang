@@ -44,31 +44,16 @@
                             <span>작성일</span>
                             <span>조회수</span>
                         </div>
-                        <div @click="openDetailModal" class="content-item" v-for="item in $store.state.communityData" :key="item.id">
-                            <span>{{ item.data.id }}</span>
-                            <span>{{ item.data.title }}</span>
-                            <span>{{ item.data.user_id }}</span>
-                            <span>{{ item.data.created_at }}</span>
-                            <span>{{ item.data.views }}</span>
-                        </div>
-                        <hr class="item-hr">
-                        <div  @click="openDetailModal" class="content-item">
-                            <span>10</span>
-                            <span>뭐라뭐라뭐라</span>
-                            <span>가나다</span>
-                            <span>2024-06-06</span>
-                            <span>66</span>
-                        </div>
-                        <hr class="item-hr">
-                        <div class="content-item">
-                            <span>10</span>
-                            <span>뭐라뭐라뭐라</span>
-                            <span>가나다</span>
-                            <span>2024-06-06</span>
-                            <span>66</span>
-                        </div>
+                        <div @click="openDetailModal" class="content-item" v-for="(item, key) in $store.state.communityData" :key="key">
+                            <span>{{ item.id }}</span>
+                            <span>{{ item.title }}</span>
+                            <span>{{ item.user_id }}</span>
+                            <span>{{ item.created_at }}</span>
+                            <span>{{ item.views }}</span>
+                            </div>
                         <hr class="item-hr">
                     </div>
+                    <div class="pagination"></div>
                 </div>
             </div>
         </div>
@@ -116,11 +101,8 @@
             </div>
             <form action="">
             <div class="modal-body detail-data" v-for="(item, key) in $store.state.communityData" :key="key">
-                {{ console.log('item:', item) }}
-                {{ console.log('item.data:', item.data) }}
-                {{ console.log('item.data.content:', item.data.content) }}
-                <span>{{ item.data.title }}</span>
-                <span>{{ item.data.content }}</span>
+                <span class="detail-modal-title">{{ item.title }}</span>
+                <span class="detail-modal-content">{{ item.content }}</span>
                 <div class="img-box">
                     <img :src="item.img">
                 </div>
@@ -152,7 +134,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, reactive } from 'vue';
+import { onBeforeMount, onMounted, ref, reactive } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -180,9 +162,9 @@ let detailModal;
 // });
 
 
-// onBeforeMount(() => {
-//     store.dispatch('communityGet');
-//   })
+onBeforeMount(() => {
+    store.dispatch('communityGet');
+  })
 
 // onMounted
 onMounted(async () => {
