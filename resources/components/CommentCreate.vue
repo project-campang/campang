@@ -14,4 +14,5 @@
 </script>
 
 <style>
+    @import url(../css/camp.css);
 </style>

@@ -16,22 +16,6 @@
     font-family: 'SBAggroB';
     font-weight: normal;
 }
-/* header {
-    margin: auto;
-    width: 100%;
-    height: 100px;
-    line-height: 100px;
-    font-size: 1rem;
-    border-bottom: solid 3px black;
-    display: flex;
-    justify-content: space-between;
-    text-align: center;
-}
-header a {
-    margin: 10px;
-    color: black;
-    text-decoration: none;
-} */
 
 /* 메인 */
 
@@ -40,12 +24,10 @@ hr {
 }
     
 main {
-    height: 300vh; /* TODO : 변경하기 */
-    /* background-color: #f4fbf5; */
     background-color: #f7f7f7;
-    /* background-image: url('../../public/img_nr/워터마크_gray.png'); */
     padding: 0 120px;
 }
+
 .background-color {
     width: 100%;
     /* background-color: rgba(0, 0, 0,0.4); */
@@ -54,12 +36,14 @@ main {
     padding: 10px;
     display: flex;
 }
+
 .main-head a {
     margin-right: 5px;
     text-decoration: none;
     color: #000;
     font-size: 1.3rem;
 }
+
 .main-head a:hover {
     text-decoration:underline;
 }
@@ -73,8 +57,9 @@ main {
     grid-template-columns: 47% 53%;
     justify-content: space-between;
     padding-top: 10px;
-    height: 300vh;
+    /* height: 300vh; */
 }
+
 
 /* 메인 바디 왼쪽 */
 .detail-left {
@@ -96,13 +81,20 @@ main {
 }
 .shop-name-card {
     margin-bottom: 15px;
+    /* width: 100%; */
+    display: flex;
+    flex-direction: column;
 }
 .shop-name {
     font-size: 3rem;
     text-align: center;
+    /* width: 100%; */
+
 }
 .shop-name-under {
     text-align: center;
+    /* width: 100%; */
+
 }
 .shop-info-card {
 
@@ -110,6 +102,11 @@ main {
     border: 1px solid #000;
     border-radius: 30px;
     padding: 25px;
+}
+.shop-info-text {
+    display: grid;
+    /* grid-template-columns: 1fr, 3fr; */
+    grid-template-rows: repeat(3, 1fr);
 }
 .shop-info-line {
     display: flex;
@@ -133,6 +130,11 @@ main {
     gap: 10px;
     align-items: center;
 }
+.btn-group {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+}
 .shop-info-btn {
     width: 45px;
     height: 45px;
@@ -140,10 +142,10 @@ main {
     border: none;
     cursor: pointer;
 }
-.shop-info-btn img {
+/* .shop-info-btn img {
     height: 100%;
     width: 100%;
-}
+} */
 /* 메인 바디 오른쪽 */
 .detail-right {
     margin: 10px;
@@ -192,7 +194,13 @@ main {
 .site-info {
     display: flex;
 }
-
+.camp-img-box {
+    display: grid;
+    grid-template-columns: repeat( auto-fit, minmax(130px, 1fr) );
+}
+.camp-img-box img {
+    width: 100%;
+}
 /* 댓글,리뷰 */
 .comment-review-tap {
     display: flex;
@@ -220,6 +228,7 @@ main {
     grid-template-rows: 1fr 0.6fr;
     grid-template-columns: 3fr 1fr;
     height: 100px;
+    border-radius: 20px;
 }
 .comment-area {
     grid-row: span 2;
@@ -228,17 +237,25 @@ textarea {
     background-color: #fff;
     resize: none;
     border: 2px solid #fbe132;
+    border-radius:  20px 0 0 20px;
+    padding: 10px;
 }
 .submit-btn{
     background-color: #fbe132;
     border: none;
+    border-radius:  0 20px 0 0;
 }
 .reset {
     background-color: #dce0e0;
     border: none;
+    border-radius: 0 0 20px 0 ;
 }
 
 /* 댓글리스트 */
+.comment-list {
+    background-color: #fff;
+    padding:  10px;
+}
 .co-card-box {
     display: flex;
     justify-content: space-between;
@@ -254,4 +271,70 @@ textarea {
 }
 .co-at {
     font-size: 0.8rem;
+}
+
+@media screen and (max-width: 768px) {
+    main {
+        padding: 0;
+        /* max-width: 915px; */
+    }
+
+    .detail-sticky {
+        position: static; /* sticky를 없앰 */
+        width: 95%;
+    }
+    .detail-left {
+        margin: 10px 0; /* 상하 여백 유지하고 좌우 여백 제거 */
+    }
+    .main-body {
+        display: block; /* 그리드 레이아웃을 블록으로 변경 */
+    }
+    
+    .detail-right {
+        margin-top: 20px; /* .main-right의 상단 여백 추가 */
+    }
+    .shop-info-btn-container {
+        display: flex;
+        justify-content: center; /* 가로 중앙 정렬 */
+        margin-top: 20px; /* 상단 여백 추가 */
+    }
+    .shop-info-line {
+        flex-direction: column;
+        align-items: center;
+    }
+    .shop-info-line:nth-child(2) {
+        margin-bottom: 0;
+    }
+    .shop-info-btn-item {
+        margin-top: 10px; /* 각 버튼 사이의 간격 조정 */
+    }
+    .shop-info-btn-container {
+        margin-top: 0;
+    }
+    .btn-group {
+        display: flex;
+        flex-direction: column;
+        /* align-items: center; */
+        /* gap: 7px; */
+    }
+    .camp-img-box {
+        display: grid;
+        grid-template-columns: repeat( auto-fit, minmax(50px, 1fr) );
+    }
+    /* 폰트 사이즈 -------- */
+     /* 메인 헤드 */
+     .main-head a,p { font-size: 0.7rem; }
+
+     /* 가게 이름 */
+     .shop-name { font-size: 2rem; }
+ 
+     /* 가게 정보 */
+     .info-name { font-size: 0.8rem; }
+ 
+     /* 댓글, 리뷰 */
+     .comment-tap, .review-tap { font-size: 0.7rem; }
+ 
+     /* 댓글 리스트 */
+     .co-nick { font-size: 1rem; }
+     .co-at { font-size: 0.7rem; }
 }
