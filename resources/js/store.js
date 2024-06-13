@@ -37,14 +37,12 @@ const store = createStore({
         },
         setPagination(state, data) {
             state.pagination = data;
-        }
+        },
         
-        // 게시글 삽입
-        setCommunityData(state, data){ state.communityData = data; },
-        // 작성된 게시글 맨 위로 정렬
-        setUnshiftCommunityData(state,data) {
-            state.communityData.unshift(data);
-        }
+        // 게시글 획득
+        setCommunityList(state, data) {
+            state.communityData = data;
+        },
 
     },
     actions: {
@@ -196,12 +194,17 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                context.commit('setCommunityData', response.data);
+                // const data = response.data.data;
+                context.commit('setCommunityList', response.data.data);
+                console.log(response.data.data);
+                // console.log(setCommunityList);
             })
             .catch(error => {
-                alert('게시글 습득 실패' + error);
+                alert('오류오류오ㅠㄹ' + error.response.data);
             })
         },
+
+
 
         /**
          * 커뮤니티 게시글 작성
@@ -209,28 +212,28 @@ const store = createStore({
          * @param {*} context
          */
         
-        communityStore(context) {
-                const insertForm = document.querySelector('#insertForm');
-                console.log('insertForm');
-                console.log(insertForm);
+        // communityStore(context) {
+        //     const insertForm = document.querySelector('#insertForm');
+        //     console.log('insertForm');
+        //     console.log(insertForm);
 
-            
-                const formData = new FormData(insertForm);
-                const url = '/api/community';
+        
+        //     const formData = new FormData(insertForm);
+        //     const url = '/api/community';
 
-                console.log(formData);
+        //     console.log(formData);
 
-                axios.post(url, formData)
-                .then(response => {
-                    context.commit('setUnshiftCommunityData', response.data);
+        //     axios.post(url, formData)
+        //     .then(response => {
+        //         context.commit('setUnshiftCommunityData', response.data);
 
-                    router.go('/community');
-                })
-                .catch(error => {
-                    console.error('게시글 작성 실패:', error.response.data);
-                    alert('게시글 작성 실패'+error.response.data);
-                });
-        },
+        //         router.go('/community');
+        //     })
+        //     .catch(error => {
+        //         console.error('게시글 작성 실패:', error.response.data);
+        //         alert('게시글 작성 실패'+error.response.data);
+        //     });
+        // },
 
 
     },
