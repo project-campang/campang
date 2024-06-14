@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampTopoController;
+use App\Http\Controllers\ReviewController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -42,8 +43,9 @@ Route::get('/search', [CampController::class, 'search']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment', [CommentController::class, 'comment']);
-Route::get('/api/comment', [CommentController::class, 'commentGet']);
+// Route::get('/api/commentPage?page={page}', [CommentController::class, 'commentGet']);
 Route::get('/api/commentPage', [CommentController::class, 'commentPaginate']);
+Route::get('/api/reviewTap', [ReviewController::class, 'reviewGet']);
 
 
 // 커뮤니티 컨트롤러

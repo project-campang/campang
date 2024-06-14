@@ -8,6 +8,7 @@ const store = createStore({
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             commentData: [],
             pagination: {},
+            // curruntPage: null,
             communityData: [],
             boardData: [],
             rankData: [],
@@ -55,7 +56,9 @@ const store = createStore({
         setPagination(state, data) {
             state.pagination = data;
         },
-        
+        // setCurruntPage(state,data){
+        //     state.curruntPage = data;
+        // },
         // 게시글 획득
         setCommunityList(state, data) {
             state.communityData = data;
@@ -203,6 +206,40 @@ const store = createStore({
             })
         },
         /**
+         * 댓글 페이지네이션
+         * @param {*} context 
+         * @param {*} page 
+         */
+        commentPageGet(context, page=1) {
+            const url = ('/api/commentPage?page=' + page);
+            console.log(url);
+            axios.get(url)
+            .then(response => {
+                // const test = response.data.data.links.filter((item, key) => {
+                //     return !(key == 0 || key == (response.data.data.links.length - 1));
+                // });
+                context.commit('setCommentList', response.data.data.data);
+                context.commit('setPagination', {
+                    current_page: response.data.data.current_page, // 현재페이지
+                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                    last_page: response.data.data.last_page, // 마지막페이지
+                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                    total: response.data.data.total, // 총 페이지
+                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                    links: response.data.data.links,
+                    // test: test,
+                });
+                // context.commit('setCurrentPage', data);
+                // console.log(test);
+                // console.log(response.data);
+            })
+            .catch((e) => {
+                    console.log(e);
+                })
+        },
+        /**
          * 댓글 출력
          * @param {*} context 
          */
@@ -219,35 +256,6 @@ const store = createStore({
         //         alert('댓글 습득 실패' + error);
         //     })
         // },
-        /**
-         * 댓글 페이지네이션
-         * @param {*} context 
-         * @param {*} page 
-         */
-        commentPageGet(context, page=1) {
-            const url = ('/api/commentPage?page=' + page);
-            console.log(url);
-            axios.get(url)
-            .then(response => {
-                context.commit('setCommentList', response.data.data.data);
-                context.commit('setPagination', {
-                    current_page: response.data.data.current_page, // 현재페이지
-                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
-                    last_page: response.data.data.last_page, // 마지막페이지
-                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
-                    total: response.data.data.total, // 총 페이지
-                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
-                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
-                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
-                    path: response.data.data.path, // TODO : 필요성 못느낌. 필요없으면 지우기
-                });
-                console.log(response.data);
-            })
-            .catch((e) => {
-                    console.log(e);
-                })
-        },
-
 
 
 
@@ -291,7 +299,7 @@ const store = createStore({
         //     console.log('insertForm');
         //     console.log(insertForm);
 
-        
+            
         //     const formData = new FormData(insertForm);
         //     const url = '/api/community';
 

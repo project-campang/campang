@@ -130,8 +130,9 @@
                             <img v-for="item in 10" :key="item" src="../../public/img/logo-ko3.png" alt="">
                         </div>
                     </div>
+                    <hr>
                     <div class="comment-review-tap">
-                        <button type="button" class="comment-tap">댓글</button>
+                        <button type="button" class="comment-tap" >댓글</button>
                         <button type="button" class="review-tap">리뷰</button>
                     </div>
                     <div class="comment_store">
@@ -164,6 +165,7 @@
     
 <script setup>
 // import { reactive, ref } from 'vue';
+import { replace } from 'lodash';
 import CommentCreate from './CommentCreate.vue';
 import CommentListItem from './CommentListItem.vue';
 
@@ -176,6 +178,6 @@ import CommentListItem from './CommentListItem.vue';
 // }
 </script>
 
-<style>
-    @import url(../css/camp.css);
+<style scoped src="../css/camp.css">
+    /* @import url(../css/camp.css); */
 </style>
