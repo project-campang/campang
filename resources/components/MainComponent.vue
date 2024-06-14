@@ -77,20 +77,36 @@
                 <img src="/img/logo-ko3.png" class="main-left-img" alt="" loading="lazy">
             </div>
             <div class="main-rank">
-                <button type="button" class="main-rank-btn-left"><h3>캠핑러</h3></button>
-                <button type="button" class="main-rank-btn-right" id="campingzang"><h3>캠핑장</h3></button>
+                <button type="button" class="main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
+                <button type="button" class="main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
                 <div class="main-rank-box">
-                    <div>
-                        <img src="/img/logo-ko3.png" alt="">
-                        <p>이나라</p>
+                    <div class="main-rank-cam1"  v-for="(item, key) in $store.state.mainCampingler" :key="key" v-if="isCampinglerVisible">
+                        <div>
+                            <img src="/img/logo-ko3.png" alt="">
+                            <p>이나라</p>
+                        </div>
+                        <div>
+                            <img src="/img/logo-ko3.png" alt="">
+                            <p>이나라</p>
+                        </div>
+                        <div>
+                            <img src="/img/logo-ko3.png" alt="">
+                            <p>이나라</p>
+                        </div>
                     </div>
-                    <div>
-                        <img src="/img/logo-ko3.png" alt="">
-                        <p>이나라</p>
-                    </div>
-                    <div>
-                        <img src="/img/logo-ko3.png" alt="">
-                        <p>이나라</p>
+                    <div class="main-rank-cam2" v-for="(item, key) in $store.state.mainCampingzang" v-else>
+                        <div>
+                            <img src="/img/logo-ko3.png" alt="">
+                            <p>이서린</p>
+                        </div>
+                        <div>
+                            <img src="/img/logo-ko3.png" alt="">
+                            <p>이서린</p>
+                        </div>
+                        <div>
+                            <img src="/img/logo-ko3.png" alt="">
+                            <p>이서린</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -243,6 +259,7 @@
 </template>
 
 <script setup>
+import { ref } from 'vue';
 // 스크롤 이벤트
 function throttle(func, limit) {
     let inThrottle;
@@ -279,12 +296,26 @@ window.addEventListener('scroll', throttle(observeSections, 200));
 
 //  캠핑러 캠핑장 버튼 
 
-function toggleBtn() {
-    const campingzang = document.querySelector('#campingzang');
+let isCampinglerVisible = ref(true);
 
-    
+function showCampingler() {
+    isCampinglerVisible.value = true;
+    const element = document.querySelector('.main-rank-box');
 
+    element.style.cssText  = 'border: 5px solid #FFAF66;';
 }
+
+function showCampingzang() {
+    isCampinglerVisible.value = false;
+    const element = document.querySelector('.main-rank-box');
+
+    element.style.cssText  = 'border: 5px solid #FFF3DD;';
+}
+
+
+
+
+      
 
 // 카운터
 const counter = ($counter, max) => {
@@ -317,9 +348,9 @@ window.onload = () => {
     let max;
 
     if (index === 0) {
-      max = 1000; // 첫 번째 항목의 목표 수치 설정
+      max = 124; // 첫 번째 항목의 목표 수치 설정
     } else if (index === 1 || index === 2) {
-      max = 100; // 두 번째와 세 번째 항목의 목표 수치 설정
+      max = 365; // 두 번째와 세 번째 항목의 목표 수치 설정
     }
 
     setTimeout(() => counter($counter, max), 2000 * index);

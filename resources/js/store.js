@@ -9,6 +9,8 @@ const store = createStore({
             commentData: [],
             pagination: {},
             communityData: [],
+            mainCampingler:[],
+            mainCampingzang:[],
         }
     },
     mutations: {
@@ -23,6 +25,13 @@ const store = createStore({
             state.userInfo = userInfo;
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
+        setMainCampingler(state,data) {
+            state.mainCampingler = data;
+        },
+        setMainCampingzang(state,data) {
+            state.mainCampingler = data;
+        },
+
         //댓글 초기 삽입
         // setCommentData(state, data){ 
         //     state.commentData = data;
@@ -106,6 +115,35 @@ const store = createStore({
               console.error('Kakao callback failed:', error);
             }
           },
+
+        setMainCampingler(context) {
+            const url = '/api/rank';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setMainCampingler', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('오류오류' + error.response.data);
+            })
+        },
+        setMainCampinzang(context) {
+            const url = '/api/rank';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setMainCampingzang', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('오류오류' + error.response.data);
+            })
+        },
+
+
+
+
         /**
          * 댓글작성
          * 

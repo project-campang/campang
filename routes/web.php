@@ -4,6 +4,7 @@ use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CampController;
+use App\Http\Controllers\CampTopoController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -21,6 +22,7 @@ Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '^(?!api).*$');
 
+//앱
 // 유저 컨트롤러
 Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/register', [UserController::class, 'register']);
@@ -29,6 +31,10 @@ Route::post('/api/check-email', [UserController::class, 'checkEmail']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
+
+// main
+Route::get('/api/rank',[CampTopoController::class, 'campingler']);
+Route::get('/api/rank',[CampTopoController::class, 'campinzang']);
 
 
 // 캠프 컨트롤러
