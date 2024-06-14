@@ -63,6 +63,10 @@ const store = createStore({
         setCommunityList(state, data) {
             state.communityData = data;
         },
+        // 게시글 작성
+        setUnshiftCommunityData(state, data) {
+            state.communityData.unshift(data);
+        }
 
     },
     actions: {
@@ -278,7 +282,7 @@ const store = createStore({
             .then(response => {
                 // const data = response.data.data;
                 context.commit('setCommunityList', response.data.data);
-                console.log(response.data.data);
+                // console.log(response.data.data);
                 // console.log(setCommunityList);
             })
             .catch(error => {
@@ -294,28 +298,29 @@ const store = createStore({
          * @param {*} context
          */
         
-        // communityStore(context) {
-        //     const insertForm = document.querySelector('#insertForm');
-        //     console.log('insertForm');
-        //     console.log(insertForm);
+        communityStore(context) {
+            const url = '/api/community';
 
-            
-        //     const formData = new FormData(insertForm);
-        //     const url = '/api/community';
+            // const insertForm = document.querySelector('#insertForm');
+            // console.log('insertForm', insertForm);
 
-        //     console.log(formData);
+            const formData = new FormData(document.querySelector('#insertForm'));
+            console.log('formData', formData);
 
-        //     axios.post(url, formData)
-        //     .then(response => {
-        //         context.commit('setUnshiftCommunityData', response.data);
+            axios.post(url, formData)
+            .then(response => {
+                context.commit('setUnshiftCommunityData', response.data.data);
+                router.replace('/community');
+                // router.go('/community');
+                // location.reload('/community');
+                router.replace('/community');
 
-        //         router.go('/community');
-        //     })
-        //     .catch(error => {
-        //         console.error('게시글 작성 실패:', error.response.data);
-        //         alert('게시글 작성 실패'+error.response.data);
-        //     });
-        // },
+            })
+            .catch(error => {
+                console.error('게시글 작성 실패:', error.response.data);
+                alert('게시글 작성 실패'+error.response.data);
+            });
+        },
 
 
     },

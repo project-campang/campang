@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        // Community::factory(10)->create();
-        CommunityType::factory(1)->create();
+        Community::factory(10)->create();
+        // CommunityType::factory(1)->create();
     }
 }

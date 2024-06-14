@@ -28,7 +28,7 @@
                         <option>전체/시/군</option>
                         <option value="country">전체 시/군</option>
                     </select>
-                    <button class="search-btn btn-bg-yellow">간편 검색</button>
+                    <button class="search-btn btn-bg-yellow" type="button">간편 검색</button>
                     <button type="button" class="search-btn btn-bg-grey btn-detail">상세 검색</button>
                 </form>
             </div>
@@ -95,7 +95,7 @@
             </div>
             <div class="search-item">
                 <div class="item-img">
-                    <img class="img" src="/public/img/sample1.jpg" alt="">
+                    <img class="img" src='../../public/img/sample1.jpg' alt="">
                 </div>
                 <div class="item-info">
                     <span class="item-name">무슨무슨캠핑장</span>
@@ -119,7 +119,7 @@
             <hr>
             <div class="search-item">
                 <div class="item-img">
-                    <img class="img" src="/public/img/sample1.jpg" alt="">
+                    <img class="img" src='../../public/img/sample1.jpg' alt="">
                 </div>
                 <div class="item-info">
                     <span class="item-name">무슨무슨캠핑장</span>
@@ -143,7 +143,7 @@
             <hr>
             <div class="search-item">
                 <div class="item-img">
-                    <img class="img" src="/public/img/sample1.jpg" alt="">
+                    <img class="img" src='../../public/img/sample1.jpg' alt="">
                 </div>
                 <div class="item-info">
                     <span class="item-name">무슨무슨캠핑장</span>
@@ -214,6 +214,6 @@
 
 </script>
 
-<style>
-@import url(../css/search.css);
+<style scope src="../css/search.css">
+/* @import url(../css/search.css); */
 </style>

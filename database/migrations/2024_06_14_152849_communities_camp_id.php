@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('communities', function(Blueprint $table) {
-            $table->foreign('type')->references('type')->on('community_types');
+            $table->foreign('camp_id')->references('id')->on('camps');
         }); 
     }
 
@@ -26,7 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('communities', function(Blueprint $table) {
-            $table->dropForeign(['type']);
+            $table->dropForeign(['camp_id']);
         }); 
     }
 };
