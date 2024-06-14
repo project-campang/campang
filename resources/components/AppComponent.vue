@@ -1,6 +1,6 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary main-header">
-        <div class="container-fluid">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary my-nav-header">
+        <div class="container-fluid main-header">
             <router-link to="/" class="navbar-brand my-logo-img"></router-link>
             <button @click="toggleMenu" class="navbar-toggler" type="button" data-bs-toggle="collapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">캠핑장 모아보기 |</a>
+                        <a class="nav-link active" aria-current="page" href="#">캠핑장 모아보기</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -322,6 +322,6 @@ function goToRegistration() {
 }
 </script>
 
-<style>
-@import url(../css/main.css);
+<style scoped src="../css/main.css">
+/* @import url(../css/main.css); */
 </style>

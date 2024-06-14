@@ -80,32 +80,16 @@
                 <button type="button" class="main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
                 <button type="button" class="main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
                 <div class="main-rank-box">
-                    <div class="main-rank-cam1"  v-for="(item, key) in $store.state.mainCampingler" :key="key" v-if="isCampinglerVisible">
-                        <div>
-                            <img src="/img/logo-ko3.png" alt="">
-                            <p>이나라</p>
-                        </div>
-                        <div>
-                            <img src="/img/logo-ko3.png" alt="">
-                            <p>이나라</p>
-                        </div>
-                        <div>
-                            <img src="/img/logo-ko3.png" alt="">
-                            <p>이나라</p>
+                    <div class="main-rank-cam1" v-if="isCampinglerVisible">
+                        <div  v-for="(item, key) in $store.state.mainCampingler" :key="key">
+                            <img :src="item.profile">
+                            <p>{{ item.nick_name }}</p>
                         </div>
                     </div>
-                    <div class="main-rank-cam2" v-for="(item, key) in $store.state.mainCampingzang" v-else>
-                        <div>
-                            <img src="/img/logo-ko3.png" alt="">
-                            <p>이서린</p>
-                        </div>
-                        <div>
-                            <img src="/img/logo-ko3.png" alt="">
-                            <p>이서린</p>
-                        </div>
-                        <div>
-                            <img src="/img/logo-ko3.png" alt="">
-                            <p>이서린</p>
+                    <div class="main-rank-cam2" v-else>
+                        <div  v-for="(item, key) in $store.state.mainCampingzang">
+                            <img :src="item.main_img">
+                            <p>{{ item.name }}</p>
                         </div>
                     </div>
                 </div>
@@ -117,19 +101,19 @@
         <div class="main-right" data-section="3">
             <div class="main-right-top">
                 <div>
+                    <p>가입유저수</p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nO2Yz0pCQRSHPw1rla1a9QJlK7f1BgWFbesBglbRpl6gVZogrXuDiggifIDaqxmBT2Ch2B8CwxsDx83h3qteLceYDw7IeO45v5l7zjgjOBwOx39jGTgFysC7mPmcA1JYzDRQAL4BL8DMd3kggYXiiyHCtd3ZNonCAOK7Zt6ENTWvy6YCbACzYpvAo/JpA0tYwKmP+KSP3xxQVb5ZLKCiRJnVDiKjfEtYQEuJMiUTRFL5trCAiZ9AedJLKKdEPUrDaszYk/I9wQJSPttoVVY7KZbxEW+20UUsIR/hh8yKLbRLQo4H/Yq/te0ogQjKS2kECW9Lz1gnXvdEVnaYN7GSNKw1Ne9wOBz2MAWkgT3gTO7Gz0Ad+BKry1hRfPbkmalxiTZH5m3gCmhGOEZ0rQlcSqywY/hI77/nwOcQooPsU2KbHCNnAbgAOr8g3FPWkVwm50jYARo9ktalnA7l6GxWcR6YEZuXsS3gSHxfesRsSO6hOAhJUAOOpRljEWKbZ9ISoxaSZz+q+NWAvwnv5doYZ3TEJeaDTz6jYSVK0BsV6APYjbja/RKTHB8q93WUYK8qyBp/x7rKbfplYPSr/Gu8YfN7ltnAjFuw5ybA+FfdG2MPOhwOB735AXEPv3mzNAbBAAAAAElFTkSuQmCC">
                     <p class="count">0</p>
-                    <p>가입유저수</p>
                 </div>
                 <div>
+                    <p>도장갯수</p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABRklEQVR4nO2XTUoDQRCFP7IzJ1BcewkFfyDn0JxFguJC4jF0EX/OY9zpSgXJ0sWUDGQRim6nh55MtaY+qF09eG+6qpsBx3Gcv84OcAO8AN+ANFTdMwemwLa1+QPgI8F0rN6Bfcsvn2N+NYTJSUw7MC/LurYIMFcmLoGtBN0QuFLaZwzQC1sbS2UYWOze0WPQtz6bShkYtNAOlLbCgDdlYtRCO1LaVwx4VCYWwDhBN172rmrvMeA4MEZ1TX7RXAT6K+AQIyYRQ0eB3pNI4HOMOQuMxEOg7ykwcqcUQspS5iz92km5FnOu3V5oepjMH64mPIA1fgLW+Al0yR4wC7ywFrUA7oDdNuY/CzAugZ//pBCzAsxKpG5TApQwNhKpr5QAWmSNtPXjATpGNv4EpIDllZwdKK0asTYoGx9AU/wX//cBHMdxWBs/iVR1mpOpR3EAAAAASUVORK5CYII=">
                     <p class="count">0</p>
-                    <p>도장갯수</p>
                 </div>
                 <div>
+                    <p>캠핑장 수</p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADJ0lEQVR4nO2ZW4iNURTHf8Y9lyHkFrlLHsTDGEXIeEDmweWFGpdMeaAmkZTk0hgRjSRTKCOaSAh54MFtppAakonRPJBLE5P7zDBjjrbWqeP0nXP2/r5v5fb9a9WZ+dbe//U/e39rr70ORIgQIcK/jiygUD5PAfKBvgHm6wNMBFYAZcAzoEp4VLEIaAA6SQAxoE0CqAQqgL3ALmAHsBHYLn+XAieBm8BToEnGe9kcTRHtgHtCZFbC4GGaYILYBU0h+QlEp+R/m5SEfAeGawmpSiAy2yIbGCqkGmJ2aoiY7UG0XJ5dVxJSD3QOW8gND6Jr8mylkpAYsDRMEdNTkJhsNQroBnxUElIZppAraYiKxeew4qpMCkPE5Awkr4EOQK6ikLIwhFy0IJonvveVhHySDOkbE+Q9yER0VvyLFFdlbRAhZyxJWoABUjelKzuCWI1UFs4Y53jQrZdxFYqrMtOPkBOOJI/lG5ulKOS0q4iRsl1cifKUC8kWYLCLkKM+ic7J+DWKq7LFVsQQ4KtPklapWHsAH5SEvAQ62gg5GJCoROY5oLgqCzKJMCm0MSDJG6ALMNryDPJjVzMJ2RcS0TKLGi2ItQFjU4noB3y2mOSBRaV71+NGGbaVphJSYjlBkWSnTH450gmpUxLyTq4Pv8AUZO8dSpFCC99ymXuD4qqsShay1XLgZfEfZPEiNwP9gd6WW9aPVSeK6Cl9KpuBSxLGVVv4bxbfMsVVycWxnVMvaTWOYssxXYERclhqCCmPB/TKcsC2pO2YYzluteOVIOZoTfGW7SHZz+mcv8h+T8YTC6JaoL2D8JgPMwnlJ7pLT/d4ivdlt1e+lnfAhmihcv+r1is400iYIad8ndzMUnXbh1levm6L/1wlIbcIAectyUxvzDbbxSysQXZQnt8rcDKmWRJfEv+CAME3yi1xvm0p74o7FkGYA3S8BPDcIfhm6dIsllSuClOyH5ESPl1Qx8R/XQa/VinVTU+5F78BJs1OBfanOJ++yc8Qpth76/H8kfzCNZA/CFkJol4kBLsnqTKokVpvDH8B4qJKpcOSLSnddDIjRIgQ4T/ED2uQkyLQdFZFAAAAAElFTkSuQmCC">
                     <p class="count">0</p>
-                    <p>캠핑장 수</p>
                 </div>
             </div>
             <div class="main-right-middle">
@@ -221,6 +205,7 @@
                     <h1>이세상 모든 캠핑장을 정복할 때 까지</h1>
                     <p>캠핑은 이 세상의 모든 캠핑장을 담을때 까지 달리고 또 달립니다.</p>
                     <p>여러분과 함께!</p>
+                    <br>
                     <a href="#">캠핑장 구경가기</a>
                 </div>
             </div>
@@ -259,7 +244,12 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { onBeforeMount,ref } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
+
+
 // 스크롤 이벤트
 function throttle(func, limit) {
     let inThrottle;
@@ -293,29 +283,6 @@ function observeSections() {
 
 window.addEventListener('load', observeSections);
 window.addEventListener('scroll', throttle(observeSections, 200));
-
-//  캠핑러 캠핑장 버튼 
-
-let isCampinglerVisible = ref(true);
-
-function showCampingler() {
-    isCampinglerVisible.value = true;
-    const element = document.querySelector('.main-rank-box');
-
-    element.style.cssText  = 'border: 5px solid #FFAF66;';
-}
-
-function showCampingzang() {
-    isCampinglerVisible.value = false;
-    const element = document.querySelector('.main-rank-box');
-
-    element.style.cssText  = 'border: 5px solid #FFF3DD;';
-}
-
-
-
-
-      
 
 // 카운터
 const counter = ($counter, max) => {
@@ -356,13 +323,43 @@ window.onload = () => {
     setTimeout(() => counter($counter, max), 2000 * index);
   });
 };
+//  캠핑러 캠핑장 버튼 
+
+let isCampinglerVisible = ref(true);
+
+function showCampingler() {
+    isCampinglerVisible.value = true;
+    const element = document.querySelector('.main-rank-box');
+
+    element.style.cssText  = 'border: 5px solid #FFAF66;';
+}
+
+function showCampingzang() {
+    isCampinglerVisible.value = false;
+    const element = document.querySelector('.main-rank-box');
+
+    element.style.cssText  = 'border: 5px solid #FFF3DD;';
+}
+
+onBeforeMount(() => {
+  if(store.state.boardData.length < 1 ) {
+    store.dispatch('setMainCampingler');
+  }
+  if(store.state.boardData.length < 1 ) {
+    store.dispatch('setMainCampingzang');
+  }
+})
+
+
+      
+
 
 
 
 </script>
 
-<style>
-@import url('../css/main.css');
+<style scoped src="../css/main.css">
+/* @import url('../css/main.css'); */
 
 
 </style>

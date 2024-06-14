@@ -9,6 +9,8 @@ const store = createStore({
             commentData: [],
             pagination: {},
             communityData: [],
+            boardData: [],
+            rankData: [],
             mainCampingler:[],
             mainCampingzang:[],
         }
@@ -25,11 +27,17 @@ const store = createStore({
             state.userInfo = userInfo;
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
+        setBoardData(state, data) {
+            state.boardData = data;
+        },
+        setrankData(state, data) {
+            state.boardData = data;
+        },
         setMainCampingler(state,data) {
             state.mainCampingler = data;
         },
         setMainCampingzang(state,data) {
-            state.mainCampingler = data;
+            state.mainCampingzang = data;
         },
 
         //댓글 초기 삽입
@@ -116,8 +124,34 @@ const store = createStore({
             }
           },
 
-        setMainCampingler(context) {
+        getBoardData(context) {
+            const url = '/api/main';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setBoardData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`게시글 획득 실패 (${error.response.data.code})`)
+            })
+        },
+        getrankData(context) {
             const url = '/api/rank';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setrankdData', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`게시글 획득 실패 (${error.response.data.code})`)
+            })
+        },
+        setMainCampingler(context) {
+            const url = '/api/main';
 
             axios.get(url)
             .then(response => {
@@ -128,7 +162,7 @@ const store = createStore({
                 alert('오류오류' + error.response.data);
             })
         },
-        setMainCampinzang(context) {
+        setMainCampingzang(context) {
             const url = '/api/rank';
 
             axios.get(url)

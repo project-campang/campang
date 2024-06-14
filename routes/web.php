@@ -33,8 +33,8 @@ Route::post('/api/check-email', [UserController::class, 'checkEmail']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
 
 // main
-Route::get('/api/rank',[CampTopoController::class, 'campingler']);
-Route::get('/api/rank',[CampTopoController::class, 'campinzang']);
+Route::get('/api/main',[CampTopoController::class, 'campingler']);
+Route::get('/api/rank',[CampTopoController::class, 'campingzang']);
 
 
 // 캠프 컨트롤러
