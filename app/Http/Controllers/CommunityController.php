@@ -41,6 +41,7 @@ class CommunityController extends Controller
                                 ->select('communities.*', 'users.name')
                                 ->orderBy('communities.id', 'DESC')
                                 ->get();
+        log::debug('게시글 정보', $boardList);
         
         $responseData= [
             'code' => '0'
@@ -49,7 +50,7 @@ class CommunityController extends Controller
             ,'data' => $boardList
         ];
 
-        return response()->json($responseData, 200);
+        log::debug('responseData1', $responseData);
 
         $communityData = Community::select('communities.*', 'users.nick_name')
                                     ->join('users', 'users.id', '=', 'communities.user_id')
@@ -61,7 +62,7 @@ class CommunityController extends Controller
             'data' => $communityData->toArray()
         ];
         Log::debug('쿼리', $communityData->toArray());
-        Log::debug('responseData', $responseData);
+        Log::debug('responseData2', $responseData);
         Log::debug('리턴');
         
         return response()->json($responseData, 200);
@@ -90,13 +91,10 @@ class CommunityController extends Controller
             // $request->only('title', 'content', 'main_img','other_img2','other_img3','other_img4','other_img5')
             $request->all()
             ,[
+                // 'type' => ['required']
                 'title' => ['required', 'min:1', 'max:50']
                 ,'content' => ['required', 'min:1', 'max:500']
-                ,'main_img' => ['required', 'image']
-                ,'other_img2' => ['image']
-                ,'other_img3' => ['image']
-                ,'other_img4' => ['image']
-                ,'other_img5' => ['image']
+                ,'main_img' => ['image']
             ]
         );
 
@@ -112,10 +110,6 @@ class CommunityController extends Controller
         //     $mainImgPath = $request->file('main_img')->store('main_img');
         // }
         $mainImgPath = $request->file('main_img')->store('main_img');
-        $otherImg2Path = $request->file('other_img2')->store('other_img2');
-        $otherImg3Path = $request->file('other_img3')->store('other_img3');
-        $otherImg4Path = $request->file('other_img4')->store('other_img4');
-        $otherImg5Path = $request->file('other_img5')->store('other_img5');
 
         // insert 데이터 생성
         $communityModel = Community::select('communities.*', 'users.id')
@@ -124,12 +118,9 @@ class CommunityController extends Controller
                                     ->first();
 
         $communityModel->title = $request->title;
+        Log::debug('타이틀', $communityModel->title);
         $communityModel->content = $request->content;
         $communityModel->main_img = $mainImgPath;
-        $communityModel->otherImg2 = $otherImg2Path;
-        $communityModel->otherImg3 = $otherImg3Path;
-        $communityModel->otherImg4 = $otherImg4Path;
-        $communityModel->otherImg5 = $otherImg5Path;
         $communityModel->user_id = Auth::id();
         $communityModel->save();
 
