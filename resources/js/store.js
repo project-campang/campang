@@ -1,6 +1,5 @@
 import { createStore } from 'vuex';
 import router from './router';
-import axios from 'axios';
 
 const store = createStore({
     state() {
@@ -8,6 +7,7 @@ const store = createStore({
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             commentData: [],
+            pagination: {},
             communityData: [],
         }
     },
@@ -39,12 +39,10 @@ const store = createStore({
             state.pagination = data;
         },
         
-        // 게시글 삽입
-        setCommunityData(state, data){ state.communityData = data; },
-        // 작성된 게시글 맨 위로 정렬
-        setUnshiftCommunityData(state,data) {
-            state.communityData.unshift(data);
-        }
+        // 게시글 획득
+        setCommunityList(state, data) {
+            state.communityData = data;
+        },
 
     },
     actions: {
@@ -124,6 +122,7 @@ const store = createStore({
                 context.commit('setUnshiftCommentData', response.data.data); //댓글 가장 앞에 추가
 
                 router.go('/camp');
+                // location.reload();
             })
             .catch(error => {
                 
@@ -155,7 +154,7 @@ const store = createStore({
          */
         commentPageGet(context, page=1) {
             const url = ('/api/commentPage?page=' + page);
-
+            console.log(url);
             axios.get(url)
             .then(response => {
                 context.commit('setCommentList', response.data.data.data);
@@ -169,7 +168,8 @@ const store = createStore({
                     prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
                     next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
                     path: response.data.data.path, // TODO : 필요성 못느낌. 필요없으면 지우기
-                })
+                });
+                console.log(response.data);
             })
             .catch((e) => {
                     console.log(e);
@@ -196,12 +196,17 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                context.commit('setCommunityData', response.data);
+                // const data = response.data.data;
+                context.commit('setCommunityList', response.data.data);
+                console.log(response.data.data);
+                // console.log(setCommunityList);
             })
             .catch(error => {
-                alert('게시글 습득 실패' + error);
+                alert('오류오류오ㅠㄹ' + error.response.data);
             })
         },
+
+
 
         /**
          * 커뮤니티 게시글 작성
@@ -209,28 +214,28 @@ const store = createStore({
          * @param {*} context
          */
         
-        communityStore(context) {
-                const insertForm = document.querySelector('#insertForm');
-                console.log('insertForm');
-                console.log(insertForm);
+        // communityStore(context) {
+        //     const insertForm = document.querySelector('#insertForm');
+        //     console.log('insertForm');
+        //     console.log(insertForm);
 
-            
-                const formData = new FormData(insertForm);
-                const url = '/api/community';
+        
+        //     const formData = new FormData(insertForm);
+        //     const url = '/api/community';
 
-                console.log(formData);
+        //     console.log(formData);
 
-                axios.post(url, formData)
-                .then(response => {
-                    context.commit('setUnshiftCommunityData', response.data);
+        //     axios.post(url, formData)
+        //     .then(response => {
+        //         context.commit('setUnshiftCommunityData', response.data);
 
-                    router.go('/community');
-                })
-                .catch(error => {
-                    console.error('게시글 작성 실패:', error.response.data);
-                    alert('게시글 작성 실패'+error.response.data);
-                });
-        },
+        //         router.go('/community');
+        //     })
+        //     .catch(error => {
+        //         console.error('게시글 작성 실패:', error.response.data);
+        //         alert('게시글 작성 실패'+error.response.data);
+        //     });
+        // },
 
 
     },

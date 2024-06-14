@@ -1,5 +1,5 @@
 <template>
-    <main class="main-container">
+    <main class="main-container-search">
         <div class="search-container">
             <div class="search-box">
                 <form action="">
