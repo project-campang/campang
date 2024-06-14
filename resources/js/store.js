@@ -37,7 +37,7 @@ const store = createStore({
         },
         setPagination(state, data) {
             state.pagination = data;
-        }
+        },
         
         // 게시글 삽입
         setCommunityData(state, data){ state.communityData = data; },
