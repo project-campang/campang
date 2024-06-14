@@ -17,12 +17,6 @@ class CommunityType extends Model
         'name',
     ];
 
-    // guarded 블랙리스트
-    protected $guarded = [
-        'created_at',
-        'updated_at',
-        'deleted_at'
-    ];
 
         /**
      * 

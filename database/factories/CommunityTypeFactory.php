@@ -16,9 +16,13 @@ class CommunityTypeFactory extends Factory
      */
     public function definition()
     {
+        // return [
+        //     'type' => 1,
+        //     'name' => '자유게시판',
+        // ];
         return [
-            'type' => 1,
-            'name' => '자유게시판',
+            'type' => 2,
+            'name' => '리뷰게시판',
         ];
     }
 }
