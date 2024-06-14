@@ -5,6 +5,19 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'SBAggroL';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SBAggroM';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -151,7 +164,7 @@ main {
     margin: 10px;
 }
 .detail-info-card {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 .info-card-name {
     width: 250px;
@@ -210,6 +223,7 @@ main {
     border-bottom: none;
     background-color: #fff;
     border-radius: 20px 20px 0 0;
+    margin-top: 30px;
 }
 .comment-tap, .review-tap {
     border: none;
@@ -237,7 +251,7 @@ textarea {
     background-color: #fff;
     resize: none;
     border: 2px solid #fbe132;
-    border-radius:  20px 0 0 20px;
+    border-radius:  20px 0 0 0;
     padding: 10px;
 }
 .submit-btn{
@@ -248,7 +262,7 @@ textarea {
 .reset {
     background-color: #dce0e0;
     border: none;
-    border-radius: 0 0 20px 0 ;
+    /* border-radius: 0 0 20px 0 ; */
 }
 
 /* 댓글리스트 */
@@ -260,19 +274,63 @@ textarea {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: 10px;
     /* gap: 100px; */
 }
 .co-text-box {
     width: 80%;
 }
+.co-co {
+    font-family: 'SBAggroL';
+    font-size: 1.2rem;
+
+}
 .co-nick {
-    font-weight: 900;
+    font-family: 'SBAggroM';
     font-size: 1.2rem;
 }
 .co-at {
-    font-size: 0.8rem;
+    font-family: 'SBAggroL';
+    font-size: 0.7rem;
+}
+.co {
+    margin-bottom: 10px;
 }
 
+.btn-modify {
+    border: 2px solid #06AC35;
+    border-radius: 5px;
+    font-family: 'SBAggroL';
+    width: 40px;
+    height: 30px;
+    font-size: 0.9rem;
+    margin-right: 3px;
+}
+.btn-delete {
+    font-family: 'SBAggroL';
+    border: 2px solid #d82634;
+    border-radius: 5px;
+    font-size: 0.9rem;
+    width: 40px;
+    height: 30px;
+}
+
+.btn-modify:hover {
+    background-color:#06AC35 ;
+    color: #fff;
+}
+.btn-delete:hover {
+    background-color: #d82634;
+    color: #fff;
+}
+
+.page-btn {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 1.4rem;
+}
 @media screen and (max-width: 768px) {
     main {
         padding: 0;
@@ -332,7 +390,7 @@ textarea {
      .info-name { font-size: 0.8rem; }
  
      /* 댓글, 리뷰 */
-     .comment-tap, .review-tap { font-size: 0.7rem; }
+     .comment-tap, .review-tap { font-size: 0.9rem; }
  
      /* 댓글 리스트 */
      .co-nick { font-size: 1rem; }
