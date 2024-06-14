@@ -4,6 +4,14 @@
     box-sizing: border-box;
 }
 
+.my-nav-header {
+    background-color: #FFB444;
+}
+.main-header {
+    /* width: 70%;
+    margin: auto; */
+    background-color: #FFF3DD;
+}
 p {
     margin: 0;
 }
@@ -30,7 +38,7 @@ a {
   }
 .main-main {
     width: 100%;
-    background-image: url("/img/main3.webp");
+    background-image: url("/img/main.gif");
     background-size: cover;
     background-position: center;
     padding: 2rem 1rem;
@@ -51,6 +59,7 @@ a {
 }
 
 .main-logo img {
+    margin-bottom: 3rem;
     max-width: 200px;
     height: auto;
 }
@@ -68,7 +77,7 @@ a {
     }
 }
 
-@media (min-width: 768px) {
+/* @media (min-width: 768px) {
     .main-logo img {
         min-width: 500px;
     }
@@ -81,10 +90,10 @@ a {
     .main-select-box select, .main-search {
         font-size: 1.5rem;
     }
-}
+} */
 
 .main-search {
-    margin: 1rem auto;
+    margin: 3rem auto;
     background-color: #FFD649;
     max-width: 800px;
     border-radius: 30px;
@@ -222,7 +231,7 @@ a {
 .main-left-img {
     width: 200px;
     height: 200px;
-    margin: auto;
+    margin: 1.5rem auto;
 }
 
 .white-main {
@@ -247,7 +256,7 @@ a {
 .main-right-top img {
     width: 100px;
     padding: 15px;
-    margin: 5px;
+    margin: 25px;
     background-color: #fff;
     border-radius: 50%;
 }
@@ -255,17 +264,22 @@ a {
 .main-rank {
     text-align: center;
     width: 400px;
-    margin: auto;
+    margin: 1.5rem auto;
     border-radius:30px;
 
 }
 
+.main-rank-btn-left, .main-rank-btn-right:hover {
+    text-decoration:underline;
+}
 .main-rank-btn-left {
     padding: 10px;
     background-color: #FFAF66;
     border-top-left-radius: 40px;
     width: 50%;
-}
+    }
+    
+
 .main-rank-btn-right {
     padding: 10px;
     background-color: #FFF3DD;
@@ -280,13 +294,16 @@ a {
 }
 
 .main-rank-box {
-    display: grid;
-    border: 3px solid #FFAF66;
+    border: 5px solid #FFAF66;
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
-    grid-template-columns: 1fr 1fr 1fr;
     padding: 10px;
     /* align-items: center; */
+}
+
+.main-rank-cam1, .main-rank-cam2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
 }
 
 .main-rank-box p {
@@ -294,6 +311,8 @@ a {
 }
 
 .main-pang {
+    line-height: 160px;
+    margin-top: 3rem;
     width: 300px;
     height: 80px;
     color: #fff;
@@ -355,6 +374,16 @@ a {
     margin-bottom: 5px;
 }
 
+/* .main-rank-cam2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+} */
+
+.display-none {
+    display: none;
+}
+
 /* bg-white 끝 */
 
 /* 세번째시작 */
@@ -377,7 +406,11 @@ a {
     background-color: rgb(0, 0, 0,0.5);
     padding-top: 5rem;
     padding-bottom: 5rem;
+    line-height: 2rem;
+    /* word-spacing:1.5rem;
+    letter-spacing:1.5rem; */
 }
+
 
 /* 세번째끝 */
 /* 네번째시작 */
