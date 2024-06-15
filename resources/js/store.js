@@ -14,6 +14,7 @@ const store = createStore({
             rankData: [],
             mainCampingler:[],
             mainCampingzang:[],
+            mainCommunity:[],
         }
     },
     mutations: {
@@ -39,6 +40,9 @@ const store = createStore({
         },
         setMainCampingzang(state,data) {
             state.mainCampingzang = data;
+        },
+        setMainCommunity(state,data) {
+            state.mainCommunity = data;
         },
 
         //댓글 초기 삽입
@@ -175,6 +179,18 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('setMainCampingzang', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('오류오류' + error.response.data);
+            })
+        },
+        setMainCommunity(context) {
+            const url = '/api/main/community';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setMainCommunity', response.data.data);
                 console.log(response.data.data);
             })
             .catch(error => {

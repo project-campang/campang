@@ -140,13 +140,30 @@
             </p>
         </div>
    </div>
+   <button @click="backToTop" ref="btnBackToTop" id="btn-back-to-top" title="위로 가기">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="50"
+            height="50"
+            fill="currentColor"
+            class="bi bi-caret-up-square-fill"
+            viewBox="0 0 16 16"
+        >
+            <path
+                d="M0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm4 9h8a.5.5 0 0 0 .374-.832l-4-4.5a.5.5 0 0 0-.748 0l-4 4.5A.5.5 0 0 0 4 11"
+            />
+        </svg>
+    </button>
 </template>
 
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
+import { useBackToTop } from "../js/scrolltop.js";
 
+
+const { btnBackToTop, backToTop } = useBackToTop();
 // 상태 정의
 const loginForm = ref({
     email: '',

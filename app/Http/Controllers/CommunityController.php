@@ -172,4 +172,31 @@ class CommunityController extends Controller
         
     //     return response()->json($responseData, 200);
     // }
+
+
+
+
+    // 서린 메인 커뮤글
+    public function mainCommunity(Request $request) {
+        $RankData = Community::select('communities.title', 'users.name')
+                        ->join('users', 'users.id', '=', 'communities.user_id')
+                        ->where('communities.type', '<>', 2) // type이 2인 것 제외
+                        ->orderBy('communities.views', 'DESC') // views 기준 내림차순 정렬
+                        ->take(5) // 최대 5개의 결과만 가져옴
+                        ->get();
+    
+        Log::debug($RankData);
+    
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득 완료',
+            'data' => $RankData->toArray()
+        ];
+    
+        return response()->json($responseData, 200);
+    }
+    
+    
 }
+    
+

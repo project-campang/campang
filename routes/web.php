@@ -35,6 +35,7 @@ Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
 // main
 Route::get('/api/main',[CampTopoController::class, 'campingler']);
 Route::get('/api/rank',[CampTopoController::class, 'campingzang']);
+Route::get('/api/main/community',[CommunityController::class, 'mainCommunity']);
 
 
 // 캠프 컨트롤러
