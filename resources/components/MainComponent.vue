@@ -122,7 +122,7 @@
                     <div class="align-items-center justify-content-center">
                         <h2>캠팡 인기글</h2>
                         <hr>
-                        <p v-for="(item, index) in $store.state.mainCommunity" :key="index">{{ index + 1 }}위. {{ item.title }} {{ item.name }}</p>
+                        <p v-for="(item, index) in $store.state.mainCommunity" :key="index"><자유게시판>{{ index + 1 }}위. {{ item.title }} {{ item.name }}</p>
                     </div>
                 </div>
             </div>
@@ -145,11 +145,12 @@
         <div class="third-main">
             <div class="third-main-fff">
                 <div class="third-main-p">
-                    <h1>이세상 모든 캠핑장을 정복할 때 까지</h1>
-                    <p>캠핑은 이 세상의 모든 캠핑장을 담을때 까지 달리고 또 달립니다.</p>
+                    <h1>이세상 모든 캠핑장을 정복할 때까지,</h1>
+                    <p>캠팡은 이 세상의 모든 캠핑장을 담을 때까지 달리고 또 달립니다.</p>
                     <p>여러분과 함께!</p>
-                    <br>
-                    <a href="#">캠핑장 구경가기</a>
+                    <p>어디에 있든, 어느 순간이든, 최고의 캠핑 경험을 위해!</p>
+                    <p>지금 바로 여러분만의 캠핑 여정을 시작하세요. 도전은 이미 시작되었습니다.</p>
+                    <a href="#" class="btn">캠핑장 구경가기<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACQklEQVR4nO2ZTWsTQRiAHyKFXvRSepNoFRoq2Jt4US8aUHos0pIfUL1YU7XgSX+EJ0/+BU0EvyqttPQjoR57rEpjoOKlUbSt6MrAuzAs3e1osrvvhjwwbPadD96ns7M7dKBHd5EDSkAVaAJ7cq0Ak1KvnlPAe8CLKOvAEMolvkiym8AUcBzok+sN4IPUb2uVyVkz8Qo4GtLOxF9Lu7rGx6xkzUSYhM8x4KO0n0AZVUnMPE4+J4GXwFfgBZC36m5K+2cooymJmbXg8y6wyM0j5ZOX2GeUsSuJ9Vux/YDID6uuX2Kmnyo+SWIFK3bQq9dnRO7NWlFFRRK75SgyLfdPUcZ1SazhKNKQ+3GUkQMWA8lGiZjfy8ARFHL6H2ZkS3YCahlyFFG5PQkjSiRTeD2RDM3ICeAt0ALmAvuwTIm8CcTN1t9++80D34BV4CyKRfYCcXPvsxCoWyNlDvsg2uV3xGbzl1VXkA/vd2AFOKNNZN+x33wgvqRNZNexXyuiX6IiF4CLB8T/AOdD6jxrzJ9pfJu8DpaOi1wDavJqNNerCYlcAs7JzLUtUgwZ6H4CIp7DbDlTjxisnCWR1iEDlrMiUnMYtJwFkSshayRszagVQf7inqOMahHDnQSTjFXEMNMtIppmhm6R6Rh3u0XEcC8liR1iYDYFkY04RNKQeUKMPEhQZIyYeZiARD2pU+FZx73Z/5QWMEqCFOXAs9MSRVJgAHhkHZi2U5aAYVJmELgNPJeDHhcx848484p9DFxOW6AHbfIX2QllrDABzUoAAAAASUVORK5CYII="></a>
                 </div>
             </div>
         </div>
@@ -158,8 +159,9 @@
     <div class="bg-white">
         <div class="last-main">
             <div class="last-left">
-                <h2>추천캠핑장</h2>
+                <h2>캠팡 추천캠핑장</h2>
                 <img src="/img/puz.png" alt="" loading="lazy">
+                <p>퍼즈 글램핑</p>
             </div>
             <div class="last-right">
                 <h2>캠팡 추천 브랜드</h2>

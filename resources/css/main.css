@@ -423,11 +423,20 @@ a {
     color: #fff;
 }
 
+.third-main-p h1 {
+    font-size: 3rem;
+    color: #000;
+}
+
+.third-main-p a {
+    font-size: 1.5rem;
+    color: #FBE132;
+}
 .third-main-fff {
     background-color: rgb(0, 0, 0,0.5);
     padding-top: 5rem;
     padding-bottom: 5rem;
-    line-height: 2rem;
+    line-height: 3rem;
     /* word-spacing:1.5rem;
     letter-spacing:1.5rem; */
 }
@@ -526,3 +535,27 @@ a {
 }
 
 
+/* 예약 */
+.reserve-top {
+    width: 450px;
+    border: 3px solid #d6d5d5;
+    margin: auto;
+    border-radius: 15px;
+}
+
+.reserve-middle {
+    background-color: #d6d5d5;
+    text-align: center;
+    width: 500px;
+    margin: auto;
+    /* display: flex;
+    flex-wrap: wrap; */
+}
+.reserve-top img {
+    width: 300px;
+}
+
+.reserve-form {
+    width: 600px;
+    margin: 3rem auto;
+}
