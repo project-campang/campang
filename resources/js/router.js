@@ -9,6 +9,7 @@ import CommunityComponent from '../components/CommunityComponent.vue';
 import CampComponent from '../components/CampComponent.vue';
 import SearchComponent from '../components/SearchComponent.vue';
 import KakaoCallback from '../components/KakaoCallback.vue';
+import ReservationComponent from '../components/ReservationComponent.vue';
 
 const routes = [
     {
@@ -35,17 +36,22 @@ const routes = [
         path: "/oauth/kakao",
         component:KakaoCallback,
     },
+    {
+        path: "/camp/reserve",
+        component:ReservationComponent,
+        beforeEnter: chkAuth,
+    },
     
 ];
 
-// function chkAuth(to, from, next) {
-//     if(store.state.authFlg) {
-//         next();
-//     } else {
-//         alert('로그인이 필요한 서비스입니다.');
-//         next('/login');
-//     }
-// }
+function chkAuth(to, from, next) {
+    if(store.state.authFlg) {
+        next();
+    } else {
+        alert('로그인이 필요한 서비스입니다.');
+        next('/login');
+    }
+}
 
 const router = createRouter({
     history: createWebHistory(),
