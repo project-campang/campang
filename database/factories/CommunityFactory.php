@@ -22,7 +22,7 @@ class CommunityFactory extends Factory
             'type' => 1,
             'title' => $this->faker->realText(rand(10,50)),
             'content' => $this->faker->realText(rand(10,500)),
-            'main_img' => '/public/img/sample1.jpg',
+            'main_img' => '/img/sample1.jpg',
             'views' => rand(1,300),
         ];
         // return [
@@ -30,7 +30,7 @@ class CommunityFactory extends Factory
         //     'type' => 2,
         //     'title' => $this->faker->realText(rand(10,50)),
         //     'content' => $this->faker->realText(rand(10,500)),
-        //     'main_img' => '../../public/img/sample1.jpg',
+        //     'main_img' => '/img/sample1.jpg',
         //     'views' => rand(1,300),
         // ];
 

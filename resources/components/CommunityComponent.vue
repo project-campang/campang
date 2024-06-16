@@ -77,14 +77,14 @@
             <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
             </div>
             <div class="modal-body">
-                <input class="" type="file" name="main_img" accept="image/*" multiple>
+                <input @change="setFile" class="" type="file" name="main_img" accept="image/*" multiple>
             <div class="img-box">
-                <img src="" alt="">
+                <img :src="preview" alt="">
             </div>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-            <button @click="$store.dispatch('communityStore')"  type="button" class="btn btn-primary">작성</button>
+            <button @click="communityEvent()"  type="button" class="btn btn-primary">작성</button>
           </div>
       </form>
     </div>
@@ -100,10 +100,11 @@
             </div>
             <form action="">
                 <div class="modal-body detail-data">
-                        <div class="detail-modal-title">{{ communityItem.title }}</div>
-                        <div class="detail-modal-content">{{ communityItem.content }}</div>
+                        <div class="detail-modal-title" id="detail-modal-title">{{ communityItem.title }}</div>
+                        <div class="detail-modal-content" id="detail-modal-content">{{ communityItem.content }}</div>
                     <div class="img-box">
                         <img :src="communityItem.main_img" alt="">
+                        <!-- <img src="/img/sample1.jpg" alt="">s -->
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -134,11 +135,13 @@ const modalFlg = ref(false);
 let insertModal;
 let detailModal;
 let communityItem = reactive({});
+const preview = ref('');
 
 const communityData = reactive({
     content: '',
     img: null,
 });
+
 
 onBeforeMount(() => {
     // console.log('보드 비포 마운트');
@@ -186,13 +189,38 @@ onMounted(async () => {
             communityItem.title = data.title;
             communityItem.content = data.content;
             communityItem.main_img = data.main_img;
-            // console.log(communityItem);
-            console.log(communityItem.title);
-            console.log(communityItem.content);
-            console.log(communityItem.main_img);
+            communityItem.views = data.views;
+            // // views 값  1 증가
+            // if (communityItem.views !== undefined) {
+            //     communityItem.views = data.views + 1;
+            // } else {
+            //     // views가 없으면 1로 초기화
+            //     communityItem.views = 0;
+            // }
+
+            // console.log(communityItem.title);
+            // console.log(communityItem.content);
+            // console.log(communityItem.main_img);
+            console.log('조회수 = ', communityItem.views);
             
         }        
     }
+
+// 게시글 작성 처리, 모달 닫기, 새로 고침
+function communityEvent(){
+    store.dispatch('communityInsert');
+    modalFlg.value = false;
+    window.location.reload();
+}
+
+// 첨부 이미지 셋팅
+function setFile(e) {
+    // 저장
+    communityItem.main_img = e.target.files[0];
+    // console.log(communityItem.main_img);
+    // 화면 표시
+    preview.value = URL.createObjectURL(communityItem.main_img);
+}
 
 </script>
 

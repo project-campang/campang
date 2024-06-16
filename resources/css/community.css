@@ -246,7 +246,7 @@ input::placeholder, textarea::placeholder {
   }
 
   .img-box > img {
-    margin: auto;
+    margin: 0 auto 20px auto;
     width: 100%;
 
   }

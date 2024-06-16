@@ -45,6 +45,7 @@ const store = createStore({
             state.mainCommunity = data;
         },
 
+
         //댓글 초기 삽입
         // setCommentData(state, data){ 
         //     state.commentData = data;
@@ -63,6 +64,8 @@ const store = createStore({
         // setCurruntPage(state,data){
         //     state.curruntPage = data;
         // },
+
+
         // 게시글 획득
         setCommunityList(state, data) {
             state.communityData = data;
@@ -70,7 +73,14 @@ const store = createStore({
         // 게시글 작성
         setUnshiftCommunityData(state, data) {
             state.communityData.unshift(data);
-        }
+        },
+        // 조회수 증가
+        setCommunityViews(state, communityId) {
+            const communityItem = state.communityData.find(item => item.id === communityId);
+            if (communityItem) {
+                communityItem.views++;
+            }
+        },
 
     },
     actions: {
@@ -302,7 +312,7 @@ const store = createStore({
                 // console.log(setCommunityList);
             })
             .catch(error => {
-                alert('오류오류오ㅠㄹ' + error.response.data);
+                alert('오류오류' + error.response.data);
             })
         },
 
@@ -314,7 +324,7 @@ const store = createStore({
          * @param {*} context
          */
         
-        communityStore(context) {
+        communityInsert(context) {
             const url = '/api/community';
 
             // const insertForm = document.querySelector('#insertForm');
@@ -326,10 +336,10 @@ const store = createStore({
             axios.post(url, formData)
             .then(response => {
                 context.commit('setUnshiftCommunityData', response.data.data);
-                router.replace('/community');
+                // router.replace('/community');
                 // router.go('/community');
                 // location.reload('/community');
-                router.replace('/community');
+                console.error('게시글 작성 완료');
 
             })
             .catch(error => {
@@ -337,6 +347,49 @@ const store = createStore({
                 alert('게시글 작성 실패'+error.response.data);
             });
         },
+
+        /**
+         * 조회수 증가
+         * 
+         * @param {*} context 
+         * @param {*} communityId 
+         */
+        async communityViews(context, communityId) {
+            try {
+                const response = await axios.post('/api/community', {id: communityId});
+
+                commit('setCommunityViews', communityId)
+            }
+            catch {
+                console.log('조회수 증가 실패 : ', error);
+            } 
+        },
+
+        /**
+         * 게시글 수정 처리
+         * @param {*} context 
+         */
+        communityUpdate(context) {
+            const url = '/api/community';
+            const updateTitle = document.querySelector('#detail-modal-title');
+            const updateContent = document.querySelector('#detail-modal-content');
+
+        },
+
+        /**
+        * 게시글 삭제
+        * @param {*} context
+        */
+    // "delete": function _delete(context, boardId) {
+    //     var url = '/api/board/' + boardId;
+    //     axios["delete"](url).then(function (response) {
+    //       console.log(response.data, '삭제 완료');
+    //       // context.commit('closeModal');
+    //       _router__WEBPACK_IMPORTED_MODULE_0__["default"].replace('/board');
+    //     })["catch"](function (error) {
+    //       console.log(error.response.data, '삭제 실패');
+    //     });
+    //   }
 
 
     },
