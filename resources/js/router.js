@@ -49,7 +49,7 @@ function chkAuth(to, from, next) {
         next();
     } else {
         alert('로그인이 필요한 서비스입니다.');
-        next('/login');
+        next('/main');
     }
 }
 

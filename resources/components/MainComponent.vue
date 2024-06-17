@@ -158,29 +158,19 @@
     <!-- 네번째 -->
     <div class="bg-white">
         <div class="last-main">
-            <div class="last-left">
-                <h2>캠팡 추천캠핑장</h2>
-                <img src="/img/puz.png" alt="" loading="lazy">
-                <p>퍼즈 글램핑</p>
+            <div v-if="$store.state.suggestCam">
+                <h2>캠팡 추천 캠핑장</h2>
+                <img :src="$store.state.suggestCam.main_img" loading="lazy" alt="추천 캠핑장 이미지">
+                <p>{{ $store.state.suggestCam.name }}</p>
             </div>
+
+
             <div class="last-right">
                 <h2>캠팡 추천 브랜드</h2>
                 <div class="last-right-box">
-                    <div>
-                        <img src="/img/calmen.png" alt="" loading="lazy">
-                        <p>콜맨</p>
-                    </div>
-                    <div>
-                        <img src="/img/calmen.png" alt="" loading="lazy">
-                        <p>콜맨</p>
-                    </div>
-                    <div>
-                        <img src="/img/calmen.png" alt="" loading="lazy">
-                        <p>콜맨</p>
-                    </div>
-                    <div>
-                        <img src="/img/calmen.png" alt="" loading="lazy">
-                        <p>콜맨</p>
+                    <div v-for="(item, key) in $store.state.suggestbrand" :key="key">
+                        <img :src="item.img">
+                        <p>{{ item.name }}</p>
                     </div>
                 </div>
             </div>
@@ -297,6 +287,12 @@ onBeforeMount(() => {
   }
   if(store.state.mainCommunity.length < 1 ) {
     store.dispatch('setMainCommunity');
+  }
+  if(store.state.suggestCam.length < 1 ) {
+    store.dispatch('setSuggestCam');
+  }
+  if(store.state.suggestbrand.length < 1 ) {
+    store.dispatch('setSuggestBrand');
   }
 })
 

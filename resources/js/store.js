@@ -15,6 +15,8 @@ const store = createStore({
             mainCampingler:[],
             mainCampingzang:[],
             mainCommunity:[],
+            suggestCam:[],
+            suggestbrand:[],
         }
     },
     mutations: {
@@ -43,6 +45,12 @@ const store = createStore({
         },
         setMainCommunity(state,data) {
             state.mainCommunity = data;
+        },
+        setSuggestCam(state,data) {
+            state.suggestCam = data;
+        },
+        setSuggestBrand(state,data) {
+            state.suggestbrand = data;
         },
 
 
@@ -205,6 +213,34 @@ const store = createStore({
             })
             .catch(error => {
                 alert('오류오류' + error.response.data);
+            })
+        },
+        setSuggestCam(context) {
+            const url = '/api/main/suggest/campingzang';
+
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setSuggestCam', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('오류오류' + error.response.data);
+                console.log(response.data.data);
+            })
+        },
+        setSuggestBrand(context) {
+            const url = '/api/main/suggest/brand';
+
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setSuggestBrand', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('오류오류' + error.response.data);
+                console.log(response.data.data);
             })
         },
 
