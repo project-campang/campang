@@ -29,64 +29,48 @@
                         <option value="country">전체 시/군</option>
                     </select>
                     <button class="search-btn btn-bg-yellow" type="button">간편 검색</button>
-                    <button type="button" class="search-btn btn-bg-grey btn-detail">상세 검색</button>
                 </form>
             </div>
-            <div id="accordion-container" class="accordion-container">
+            <div>
                 <form action="">
-                    <div class="acc-category">
-                        <label for="region">지역별</label><br>
-                        <input type="checkbox" name="seoul" id="region1">서울시
-                        <input type="checkbox" name="busan" id="region2">부산시
-                        <input type="checkbox" name="daegu" id="region3">대구시
-                        <input type="checkbox" name="incheon" id="region4">인천시
-                        <input type="checkbox" name="gwangju" id="region5">광주시
-                        <input type="checkbox" name="daejeon" id="region6">대전시
-                        <input type="checkbox" name="ulsan" id="region7">울산시
-                        <input type="checkbox" name="sejong" id="region8">세종시
-                        <input type="checkbox" name="gyeonggi" id="region9">경기도
-                        <input type="checkbox" name="gangwon" id="region10">강원도
-                        <input type="checkbox" name="chungcheong-b" id="region11">충청북도
-                        <input type="checkbox" name="chungcheong-n" id="region12">충청남도
-                        <input type="checkbox" name="jeolla-b" id="region13">전라북도
-                        <input type="checkbox" name="jeolla-n" id="region14">전라남도
-                        <input type="checkbox" name="gyeongsang-b" id="region15">경상북도
-                        <input type="checkbox" name="gyeongsang-n" id="region16">경상남도
-                        <input type="checkbox" name="jeju" id="region17">제주도
-                    </div>
-                    <div class="acc-category">
-                        <label for="topo">지형/환경</label><br>
-                        <input type="checkbox" name="revierside" id="topo1">강변
-                        <input type="checkbox" name="valley" id="topo2">계곡
-                        <input type="checkbox" name="city" id="topo3">도심
-                        <input type="checkbox" name="ocean" id="topo4">바다
-                        <input type="checkbox" name="mountain" id="topo5">산
-                        <input type="checkbox" name="island" id="topo6">섬
-                    </div>
-                    <div class="acc-category">
-                        <label for="amenities">편의 시설</label><br>
-                        <input type="checkbox" name="wash" id="amenities1">개수대
-                        <input type="checkbox" name="store" id="amenities2">편의점
-                        <input type="checkbox" name="barbecue" id="amenities3">바비큐
-                        <input type="checkbox" name="shower-booth" id="amenities4">샤워시설
-                        <input type="checkbox" name="heated-water" id="amenities5">온수
-                        <input type="checkbox" name="wi-fi" id="amenities6">와이파이
-                        <input type="checkbox" name="long-stay" id="amenities7">장기숙박
-                        <input type="checkbox" name="electricity" id="amenities8">전기
-                        <input type="checkbox" name="rental" id="amenities9">캠핑용품 대여
-                        <input type="checkbox" name="restroom" id="amenities10">화장실
-                    </div>
-                    <div class="acc-category">
-                        <label for="amusement">즐길거리</label><br>
-                        <input type="checkbox" name="sea-fishing" id="amusement1">바다낚시
-                        <input type="checkbox" name="river-fishing" id="amusement2">민물낚시
-                        <input type="checkbox" name="pool" id="amusement3">수영장
-                        <input type="checkbox" name="karaoke" id="amusement4">노래방
-                        <input type="checkbox" name="leisure" id="amusement5">수상레저
-                        <input type="checkbox" name="playground" id="amusement6">체육시설(놀이터)
-                    </div>
-                    <button class="search-btn btn-bg-grey">초기화</button>
-                    <button class="search-btn btn-bg-yellow">검색</button>
+                    <div class="accordion" id="accordionPanelsStayOpenExample">
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+      <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+        상세 검색
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse show" aria-labelledby="panelsStayOpen-headingOne">
+      <div class="accordion-body">
+        <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false" aria-controls="panelsStayOpen-collapseTwo">
+        Accordion Item #2
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingTwo">
+      <div class="accordion-body">
+        <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div>
+  <div class="accordion-item">
+    <h2 class="accordion-header" id="panelsStayOpen-headingThree">
+      <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseThree" aria-expanded="false" aria-controls="panelsStayOpen-collapseThree">
+        Accordion Item #3
+      </button>
+    </h2>
+    <div id="panelsStayOpen-collapseThree" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingThree">
+      <div class="accordion-body">
+        <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
+      </div>
+    </div>
+  </div>
+</div>
                 </form>
             </div>
             <div class="result">
@@ -182,7 +166,6 @@
             </div>
         </div>
     </main>
-    
 </template>
 
 <script setup>
