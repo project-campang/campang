@@ -231,18 +231,27 @@ const store = createStore({
         },
         setSuggestBrand(context) {
             const url = '/api/main/suggest/brand';
-
-
+        
             axios.get(url)
             .then(response => {
                 context.commit('setSuggestBrand', response.data.data);
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
-                console.log(response.data.data);
-            })
+                // error.response를 사용하여 서버의 응답 데이터에 접근
+                if (error.response) {
+                    alert('오류: ' + error.response.data);
+                    console.error('서버 응답:', error.response.data);
+                } else if (error.request) {
+                    alert('서버 응답이 없습니다. 네트워크 문제일 수 있습니다.');
+                    console.error('요청:', error.request);
+                } else {
+                    alert('요청 오류: ' + error.message);
+                    console.error('오류 메시지:', error.message);
+                }
+            });
         },
+        
 
 
 

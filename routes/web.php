@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampTopoController;
+use App\Http\Controllers\BrandController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,7 +39,7 @@ Route::get('/api/main',[CampTopoController::class, 'campingler']);
 Route::get('/api/rank',[CampTopoController::class, 'campingzang']);
 Route::get('/api/main/community',[CommunityController::class, 'mainCommunity']);
 Route::get('/api/main/suggest/campingzang',[CampController::class, 'suggestCampingzang']);
-Route::get('/api/main/suggest/brand',[CampController::class, 'suggestCampingzang']);
+Route::get('/api/main/suggest/brand',[BrandController::class, 'suggestBrand']);
 
 
 // 캠프 컨트롤러
