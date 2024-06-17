@@ -303,22 +303,22 @@ class CommunityController extends Controller
 
 
     // 상세페이지 리뷰 목록 가져오기
-    public function detailReviewGet() {
-        $data = Community::select('communities.*', 'users.nick_name')
-                            ->join('users', 'users.id', '=', 'communities.user_id')
-                            ->orderBy('communities.id', 'DESC')
-                            ->get();
-        $responseData = [
-            'code' => '0',
-            'msg' => '게시글 획득 완료',
-            'data' => $communityData->toArray()
-        ];
-        Log::debug('쿼리', $communityData->toArray());
-        Log::debug('responseData', $responseData);
-        Log::debug('리턴');
+    // public function detailReviewGet() {
+    //     $data = Community::select('communities.*', 'users.nick_name')
+    //                         ->join('users', 'users.id', '=', 'communities.user_id')
+    //                         ->orderBy('communities.id', 'DESC')
+    //                         ->get();
+    //     $responseData = [
+    //         'code' => '0',
+    //         'msg' => '게시글 획득 완료',
+    //         'data' => $communityData->toArray()
+    //     ];
+    //     Log::debug('쿼리', $communityData->toArray());
+    //     Log::debug('responseData', $responseData);
+    //     Log::debug('리턴');
         
-        return response()->json($responseData, 200);
-    }
+    //     return response()->json($responseData, 200);
+    // }
 
 
 
@@ -332,7 +332,7 @@ class CommunityController extends Controller
                         ->take(5) // 최대 5개의 결과만 가져옴
                         ->get();
     
-        Log::debug('RankData', $RankData);
+        Log::debug('RankData', $RankData->toArray());
     
         $responseData = [
             'code' => '0',
