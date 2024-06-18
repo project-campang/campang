@@ -200,7 +200,6 @@
 
 <script setup>
 import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-// import { onMounted, ref } from 'vue';
 import { onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
@@ -268,85 +267,121 @@ const countries = ref(countryList[0].slice()); // 초기 상태로 전체 선택
 // 리사이즈 대상 선택
 onMounted(() => {
 
-
-
-    
     // 이하 퓨어js라서 코드 다시 쓸것
-    const resizer = document.querySelector('#drag');
-    console.log('resizer' ,resizer);
-    const searchSide = resizer.previousElementSibling;
-    console.log('searchSide' ,searchSide);
-    const mapSide = resizer.nextElementSibling;
-    console.log('mapSide' ,searchSide);
 
-    // 마우스 위치 값 저장을 위해 선언
-    let x = 0;
-    let y = 0;
+    try {
+        const resizer = document.querySelector('#drag');
+        console.log('resizer' ,resizer);
+        const searchSide = resizer.previousElementSibling;
+        console.log('searchSide' ,searchSide);
+        const mapSide = resizer.nextElementSibling;
+        console.log('mapSide' ,searchSide);
 
-    // 크기 조절 시 왼쪽 대상이 기준
-    let searchWidth = 0;
+        // 초기화 오류 확인
+        if (!resizer || !searchSide || !mapSide) {
+        console.error('DOM 요소를 찾을 수 없습니다. 초기화 오류입니다.');
+        return;
+        }
 
-    // resizer에 마우스 이벤트 발생 시 핸들러 실행
-    const mouseDownHandler  = function(e) {
-        // 마우스 위치값을 가져와 할당
-        x = e.clientX;
-        y = e.clientY;
+        // 마우스 위치 값 저장을 위해 선언
+        let x = 0;
+        let y = 0;
 
-        // 왼쪽 대상에 뷰포트상의 width 값 가져와 할당
-        searchWidth = searchSide.getBoundingClientRect().width;
+        // 크기 조절 시 왼쪽 대상이 기준
+        let searchWidth = 0;
 
-        // 마우스 이동과 해제 이벤트를 등록
-        document.addEventListener('mousemove', mouseMoveHandler);
-        document.addEventListener('mouseup', mouseUpHandler);
+        // resizer에 마우스 이벤트 발생 시 핸들러 실행
+        const mouseDownHandler  = function(e) {
+            // 마우스 위치값을 가져와 할당
+            x = e.clientX;
+            y = e.clientY;
 
-        console.log('mousedown event');
-    };
+            // 왼쪽 대상에 뷰포트상의 width 값 가져와 할당
+            searchWidth = searchSide.getBoundingClientRect().width;
 
-    const mouseMoveHandler = function(e) {
-        // 마우스가 움직이면 기존 초기 마우스 위치에서 현재 위치값과의 차이를 계산
-        const differenceX = e.client - x;
-        // const differenceY = e.client - y;
+            // 마우스 이동과 해제 이벤트를 등록
+            document.addEventListener('mousemove', mouseMoveHandler);
+            document.addEventListener('mouseup', mouseUpHandler);
 
-        // 크기 조절 중 마우스 커서를 변경함
-        // resizer에 적용하면 위치가 변경되면서 커서가 해제되기 때문에 body에 적용
-        document.body.style.cursor = 'col-resizer';
+            // console.log('mousedown event');
+        };
 
-        // 이동 중 양쪽 영역(왼쪽, 오른쪽)에서 마우스 이벤트와 텍스트 선택을 방지하기 위해 추가
-        searchSide.style.userSelect = 'none';
-        searchSide.style.pointerEvents = 'none';
+        const mouseMoveHandler = function(e) {
+            // 마우스가 움직이면 기존 초기 마우스 위치에서 현재 위치값과의 차이를 계산
+            const differenceX = e.clientX - x;
+            // const differenceY = e.clientY - y;
 
-        mapSide.style.userSelect = 'none';
-        mapSide.style.pointerEvents = 'none';
+            // 크기 조절 중 마우스 커서를 변경함
+            // resizer에 적용하면 위치가 변경되면서 커서가 해제되기 때문에 body에 적용
+            document.body.style.cursor = 'col-resizer';
 
-        // 초기 width값과 마우스 드래그 거리를 더한 뒤 상위요소(container)의 너비를 이용해 퍼센트 구함
-        // 계산된 퍼센트는 left의 width로 적용
-        const newSearchWidth = ((searchWidth + differenceX) * 100) / resizer.parentNode.getBoundingClientRect().width;
-        searchSide.style.width = `${newSearchWidth}%`;
+            // 이동 중 양쪽 영역(왼쪽, 오른쪽)에서 마우스 이벤트와 텍스트 선택을 방지하기 위해 추가
+            searchSide.style.userSelect = 'none';
+            searchSide.style.pointerEvents = 'none';
 
-        console.log('mousemove event');
+            mapSide.style.userSelect = 'none';
+            mapSide.style.pointerEvents = 'none';
+
+            // 초기 width값과 마우스 드래그 거리를 더한 뒤 상위요소(container)의 너비를 이용해 퍼센트 구함
+            // 계산된 퍼센트는 left의 width로 적용
+            const newSearchWidth = ((searchWidth + differenceX) * 100) / resizer.parentNode.getBoundingClientRect().width;
+            searchSide.style.width = `${newSearchWidth}%`;
+
+            // console.log('mousemove event');
+        }
+
+        const mouseUpHandler = function() {
+            // 모든 커서 관련 사항은 마우스 이동이 끝나면 제거됨
+            resizer.style.removeProperty('cursor');
+            document.body.style.removeProperty('cursor');
+
+            searchSide.style.removeProperty('user-select')
+            searchSide.style.removeProperty('pointer-events')
+
+            mapSide.style.removeProperty('user-select');
+            mapSide.style.removeProperty('pointer-events');
+
+            // 등록한 마우스 이벤트를 제거
+            document.removeEventListener('mousemove', mouseMoveHandler);
+            document.removeEventListener('mouseup', mouseUpHandler);
+
+            // console.log('mouseup event');
+        };
+
+        // 마우스 down 이벤트를 등록
+        resizer.addEventListener('mousedown', mouseDownHandler);
+
+
+
+
+    } catch(error) {
+        console.log('오류 오류 발생');
     }
 
-    const mouseUpHandler = function() {
-        // 모든 커서 관련 사항은 마우스 이동이 끝나면 제거됨
-        resizer.style.removeProperty('cursor');
-        document.body.style.removeProperty('cursor');
 
-        searchSide.style.removeProperty('user-select')
-        searchSide.style.removeProperty('pointer-events')
+    // // 지도 API 초기화 전에 확인
+    // console.log('Kakao 지도 API 초기화 시작');
 
-        mapSide.style.removeProperty('user-select');
-        mapSide.style.removeProperty('pointer-events');
+    // // 지도 API 초기화
+    // const container = document.getElementById('map');
 
-        // 등록한 마우스 이벤트를 제거
-        document.removeEventListener('mousemove', mouseMoveHandler);
-        document.removeEventListener('mouseup', mouseUpHandler);
+    // const options = {
+    //     center: new kakao.maps.LatLng(coordinate.lat, coordinate.lng),
+    //     level: 3
+    // };
+    
+    // const map = new kakao.maps.Map(container, options);
 
-        console.log('mouseup event');
-    };
+    // // 지도 API 초기화 완료 및 맵 객체 확인
+    // console.log('Kakao 지도 API 초기화 완료');
+    // console.log('생성된 맵 객체:', map);
+    // }
 
-    // 마우스 down 이벤트를 등록
-    resizer.addEventListener('mousedown', mouseDownHandler);
+    
+
 });
+
+
 
 </script>
 
