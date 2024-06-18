@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampTopoController;
+use App\Http\Controllers\BrandController;
+
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -36,6 +38,8 @@ Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
 Route::get('/api/main',[CampTopoController::class, 'campingler']);
 Route::get('/api/rank',[CampTopoController::class, 'campingzang']);
 Route::get('/api/main/community',[CommunityController::class, 'mainCommunity']);
+Route::get('/api/main/suggest/campingzang',[CampController::class, 'suggestCampingzang']);
+Route::get('/api/main/suggest/brand',[BrandController::class, 'suggestBrand']);
 
 
 // 캠프 컨트롤러
@@ -43,7 +47,6 @@ Route::get('/search', [CampController::class, 'search']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment', [CommentController::class, 'comment']);
-// Route::get('/api/commentPage?page={page}', [CommentController::class, 'commentGet']);
 Route::get('/api/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
 

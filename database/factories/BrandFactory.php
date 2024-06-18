@@ -17,7 +17,8 @@ class BrandFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => '콜맨',
+            'img' => '/img/calmen.png',
         ];
     }
 }

@@ -147,6 +147,7 @@ main {
     display: flex;
     align-items: center;
     gap: 7px;
+    border: none;
 }
 .shop-info-btn {
     width: 45px;
@@ -323,13 +324,88 @@ textarea {
     background-color: #d82634;
     color: #fff;
 }
+/* 리뷰 */
+.review-container {
+    margin-top: 10px;
 
+}
+.review-card-box{
+    display: flex;
+    align-items: center;
+    height: 180px;
+    background-color: #fff;
+    padding: 10px;
+    padding-right: 30px;
+    gap: 20px;
+}
+.review-card-box > img {
+    width: 220px;
+    height: 160px;
+}
+.review-text-box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.rating-box {
+    display: flex;
+    height: 30px;
+}
+.re-first-line {
+    display: flex;
+    align-items: center;
+}
+.review-title{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    width: 300px;
+    font-size: 1.5rem;
+    margin-right: 10px;
+}
+.review-content {
+    /* word-break: break-all; */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* height: 50px; */
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    font-family: 'SBAggroL';
+    width: 70%;
+}
+.rating-item {
+    height: 100%;
+}
+.rating-item > img {
+    height: 70%;
+}
+.re-third-line {
+    display: flex;
+    justify-content: space-between;
+}
+.flex-left {
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+}
+.review-at {
+    font-family: 'SBAggroL';
+    font-size: 0.7rem;
+}
+/* 버튼 */
 .page-btn {
     text-align: center;
     display: flex;
     justify-content: center;
     gap: 20px;
     font-size: 1.4rem;
+}
+.pre-next-btn {
+    border: none;
 }
 @media screen and (max-width: 768px) {
     main {

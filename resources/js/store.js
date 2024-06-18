@@ -15,6 +15,9 @@ const store = createStore({
             mainCampingler:[],
             mainCampingzang:[],
             mainCommunity:[],
+            reviewTap: [],
+            suggestCam:[],
+            suggestBrand:[],
         }
     },
     mutations: {
@@ -44,6 +47,12 @@ const store = createStore({
         setMainCommunity(state,data) {
             state.mainCommunity = data;
         },
+        setSuggestCam(state,data) {
+            state.suggestCam = data;
+        },
+        setSuggestBrand(state,data) {
+            state.suggestbrand = data;
+        },
 
 
         //댓글 초기 삽입
@@ -54,16 +63,16 @@ const store = createStore({
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
         },
-        // 페이지네이션을 위한 댓글 리스트(TODO: 초기데이터삽입을 지우고 이거 사용할수있으면 쓰기) 
+        // 페이지네이션을 위한 댓글 리스트
         setCommentList(state, data) {
             state.commentList = data;
         },
         setPagination(state, data) {
             state.pagination = data;
         },
-        // setCurruntPage(state,data){
-        //     state.curruntPage = data;
-        // },
+        setDetailReviewTap(state, data){
+            state.reviewTap = data;
+        },
 
 
         // 게시글 획득
@@ -207,6 +216,43 @@ const store = createStore({
                 alert('오류오류' + error.response.data);
             })
         },
+        setSuggestCam(context) {
+            const url = '/api/main/suggest/campingzang';
+
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setSuggestCam', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('오류오류' + error.response.data);
+                console.log(response.data.data);
+            })
+        },
+        setSuggestBrand(context) {
+            const url = '/api/main/suggest/brand';
+        
+            axios.get(url)
+            .then(response => {
+                context.commit('setSuggestBrand', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                // error.response를 사용하여 서버의 응답 데이터에 접근
+                if (error.response) {
+                    alert('오류: ' + error.response.data);
+                    console.error('서버 응답:', error.response.data);
+                } else if (error.request) {
+                    alert('서버 응답이 없습니다. 네트워크 문제일 수 있습니다.');
+                    console.error('요청:', error.request);
+                } else {
+                    alert('요청 오류: ' + error.message);
+                    console.error('오류 메시지:', error.message);
+                }
+            });
+        },
+        
 
 
 
@@ -269,23 +315,18 @@ const store = createStore({
                     console.log(e);
                 })
         },
-        /**
-         * 댓글 출력
-         * @param {*} context 
-         */
-        // commentGet(context){
-        //     const url = '/api/comment';
+        detailReviewTap(context) {
+            const url = '/api/reviewTap';
 
-        //     axios.get(url)
-        //     .then(response => {
-        //         // console.log(response.data.data);
-        //         context.commit('setCommentData', response.data.data);
-        //     })
-        //     .catch(error => {
-        //         // console.log(error.response); // TODO
-        //         alert('댓글 습득 실패' + error);
-        //     })
-        // },
+            axios.get(url)
+            .then(response => {
+                context.commit('setDetailReviewTap', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('오류오류' + error.response.data);
+            })
+        },
 
 
 

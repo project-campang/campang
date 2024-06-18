@@ -457,7 +457,12 @@ a {
 
 }
 
+.last-left img {
+    /* width: 100px; */
+}
+
 .last-left {
+    /* width: 800px; */
     margin: auto;
     padding: 30px;
     /* width: 50%; */

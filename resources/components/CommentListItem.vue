@@ -14,11 +14,9 @@
     <hr>
   </div>
   <div class="page-btn">
-    <button type="button" :disabled="$store.state.pagination.current_page == 1" @click="prevPage()">< 이전 </button>
+    <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == 1" @click="prevPage()">< 이전 </button>
 
-    <!-- <button type="button" v-for="item in $store.state.pagination.test" @click="currentPage(item.label)">{{ item.label }}</button> -->
-
-    <button type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()"> 다음 > </button>
+    <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()"> 다음 > </button>
   </div>  
 </template>
 
