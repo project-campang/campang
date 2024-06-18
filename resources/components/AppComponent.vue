@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-lg bg-body-tertiary my-nav-header">
         <div class="container-fluid main-header">
-            <router-link to="/" class="navbar-brand my-logo-img"></router-link>
+            <router-link to="/main" class="navbar-brand my-logo-img"></router-link>
             <button @click="toggleMenu" class="navbar-toggler" type="button" data-bs-toggle="collapse" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -33,7 +33,7 @@
                     </div>
                     <div v-else>
                         <button @click.prevent="logout" class="btn btn-outline-success">로그아웃</button>
-                        <button type="button" class="btn btn-outline-success">마이페이지</button>
+                        <router-link to="/mypage" class="btn btn-outline-success">마이페이지</router-link>
                     </div>
                 </form>
             </div>

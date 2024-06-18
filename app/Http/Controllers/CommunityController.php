@@ -319,6 +319,8 @@ class CommunityController extends Controller
     }
 
 
+
+
     // 서린 메인 커뮤글
     public function mainCommunity(Request $request) {
         $RankData = Community::select('communities.title', 'users.name')
@@ -328,7 +330,7 @@ class CommunityController extends Controller
                         ->take(5) // 최대 5개의 결과만 가져옴
                         ->get();
     
-        Log::debug('RankData', $RankData->toArray());
+        // Log::debug('RankData', $RankData->toArray());
     
         $responseData = [
             'code' => '0',
