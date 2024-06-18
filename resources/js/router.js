@@ -10,6 +10,7 @@ import CampComponent from '../components/CampComponent.vue';
 import SearchComponent from '../components/SearchComponent.vue';
 import KakaoCallback from '../components/KakaoCallback.vue';
 import ReservationComponent from '../components/ReservationComponent.vue';
+import MypageComponent from '../components/MypageComponent.vue';
 
 const routes = [
     {
@@ -23,6 +24,10 @@ const routes = [
     {
         path: "/community",
         component: CommunityComponent,
+    },
+    {
+        path: "/mypage",
+        component: MypageComponent,
     },
     {
         path: "/camp",
