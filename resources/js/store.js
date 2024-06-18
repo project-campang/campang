@@ -15,12 +15,9 @@ const store = createStore({
             mainCampingler:[],
             mainCampingzang:[],
             mainCommunity:[],
-<<<<<<< HEAD
             reviewTap: [],
-=======
             suggestCam:[],
-            suggestbrand:[],
->>>>>>> 86e8ed04e5bde56297162283faeb8b7cfbce5bbf
+            suggestBrand:[],
         }
     },
     mutations: {
