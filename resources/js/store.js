@@ -368,8 +368,8 @@ const store = createStore({
         communityInsert(context) {
             const url = '/api/community';
 
-            // const insertForm = document.querySelector('#insertForm');
-            // console.log('insertForm', insertForm);
+            const insertForm = document.querySelector('#insertForm');
+            console.log('insertForm', insertForm);
 
             const formData = new FormData(document.querySelector('#insertForm'));
             console.log('formData', formData);
