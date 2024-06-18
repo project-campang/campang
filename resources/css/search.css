@@ -37,15 +37,15 @@
 }
 
 .search-container {
-    width: 500px;
-    height: 90%;
+    width: 550px;
+    height: 100%;
     padding: 0 20px 0 20px;
     border-right: solid 4px #FFD84F;
 }
 
 .search-box {
     margin: auto;
-    height: 70px;
+    height: 100px;
     display: grid;
 }
 
@@ -54,6 +54,7 @@
 }
 
 form .address {
+    margin-right: 10px;
     width: 150px;
     height: 40px;
     border-radius: 10px;
@@ -75,7 +76,7 @@ form .address {
 }
 
 .btn-bg-grey {
-    /* background-color: #D9D9D9; */
+    background-color: #D9D9D9;
 }
 
 .accordion-container {
@@ -85,8 +86,16 @@ form .address {
     /* display: none; */
 }
 
-.acc-category {
-    padding: 15px;
+label > span {
+    /* background-color: black; */
+    word-break: break-all;
+    white-space: nowrap;
+    margin-right: 20px;
+}
+
+.selected {
+    background-color: white;
+    height: 100%;
 }
 
 .result {
@@ -103,9 +112,9 @@ hr {
 
 .search-item {
     padding: 10px;
+    height: 150px;
     display: grid;
     grid-template-columns: 1fr 2fr 1fr;
-    height: 100px;
 }
 
 .search-item:hover {

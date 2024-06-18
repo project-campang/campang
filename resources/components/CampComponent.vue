@@ -178,6 +178,3 @@ import CommentListItem from './CommentListItem.vue';
 // }
 </script>
 
-<style scoped src="../css/camp.css">
-    /* @import url(../css/camp.css); */
-</style>
