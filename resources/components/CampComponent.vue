@@ -132,14 +132,53 @@
                     </div>
                     <hr>
                     <div class="comment-review-tap">
-                        <button type="button" class="comment-tap" >댓글</button>
-                        <button type="button" class="review-tap">리뷰</button>
+                        <button type="button" class="comment-tap" @click="showCommentTap">댓글</button>
+                        <button type="button" class="review-tap" @click="showReviewTap">리뷰</button>
                     </div>
-                    <div class="comment_store">
-                        <CommentCreate />
-                    </div>
-                    <div class="comment-list">
-                        <CommentListItem />
+                    <div class="tapUI-container">
+                        <div class="comment-container" v-if="detailTapUI">
+                            <div class="comment_store">
+                                <CommentCreate />
+                            </div>
+                            <div class="comment-list">
+                                <CommentListItem />
+                            </div>
+                        </div>
+                        <div class="review-container" v-else>
+                            <div class="commentItem">
+                                <div class="review-card-box">
+                                    <img src="../../public/images/캠핑장1.png" alt="">
+                                    <div class="review-text-box">
+                                        <div class="re-first-line">
+                                            <div class="review-title">이 캠핑장은 너무 좋아요 대박 킹왕짱 쩐다쩔어</div>
+                                            <div class="rating-box">
+                                                <div class="rating-item" v-for="i in 5" :key="i" >
+                                                    <img src="../../public/img_nr/별점_활성화.png" alt="">
+                                                </div>
+                                            </div>
+                                            <div class="rating-cnt">(5.0)</div>
+                                        </div>
+                                        <div class="re-second-line">
+                                            <p class="review-content">
+                                                끓는 방황하여도, 그들의 밥을 힘차게 원대하고, 가치를 같이, 것이다. 전인 방황하였으며, 열락의 생생하며, 하여도 사막이다. 사랑의 풍부하게 천고에 어디 만물은 피는 그러므로 소금이라 있다.
+                                            </p>
+                                        </div>
+                                        <div class="re-third-line">
+                                            <div class="flex-left">
+                                                <div class="review-nick">닉네임</div>
+                                                <div class="review-at">2024.06.11 00:00:00</div>
+                                            </div>
+                                            <div class="review-arrow">보러가기 →</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr>
+                            </div>
+                            <div class="page-btn">
+                                <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == 1" @click="prevPage()">< 이전 </button>
+                                <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()"> 다음 > </button>
+                            </div>  
+                        </div>
                     </div>
                 </div>
             </div>
@@ -164,18 +203,27 @@
     
     
 <script setup>
-// import { reactive, ref } from 'vue';
-import { replace } from 'lodash';
 import CommentCreate from './CommentCreate.vue';
 import CommentListItem from './CommentListItem.vue';
+import { ref } from 'vue';
 
-// const modalFlg = ref(false);
-// let boardData = reactive({});
+let detailTapUI = ref(true);
 
-// function openModal(data) {
-//     boardData = data;
-//     modalFlg.value = true;
-// }
+function showCommentTap() {
+    detailTapUI.value = true;
+    const element = document.querySelector('.comment-review-tap');
+
+    // element.style.cssText  = 'border: 5px solid #FFAF66;';
+}
+
+function showReviewTap() {
+    detailTapUI.value = false;
+    const element = document.querySelector('.comment-review-tap');
+    // const elementLeft = document.querySelector('.main-rank-btn-left');
+
+    // element.style.cssText  = 'border: 5px solid #FFF3DD;';
+    // elementLeft.style.cssText  = 'text-decoration:none;';
+}
 </script>
 
 <style scoped src="../css/camp.css">

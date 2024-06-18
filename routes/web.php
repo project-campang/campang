@@ -43,7 +43,6 @@ Route::get('/search', [CampController::class, 'search']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment', [CommentController::class, 'comment']);
-// Route::get('/api/commentPage?page={page}', [CommentController::class, 'commentGet']);
 Route::get('/api/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
 

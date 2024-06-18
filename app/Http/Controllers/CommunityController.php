@@ -306,21 +306,17 @@ class CommunityController extends Controller
     public function detailReviewGet() {
         $data = Community::select('communities.*', 'users.nick_name')
                             ->join('users', 'users.id', '=', 'communities.user_id')
-                            ->orderBy('communities.id', 'DESC')
-                            ->get();
+                            ->where('type', '=', 2)
+                            ->orderBy('communities.rating', 'DESC')
+                            ->paginate(3);
         $responseData = [
             'code' => '0',
             'msg' => '게시글 획득 완료',
-            'data' => $communityData->toArray()
+            'data' => $data->toArray()
         ];
-        Log::debug('쿼리', $communityData->toArray());
-        Log::debug('responseData', $responseData);
-        Log::debug('리턴');
         
         return response()->json($responseData, 200);
     }
-
-
 
 
     // 서린 메인 커뮤글
@@ -332,7 +328,7 @@ class CommunityController extends Controller
                         ->take(5) // 최대 5개의 결과만 가져옴
                         ->get();
     
-        Log::debug('RankData', $RankData);
+        Log::debug('RankData', $RankData->toArray());
     
         $responseData = [
             'code' => '0',

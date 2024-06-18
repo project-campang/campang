@@ -15,6 +15,7 @@ const store = createStore({
             mainCampingler:[],
             mainCampingzang:[],
             mainCommunity:[],
+            reviewTap: [],
         }
     },
     mutations: {
@@ -54,16 +55,16 @@ const store = createStore({
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
         },
-        // 페이지네이션을 위한 댓글 리스트(TODO: 초기데이터삽입을 지우고 이거 사용할수있으면 쓰기) 
+        // 페이지네이션을 위한 댓글 리스트
         setCommentList(state, data) {
             state.commentList = data;
         },
         setPagination(state, data) {
             state.pagination = data;
         },
-        // setCurruntPage(state,data){
-        //     state.curruntPage = data;
-        // },
+        setDetailReviewTap(state, data){
+            state.reviewTap = data;
+        },
 
 
         // 게시글 획득
@@ -269,23 +270,18 @@ const store = createStore({
                     console.log(e);
                 })
         },
-        /**
-         * 댓글 출력
-         * @param {*} context 
-         */
-        // commentGet(context){
-        //     const url = '/api/comment';
+        detailReviewTap(context) {
+            const url = '/api/reviewTap';
 
-        //     axios.get(url)
-        //     .then(response => {
-        //         // console.log(response.data.data);
-        //         context.commit('setCommentData', response.data.data);
-        //     })
-        //     .catch(error => {
-        //         // console.log(error.response); // TODO
-        //         alert('댓글 습득 실패' + error);
-        //     })
-        // },
+            axios.get(url)
+            .then(response => {
+                context.commit('setDetailReviewTap', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('오류오류' + error.response.data);
+            })
+        },
 
 
 
