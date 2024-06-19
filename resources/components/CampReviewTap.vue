@@ -24,7 +24,7 @@
                         <div class="review-nick">{{item.nick_name}}</div>
                         <div class="review-at">{{item.created_at}}</div>
                     </div>
-                    <button type="button"><img src="../../public/img/상세보기 화살표.png" alt=""></button>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#exampleModal" :value="item.id"><img src="../../public/img/상세보기 화살표.png" alt=""></button>
                 </div>
             </div>
         </div>
@@ -36,12 +36,34 @@
     <div class="page-num">{{ $store.state.paginationReview.current_page+'/'+$store.state.paginationReview.last_page }}</div>
     <button class="pre-next-btn" type="button" :disabled="$store.state.paginationReview.current_page == $store.state.paginationReview.last_page" @click="nextPage()"> 다음 > </button>
 </div>
+
+<!-- 모달 -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 </template>
 
 <script setup>
-import { onBeforeMount } from 'vue';
+import { onBeforeMount, reactive } from 'vue';
 import { useStore } from 'vuex';
 const store = useStore();
+
+let detailData = reactive({});
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {
@@ -56,6 +78,7 @@ function nextPage() {
  store.dispatch('detailReviewTap', store.state.paginationReview.current_page+1);
  console.log(store.state.paginationReview.current_page);
 }
+
 </script>
 
 <style>

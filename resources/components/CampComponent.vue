@@ -153,19 +153,7 @@
         </div>
     </main>
 
-<!-- 상세 모달 -->
-    <!-- <div v-if="modalFlg" class="board-detail-box">
-        <div class="item">
-            <img :src="boardData.img">
-            <hr>
-            <p>{{ boardData.content }}</p>
-            <hr>
-            <div class="etc-box">
-                <span>작성자 : {{ boardData.name }}</span>
-                <button @click="modalFlg = false" class="btn btn-close btn-bg-black" >닫기</button>
-            </div>
-        </div>
-    </div> -->
+
 
 </template>
     
@@ -197,10 +185,6 @@ function showReviewTap() {
     
     commentTap.removeAttribute('style');
     reviewTap.style.cssText  = 'background-color: #B3DC9F;';
-    // const elementLeft = document.querySelector('.main-rank-btn-left');
-
-    // element.style.cssText  = 'border: 5px solid #FFF3DD;';
-    // elementLeft.style.cssText  = 'text-decoration:none;';
 }
 
 
