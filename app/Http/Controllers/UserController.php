@@ -46,6 +46,10 @@ class UserController extends Controller
         else if(!(Hash::check($request->password, $userInfo->password))) {
             // 비밀번호 오류
             throw new MyAuthException('E21');
+            return response()->json([
+                'status' => 'error',
+                'errors' => ['email' => ['이메일 또는 비밀번호가 잘못되었습니다.']]
+            ], 422);
         }
 
         // 로그인 처리
@@ -81,6 +85,10 @@ class UserController extends Controller
         if ($validator->fails()) {
             Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors()
+            ], 422);
         }
 
         // 작성 데이터 생성

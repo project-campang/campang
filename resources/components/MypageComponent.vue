@@ -1,13 +1,27 @@
 <template>
-    <div>
-    <h1>마이페이지</h1>
+  <div class="my-page-section">
+    <div v-if="$store.state.userInfo" class="my-page-side">
         <img src="/img/rank.jfif" alt="">
-        <p>닉네임: 서린</p>
-        <p>이메일: lsl9787@naver.com</p>
-        <p></p>
-        <p></p>
+        <p>{{ $store.state.userInfo.nick_name }}</p>
+        <p>{{ $store.state.userInfo.email }}</p>
         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">내정보수정</button>
+        <div class="my-page-box">
+          <p class="mypage-stamp"  @click="showstamp">내 도장판</p>
+        <p  @click="showcontent">내가쓴글</p>
+        <p>-게시글</p>
+        <p>-리뷰</p>
+        <p>-댓글</p>
+      </div>
     </div>
+    <div v-if="isstampVisible">
+      <h1>도장판임 !</h1>
+    </div>
+    <div v-else>
+      <h1 >
+        내가쓴글임!
+      </h1>
+    </div>
+  </div>
 
 
 <!-- Modal -->
@@ -18,22 +32,22 @@
         <h1 class="modal-title fs-5" id="exampleModalLabel">내정보 수정</h1>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="modal-body">
-        <form >
+      <div class="modal-body"  v-if="$store.state.userInfo">
+        <form>
                 <div class="mb-3">
                     <label for="name" class="form-label">이름</label>
-                    <input type="text"  class="form-control" id="name" autocomplete="name">
+                    <input type="text"  class="form-control" id="name" autocomplete="name" value={{ $store.state.userInfo.name }}>
                 </div>
                 <div class="mb-3">
                     <label for="email" class="form-label">이메일</label>
-                    <input type="email"  class="form-control" id="email" autocomplete="email">
+                    <input type="email"  class="form-control" id="email" autocomplete="email" value={{ $store.state.userInfo.email }}>
                 </div>
                 <div class="mb-3">
                     <button type="button" class="btn btn-outline-secondary">이메일 중복 확인</button>
                 </div>
                 <div class="mb-3">
                     <label for="nick_name" class="form-label">닉네임</label>
-                    <input type="text"  class="form-control" id="nick_name" autocomplete="nickname">
+                    <input type="text"  class="form-control" id="nick_name" autocomplete="nickname" value={{ $store.state.userInfo.nick_name }}>
                 </div>
                 <div class="mb-3">
                     <label for="password" class="form-label">비밀번호</label>
@@ -45,7 +59,7 @@
                 </div>
                 <div class="mb-3">
                     <label for="tel" class="form-label">휴대폰 번호</label>
-                    <input type="text" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
+                    <input type="text" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num" value={{ $store.state.userInfo.tel }}/>
                 </div>
                 <!-- <div class="modal-footer">
                     <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
@@ -62,5 +76,20 @@
   </div>
 </div>
 </template>
-<script></script>
-<style></style>
+<script setup>
+import { ref } from 'vue';
+
+let isstampVisible = ref(true);
+
+function showstamp() {
+    isstampVisible.value = true;
+    const element = document.querySelector('.mypage-stamp');
+
+}
+
+function showcontent() {
+  isstampVisible.value = false;
+
+}
+</script>
+<style scoped src="../css/user.css"></style>

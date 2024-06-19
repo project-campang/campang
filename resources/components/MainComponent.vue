@@ -77,8 +77,8 @@
                 <img src="/img/logo-ko3.png" class="main-left-img" alt="" loading="lazy">
             </div>
             <div class="main-rank">
-                <button type="button" class="btn main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
-                <button type="button" class="btn main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
+                <button type="button" class="main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
+                <button type="button" class="main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
                 <div class="main-rank-box">
             <div class="main-rank-cam1" v-if="isCampinglerVisible">
                 <div v-for="(item, index) in $store.state.mainCampingler" :key="index">
@@ -122,7 +122,7 @@
                     <div class="align-items-center justify-content-center">
                         <h2>캠팡 인기글</h2>
                         <hr>
-                        <p v-for="(item, index) in $store.state.mainCommunity" :key="index"><자유게시판>{{ index + 1 }}위. {{ item.title }} {{ item.name }}</p>
+                        <p v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유게시판</span>{{ index + 1 }}위. {{ item.title }} {{ item.name }}</p>
                     </div>
                 </div>
             </div>
@@ -150,7 +150,7 @@
                     <p>여러분과 함께!</p>
                     <p>어디에 있든, 어느 순간이든, 최고의 캠핑 경험을 위해!</p>
                     <p>지금 바로 여러분만의 캠핑 여정을 시작하세요. 도전은 이미 시작되었습니다.</p>
-                    <a href="#" class="btn">캠핑장 구경가기<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACQklEQVR4nO2ZTWsTQRiAHyKFXvRSepNoFRoq2Jt4US8aUHos0pIfUL1YU7XgSX+EJ0/+BU0EvyqttPQjoR57rEpjoOKlUbSt6MrAuzAs3e1osrvvhjwwbPadD96ns7M7dKBHd5EDSkAVaAJ7cq0Ak1KvnlPAe8CLKOvAEMolvkiym8AUcBzok+sN4IPUb2uVyVkz8Qo4GtLOxF9Lu7rGx6xkzUSYhM8x4KO0n0AZVUnMPE4+J4GXwFfgBZC36m5K+2cooymJmbXg8y6wyM0j5ZOX2GeUsSuJ9Vux/YDID6uuX2Kmnyo+SWIFK3bQq9dnRO7NWlFFRRK75SgyLfdPUcZ1SazhKNKQ+3GUkQMWA8lGiZjfy8ARFHL6H2ZkS3YCahlyFFG5PQkjSiRTeD2RDM3ICeAt0ALmAvuwTIm8CcTN1t9++80D34BV4CyKRfYCcXPvsxCoWyNlDvsg2uV3xGbzl1VXkA/vd2AFOKNNZN+x33wgvqRNZNexXyuiX6IiF4CLB8T/AOdD6jxrzJ9pfJu8DpaOi1wDavJqNNerCYlcAs7JzLUtUgwZ6H4CIp7DbDlTjxisnCWR1iEDlrMiUnMYtJwFkSshayRszagVQf7inqOMahHDnQSTjFXEMNMtIppmhm6R6Rh3u0XEcC8liR1iYDYFkY04RNKQeUKMPEhQZIyYeZiARD2pU+FZx73Z/5QWMEqCFOXAs9MSRVJgAHhkHZi2U5aAYVJmELgNPJeDHhcx848484p9DFxOW6AHbfIX2QllrDABzUoAAAAASUVORK5CYII="></a>
+                    <a href="#" class="btn third-main-btn">캠핑장 구경가기<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAACQklEQVR4nO2ZTWsTQRiAHyKFXvRSepNoFRoq2Jt4US8aUHos0pIfUL1YU7XgSX+EJ0/+BU0EvyqttPQjoR57rEpjoOKlUbSt6MrAuzAs3e1osrvvhjwwbPadD96ns7M7dKBHd5EDSkAVaAJ7cq0Ak1KvnlPAe8CLKOvAEMolvkiym8AUcBzok+sN4IPUb2uVyVkz8Qo4GtLOxF9Lu7rGx6xkzUSYhM8x4KO0n0AZVUnMPE4+J4GXwFfgBZC36m5K+2cooymJmbXg8y6wyM0j5ZOX2GeUsSuJ9Vux/YDID6uuX2Kmnyo+SWIFK3bQq9dnRO7NWlFFRRK75SgyLfdPUcZ1SazhKNKQ+3GUkQMWA8lGiZjfy8ARFHL6H2ZkS3YCahlyFFG5PQkjSiRTeD2RDM3ICeAt0ALmAvuwTIm8CcTN1t9++80D34BV4CyKRfYCcXPvsxCoWyNlDvsg2uV3xGbzl1VXkA/vd2AFOKNNZN+x33wgvqRNZNexXyuiX6IiF4CLB8T/AOdD6jxrzJ9pfJu8DpaOi1wDavJqNNerCYlcAs7JzLUtUgwZ6H4CIp7DbDlTjxisnCWR1iEDlrMiUnMYtJwFkSshayRszagVQf7inqOMahHDnQSTjFXEMNMtIppmhm6R6Rh3u0XEcC8liR1iYDYFkY04RNKQeUKMPEhQZIyYeZiARD2pU+FZx73Z/5QWMEqCFOXAs9MSRVJgAHhkHZi2U5aAYVJmELgNPJeDHhcx848484p9DFxOW6AHbfIX2QllrDABzUoAAAAASUVORK5CYII="></a>
                 </div>
             </div>
         </div>
@@ -158,9 +158,9 @@
     <!-- 네번째 -->
     <div class="bg-white">
         <div class="last-main">
-            <div v-if="$store.state.suggestCam">
+            <div class="last-left" v-if="$store.state.suggestCam">
                 <h2>캠팡 추천 캠핑장</h2>
-                <img :src="$store.state.suggestCam.main_img" loading="lazy" alt="추천 캠핑장 이미지">
+                <img class="last-main-img" :src="$store.state.suggestCam.main_img" loading="lazy" alt="추천 캠핑장 이미지">
                 <p>{{ $store.state.suggestCam.name }}</p>
             </div>
 
@@ -291,9 +291,13 @@ onBeforeMount(() => {
   if(store.state.suggestCam.length < 1 ) {
     store.dispatch('setSuggestCam');
   }
-  if (store.state.suggestbrand && store.state.suggestbrand.length <= 1) {
+
+    if(store.state.suggestBrand.length < 1 ) {
     store.dispatch('setSuggestBrand');
-  }
+    }
+//   if (store.state.suggestbrand && store.state.suggestbrand.length <= 1) {
+//     store.dispatch('setSuggestBrand');
+//   }
 
 
 })
