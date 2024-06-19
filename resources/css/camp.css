@@ -1,4 +1,3 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Black+Han+Sans&display=swap'); */
 @font-face {
     font-family: 'SBAggroB';
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
@@ -22,9 +21,6 @@
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-    /* font-family: "Black Han Sans", sans-serif;
-    font-weight: 400;
-    font-style: normal; */
     src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
     font-family: 'SBAggroB';
     font-weight: normal;
@@ -40,10 +36,12 @@ main {
     background-color: #f7f7f7;
     padding: 0 120px;
 }
+p {
+    margin-bottom: 0;
+}
 
 .background-color {
     width: 100%;
-    /* background-color: rgba(0, 0, 0,0.4); */
 }
 .main-head {
     padding: 10px;
@@ -70,7 +68,6 @@ main {
     grid-template-columns: 47% 53%;
     justify-content: space-between;
     padding-top: 10px;
-    /* height: 300vh; */
 }
 
 
@@ -82,7 +79,6 @@ main {
 .detail-sticky {
     width: 80%;
     margin: 0 auto;
-    /* position: -webkit-sticky; */
     position: sticky;
     top: 10px;
 }
@@ -90,23 +86,19 @@ main {
 .camping-img {
     width:100%;
     border-radius: 40px;
-    /* padding: 200px 300px; */
 }
 .shop-name-card {
     margin-bottom: 15px;
-    /* width: 100%; */
     display: flex;
     flex-direction: column;
 }
 .shop-name {
     font-size: 3rem;
     text-align: center;
-    /* width: 100%; */
 
 }
 .shop-name-under {
     text-align: center;
-    /* width: 100%; */
 
 }
 .shop-info-card {
@@ -118,7 +110,6 @@ main {
 }
 .shop-info-text {
     display: grid;
-    /* grid-template-columns: 1fr, 3fr; */
     grid-template-rows: repeat(3, 1fr);
 }
 .shop-info-line {
@@ -156,10 +147,7 @@ main {
     border: none;
     cursor: pointer;
 }
-/* .shop-info-btn img {
-    height: 100%;
-    width: 100%;
-} */
+
 /* 메인 바디 오른쪽 */
 .detail-right {
     margin: 10px;
@@ -177,7 +165,6 @@ main {
     text-align: center;
 }
 .info-card-main {
-    /* background-color: #fff; */
     background-image: url('../../public/img_nr/워터마크_white.png');
     background-size: cover;
     border: 1px solid #000;
@@ -189,7 +176,6 @@ main {
     row-gap: 10px;
 }
 .info-icon {
-    /* border: 1px solid #000; */
     width: 80px;
     display: flex;
     flex-direction: column;
@@ -197,13 +183,8 @@ main {
     justify-content: space-between;
 }
 .info-icon img {
-    /* width: 50px; */
     height: 40px;
     margin-bottom: 10px;
-    /* background-color: #ffff; */
-    /* border-radius: px; */
-    /* padding: 10px; */
-    /* border: 1px solid #000; */
 }
 .site-info {
     display: flex;
@@ -219,8 +200,6 @@ main {
 .comment-review-tap {
     display: flex;
     width: 100%;
-    /* justify-content: space-around; */
-    /* border: 2px solid #B3DC9F; */
     border-bottom: none;
     background-color: #fff;
     border-radius: 20px 20px 0 0;
@@ -230,13 +209,8 @@ main {
     border: none;
     padding: 10px;
     width: 100%;
-}
-.comment-tap {
-    background-color: #B3DC9F;
     border-radius: 20px 20px 0 0;
 }
-/* .review-tap {
-} */
 .comment-form {
     margin-top: 10px;
     display: grid;
@@ -263,7 +237,6 @@ textarea {
 .reset {
     background-color: #dce0e0;
     border: none;
-    /* border-radius: 0 0 20px 0 ; */
 }
 
 /* 댓글리스트 */
@@ -276,7 +249,6 @@ textarea {
     justify-content: space-between;
     align-items: center;
     margin-top: 10px;
-    /* gap: 100px; */
 }
 .co-text-box {
     width: 80%;
@@ -327,7 +299,9 @@ textarea {
 /* 리뷰 */
 .review-container {
     margin-top: 10px;
-
+}
+.review-card-container > hr {
+    margin: 0.5rem 0;
 }
 .review-card-box{
     display: flex;
@@ -346,7 +320,7 @@ textarea {
     height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 .rating-box {
     display: flex;
@@ -367,10 +341,8 @@ textarea {
     margin-right: 10px;
 }
 .review-content {
-    /* word-break: break-all; */
     overflow: hidden;
     text-overflow: ellipsis;
-    /* height: 50px; */
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -380,12 +352,20 @@ textarea {
 .rating-item {
     height: 100%;
 }
-.rating-item > img {
+.rating-item img {
     height: 70%;
 }
 .re-third-line {
     display: flex;
     justify-content: space-between;
+    align-items: baseline;
+}
+.re-third-line > button {
+    border: none;
+}
+.re-third-line > button:hover {
+    transform: translateX(20px);
+    transition: all 0.6s ease-out;
 }
 .flex-left {
     display: flex;
@@ -410,7 +390,6 @@ textarea {
 @media screen and (max-width: 768px) {
     main {
         padding: 0;
-        /* max-width: 915px; */
     }
 
     .detail-sticky {
@@ -448,8 +427,6 @@ textarea {
     .btn-group {
         display: flex;
         flex-direction: column;
-        /* align-items: center; */
-        /* gap: 7px; */
     }
     .camp-img-box {
         display: grid;

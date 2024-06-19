@@ -7,8 +7,9 @@ const store = createStore({
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             commentData: [],
+            commentList: [],
             pagination: {},
-            // curruntPage: null,
+            paginationReview: {},
             communityData: [],
             boardData: [],
             rankData: [],
@@ -75,6 +76,9 @@ const store = createStore({
         },
         setDetailReviewTap(state, data){
             state.reviewTap = data;
+        },
+        setPaginationReview(state, data){
+            state.paginationReview = data;
         },
 
 
@@ -328,12 +332,17 @@ const store = createStore({
                     console.log(e);
                 })
         },
-        detailReviewTap(context) {
-            const url = '/api/reviewTap';
+        detailReviewTap(context, page=1) {
+            const url = ('/api/reviewTap?page=' + page);
+            // const url = '/api/reviewTap';
 
             axios.get(url)
             .then(response => {
-                context.commit('setDetailReviewTap', response.data.data);
+                context.commit('setDetailReviewTap', response.data.data.data);
+                context.commit('setPaginationReview', {
+                    current_page: response.data.data.current_page, // 현재페이지
+                    last_page: response.data.data.last_page, // 마지막페이지
+                });
                 console.log(response.data.data);
             })
             .catch(error => {

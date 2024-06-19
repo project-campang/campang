@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Comment;
 use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 
@@ -27,7 +28,7 @@ class CommentController extends Controller
         };
         
         $insertData = $request->only('comment');
-        $insertData['user_id'] = 1;
+        $insertData['user_id'] = Auth::id();
         $insertData['camp_id'] = 1;
 
         $commentInsert = Comment::create($insertData);
