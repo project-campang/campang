@@ -291,9 +291,11 @@ onBeforeMount(() => {
   if(store.state.suggestCam.length < 1 ) {
     store.dispatch('setSuggestCam');
   }
-  if(store.state.suggestbrand.length < 1 ) {
+  if (store.state.suggestbrand && store.state.suggestbrand.length <= 1) {
     store.dispatch('setSuggestBrand');
   }
+
+
 })
 
 
