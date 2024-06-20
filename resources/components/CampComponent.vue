@@ -1,4 +1,5 @@
 <template>
+    {{$route.params.id}}
     <main>
         <div class="background-color">
             <div class="main-head">
@@ -43,8 +44,10 @@
                                         </button>
                                     </div>
                                     <div class="shop-info-btn-item">
+                                        <!-- <button @click="toggleWish" class="btn-group"> -->
                                         <button class="btn-group">
-                                            <img class="shop-info-btn" src="../../public/img_nr/찜하기.png" alt="찜">
+                                            <!-- <img v-if="isWished" class="shop-info-btn" src="../../public/img_nr/찜하기_활성화.png" alt="찜후"> -->
+                                            <img class="shop-info-btn" src="../../public/img_nr/찜하기.png" alt="찜전">
                                             <div class="shop-info-btn-name">찜하기</div>
                                         </button>
                                     </div>
@@ -162,8 +165,10 @@
 import CommentCreate from './CommentCreate.vue';
 import CommentListItem from './CommentListItem.vue';
 import CampReviewTap from './CampReviewTap.vue';
-import { ref } from 'vue';
+import { ref,onMounted } from 'vue';
+import { useStore } from 'vuex';
 
+const store = useStore();
 
 let detailTapUI = ref(true);
 
@@ -188,6 +193,19 @@ function showReviewTap() {
 }
 
 
+// // 찜하기
+// const isWished = ref(false);
+
+// const toggleWish = async () => {
+//   const camp_id = 1; // 예시로 고정된 캠핑장 ID
+//   await store.dispatch('toggleWish', { user_id: store.state.userInfo.id, camp_id });
+// };
+
+// // 컴포넌트가 마운트되면 초기 찜 상태 설정
+// onMounted(() => {
+//   const camp_id = 1; // 예시로 고정된 캠핑장 ID
+//   isWished.value = store.state.wish.wishes.some(wish => wish.camp_id === camp_id);
+// });
 
 </script>
 

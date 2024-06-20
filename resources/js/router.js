@@ -31,7 +31,7 @@ const routes = [
         beforeEnter: chkAuth,
     },
     {
-        path: "/camp",
+        path: "/camp/:id",
         component: CampComponent,
     },
     {

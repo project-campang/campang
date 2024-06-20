@@ -21,6 +21,7 @@ const store = createStore({
             suggestBrand:[],
             communityTypes: [], // community_types 데이터를 저장할 상태
             campData: [],
+            // wishes: [],
         }
     },
     mutations: {
@@ -59,11 +60,6 @@ const store = createStore({
         setCommunityTypes(state, communityTypes) {
             state.communityTypes = communityTypes; // 상태 업데이트
         },
-
-        //댓글 초기 삽입
-        // setCommentData(state, data){ 
-        //     state.commentData = data;
-        // },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
@@ -81,7 +77,13 @@ const store = createStore({
         setPaginationReview(state, data){
             state.paginationReview = data;
         },
-
+        // addWish(state, camp_id) {
+        //     state.wishes.push({ camp_id });
+        // },
+        // // 찜 삭제
+        // removeWish(state, camp_id) {
+        //     state.wishes = state.wishes.filter(wish => wish.camp_id !== camp_id);
+        // },
 
         // 게시글 획득
         setCommunityList(state, data) {
@@ -355,9 +357,39 @@ const store = createStore({
             })
         },
 
+        // detailWishToggle(context){
+        //     const url = '/api/wishBtn';
 
+        //     axios.post(url)
+        //     .then(response => {
+        //         console.log(response);
+        //         context.commit('setToggleWish', response.data);
+        //     })
+        //     .catch(error => {
+        //         alert('오류오류' + error.response);
+        //         console.log(error);
+        //     })
 
+        // },
 
+        // // 찜 토글
+        // async toggleWish({ commit, state }, { user_id, camp_id }) {
+        //     try {
+        //     const found = state.wishes.some(wish => wish.camp_id === camp_id);
+            
+        //     if (found) {
+        //         // 이미 찜한 경우 삭제
+        //         await axios.delete(`/api/wishBtn/${camp_id}`);
+        //         commit('removeWish', camp_id);
+        //     } else {
+        //         // 찜하지 않은 경우 추가
+        //         await axios.post(`/api/wishBtn`, { user_id, camp_id });
+        //         commit('addWish', camp_id);
+        //     }
+        //     } catch (error) {
+        //     console.error('Error toggling wish:', error);
+        //     }
+        // },
 
 
 
