@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Amenity;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,6 @@ class AmenitySeeder extends Seeder
      */
     public function run()
     {
-        //
+        Amenity::factory(10)->create();
     }
 }

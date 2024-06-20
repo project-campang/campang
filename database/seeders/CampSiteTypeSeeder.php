@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CampSiteType;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,6 @@ class CampSiteTypeSeeder extends Seeder
      */
     public function run()
     {
-        //
+        CampSiteType::factory(10)->create();
     }
 }

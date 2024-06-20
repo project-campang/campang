@@ -43,7 +43,8 @@ Route::get('/api/main/suggest/brand',[BrandController::class, 'suggestBrand']);
 
 
 // 캠프 컨트롤러
-Route::get('/search', [CampController::class, 'search']);
+Route::get('/api/search', [CampController::class, 'campListGet']);
+Route::post('/api/search', [CampController::class, 'searchResult']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment', [CommentController::class, 'comment']);

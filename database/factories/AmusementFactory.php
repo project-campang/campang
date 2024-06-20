@@ -17,7 +17,8 @@ class AmusementFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => '놀이터'
+            ,'img' => '/img_nr/온수아이콘.png'
         ];
     }
 }

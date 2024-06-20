@@ -17,7 +17,8 @@ class TopoFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => '계곡'
+            ,'img' => '/img_nr/온수아이콘.png'
         ];
     }
 }

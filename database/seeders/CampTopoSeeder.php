@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CampTopo;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,6 @@ class CampTopoSeeder extends Seeder
      */
     public function run()
     {
-        //
+        CampTopo::factory(10)->create();
     }
 }

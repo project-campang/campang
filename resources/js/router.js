@@ -22,7 +22,7 @@ const routes = [
         component: MainComponent,
     },
     {
-        path: "/community",
+        path: "/community/:type",
         component: CommunityComponent,
     },
     {

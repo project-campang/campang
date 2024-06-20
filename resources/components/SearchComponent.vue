@@ -1,24 +1,21 @@
 <template>
     <main class="main-container-search">
-        <div class="search-container">
+        <!-- <div class="search-container"> -->
+        <div class="search-container" ref="searchContainer">
             <div class="search-box">
-                <!-- <form action="" @submit.prevent="submitForm"> -->
                 <form action="">
                     <label for="address"></label>
                     <select v-model="selectState" @change="selectChange" name="state" class="address">
                         <option>전체 시/도</option>
                         <option v-for="state in states" :key="state" :value="state">{{ state }}</option>
                     </select>
-                    <select  v-model="selectCounty" name="country" id="country" class="address" placeholder="전체 구/군">
+                    <select v-model="selectCounty" name="county" id="county" class="address" placeholder="전체 구/군">
                         <option>전체 구/군</option>
-                        <option v-for="country in countries" :key="country">{{ country }}</option>
+                        <option v-for="county in counties" :key="county">{{ county }}</option>
                     </select>
-                    <button class="search-btn btn-bg-yellow" type="button">간편 검색</button>
-                </form>
-            </div>
-                <form action="">
+                    <button class="search-btn btn-bg-yellow" type="button" @click="search">간편 검색</button>
                     <div class="accordion" id="accordionPanelsStayOpenExample">
-                        <!-- 첫 번째 아코디언 아이템 -->
+                        <!-- 상세 검색 아코디언 -->
                         <div class="accordion-item" style="background-color: white;">
                             <h2 class="accordion-header" id="panelsStayOpen-headingOne">
                             <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
@@ -60,11 +57,11 @@
                                                         <span><input type="checkbox" name="wash" id="amenities1">개수대</span>
                                                         <span><input type="checkbox" name="store" id="amenities2">편의점</span>
                                                         <span><input type="checkbox" name="barbecue" id="amenities3">바비큐</span>
-                                                        <span><input type="checkbox" name="shower-booth" id="amenities4">샤워시설</span>
+                                                        <span><input type="checkbox" name="shower-booth" id="amenities4">샤워시설</span><br>
                                                         <span><input type="checkbox" name="heated-water" id="amenities5">온수</span>
                                                         <span><input type="checkbox" name="wi-fi" id="amenities6">와이파이</span>
                                                         <span><input type="checkbox" name="long-stay" id="amenities7">장기숙박</span>
-                                                        <span><input type="checkbox" name="electricity" id="amenities8">전기</span>
+                                                        <span><input type="checkbox" name="electricity" id="amenities8">전기</span><br>
                                                         <span><input type="checkbox" name="rental" id="amenities9">캠핑용품 대여</span>
                                                         <span><input type="checkbox" name="restroom" id="amenities10">화장실</span>
                                                     </label>
@@ -83,7 +80,7 @@
                                                         <span><input type="checkbox" name="sea-fishing" id="amusement1">바다낚시</span>
                                                         <span><input type="checkbox" name="river-fishing" id="amusement2">민물낚시</span>
                                                         <span><input type="checkbox" name="pool" id="amusement3">수영장</span>
-                                                        <span><input type="checkbox" name="karaoke" id="amusement4">노래방</span>
+                                                        <span><input type="checkbox" name="karaoke" id="amusement4">노래방</span><br>
                                                         <span><input type="checkbox" name="leisure" id="amusement5">수상레저</span>
                                                         <span><input type="checkbox" name="playground" id="amusement6">체육시설(놀이터)</span>
                                                     </label>
@@ -97,87 +94,39 @@
                         </div>
                     </div>
                 </form>
+            </div>
             <div class="result">
                 <hr>    
                 <span>1,000개의 검색 결과</span>
             </div>
-            <div class="search-item">
+            <div class="search-item" v-for="(item, key) in $store.state.campData" :key="key">
                 <div class="item-img">
-                    <img class="img" src='../../public/img/sample1.jpg' alt="">
+                    <img class="img" :src='item.main_img' alt="">
                 </div>
                 <div class="item-info">
-                    <span class="item-name">무슨무슨캠핑장</span>
+                    <span class="item-name">{{ item.name }}</span>
                     <div class="item-info-2">
                         <span class="item-distance">87.2km</span>
                         <span>|</span>
-                        <span class="adress-depth">충남  >  보령시  >  청소면</span>
+                        <span class="adress-depth">{{ item.state }} > {{ item.country }} > {{ item.address }}</span>
                     </div>
                     <div class="item-info-3">
-                        <span class="item-price">₩5000000</span>
-                        <span class="item-price-2">1박 기준</span>
+                        <span class="item-price">{{ item.price }}</span>
+                        <span class="item-price-2">{{ item.priceDescription }}</span>
                     </div>
                     <div class="item-tel">
-                        <span>041-339-8299</span>
+                        <span>{{ item.tel }}</span>
                     </div>
                 </div>
                 <div class="item-detail">
                     <button>자세히</button>
                 </div>
             </div>
-            <hr>
-            <div class="search-item">
-                <div class="item-img">
-                    <img class="img" src='../../public/img/sample1.jpg' alt="">
-                </div>
-                <div class="item-info">
-                    <span class="item-name">무슨무슨캠핑장</span>
-                    <div class="item-info-2">
-                        <span class="item-distance">87.2km</span>
-                        <span>|</span>
-                        <span class="adress-depth">충남  >  보령시  >  청소면</span>
-                    </div>
-                    <div class="item-info-3">
-                        <span class="item-price">₩5000000</span>
-                        <span class="item-price-2">1박 기준</span>
-                    </div>
-                    <div class="item-tel">
-                        <span>041-339-8299</span>
-                    </div>
-                </div>
-                <div class="item-detail">
-                    <button>자세히</button>
-                </div>
-            </div>
-            <hr>
-            <div class="search-item">
-                <div class="item-img">
-                    <img class="img" src='../../public/img/sample1.jpg' alt="">
-                </div>
-                <div class="item-info">
-                    <span class="item-name">무슨무슨캠핑장</span>
-                    <div class="item-info-2">
-                        <span class="item-distance">87.2km</span>
-                        <span>|</span>
-                        <span class="adress-depth">충남  >  보령시  >  청소면</span>
-                    </div>
-                    <div class="item-info-3">
-                        <span class="item-price">₩5000000</span>
-                        <span class="item-price-2">1박 기준</span>
-                    </div>
-                    <div class="item-tel">
-                        <span>041-339-8299</span>
-                    </div>
-                </div>
-                <div class="item-detail">
-                    <button>자세히</button>
-                </div>
-            </div>
-            <hr>
         </div>
-        <div class="resizer" id="drag">
-            <!-- <div><font-awesome-icon :icon="['far', 'arrows-left-right']" size="2xs"/></div> -->
+        <div class="resizer" id="drag" @mousedown="startResize">
             <div class="resizer-icon">
-                <img class="img" src='../../public/img/resizer.png' alt="">
+                <img class="img" src='../../public/img/right-arrow.png' alt="">
+                <img class="img" src='../../public/img/left-arrow.png' alt="">
             </div>
         </div>
         <div class="map-container">
@@ -200,7 +149,7 @@
 
 <script setup>
 import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-import { onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
@@ -229,7 +178,7 @@ const coordinate3 = {
 const selectState = ref('전체 시/도');
 const selectCounty = ref('전체 구/군');
 const states = ['서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시', '대전광역시', '울산광역시', '세종시', '경기도', '강원도', '충청북도', '충청남도', '전라북도', '전라남도', '경상북도', '경상남도', '제주도'];
-let countryList  = [
+let countyList  = [
     ['서울특별시 전체','강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구']
     ,['부산광역시 전체','강서구','금정구','남구','동구','동래구','부산진구','북구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구','기장군']
     ,['대구광역시 전체','남구','달서구','동구','북구','서구','수성구','중구','달성군']
@@ -248,138 +197,64 @@ let countryList  = [
     ,['경상남도 전체','거제시','김해시','마산시','밀양시','사천시','울산시','진주시','진해시','창원시','통영시','거창군','고성군','해군','산청군','양산시','의령군','창녕군','하동군','함안군','함양군','합천군']
     ,['제주도 전체', '서귀포시', '제주시']
 ];
+// const searchItems = 
 
+// 검색창 설정 
 function selectChange() {
     const add = states.indexOf(selectState.value);
     if (add !== -1) {
         selectCounty.value = `${selectState.value} 전체`; // 시/도 변경 시 구/군 선택 초기화
-        countries.value = countryList[add].slice();
+        counties.value = countyList[add].slice();
     } else {
         console.error('시/도를 찾을 수 없습니다.');
     }
 }
 
-const countries = ref(countryList[0].slice()); // 초기 상태로 전체 선택으로 설정
-
+const counties = ref(countyList[0].slice()); // 초기 상태로 전체 선택으로 설정
 
 // 검색 화면 리사이즈
 
-// 리사이즈 대상 선택
+const startResize = () => {
+    window.addEventListener('mousemove', resize);
+    window.addEventListener('mouseup', stopResize);
+}
+
+const resize = (e) => {
+    const container = document.querySelector('.search-container');
+    const resizer = document.querySelector('.resizer');
+    const offsetRight = document.documentElement.clientWidth - e.clientX;
+    container.style.width = e.clientX - container.getBoundingClientRect().left + 'px';
+    resizer.style.right = offsetRight + 'px';
+};
+
+const stopResize = () => {
+    window.removeEventListener('mousemove', resize);
+    window.removeEventListener('mouseup', stopResize);
+}
+
+// 
+// 상태 데이터
+const selectedLocation = ref(''); // 선택된 지역
+const communityData = ref([]); // 커뮤니티 데이터
+
+
+
+
+
+
+onBeforeMount(() => {
+    console.log('검색 페이지 비포 마운트');
+    store.dispatch('campListGet');
+    console.log('서버 요청 보냄');
+})
+
 onMounted(() => {
-
-    // 이하 퓨어js라서 코드 다시 쓸것
-
-    try {
-        const resizer = document.querySelector('#drag');
-        console.log('resizer' ,resizer);
-        const searchSide = resizer.previousElementSibling;
-        console.log('searchSide' ,searchSide);
-        const mapSide = resizer.nextElementSibling;
-        console.log('mapSide' ,searchSide);
-
-        // 초기화 오류 확인
-        if (!resizer || !searchSide || !mapSide) {
-        console.error('DOM 요소를 찾을 수 없습니다. 초기화 오류입니다.');
-        return;
-        }
-
-        // 마우스 위치 값 저장을 위해 선언
-        let x = 0;
-        let y = 0;
-
-        // 크기 조절 시 왼쪽 대상이 기준
-        let searchWidth = 0;
-
-        // resizer에 마우스 이벤트 발생 시 핸들러 실행
-        const mouseDownHandler  = function(e) {
-            // 마우스 위치값을 가져와 할당
-            x = e.clientX;
-            y = e.clientY;
-
-            // 왼쪽 대상에 뷰포트상의 width 값 가져와 할당
-            searchWidth = searchSide.getBoundingClientRect().width;
-
-            // 마우스 이동과 해제 이벤트를 등록
-            document.addEventListener('mousemove', mouseMoveHandler);
-            document.addEventListener('mouseup', mouseUpHandler);
-
-            // console.log('mousedown event');
-        };
-
-        const mouseMoveHandler = function(e) {
-            // 마우스가 움직이면 기존 초기 마우스 위치에서 현재 위치값과의 차이를 계산
-            const differenceX = e.clientX - x;
-            // const differenceY = e.clientY - y;
-
-            // 크기 조절 중 마우스 커서를 변경함
-            // resizer에 적용하면 위치가 변경되면서 커서가 해제되기 때문에 body에 적용
-            document.body.style.cursor = 'col-resizer';
-
-            // 이동 중 양쪽 영역(왼쪽, 오른쪽)에서 마우스 이벤트와 텍스트 선택을 방지하기 위해 추가
-            searchSide.style.userSelect = 'none';
-            searchSide.style.pointerEvents = 'none';
-
-            mapSide.style.userSelect = 'none';
-            mapSide.style.pointerEvents = 'none';
-
-            // 초기 width값과 마우스 드래그 거리를 더한 뒤 상위요소(container)의 너비를 이용해 퍼센트 구함
-            // 계산된 퍼센트는 left의 width로 적용
-            const newSearchWidth = ((searchWidth + differenceX) * 100) / resizer.parentNode.getBoundingClientRect().width;
-            searchSide.style.width = `${newSearchWidth}%`;
-
-            // console.log('mousemove event');
-        }
-
-        const mouseUpHandler = function() {
-            // 모든 커서 관련 사항은 마우스 이동이 끝나면 제거됨
-            resizer.style.removeProperty('cursor');
-            document.body.style.removeProperty('cursor');
-
-            searchSide.style.removeProperty('user-select')
-            searchSide.style.removeProperty('pointer-events')
-
-            mapSide.style.removeProperty('user-select');
-            mapSide.style.removeProperty('pointer-events');
-
-            // 등록한 마우스 이벤트를 제거
-            document.removeEventListener('mousemove', mouseMoveHandler);
-            document.removeEventListener('mouseup', mouseUpHandler);
-
-            // console.log('mouseup event');
-        };
-
-        // 마우스 down 이벤트를 등록
-        resizer.addEventListener('mousedown', mouseDownHandler);
-
-
-
-
-    } catch(error) {
-        console.log('오류 오류 발생');
-    }
-
-
-    // // 지도 API 초기화 전에 확인
-    // console.log('Kakao 지도 API 초기화 시작');
-
-    // // 지도 API 초기화
-    // const container = document.getElementById('map');
-
-    // const options = {
-    //     center: new kakao.maps.LatLng(coordinate.lat, coordinate.lng),
-    //     level: 3
-    // };
-    
-    // const map = new kakao.maps.Map(container, options);
-
-    // // 지도 API 초기화 완료 및 맵 객체 확인
-    // console.log('Kakao 지도 API 초기화 완료');
-    // console.log('생성된 맵 객체:', map);
-    // }
-
-    
-
+    const resizer = document.querySelector('.resizer');
+    resizer.addEventListener('mousedown', startResize);
+    window.addEventListener('mouseup', stopResize);
 });
+
+
 
 
 

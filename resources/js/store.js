@@ -18,6 +18,7 @@ const store = createStore({
             reviewTap: [],
             suggestCam:[],
             suggestBrand:[],
+            campData: [],
         }
     },
     mutations: {
@@ -91,6 +92,10 @@ const store = createStore({
             }
         },
 
+        // 캠핑장 데이터 획득
+        setCampList(state, data) {
+            state.campData = data;
+        }
     },
     actions: {
         async login(context, loginForm) {
@@ -140,9 +145,9 @@ const store = createStore({
         },
         async kakao_login({ commit }, code) {
             try {
-              const response = await axios.get('/kakao/callback', {
+                const response = await axios.get('/kakao/callback', {
                 params: { code }
-              });
+            });
             console.log(code);
             localStorage.setItem('userInfo', JSON.stringify(response.data.data));
             commit('setAuthFlg', true);
@@ -150,9 +155,9 @@ const store = createStore({
             commit('setAuth', { authFlg: true, userInfo: response.data });
             router.replace('/main');
             } catch (error) {
-              console.error('Kakao callback failed:', error);
+                console.error('Kakao callback failed:', error);
             }
-          },
+        },
 
         getBoardData(context) {
             const url = '/api/main';
@@ -431,6 +436,74 @@ const store = createStore({
     //       console.log(error.response.data, '삭제 실패');
     //     });
     //   }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /**
+         * 캠핑장 데이터 획득
+         * 
+         * @param {*} context 
+         */
+        campListGet(context) {
+            const url = '/api/search';
+
+            axios.get(url)
+            .then(response => {
+                // const data = response.data.data;
+                context.commit('setCampList', response.data.data);
+                // console.log(response.data.data);
+                // console.log(setCampList);
+            })
+            .catch(error => {
+                alert('캠핑장 데이터 획득 시 오류' + error.response.data);
+            })
+        },
+
+        /**
+         * 검색 결과 획득
+         * 
+         * @param {*} context 
+         */
+        searchResult(context) {
+        const url ='/api/search';
+
+        axios.post(url)
+        .then(response => {
+
+        })
+        .catch(error => {
+
+        });
+
+
+        },
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
 
 
     },

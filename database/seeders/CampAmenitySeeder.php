@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\CampAmenity;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +15,6 @@ class CampAmenitySeeder extends Seeder
      */
     public function run()
     {
-        //
+        CampAmenity::factory(10)->create();
     }
 }

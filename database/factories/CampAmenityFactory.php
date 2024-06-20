@@ -17,7 +17,8 @@ class CampAmenityFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'camp_id' => $this->faker->numberBetween($min = 1, $max = 10)
+            ,'amenity_no' => $this->faker->numberBetween($min = 1, $max = 10)
         ];
     }
 }

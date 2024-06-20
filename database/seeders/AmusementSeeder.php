@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Amusement;
+use App\Models\CampAmusement;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,6 +16,6 @@ class AmusementSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Amusement::factory(10)->create();
     }
 }

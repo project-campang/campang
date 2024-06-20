@@ -9,10 +9,53 @@ use Illuminate\Support\Facades\Log;
 
 class CampController extends Controller
 {
-    // 검색
-    public function search(Request $request) {
+
+    // 캠핑장 데이터 획득
+    public function campListGet() {
+        
+        $campList = Camp::select('camps.*')
+                        // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
+                        // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
+                        // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
+                        // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
+                        // ->groupBy('camps.id')
+                        ->orderBy('camps.name')
+                        ->get();
+
+    log::debug('게시글 정보', $campList->toArray());
+
+    $responseData = [
+        'code' => '0'
+        ,'msg' => ''
+        ,'data' => $campList->toArray()
+    ];
+
+        // log::debug('게시글 정보', $campList->toArray());
+
+        
+        log::debug('responseData', $responseData);
+    // log::debug('responseData1', $responseData);
+
+    return response()->json($responseData, 200);
+    }
+
+
+
+    // 검색 결과 획득
+    public function searchResult(Request $request) {
+
+
+
+
+
+
+
 
     }
+
+
+
+
 
     public function suggestCampingzang(Request $request)
     {

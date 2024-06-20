@@ -1,16 +1,27 @@
+@font-face {
+    font-family: 'SBAggroB';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SBAggroL';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SBAggroM';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'SBAggroB';
-}
-
-@font-face {
-    font-family: 'SBAggroB';
-    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroB.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
 }
 
 /* header {
@@ -51,7 +62,7 @@ main {
 
 .search-box {
     margin: auto;
-    height: 100px;
+    height: 100%;
     display: grid;
 }
 
@@ -66,6 +77,10 @@ form .address {
     border-radius: 10px;
     border: solid 1px rgb(171, 171, 171);
     color: #737070;
+}
+
+.accordion {
+    /* width: 400px !important; */
 }
 
 .search-btn {
@@ -178,7 +193,7 @@ hr {
 }
 
 .resizer {
-    width: 20px;
+    width: 8px;
     cursor: ew-resize;
     background-color: #FFD84F;
     display: grid;
@@ -191,9 +206,9 @@ hr {
 } */
 
 .resizer-icon {
-    height: 50px;
-    color: black;
-    background-color: #fff;
+    display: grid;
+    grid-template-rows: 1fr 1fr;
+    height: 10px;
     /* align-items: center; */
     text-align: center;
     line-height: 50px;
@@ -237,7 +252,7 @@ hr {
     position: fixed;
     bottom: 50px;
     right: 30px;
-    /* z-index: 2; */
+    z-index: 2;
 }
 
 .float-btn > * {

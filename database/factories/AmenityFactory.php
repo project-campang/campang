@@ -17,7 +17,8 @@ class AmenityFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => '온수'
+            ,'img' => '/img_nr/온수아이콘.png'
         ];
     }
 }
