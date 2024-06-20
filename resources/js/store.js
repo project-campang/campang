@@ -21,6 +21,7 @@ const store = createStore({
             suggestBrand:[],
             communityTypes: [], // community_types 데이터를 저장할 상태
             campData: [],
+            searchResult : [], // 캠핑장 검색 결과
         }
     },
     mutations: {
@@ -56,9 +57,7 @@ const store = createStore({
         setSuggestBrand(state,data) {
             state.suggestbrand = data;
         },
-        setCommunityTypes(state, communityTypes) {
-            state.communityTypes = communityTypes; // 상태 업데이트
-        },
+
 
         //댓글 초기 삽입
         // setCommentData(state, data){ 
@@ -98,11 +97,19 @@ const store = createStore({
                 communityItem.views++;
             }
         },
+        setCommunityTypes(state, communityTypes) {
+            state.communityTypes = communityTypes; // 상태 업데이트
+        },
+
 
         // 캠핑장 데이터 획득
         setCampList(state, data) {
             state.campData = data;
-        }
+        },
+        // 캠핑장 검색 결과 획득
+        setSearchResult(state, data) {
+            state.searchResult = data;
+        },
     },
     actions: {
         async login(context, loginForm) {
@@ -265,14 +272,14 @@ const store = createStore({
             });
         },
         // 게시판타입
-            async fetchCommunityTypes({ commit }) {
-                try {
-                    const response = await axios.get('/api/community_types'); // API 호출
-                    commit('setCommunityTypes', response.data); // 뮤테이션 호출
-                } catch (error) {
-                    console.error('Error fetching community types:', error); // 오류 처리
-                }
-            },
+            // async fetchCommunityTypes({ commit }) {
+            //     try {
+            //         const response = await axios.get('/api/community_types'); // API 호출
+            //         commit('setCommunityTypes', response.data); // 뮤테이션 호출
+            //     } catch (error) {
+            //         console.error('Error fetching community types:', error); // 오류 처리
+            //     }
+            // },
         
         
 
@@ -499,14 +506,29 @@ const store = createStore({
          */
         searchResult(context) {
         const url ='/api/search';
+        
+        // console.log('searchResult 연결함');
+        const searchForm = document.querySelector('#searchForm');
+        const selectStateElement = document.querySelector('#select1');
+        const selectCountyElement = document.querySelector('#select2');
+        const selectedState = selectStateElement.value;
+        const selectedCounty = selectCountyElement.value;
+        // console.log('searchForm', searchForm);
+        console.log(selectedState);
+        console.log(selectedCounty);
 
-        axios.post(url)
-        .then(response => {
-
-        })
-        .catch(error => {
-
-        });
+        axios.post(url, selectedState, selectedCounty)
+            .then(response => {
+                context.commit('setSearchResult', response.data);
+                console.error('검색 결과 획득', response.data);
+                // router.replace('/community');
+                // router.go('/community');
+                // location.reload('/community');
+            })
+            .catch(error => {
+                // console.error('검색 결과 획득 실패:', error.response);
+                alert('검색 실패'+error.response);
+            });
 
 
         },

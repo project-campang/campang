@@ -15,19 +15,19 @@ class CampSeeder extends Seeder
      */
     public function run()
     {
-        // $data = [
-        //     'name' => '데일리랜드',
-        //     'tel' => '010-4825-2707',
-        //     'address' => '강원특별자치도 춘천시 동산면 봉명리 35',
-        //     'state' => '강원도',
-        //     'country' => '춘천시',
-        //     'latitude' => 37.7608264,
-        //     'longitude' => 127.8469049,
-        //     'info_text' => '오토캠핑 야영장입니다',
-        //     'max_capacity' => 64,
-        //     'main_img' => '/img/logo-ko3.png',
-        //     'other_img_1' => '/img/logo-ko3.png',
-        // ];
-        Camp::factory(10)->create();
+        $data = [
+            'name' => '어거스트캠핑장',
+            'tel' => '010-0000-0000',
+            'address' => '가산면 우금3길 142-29',
+            'state' => '경기도',
+            'county' => '포천시',
+            'latitude' => 37.8181789,
+            'longitude' => 127.2275313,
+            'info_text' => '엄청엄청 좋은 캠핑장입니다',
+            'price' => 45000,
+            'main_img' => '/img_nr/캠핑장1.png',
+        ];
+        Camp::factory(10)->create($data);
+        // Camp::factory(10)->create();
     }
 }

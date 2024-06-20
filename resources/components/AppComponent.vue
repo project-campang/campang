@@ -354,7 +354,7 @@ const communityTypes = computed(() => store.state.communityTypes);
 
 // 게시판 데이터 가져오기
 onMounted(() => {
-    store.dispatch('fetchCommunityTypes'); // community_types 데이터 가져오기
+    // store.dispatch('fetchCommunityTypes'); // community_types 데이터 가져오기
 });
 </script>
 

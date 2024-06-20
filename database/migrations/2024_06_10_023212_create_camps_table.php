@@ -18,12 +18,12 @@ return new class extends Migration
             $table->string('name');
             $table->string('tel', 20);
             $table->string('address', 100);
-            $table->string('state', 100);
-            $table->string('country', 100);
+            $table->string('state');
+            $table->string('county');
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->string('info_text', 500);
-            $table->integer('max_capacity');
+            $table->integer('price');
             $table->string('main_img', 200);
             $table->string('other_img_1')->nullable();
             $table->string('other_img_2')->nullable();
