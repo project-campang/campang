@@ -1,13 +1,13 @@
 <template>
   <div class="my-page-section">
     <div v-if="$store.state.userInfo" class="my-page-side">
-        <img src="/img/rank.jfif" alt="">
-        <p>{{ $store.state.userInfo.nick_name }}</p>
-        <p>{{ $store.state.userInfo.email }}</p>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">내정보수정</button>
-        <div class="my-page-box">
-          <p class="mypage-stamp"  @click="showstamp">내 도장판</p>
-        <p  @click="showcontent">내가쓴글</p>
+      <img :src="$store.state.userInfo.profile" alt="Profile Image">
+      <p>{{ $store.state.userInfo.nick_name }}</p>
+      <p>{{ $store.state.userInfo.email }}</p>
+      <button @click="openModal($store.state.userInfo)" type="button" class="btn btn-primary my-page-button" data-bs-toggle="modal" data-bs-target="#userModal">내정보수정</button>
+      <div class="my-page-box">
+        <p class="mypage-stamp" @click="showstamp">내 도장판</p>
+        <p class="mypage-content" @click="showcontent">내가쓴글</p>
         <p>-게시글</p>
         <p>-리뷰</p>
         <p>-댓글</p>
@@ -17,79 +17,109 @@
       <h1>도장판임 !</h1>
     </div>
     <div v-else>
-      <h1 >
-        내가쓴글임!
-      </h1>
+      <h1>내가쓴글임!</h1>
     </div>
   </div>
 
-
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h1 class="modal-title fs-5" id="exampleModalLabel">내정보 수정</h1>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body"  v-if="$store.state.userInfo">
-        <form>
-                <div class="mb-3">
-                    <label for="name" class="form-label">이름</label>
-                    <input type="text"  class="form-control" id="name" autocomplete="name" value={{ $store.state.userInfo.name }}>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="form-label">이메일</label>
-                    <input type="email"  class="form-control" id="email" autocomplete="email" value={{ $store.state.userInfo.email }}>
-                </div>
-                <div class="mb-3">
-                    <button type="button" class="btn btn-outline-secondary">이메일 중복 확인</button>
-                </div>
-                <div class="mb-3">
-                    <label for="nick_name" class="form-label">닉네임</label>
-                    <input type="text"  class="form-control" id="nick_name" autocomplete="nickname" value={{ $store.state.userInfo.nick_name }}>
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">비밀번호</label>
-                    <input type="password"  class="form-control" id="password" autocomplete="password">
-                </div>
-                <div class="mb-3">
-                    <label for="ps_chk" class="form-label">비밀번호 확인</label>
-                    <input type="password"  class="form-control" id="ps_chk" autocomplete="ps_chk">
-                </div>
-                <div class="mb-3">
-                    <label for="tel" class="form-label">휴대폰 번호</label>
-                    <input type="text" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num" value={{ $store.state.userInfo.tel }}/>
-                </div>
-                <!-- <div class="modal-footer">
-                    <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
-                    <button @click="closeRegistration" type="button" class="btn btn-secondary">취소</button>
-                    <button type="submit" class="btn btn-primary">회원가입</button>
-                </div> -->
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                  <button type="button" class="btn btn-primary">완료</button>
-                </div>
-            </form>
+  <!-- Modal -->
+  <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userModalLabel">내정보 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form id="updateUserInfoForm">
+            <div class="mb-3">
+              <label for="profile" class="form-label">프로필 사진</label>
+              <input type="file" class="form-control" id="profile" name="profile" @change="onProfileChange">
+              <img :src="userInfo.profile" alt="Profile Image" v-if="userInfo.profile" class="mt-3" style="width: 100px; height: 100px;">
+            </div>
+            <div class="mb-3">
+              <label for="name" class="form-label">이름</label>
+              <input type="text" class="form-control" id="name" name="name" v-model="userInfo.name">
+            </div>
+            <div class="mb-3">
+              <label for="nick_name" class="form-label">닉네임</label>
+              <input type="text" class="form-control" id="nick_name" name="nick_name" v-model="userInfo.nick_name">
+            </div>
+            <div class="mb-3">
+              <label for="tel" class="form-label">휴대폰 번호</label>
+              <input type="text" class="form-control" id="tel" name="tel" v-model="userInfo.tel" @input="oninputPhone" maxlength="14">
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+              <button type="button" @click="$store.dispatch('updateUserInfo')" class="btn btn-primary" data-bs-dismiss="modal">수정 완료</button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   </div>
-</div>
 </template>
+
 <script setup>
 import { ref } from 'vue';
+import { useStore } from 'vuex';
 
-let isstampVisible = ref(true);
+const isstampVisible = ref(true);
+const store = useStore();
+const userInfo = ref({
+  name: '',
+  nick_name: '',
+  email: '',
+  tel: '',
+  profile: ''
+});
 
 function showstamp() {
-    isstampVisible.value = true;
-    const element = document.querySelector('.mypage-stamp');
-
+  isstampVisible.value = true;
 }
 
 function showcontent() {
   isstampVisible.value = false;
+}
 
+function openModal(data) {
+  if (data) {
+    userInfo.value = { ...data };
+  }
+}
+
+
+
+function onProfileChange(event) {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      userInfo.value.profile = reader.result;
+    };
+    reader.readAsDataURL(file);
+  }
 }
 </script>
-<style scoped src="../css/user.css"></style>
+
+
+<style  scope src="../css/user.css">
+/* user.css */
+/* .my-page-section {
+  display: flex;
+}
+
+.my-page-side {
+  flex: 1;
+  padding: 10px;
+}
+
+.my-page-box {
+  margin-top: 20px;
+}
+
+.mypage-stamp,
+.mypage-content {
+  cursor: pointer;
+  color: blue;
+} */
+</style>

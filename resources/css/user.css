@@ -13,11 +13,12 @@
     flex-direction: column;
     text-align: center;
     border-radius: 1rem;
-    box-shadow: 5px 5px 10px grey;
+    box-shadow: 5px 5px 5px  rgb(192, 192, 192);
 }
 
 .my-page-box {
     border-end-end-radius: 1rem;
+    border-end-start-radius: 1rem;
 }
 .my-page-side img {
     border-radius: 50%;
@@ -26,4 +27,26 @@
 
 .my-page-box {
     background-color: #fff;
+}
+
+.my-page-button {
+    width: 120px;
+    margin: auto;
+    background-color: #7EC636;
+    border: none;
+}
+
+.my-page-button:hover, .my-page-button:active {
+    background-color: #568825;
+}
+
+.mypage-stamp,
+.mypage-content {
+  cursor: pointer;
+}
+
+#userModal img {
+  width: 100px;
+  height: 100px;
+  margin-top: 10px;
 }
