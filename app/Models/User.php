@@ -23,8 +23,13 @@ class User extends Authenticatable
         'password',
         'nick_name',
         'tel',
+        'profile'
     ];
 
+    public function getProfileUrlAttribute()
+    {
+        return asset('storage/' . $this->profile);
+    }
     /**
      * The attributes that should be hidden for serialization.
      *

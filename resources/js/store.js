@@ -19,9 +19,11 @@ const store = createStore({
             reviewTap: [],
             suggestCam:[],
             suggestBrand:[],
-            communityTypes: [], // community_types 데이터를 저장할 상태
+            communityType: [], // community_types 데이터를 저장할 상태
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
+            // wishes: [],
+
         }
     },
     mutations: {
@@ -33,6 +35,10 @@ const store = createStore({
             state.authFlg = value;
         },
         setUserInfo(state, userInfo) {
+            state.userInfo = userInfo;
+            localStorage.setItem('userInfo', JSON.stringify(userInfo));
+        },
+        updateUserInfo(state, userInfo) {
             state.userInfo = userInfo;
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
@@ -57,7 +63,9 @@ const store = createStore({
         setSuggestBrand(state,data) {
             state.suggestbrand = data;
         },
-
+        setCommunityTypes(state, communityTypes) {
+            state.communityTypes = communityTypes; // 상태 업데이트
+        },
 
         //댓글 초기 삽입
         // setCommentData(state, data){ 
@@ -80,7 +88,13 @@ const store = createStore({
         setPaginationReview(state, data){
             state.paginationReview = data;
         },
-
+        // addWish(state, camp_id) {
+        //     state.wishes.push({ camp_id });
+        // },
+        // // 찜 삭제
+        // removeWish(state, camp_id) {
+        //     state.wishes = state.wishes.filter(wish => wish.camp_id !== camp_id);
+        // },
 
         // 게시글 획득
         setCommunityList(state, data) {
@@ -143,6 +157,30 @@ const store = createStore({
             } catch (error) {
                 console.error('이메일 중복 확인 실패:', error);
                 return false; // 실패 시 기본적으로 중복되지 않은 것으로 간주합니다.
+            }
+        },
+        async  updateUserInfo() {
+            const formData = new FormData(document.querySelector('#updateUserInfoForm'));
+            // formData.append('name', userInfo.value.name);
+            // formData.append('nick_name', userInfo.value.nick_name);
+            // formData.append('email', userInfo.value.email);
+            // formData.append('tel', userInfo.value.tel);
+        
+            // 프로필이 변경되지 않은 경우에도 기존 프로필 데이터를 포함합니다.
+            // if (userInfo.value.profile) {
+            //     formData.append('profile', userInfo.value.profile);
+            // } else {
+            //     formData.append('profile', ''); // 또는 기존 프로필 URL을 넣어줍니다.
+            // }
+        
+            try {
+                const response = await axios.post('/mypage/update', formData);
+                store.commit('updateUserInfo', response.data.user);
+                // const modalElement = document.getElementById('userModal');
+                // const modalInstance = bootstrap.Modal.getInstance(modalElement);
+                // modalInstance.hide();
+            } catch (error) {
+                console.error('Error updating user information:', error);
             }
         },
         
@@ -272,14 +310,15 @@ const store = createStore({
             });
         },
         // 게시판타입
-            // async fetchCommunityTypes({ commit }) {
-            //     try {
-            //         const response = await axios.get('/api/community_types'); // API 호출
-            //         commit('setCommunityTypes', response.data); // 뮤테이션 호출
-            //     } catch (error) {
-            //         console.error('Error fetching community types:', error); // 오류 처리
-            //     }
-            // },
+        async fetchCommunityTypes({ commit }, id) {
+            try {
+                const response = await axios.get(`/api/community_types/${id}`);
+                commit('setCommunityType', response.data);
+            } catch (error) {
+                commit('setError', error.response ? error.response.data : 'Error fetching community type');
+                console.error('Error fetching community type:', error);
+            }
+        },
         
         
 
@@ -362,9 +401,39 @@ const store = createStore({
             })
         },
 
+        // detailWishToggle(context){
+        //     const url = '/api/wishBtn';
 
+        //     axios.post(url)
+        //     .then(response => {
+        //         console.log(response);
+        //         context.commit('setToggleWish', response.data);
+        //     })
+        //     .catch(error => {
+        //         alert('오류오류' + error.response);
+        //         console.log(error);
+        //     })
 
+        // },
 
+        // // 찜 토글
+        // async toggleWish({ commit, state }, { user_id, camp_id }) {
+        //     try {
+        //     const found = state.wishes.some(wish => wish.camp_id === camp_id);
+            
+        //     if (found) {
+        //         // 이미 찜한 경우 삭제
+        //         await axios.delete(`/api/wishBtn/${camp_id}`);
+        //         commit('removeWish', camp_id);
+        //     } else {
+        //         // 찜하지 않은 경우 추가
+        //         await axios.post(`/api/wishBtn`, { user_id, camp_id });
+        //         commit('addWish', camp_id);
+        //     }
+        //     } catch (error) {
+        //     console.error('Error toggling wish:', error);
+        //     }
+        // },
 
 
 

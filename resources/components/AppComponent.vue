@@ -11,10 +11,10 @@
                         <a class="nav-link active" aria-current="page" href="#">캠핑장 모아보기</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a @click="toggleDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             캠핑Talk 
                         </a>
-                        <ul class="dropdown-menu">
+                        <ul v-if="showDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li v-for="communityType in communityTypes" :key="communityType.type">
                                 <a class="dropdown-item" :href="`/community/${communityType.type}`">{{ communityType.name }}</a>
                             </li>
@@ -163,6 +163,23 @@ import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
+
+// 드롭다운
+// const communityTypes = ref([]);
+// const showDropdown = ref(false);
+
+// onMounted(async () => {
+//     try {
+//         const response = await axios.get('/api/community_types'); // API 호출
+//         communityTypes.value = response.data; // 데이터 설정
+//     } catch (error) {
+//         console.error('Error fetching community types:', error); // 오류 처리
+//     }
+// });
+
+// function toggleDropdown() {
+//     showDropdown.value = !showDropdown.value;
+// }
 
 // 스크롤 탑 함수 사용
 const { btnBackToTop, backToTop } = useBackToTop();
