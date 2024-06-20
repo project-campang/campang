@@ -12,6 +12,7 @@ use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -75,7 +76,7 @@ class UserController extends Controller
             [
                 'password' => ['required', 'min:2', 'max:20', 'regex:/^[a-zA-Z0-9!@*]+$/'],
                 'ps_chk' => ['same:password'],
-                'nick_name' => ['required', 'min:2', 'max:10', 'regex:/^[가-힣]+$/u'],
+                'nick_name' => ['required', 'min:2', 'max:10', 'regex:/^[가-힣a-zA-Z]+$/u'],
                 'name' => ['required', 'min:2', 'max:20', 'regex:/^[가-힣]+$/u'],
                 'email' => ['required', 'regex:/^[-A-Za-z0-9_]+[-A-Za-z0-9_.][@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.][.]{1}[A-Za-z]{1,5}$/'],
                 'tel' => ['required', 'regex:/^(\d{2,3}-\d{3,4}-\d{4})|(\d{10,11})$/']
@@ -140,6 +141,49 @@ class UserController extends Controller
         ]);
     }
 
+    public function update(Request $request)
+    {
+        $requestData = $request->all();
+
+        // 유효성 검사
+        $validator = Validator::make(
+            $requestData,
+            [
+                'nick_name' => ['required', 'min:2', 'max:10', 'regex:/^[가-힣a-zA-Z]+$/u'],
+                'name' => ['required', 'min:2', 'max:20', 'regex:/^[가-힣]+$/u'],
+                'tel' => ['required', 'regex:/^(\d{2,3}-\d{3,4}-\d{4})|(\d{10,11})$/']
+            ]
+        );
+
+        if ($validator->fails()) {
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+        Log::debug('유저정보 업데이트 리퀘스트', $requestData);
+        $user = User::find(Auth::id());
+
+        // 필드 업데이트
+        $user->name = $request->input('name', $user->name);
+        $user->nick_name = $request->input('nick_name', $user->nick_name);
+        $user->email = $request->input('email', $user->email);
+        $user->tel = $request->input('tel', $user->tel);
+
+        // 프로필 사진 업데이트
+        if ($request->hasFile('profile')) {
+            if ($user->profile) {
+                Storage::disk('public')->delete($user->profile);
+            }
+            $imagePath = $request->file('profile')->store('profiles', 'public');
+            $user->profile = $imagePath;
+        }
+
+        $user->save();
+
+        return response()->json(['message' => '성공', 'user' => $user], 200);
+    }
 
     
     // public function getKakaoLoginUrl() {

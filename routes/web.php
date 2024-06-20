@@ -6,7 +6,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampTopoController;
 use App\Http\Controllers\BrandController;
-
+use App\Http\Controllers\CommunityTypeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,6 +30,7 @@ Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/register', [UserController::class, 'register']);
 Route::post('/api/logout', [UserController::class, 'logout']);
 Route::post('/api/check-email', [UserController::class, 'checkEmail']);
+Route::post('/mypage/update', [UserController::class, 'update']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
@@ -55,3 +56,5 @@ Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
 // 커뮤니티 컨트롤러
 Route::get('/api/community', [CommunityController::class, 'communityGet']);
 Route::post('/api/community', [CommunityController::class, 'communityStore']);
+Route::get('/community_types/{id}', [CommunityTypeController::class, 'index']);
+Route::get('/api/community_types', [CommunityTypeController::class, 'index']);

@@ -20,8 +20,8 @@
             <div class="content-top">
                 <nav class="content-top-2 navbar navbar-expand-lg bg-body-tertiary">
                     <div class="content-head">
-                        <div>
-                            <span class="board-select">자유게시판</span>
+                        <div v-if="communityType">
+                            <a :href="`/board/${communityType.id}`" class="list-item">{{ communityType.name }}</a>
                             <button @click="openInsertModal" class="btn btn-outline-success">+</button>
                         </div>
                         <div class="board-comment nav-item" id="navbarSupportedContent">
@@ -124,8 +124,27 @@
 
 <script setup>
 import { onBeforeMount, onMounted, ref, reactive } from 'vue';
-// import { onBeforeMount, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
+import axios from 'axios';
+
+// Vuex 스토어 사용
+// const store = useStore();
+const route = useRoute();
+
+// 커뮤니티 타입 데이터
+const communityType = ref(null);
+// const modalFlg = ref(false);
+// const communityItem = reactive({});
+// const preview = ref('');
+
+onBeforeMount(async () => {
+    const typeId = route.params.id; // 라우터에서 id를 가져옴
+    if (typeId) {
+        await store.dispatch('fetchCommunityType', typeId);
+        communityType.value = store.state.communityType;
+    }
+});
 
 const store = useStore();
 
