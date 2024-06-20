@@ -28,6 +28,7 @@ const routes = [
     {
         path: "/mypage",
         component: MypageComponent,
+        beforeEnter: chkAuth,
     },
     {
         path: "/camp",

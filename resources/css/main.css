@@ -4,6 +4,9 @@
     box-sizing: border-box;
 } */
 
+button {
+    border: 0;
+}
 
 /* 위로가기 */
 #btn-back-to-top {
@@ -132,6 +135,13 @@ a {
     padding: 2rem;
 
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.main-mini-search span {
+    padding: 0.3rem;
+    background-color: #06AC35;
+    border-radius: 5px;
+    margin-right: 0.5rem;
 }
 
 .main-select-box {
@@ -441,7 +451,9 @@ a {
     letter-spacing:1.5rem; */
 }
 
-
+.third-main-btn {
+    padding: 0;
+}
 /* 세번째끝 */
 /* 네번째시작 */
 
@@ -457,12 +469,12 @@ a {
 
 }
 
-.last-left img {
-    /* width: 100px; */
+.last-main img {
+    /* width: 400px; */
 }
 
 .last-left {
-    /* width: 800px; */
+    width: 400px;
     margin: auto;
     padding: 30px;
     /* width: 50%; */
@@ -472,6 +484,8 @@ a {
 }
 
 .last-right {
+    height: 100%;
+    width: 400px;
     background-color: #FFAF66;
     margin: auto;
     padding: 30px;
@@ -486,7 +500,7 @@ a {
 
 .last-right-box {
     padding: 10px;
-    margin: 20px;
+    margin: 40px 0;
     gap: 20px;
     /* width: 40%; */
     display: grid;
@@ -507,14 +521,14 @@ a {
 
 /* 푸터 */
 .main-footer {
-    background-color: #68726f;
+    background-color: #ebf3f0;
     padding: 30px;
 }
 
 .main-footer-content {
     width: 800px;
     margin: auto;
-    color: #fff;
+    color: #000;
 }
 .main-footer-content p {
     font-size: 0.6rem;

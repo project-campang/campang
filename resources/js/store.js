@@ -7,8 +7,9 @@ const store = createStore({
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             commentData: [],
+            commentList: [],
             pagination: {},
-            // curruntPage: null,
+            paginationReview: {},
             communityData: [],
             boardData: [],
             rankData: [],
@@ -18,6 +19,7 @@ const store = createStore({
             reviewTap: [],
             suggestCam:[],
             suggestBrand:[],
+            communityTypes: [], // community_types 데이터를 저장할 상태
             campData: [],
         }
     },
@@ -54,7 +56,9 @@ const store = createStore({
         setSuggestBrand(state,data) {
             state.suggestbrand = data;
         },
-
+        setCommunityTypes(state, communityTypes) {
+            state.communityTypes = communityTypes; // 상태 업데이트
+        },
 
         //댓글 초기 삽입
         // setCommentData(state, data){ 
@@ -73,6 +77,9 @@ const store = createStore({
         },
         setDetailReviewTap(state, data){
             state.reviewTap = data;
+        },
+        setPaginationReview(state, data){
+            state.paginationReview = data;
         },
 
 
@@ -104,7 +111,7 @@ const store = createStore({
                 localStorage.setItem('userInfo', JSON.stringify(response.data.data));
                 context.commit('setAuthFlg', true);
                 context.commit('setUserInfo', response.data.data);
-                router.replace('/main');
+                // router.replace('/main');
             } catch (error) {
                 console.error('로그인 실패:', error.response);
                 console.log(error);
@@ -116,7 +123,8 @@ const store = createStore({
                 const response = await axios.post('/api/register', registerForm);
                 commit('setAuthFlg', true);
                 commit('setUserInfo', response.data.data);
-                router.replace('/main');
+                // router.replace('/main');
+                console.error('회원가입 실패:', error.response.data.message);
             } catch (error) {
                 console.error('회원가입 실패:', error.response.data.message);
             }
@@ -236,17 +244,16 @@ const store = createStore({
             })
         },
         setSuggestBrand(context) {
-            const url = '/api/main/suggest/brand';
-        
-            axios.get(url)
+        const url = '/api/main/suggest/brand';
+
+        axios.get(url)
             .then(response => {
-                context.commit('setSuggestBrand', response.data.data);
+                context.commit('setSuggestBrand', response.data.data); // 'data'는 API 응답 구조에 따라 다를 수 있습니다.
                 console.log(response.data.data);
             })
             .catch(error => {
-                // error.response를 사용하여 서버의 응답 데이터에 접근
                 if (error.response) {
-                    alert('오류: ' + error.response.data);
+                    alert('오류: ' + error.response.data.message); // message는 서버 응답 구조에 따라 다를 수 있습니다.
                     console.error('서버 응답:', error.response.data);
                 } else if (error.request) {
                     alert('서버 응답이 없습니다. 네트워크 문제일 수 있습니다.');
@@ -257,6 +264,16 @@ const store = createStore({
                 }
             });
         },
+        // 게시판타입
+            async fetchCommunityTypes({ commit }) {
+                try {
+                    const response = await axios.get('/api/community_types'); // API 호출
+                    commit('setCommunityTypes', response.data); // 뮤테이션 호출
+                } catch (error) {
+                    console.error('Error fetching community types:', error); // 오류 처리
+                }
+            },
+        
         
 
 
@@ -320,12 +337,17 @@ const store = createStore({
                     console.log(e);
                 })
         },
-        detailReviewTap(context) {
-            const url = '/api/reviewTap';
+        detailReviewTap(context, page=1) {
+            const url = ('/api/reviewTap?page=' + page);
+            // const url = '/api/reviewTap';
 
             axios.get(url)
             .then(response => {
-                context.commit('setDetailReviewTap', response.data.data);
+                context.commit('setDetailReviewTap', response.data.data.data);
+                context.commit('setPaginationReview', {
+                    current_page: response.data.data.current_page, // 현재페이지
+                    last_page: response.data.data.last_page, // 마지막페이지
+                });
                 console.log(response.data.data);
             })
             .catch(error => {

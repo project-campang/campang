@@ -15,11 +15,9 @@
                             캠핑Talk 
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="#">가입인사</a></li>
-                            <li><a class="dropdown-item" href="#">자유게시판</a></li>
-                            <li><a class="dropdown-item" href="#">랭킹</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">리뷰 모아보기</a></li>
+                            <li v-for="communityType in communityTypes" :key="communityType.type">
+                                <a class="dropdown-item" :href="`/community/${communityType.type}`">{{ communityType.name }}</a>
+                            </li>
                         </ul>
                     </li>
                     <li class="nav-item">
@@ -46,7 +44,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="loginModalLabel">로그인</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" @click="closeLogin" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form @submit.prevent="login">
@@ -79,7 +77,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h1 class="modal-title fs-5" id="registrationModalLabel">회원가입</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <button type="button" class="btn-close" @click="closeRegistration" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <form @submit.prevent="register">
@@ -133,9 +131,12 @@
         <div class="main-footer-content">
             <h2>CAMPANG <img src="/img/logo-ko3.png" alt=""></h2>
             <p>개인정보처리방침 | 전자우편무단수집거부 | 캠핑장 | 등록안내 | 미등록야영장불법영업신고</p>
-            <hr>
             <p>
-                대구시 달서구 남일동 109-2 그린컴퓨터아트학원 대구캠퍼스 TEL : 0507-1414-1018 (상담시간 : 평일 10:00~18:00)EMAIL : green@gampang.or.kr
+                대구시 달서구 남일동 109-2 그린컴퓨터아트학원 
+                <hr>
+                대구캠퍼스 TEL : 0507-1414-1018 (상담시간 : 평일 10:00~18:00)EMAIL : green@gampang.or.kr
+                <hr>
+                <br>
                 Copyrights(c) 2024 GREEN COMPUTER ACADEMY DAEGU BRANCH 2ND PROJECT TEAM 3.
             </p>
         </div>
@@ -156,14 +157,16 @@
     </button>
 </template>
 
+
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
 
-
+// 스크롤 탑 함수 사용
 const { btnBackToTop, backToTop } = useBackToTop();
+
 // 상태 정의
 const loginForm = ref({
     email: '',
@@ -216,21 +219,25 @@ function toggleMenu() {
 // 모달 열기/닫기 함수
 function openLogin() {
     loginFlg.value = true;
+    resetLoginForm();
     loginModal.show();
 }
 
 function closeLogin() {
     loginFlg.value = false;
+    resetLoginForm(); // 폼 초기화
     loginModal.hide();
 }
 
 function openRegistration() {
     registrationFlg.value = true;
+    resetRegisterForm();
     registrationModal.show();
 }
 
 function closeRegistration() {
     registrationFlg.value = false;
+    resetRegisterForm(); // 폼 초기화
     registrationModal.hide();
 }
 
@@ -262,6 +269,8 @@ function logout() {
 function register() {
     store.dispatch('register', registerForm.value)
         .then(() => {
+            // 회원가입 성공 후 환영 메시지 표시
+            alert(`${registerForm.value.name}님 환영합니다!`);
             resetRegisterForm();
             closeRegistration();
         })
@@ -287,6 +296,8 @@ function resetRegisterForm() {
         ps_chk: '',
         tel: ''
     };
+    emailCheckResult.value = null; // 이메일 확인 결과 초기화
+    
 }
 
 // 이메일 중복 확인 함수
@@ -337,8 +348,17 @@ function goToRegistration() {
     closeLogin();
     openRegistration();
 }
+
+// 게시판 이름
+const communityTypes = computed(() => store.state.communityTypes);
+
+// 게시판 데이터 가져오기
+onMounted(() => {
+    store.dispatch('fetchCommunityTypes'); // community_types 데이터 가져오기
+});
 </script>
 
 <style scoped src="../css/main.css">
 /* @import url(../css/main.css); */
 </style>
+

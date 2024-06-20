@@ -309,6 +309,8 @@ class CommunityController extends Controller
                             ->where('type', '=', 2)
                             ->orderBy('communities.rating', 'DESC')
                             ->paginate(3);
+
+        Log::debug("review", $data->toArray());
         $responseData = [
             'code' => '0',
             'msg' => '게시글 획득 완료',

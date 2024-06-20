@@ -1,0 +1,29 @@
+
+
+.my-page-section {
+    display: grid;
+    grid-template-columns: 200px 600px;
+    padding: 2rem;
+
+}
+
+.my-page-side {
+    background-color: #FFD84F;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    border-radius: 1rem;
+    box-shadow: 5px 5px 10px grey;
+}
+
+.my-page-box {
+    border-end-end-radius: 1rem;
+}
+.my-page-side img {
+    border-radius: 50%;
+    padding: 20px;
+}
+
+.my-page-box {
+    background-color: #fff;
+}
