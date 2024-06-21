@@ -158,11 +158,39 @@
     <!-- 네번째 -->
     <div class="bg-white">
         <div class="last-main">
-            <div class="last-left" v-if="$store.state.suggestCam">
+            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <h2>캠팡 추천 캠핑장</h2>
+                <div class="carousel-inner">
+                    <div class="carousel-item" 
+                        v-for="(camp, index) in $store.state.suggestCam" 
+                        :class="{'active': index === 0}" 
+                        :key="index">
+                        <img :src="camp.main_img" class="d-block  w-100" alt="추천 캠핑장 이미지">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>{{ camp.name }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="last-left" v-if="$store.state.suggestCam">
                 <h2>캠팡 추천 캠핑장</h2>
                 <img class="last-main-img" :src="$store.state.suggestCam.main_img" loading="lazy" alt="추천 캠핑장 이미지">
                 <p>{{ $store.state.suggestCam.name }}</p>
-            </div>
+            </div> -->
+            <!--  -->
+            <!-- <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src="..." class="d-block w-100" alt="...">
+                    </div>
+                        <div class="carousel-item">
+                    <img src="..." class="d-block w-100" alt="...">
+                    </div>
+                        <div class="carousel-item">
+                    <img src="..." class="d-block w-100" alt="...">
+                    </div>
+                </div>
+            </div> -->
 
 
             <div class="last-right">
@@ -175,6 +203,7 @@
                 </div>
             </div>
         </div>
+
     </div>
 </template>
 
@@ -265,15 +294,23 @@ let isCampinglerVisible = ref(true);
 function showCampingler() {
     isCampinglerVisible.value = true;
     const element = document.querySelector('.main-rank-box');
+    const elementright = document.querySelector('.main-rank-btn-right');
+    const elementLeft = document.querySelector('.main-rank-btn-left');
 
+
+    elementright.classList.remove('text-decoration-underline');
+    elementLeft.classList.add('text-decoration-underline')
     element.style.cssText  = 'border: 5px solid #FFAF66;';
 }
 
 function showCampingzang() {
     isCampinglerVisible.value = false;
     const element = document.querySelector('.main-rank-box');
+    const elementright = document.querySelector('.main-rank-btn-right');
     const elementLeft = document.querySelector('.main-rank-btn-left');
 
+    elementLeft.classList.remove('text-decoration-underline');
+    elementright.classList.add('text-decoration-underline')
     element.style.cssText  = 'border: 5px solid #FFF3DD;';
     // elementLeft.style.cssText  = 'text-decoration:none;';
 }

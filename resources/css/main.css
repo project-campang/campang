@@ -8,6 +8,14 @@ button {
     border: 0;
 }
 
+.router-view-container {
+    margin-top: 80px; 
+    /* position: relative;
+    z-index: 1; */
+}
+
+
+
 /* 위로가기 */
 #btn-back-to-top {
     display: none;
@@ -32,6 +40,15 @@ button {
 
 .my-nav-header {
     background-color: #FFB444;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9); /* 기본 배경색과 투명도 설정 */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: 80px; /* 헤더의 높이를 설정합니다 */
 }
 .main-header {
     /* width: 70%;
@@ -124,7 +141,7 @@ a {
     max-width: 800px;
     border-radius: 30px;
     padding: 2rem;
-
+    font-size: 1.5rem;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .main-mini-search {
@@ -134,7 +151,7 @@ a {
     border-radius: 30px;
     padding: 2rem;
 
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 5px 5px 10px -5px;
 }
 
 .main-mini-search span {
@@ -268,7 +285,7 @@ a {
 }
 
 .white-main {
-    padding: 10rem;
+    padding: 5rem;
     width: 95%;
     display: grid;
     grid-template-columns: repeat( auto-fit, minmax(500px,1fr) );
@@ -299,10 +316,11 @@ a {
     width: 400px;
     margin: 1.5rem auto;
     border-radius:30px;
-
+    border-radius: 40px;
+    box-shadow: 5px 5px 10px -5px;
 }
 
-.main-rank-btn-left, .main-rank-btn-right:hover {
+.text-decoration-underline:hover {
     text-decoration:underline;
 }
 .main-rank-btn-left {
@@ -372,9 +390,12 @@ a {
     border-radius: 20px;
     text-align: center;
     padding: 30px;
+    box-shadow: 5px 5px 10px -5px;
 }
 
 .main-right-board {
+    
+    box-shadow: 5px 5px 10px -5px;
     background-color: #FFAF66;
     width: 150px;
     text-align: center;
@@ -444,8 +465,8 @@ a {
 }
 .third-main-fff {
     background-color: rgb(0, 0, 0,0.5);
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
     line-height: 3rem;
     /* word-spacing:1.5rem;
     letter-spacing:1.5rem; */
@@ -469,9 +490,6 @@ a {
 
 }
 
-.last-main img {
-    /* width: 400px; */
-}
 
 .last-left {
     width: 400px;
