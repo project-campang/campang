@@ -18,3 +18,4 @@ class AmenitySeeder extends Seeder
         Amenity::factory(10)->create();
     }
 }
+

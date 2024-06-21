@@ -15,6 +15,6 @@ class CampAmenitySeeder extends Seeder
      */
     public function run()
     {
-        CampAmenity::factory(10)->create();
+        CampAmenity::factory(50)->create();
     }
 }

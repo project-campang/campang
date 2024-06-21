@@ -15,11 +15,6 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        $data = [
-            'user_id' => 1,
-            'camp_id' => 1,
-            'comment' => '댓글 테스트중중중',
-        ];
-        Comment::create($data);
+        Comment::factory(50)->create();
     }
 }

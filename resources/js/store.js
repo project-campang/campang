@@ -23,6 +23,7 @@ const store = createStore({
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
             // wishes: [],
+            campDetail: {},
             stateData: [],
             countyData: [],
             selectedState: null, // 선택된 시/도
@@ -117,7 +118,15 @@ const store = createStore({
         setCommunityTypes(state, communityTypes) {
             state.communityTypes = communityTypes; // 상태 업데이트
         },
+        
+        setCampDetail(state, data){
+            state.campDetail = data;
+        },
 
+
+        setCampDetail(state, data){
+            state.campDetail = data;
+        },
 
         // 시/도 데이터 획득
         setStateData(state, data) {
@@ -345,8 +354,8 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        commentStore(context) {
-            const url = '/api/comment';
+        commentStore(context, id) {
+            const url = '/api/comment/'+id;
             const data = new FormData(document.querySelector('#commentForm'));
             
             console.log(data);
@@ -355,7 +364,7 @@ const store = createStore({
                 .then(response => {
                 context.commit('setUnshiftCommentData', response.data.data); //댓글 가장 앞에 추가
 
-                router.go('/camp');
+                router.go('/camp/' + id);
                 // location.reload();
             })
             .catch(error => {
@@ -364,13 +373,47 @@ const store = createStore({
                 alert('댓글 작성 실패'+error.response.data)
             })
         },
-        /**
+        // /**
+        //  * 댓글 페이지네이션
+        //  * @param {*} context 
+        //  * @param {*} page 
+        //  */
+        // commentPageGet(context, page=1) {
+        //     const url = ('/api/commentPage?page=' + page);
+        //     console.log(url);
+        //     axios.get(url)
+        //     .then(response => {
+        //         // const test = response.data.data.links.filter((item, key) => {
+        //         //     return !(key == 0 || key == (response.data.data.links.length - 1));
+        //         // });
+        //         context.commit('setCommentList', response.data.data.data);
+        //         context.commit('setPagination', {
+        //             current_page: response.data.data.current_page, // 현재페이지
+        //             first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+        //             last_page: response.data.data.last_page, // 마지막페이지
+        //             last_page_url: response.data.data.last_page_url, // 마지막페이지url
+        //             total: response.data.data.total, // 총 페이지
+        //             per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+        //             prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+        //             next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+        //             links: response.data.data.links,
+        //             // test: test,
+        //         });
+        //         // context.commit('setCurrentPage', data);
+        //         // console.log(test);
+        //         // console.log(response.data);
+        //     })
+        //     .catch((e) => {
+        //             console.log(e);
+        //         })
+        // },
+         /**
          * 댓글 페이지네이션
          * @param {*} context 
          * @param {*} page 
          */
-        commentPageGet(context, page=1) {
-            const url = ('/api/commentPage?page=' + page);
+         commentPageGet(context,id, page=1) {
+            const url = ('/api/camp/'+id+'/commentPage?page=' + page);
             console.log(url);
             axios.get(url)
             .then(response => {
@@ -550,29 +593,35 @@ const store = createStore({
     //     });
     //   }
 
+        campDetailGet(context, id){
+            const url = '/api/camp/'+id;
+            console.log(url);
 
+            axios.get(url)
+            .then(response => {
+                context.commit('setCampDetail', response.data.data);
+                console.log(response.data);
+            })
+            .catch( error => {
+                console.log('정보획득 실패 : ', error);
+            })
 
+        },
+        // async campDetailGet({ commit }, id) {
+        //     try {
+        //       const response = await axios.get(`/api/camp/${id}`);
+        //       commit('setCampDetail', {
+        //             campInfo: response.data.data.campInfo,
+        //             amenityInfo: response.data.data.amenityInfo,
+        //             amusementInfo: response.data.data.amusementInfo,
+        //             siteTypeInfo: response.data.data.siteTypeInfo,
+        //             topoInfo: response.data.data.topoInfo,
+        //         });
+        //     } catch (error) {
+        //       console.error('Error fetching detailed info:', error);
+        //     }
+        //   },
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
         /**
          * 캠핑장 데이터 획득
          * 

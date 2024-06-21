@@ -54,8 +54,8 @@ Route::get('/api/state', [StateController::class, 'stateGet']); // state
 Route::get('/api/county', [CountyController::class, 'countyGet']); // county
 
 // 댓글 컨트롤러
-Route::post('/api/comment', [CommentController::class, 'comment']);
-Route::get('/api/commentPage', [CommentController::class, 'commentPaginate']);
+Route::post('/api/comment/{id}', [CommentController::class, 'comment']);
+Route::get('/api/camp/{id}/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
 
 

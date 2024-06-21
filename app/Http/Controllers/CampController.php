@@ -67,6 +67,7 @@ class CampController extends Controller
 
 
     public function suggestCampingzang(Request $request)
+<<<<<<< HEAD
     {
         try {
             // 가장 최근의 캠핑장 데이터를 가져옵니다.
@@ -81,22 +82,40 @@ class CampController extends Controller
                     'data' => null
                 ], 404);
             }
+=======
+{
+    try {
+        // 가장 최근의 네 개의 캠핑장 데이터를 가져옵니다.
+        $recentCamps = Camp::select('name', 'main_img')
+                           ->orderBy('created_at', 'DESC')
+                           ->take(4) // 네 개의 데이터를 가져옴
+                           ->get();
+>>>>>>> 59cd456e43ce477cd33d4c489d8b2b111d31f961
 
+        if ($recentCamps->isEmpty()) {
             return response()->json([
-                'code' => '0',
-                'msg' => '최근 캠핑 정보 획득 완료',
-                'data' => $recentCamp->toArray()
-            ], 200);
-        } catch (\Exception $e) {
-            // 로그에 에러를 기록합니다.
-            Log::error('Error in suggestCampingzang: ' . $e->getMessage());
-            return response()->json([
-                'code' => '2',
-                'msg' => '서버 오류가 발생했습니다.',
-                'error' => $e->getMessage()
-            ], 500);
+                'code' => '1',
+                'msg' => '캠핑 정보가 없습니다.',
+                'data' => null
+            ], 404);
         }
+
+        return response()->json([
+            'code' => '0',
+            'msg' => '최근 캠핑 정보 획득 완료',
+            'data' => $recentCamps->toArray()
+        ], 200);
+    } catch (\Exception $e) {
+        // 로그에 에러를 기록합니다.
+        Log::error('Error in suggestCampingzang: ' . $e->getMessage());
+        return response()->json([
+            'code' => '2',
+            'msg' => '서버 오류가 발생했습니다.',
+            'error' => $e->getMessage()
+        ], 500);
     }
+}
+
     
 
 
@@ -124,7 +143,7 @@ class CampController extends Controller
         ,'msg' => ''
         ,'data' => $this->getCampDetail($id)
     ];
-
+    Log::debug('상세', $responseData);
     return response()->json($responseData, 200);
     }
 

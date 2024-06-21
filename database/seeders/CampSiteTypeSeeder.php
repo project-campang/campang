@@ -15,6 +15,6 @@ class CampSiteTypeSeeder extends Seeder
      */
     public function run()
     {
-        CampSiteType::factory(10)->create();
+        CampSiteType::factory(50)->create();
     }
 }
