@@ -119,7 +119,7 @@ class CampController extends Controller
         ,'msg' => ''
         ,'data' => $this->getCampDetail($id)
     ];
-
+    Log::debug('상세', $responseData);
     return response()->json($responseData, 200);
     }
 

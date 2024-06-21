@@ -535,17 +535,18 @@ const store = createStore({
     //     });
     //   }
 
+        campDetailGet(context, id){
+            const url = '/api/camp/'+id;
+            axios.get(url)
+            .then(response => {
+                context.commit();
+            })
+            .catch()
 
 
 
 
-
-
-
-
-
-
-
+        },
 
 
         /**
