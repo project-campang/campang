@@ -24,6 +24,7 @@ class CampSeeder extends Seeder
             'latitude' => 37.8181789,
             'longitude' => 127.2275313,
             'info_text' => '엄청엄청 좋은 캠핑장입니다',
+            // 'link' => 'https://www.naver.com/',
             'price' => 45000,
             'main_img' => '/img_nr/캠핑장1.png',
         ];

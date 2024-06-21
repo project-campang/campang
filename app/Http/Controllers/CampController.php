@@ -5,7 +5,9 @@ namespace App\Http\Controllers;
 use App\Models\Amenity;
 use App\Models\Amusement;
 use App\Models\Camp;
+use App\Models\County;
 use App\Models\SiteType;
+use App\Models\State;
 use App\Models\Topo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
@@ -23,24 +25,21 @@ class CampController extends Controller
                         // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
                         // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
                         // ->groupBy('camps.id' )
-                        ->orderBy('camps.name')
+                        ->orderBy('camps.state')
+                        ->limit(15)
                         ->get();
-
-    log::debug('게시글 정보', $campList->toArray());
-
-    $responseData = [
-        'code' => '0'
-        ,'msg' => ''
-        ,'data' => $campList->toArray()
-    ];
-
+    
         // log::debug('게시글 정보', $campList->toArray());
+    
+        $responseData = [
+            'code' => '0'
+            ,'msg' => ''
+            ,'data' => $campList->toArray()
+        ];
 
-        
-        log::debug('responseData', $responseData);
-    // log::debug('responseData1', $responseData);
+        // log::debug('responseData', $responseData);
 
-    return response()->json($responseData, 200);
+        return response()->json($responseData, 200);
     }
 
 
@@ -50,8 +49,16 @@ class CampController extends Controller
         $state = $request->input('state');
         $county = $request->input('county');
 
-        $result = Camp::select()
-                        ->get();
+        // $result = Camp::select()
+        //                 ->get();
+
+        //     $responseData = [
+        //         'code' => '0'
+        //         ,'msg' => ''
+        //         ,'data' => $this->getCampDetail($id)
+        //     ];
+        
+        //     return response()->json($responseData, 200);
 
     }
 
@@ -64,8 +71,8 @@ class CampController extends Controller
         try {
             // 가장 최근의 캠핑장 데이터를 가져옵니다.
             $recentCamp = Camp::select('name', 'main_img')
-                              ->orderBy('created_at', 'DESC')
-                              ->first();
+                                ->orderBy('created_at', 'DESC')
+                                ->first();
 
             if (!$recentCamp) {
                 return response()->json([

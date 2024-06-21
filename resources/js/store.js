@@ -23,6 +23,9 @@ const store = createStore({
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
             // wishes: [],
+            stateData: [],
+            countyData: [],
+            selectedState: null, // 선택된 시/도
 
         }
     },
@@ -116,6 +119,18 @@ const store = createStore({
         },
 
 
+        // 시/도 데이터 획득
+        setStateData(state, data) {
+            state.stateData = data;
+        },
+        // 군/구 데이터 획득
+        setCountyData(state, data) {
+            state.countyData = data;
+        },
+        // 선택된 시/도 획득
+        setSelectedState(state, selectedState) {
+            state.selectedState = selectedState;
+        },
         // 캠핑장 데이터 획득
         setCampList(state, data) {
             state.campData = data;
@@ -548,6 +563,16 @@ const store = createStore({
 
 
 
+
+
+
+
+
+
+
+
+
+    
         /**
          * 캠핑장 데이터 획득
          * 
@@ -568,56 +593,108 @@ const store = createStore({
             })
         },
 
+
+
+        /**
+         * 시/도 데이터 획득
+         * @param {*} context 
+         */
+        stateGet(context) {
+            const url = '/api/state';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setStateData', response.data.data);
+                // console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('state 획득 실패' + error.response.data);
+            })
+        },
+
+        /**
+         * 군/구 데이터 획득
+         * @param {*} context 
+         */
+        countyGet(context) {
+            const url = '/api/county';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setCountyData', response.data.data);
+                // console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('county 획득 실패' + error.response.data);
+            })
+        },
+
+
+
         /**
          * 검색 결과 획득
          * 
          * @param {*} context 
          */
-        searchResult(context) {
-        const url ='/api/search';
-        
-        // console.log('searchResult 연결함');
-        const searchForm = document.querySelector('#searchForm');
-        const selectStateElement = document.querySelector('#select1');
-        const selectCountyElement = document.querySelector('#select2');
-        const selectedState = selectStateElement.value;
-        const selectedCounty = selectCountyElement.value;
-        // console.log('searchForm', searchForm);
-        console.log(selectedState);
-        console.log(selectedCounty);
+        // searchResult(context) {
+        //     const url = '/api/search';
+            
+        //     const selectStateElement = document.querySelector('#select1');
+        //     const selectCountyElement = document.querySelector('#select2');
+        //     const selectedState = selectStateElement.value;
+        //     const selectedCounty = selectCountyElement.value;
+        //     console.log(selectedState);
+        //     console.log(selectedCounty);
 
-        axios.post(url, selectedState, selectedCounty)
-            .then(response => {
-                context.commit('setSearchResult', response.data);
-                console.error('검색 결과 획득', response.data);
-                // router.replace('/community');
-                // router.go('/community');
-                // location.reload('/community');
-            })
-            .catch(error => {
-                // console.error('검색 결과 획득 실패:', error.response);
-                alert('검색 실패'+error.response);
-            });
+        //     axios.post(url, data)
+        //         .then(response => {
+        //             context.commit('setSearchResult', response.data.data);
+        //             console.log('검색 결과 획득 성공', response.data.data); 
 
-
-        },
+        //         })
+        //         .catch(error => {
+        //             console.error('검색 결과 획득 실패', response.data);
+        //             alert('검색 실패'+error.response);
+        //         });
+        //     },
 
 
 
+            // 검색창 연결
+            async fetchStateData({ commit }) {
+                try {
+                    const response = await axios.get('/api/state');
+                    commit('setStateData', response.data.data);
+                } catch(error) {
+                    console.log('시/도 데이터 가져오기 실패', error);
+                }
+            },
+            async fetchCountyData({ commit }, stateId) {
+                try {
+                    const response = await axios.get(`/api/county?state_id=${stateId}`);
+                    commit('setCountyData', response.data.data);
+                } catch (error) {
+                    console.error('구/군 데이터 가져오기 실패:', error);
+                }
+            },
 
+            selectState({ commit, dispatch , stateId}) {
+                commit('setSelectedState', stateId);
+                dispatch('fetchCountyData', stateId);
+            },
 
-
-
-
-
-
-
-
-
-
-
-    
-
+            async searchResult({ commit }, { state, county }) { // `searchResult` 액션 추가
+                const url = '/api/search';
+          
+                try {
+                  const response = await axios.post(url, { state, county });
+                  commit('setSearchResult', response.data);
+                  console.log('검색 결과 획득 성공', response.data);
+                } catch (error) {
+                  console.error('검색 결과 획득 실패', error);
+                  alert('검색 실패: ' + error.message);
+                }
+            }
 
     },
 });

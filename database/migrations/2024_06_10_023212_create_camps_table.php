@@ -23,6 +23,7 @@ return new class extends Migration
             $table->decimal('latitude', 10, 8);
             $table->decimal('longitude', 11, 8);
             $table->string('info_text', 500);
+            $table->string('link', 500)->nullable();
             $table->integer('price');
             $table->string('main_img', 200);
             $table->string('other_img_1')->nullable();

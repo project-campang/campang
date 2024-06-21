@@ -5,13 +5,13 @@
             <div class="search-box">
                 <form action="" id="searchForm">
                     <label for="address"></label>
-                    <select v-model="selectState" @change="selectChange" name="state" id="select1" class="address">
+                    <select @change="selectState" name="state" id="select1" class="address">
                         <option>전체 시/도</option>
-                        <option v-for="state in states" :key="state" :value="state">{{ state }}</option>
+                        <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
                     </select>
-                    <select v-model="selectCounty" name="county" id="select2" class="address" placeholder="전체 구/군">
+                    <select @change="selectCounty" name="county" id="select2" class="address">
                         <option>전체 구/군</option>
-                        <option v-for="county in counties" :key="county">{{ county }}</option>
+                        <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
                     </select>
                     <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">간편 검색</button>
                     <div class="accordion" id="accordionPanelsStayOpenExample">
@@ -96,27 +96,23 @@
                 </form>
             </div>
             <div class="result">
-                <hr>    
-                <span>1,000개의 검색 결과</span>
+                <hr>
+                <div>{{ $store.state.campData.length }} 개의 검색 결과</div>
             </div>
-            <div class="search-item" v-for="(item, key) in $store.state.campData" :key="key">
+            <div class="search-item" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key">
                 <div class="item-img">
                     <img class="img main-img" :src='item.main_img' alt="">
-                    <!-- <img v-if="imgPlace" class="img" :src='item.main_img' alt=""> -->
                 </div>
                 <div class="item-info">
                     <span class="item-name">{{ item.name }}</span>
                     <div class="item-info-2">
-                        <!-- <span class="item-distance">{{ item.distance }}</span> -->
-                        <!-- <span class="item-distance">87.2km</span> -->
-                        <!-- <span>|</span> -->
-                        <span class="adress-depth">{{ item.state }} > {{ item.country }} > </span>
-                        <span class="adress-depth2">{{ item.address }}</span>
+                        <span class="item-distance">87.2km</span>
+                        <span>|</span>
+                        <span class="address-depth">{{ item.state }} > {{ item.county }} > </span>
+                        <span class="address-depth2">{{ item.address }}</span>
                     </div>
                     <div class="item-info-3">
-                        <!-- <span class="item-price">{{ item.price }}</span> -->
-                        <span class="item-price">500000 원</span>
-                        <span class="item-price-2">{{ item.priceDescription }}</span>
+                        <span class="item-price">{{ item.price }}</span>
                     </div>
                     <div class="item-tel">
                         <span>{{ item.tel }}</span>
@@ -126,21 +122,45 @@
                     <button><img src="../../public/img/상세보기 화살표.png" alt=""></button>
                 </div>
             </div>
+            <div class="search-item" v-if="searchResult.length > 0" v-for="(item, key) in $store.state.campData" :key="key">
+                <div class="item-img">
+                    <img class="img main-img" :src='item.main_img' alt="">
+                </div>
+                <div class="item-info">
+                    <span class="item-name">{{ item.name }}</span>
+                    <div class="item-info-2">
+                        <span class="item-distance">87.2km</span>
+                        <span>|</span>
+                        <span class="address-depth">{{ item.state }} > {{ item.county }} > </span>
+                        <span class="address-depth2">{{ item.address }}</span>
+                    </div>
+                    <div class="item-info-3">
+                        <span class="item-price">{{ item.price }}</span>
+                    </div>
+                    <div class="item-tel">
+                        <span>{{ item.tel }}</span>
+                    </div>
+                </div>
+                <div class="item-detail">
+                    <button><img src="../../public/img/상세보기 화살표.png" alt=""></button>
+                </div>
+            </div>
+            
         </div>
         <div class="resizer" id="drag" @mousedown="startResize">
             <div class="resizer-icon">
-                <!-- <img class="img" src='../../public/img/right-arrow.png' alt="">
-                <img class="img" src='../../public/img/left-arrow.png' alt=""> -->
+                <!-- <img class="img" src='../../public/img/right-arrow.png' alt=""> -->
+                <!-- <img class="img" src='../../public/img/left-arrow.png' alt=""> -->
                 <!-- <img class="img" src='../../public/images/resizer.png' alt=""> -->
             </div>
         </div>
         <div class="map-container">
             <div class="map">
                 <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true">
-                    <KakaoMapMarker :lat="coordinate.lat" :lng="coordinate.lng"></KakaoMapMarker>
-                    <KakaoMapMarker :lat="coordinate1.lat" :lng="coordinate1.lng"></KakaoMapMarker>
+                    <KakaoMapMarker :lat="item.latitude" :lng="item.longitude"></KakaoMapMarker>
+                    <!-- <KakaoMapMarker :lat="coordinate1.lat" :lng="coordinate1.lng"></KakaoMapMarker>
                     <KakaoMapMarker :lat="coordinate2.lat" :lng="coordinate2.lng"></KakaoMapMarker>
-                    <KakaoMapMarker :lat="coordinate3.lat" :lng="coordinate3.lng"></KakaoMapMarker>
+                    <KakaoMapMarker :lat="coordinate3.lat" :lng="coordinate3.lng"></KakaoMapMarker> -->
                 </KakaoMap>
             </div>
             <div class="float-btn">
@@ -159,67 +179,78 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 // const imgPlace = ref(false);
-// const selectState = ref('');
-// const selectCounty = ref('');
+// const selectedState = ref(''); // 아 진짜 모르겟다
+const selectedCounty = ref('');
+const searchResult = ref([]); // 검색 결과
+
+
+
+
+
+function updateSelectedState(e) {
+  selectedState.value = e.target.value;
+};
+
+function updateSelectedCounty(e) {
+  selectedCounty.value = e.target.value;
+};
+
+
+
+
+
+
+
+// 선택한 시/도에 따라 구/군 목록 업데이트
+// const selectChange = async () => {
+//   try {
+//     const stateName = selectedState.value;
+//     // if (!stateName) return;
+
+//     const add = stateList.value.indexOf(stateName);
+//     if (add !== -1) {
+//       selectedCounty.value = `${stateName} 전체`; // 구/군 선택 초기화
+
+//       // 선택된 시/도에 해당하는 구/군 목록을 가져옴
+//       const response = await axios.get(`/api/counties/${stateName}`); // 시/도에 따른 구/군 목록을 가져옴
+//       counties.value = response.data; // response.data가 구/군 이름들의 배열이라 가정
+//     } else {
+//       console.error('시/도를 찾을 수 없습니다.');
+//     }
+//   } catch (error) {
+//     console.error('구/군 목록을 불러오지 못했습니다:', error);
+//   }
+// };
+
+
+
+
+
+
+
+
+
 
 
 // 지도 좌표
 
 const coordinate = {
-  lat: 37.566826,
-  lng: 126.9786567
+    lat: 37.566826,
+    lng: 126.9786567
 };
-const coordinate1 = {
-  lat: 37.5546788,
-  lng: 126.9706069
-};
-const coordinate2 = {
-  lat: 37.5660373,
-  lng: 126.9821930
-};
-const coordinate3 = {
-  lat: 37.5655638,
-  lng: 126.97489
-};
+// const coordinate1 = {
+//     lat: 37.5546788,
+//     lng: 126.9706069
+// };
+// const coordinate2 = {
+//     lat: 37.5660373,
+//     lng: 126.9821930
+// };
+// const coordinate3 = {
+//     lat: 37.5655638,
+//     lng: 126.97489
+// };
 
-// 검색 셀렉트박스 연결
-
-const selectState = ref('전체 시/도');
-const selectCounty = ref('전체 구/군');
-const states = ['서울특별시', '부산광역시', '대구광역시', '인천광역시', '광주광역시', '대전광역시', '울산광역시', '세종시', '경기도', '강원도', '충청북도', '충청남도', '전라북도', '전라남도', '경상북도', '경상남도', '제주도'];
-let countyList  = [
-    ['서울특별시 전체','강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구']
-    ,['부산광역시 전체','강서구','금정구','남구','동구','동래구','부산진구','북구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구','기장군']
-    ,['대구광역시 전체','남구','달서구','동구','북구','서구','수성구','중구','달성군']
-    ,['인천광역시 전체','계양구','남구','남동구','동구','부평구','서구','연수구','중구','강화군','옹진군']
-    ,['광주광역시 전체','광산구','남구','동구','북구','서구']
-    ,['대전광역시 전체','대덕구','동구','서구','유성구','중구']
-    ,['울산광역시 전체','남구','동구','북구','중구','울주군']
-    ,['세종시 전체','금남면','소정면', '연서면', '전동면']
-    ,['경기도 전체','고양시','과천시','광명시','구리시','군포시','남양주시','동두천시','부천시','성남시','수원시','시흥시','안산시','안양시','오산시','의왕시','의정부시','평택시','하남시','가평군','광주시','김포시','안성시','양주군','양평군','여주군','연천군','용인시','이천군','파주시','포천시','화성시']
-    ,['강원도 전체','강릉시','동해시','삼척시','속초시','원주시','춘천시','태백시','고성군','양구군','양양군','영월군','인제군','정선군','철원군','평창군','홍천군','화천군']
-    ,['충청북도 전체','제천시','청주시','충주시','괴산군','단양군','보은군','영동군','옥천군','음성군','진천군','청원군']
-    ,['충청남도 전체','공주시','보령시','서산시','아산시','천안시','금산군','논산군','당진군','부여군','서천군','연기군','예산군','청양군','태안군','홍성군']
-    ,['전라북도 전체','군산시','김제시','남원시','익산시','전주시','정읍시','고창군','무주군','부안군','순창군','완주군','임실군','장수군','진안군']
-    ,['전라남도 전체','광양시','나주시','목포시','순천시','여수시','여천시','강진군','고흥군','곡성군','구례군','담양군','무안군','보성군','신안군','여천군','영광군','영암군','완도군','장성군','장흥군','진도군','함평군','해남군','화순군']
-    ,['경상북도 전체','경산시','경주시','구미시','김천시','문경시','상주시','안동시','영주시','영천시','포항시','고령군','군위군','봉화군','성주군','영덕군','영양군','예천군','울릉군','울진군','의성군','청도군','청송군','칠곡군']
-    ,['경상남도 전체','거제시','김해시','밀양시','사천시','양산시','진주시','창원시','통영시','거창군','고성군','남해군','산청군','의령군','창녕군','하동군','함안군','함양군','합천군']
-    ,['제주도 전체', '서귀포시', '제주시']
-];
-
-// 검색창 설정 
-
-function selectChange() {
-
-    const add = states.indexOf(selectState.value);
-    if (add !== -1) {
-        selectCounty.value = `${selectState.value} 전체`; // 시/도 변경 시 구/군 선택 초기화
-        counties.value = countyList[add].slice();
-    } else {
-        console.error('시/도를 찾을 수 없습니다.');
-    }
-}
-const counties = ref(countyList[0].slice()); // 초기 상태로 전체 선택으로 설정
 
 // 검색 화면 리사이즈
 
@@ -244,26 +275,74 @@ function searchBtn() {
 }
 
 
-  // 이미지가 나타날 조건 설정
+// // 검색 셀렉트박스 연결
+// function selectChange() {
+//   // Ref to hold state list
+//   const stateList = ref([]);
 
-//     const itemImg = document.querySelector('.item-img')
-//     const mainImg = document.querySelector('.main-img')
-//   if (containerWidth >= thresholdWidth) {
-//     imgPlace.value = true;
-//   } else {
-//     imgPlace.value = false;
-//   }
+
+
+// }
+
+
+
+const selectState = (e) => {
+//   const selectedStateValue = e.target.value;
+//   console.log('선택된 값:', selectedStateValue);
+};
+
+
+const selectCounty = (e) => {
+  const selectedCountyValue = e.target.value;
+  console.log('선택된 값:', selectedCountyValue);
+};
+
+
+const fetchData = async () => {
+  try {
+    const stateData = store.state.stateData;
+    const countyData = store.state.countyData;
+
+    const stateResponse = await axios.get('/api/state');
+    // console.log('stateResponse', stateResponse);
+    stateData.value = stateResponse.data.data;
+    // console.log('stateData.value', stateData.value);
+
+    const countyResponse = await axios.get('/api/county');
+    // console.log('countyResponse', countyResponse);
+    countyData.value = countyResponse.data.data;
+    // console.log('countyData.value', countyData.value);
+
+  } catch (error) {
+    console.error('데이터 가져오기 실패:', error);
+  }
+};
+
+
+
+
+
+
+
+
+
+
+
 
 onBeforeMount(() => {
     store.dispatch('campListGet');
 })
 
 onMounted(() => {
+    store.dispatch('stateGet');
+    store.dispatch('countyGet');
     const resizer = document.querySelector('.resizer');
     resizer.addEventListener('mousedown', startResize);
     window.addEventListener('mouseup', stopResize);
     // store.dispatch('searchResult');
+    fetchData();
 });
+
 
 </script>
 

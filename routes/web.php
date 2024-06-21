@@ -7,6 +7,8 @@ use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampTopoController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CommunityTypeController;
+use App\Http\Controllers\CountyController;
+use App\Http\Controllers\StateController;
 use App\Http\Controllers\WishController;
 use Illuminate\Support\Facades\Route;
 
@@ -48,6 +50,8 @@ Route::get('/api/main/suggest/brand',[BrandController::class, 'suggestBrand']);
 Route::get('/api/search', [CampController::class, 'campListGet']);
 Route::post('/api/search', [CampController::class, 'searchResult']);
 Route::get('/api/camp/{id}', [CampController::class, 'campDetailGet']);
+Route::get('/api/state', [StateController::class, 'stateGet']); // state
+Route::get('/api/county', [CountyController::class, 'countyGet']); // county
 
 // 댓글 컨트롤러
 Route::post('/api/comment', [CommentController::class, 'comment']);
