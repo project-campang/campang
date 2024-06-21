@@ -21,7 +21,9 @@ const store = createStore({
             suggestBrand:[],
             communityType: [], // community_types 데이터를 저장할 상태
             campData: [],
+            searchResult : [], // 캠핑장 검색 결과
             // wishes: [],
+
         }
     },
     mutations: {
@@ -61,9 +63,14 @@ const store = createStore({
         setSuggestBrand(state,data) {
             state.suggestbrand = data;
         },
-        setCommunityType(state, communityType) {
-            state.communityType = communityType;
+        setCommunityTypes(state, communityTypes) {
+            state.communityTypes = communityTypes; // 상태 업데이트
         },
+
+        //댓글 초기 삽입
+        // setCommentData(state, data){ 
+        //     state.commentData = data;
+        // },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
@@ -104,11 +111,19 @@ const store = createStore({
                 communityItem.views++;
             }
         },
+        setCommunityTypes(state, communityTypes) {
+            state.communityTypes = communityTypes; // 상태 업데이트
+        },
+
 
         // 캠핑장 데이터 획득
         setCampList(state, data) {
             state.campData = data;
-        }
+        },
+        // 캠핑장 검색 결과 획득
+        setSearchResult(state, data) {
+            state.searchResult = data;
+        },
     },
     actions: {
         async login(context, loginForm) {
@@ -561,14 +576,29 @@ const store = createStore({
          */
         searchResult(context) {
         const url ='/api/search';
+        
+        // console.log('searchResult 연결함');
+        const searchForm = document.querySelector('#searchForm');
+        const selectStateElement = document.querySelector('#select1');
+        const selectCountyElement = document.querySelector('#select2');
+        const selectedState = selectStateElement.value;
+        const selectedCounty = selectCountyElement.value;
+        // console.log('searchForm', searchForm);
+        console.log(selectedState);
+        console.log(selectedCounty);
 
-        axios.post(url)
-        .then(response => {
-
-        })
-        .catch(error => {
-
-        });
+        axios.post(url, selectedState, selectedCounty)
+            .then(response => {
+                context.commit('setSearchResult', response.data);
+                console.error('검색 결과 획득', response.data);
+                // router.replace('/community');
+                // router.go('/community');
+                // location.reload('/community');
+            })
+            .catch(error => {
+                // console.error('검색 결과 획득 실패:', error.response);
+                alert('검색 실패'+error.response);
+            });
 
 
         },

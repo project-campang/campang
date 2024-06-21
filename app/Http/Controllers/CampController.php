@@ -22,7 +22,7 @@ class CampController extends Controller
                         // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
                         // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
                         // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
-                        // ->groupBy('camps.id')
+                        // ->groupBy('camps.id' )
                         ->orderBy('camps.name')
                         ->get();
 
@@ -47,13 +47,11 @@ class CampController extends Controller
 
     // 검색 결과 획득
     public function searchResult(Request $request) {
+        $state = $request->input('state');
+        $county = $request->input('county');
 
-
-
-
-
-
-
+        $result = Camp::select()
+                        ->get();
 
     }
 
