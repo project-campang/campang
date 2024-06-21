@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    <div>
+    <div class="router-view-container">
         <router-view></router-view>
     </div>
 
@@ -373,6 +373,18 @@ const communityTypes = computed(() => store.state.communityTypes);
 onMounted(() => {
     // store.dispatch('fetchCommunityTypes'); // community_types 데이터 가져오기
 });
+
+// 헤더 스크롤
+// window.addEventListener('scroll', function() {
+//     var scrollPosition = window.scrollY;
+
+//     if (scrollPosition > 100) { // 스크롤 위치가 100px 이상일 때
+//         document.querySelector('.my-nav-header').style.backgroundColor = 'rgba(255, 255, 255, 0.7)'; // 투명도 조정
+//     } else {
+//         document.querySelector('.my-nav-header').style.backgroundColor = 'rgba(255, 255, 255, 0.9)'; // 기본 배경색 복원
+//     }
+// });
+
 </script>
 
 <style scoped src="../css/main.css">
