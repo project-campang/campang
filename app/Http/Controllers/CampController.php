@@ -46,20 +46,29 @@ class CampController extends Controller
 
     // 검색 결과 획득
     public function searchResult(Request $request) {
-        $state = $request->input('state');
-        $county = $request->input('county');
+        $state = $request->state;
+        $county = $request->county;
 
-        // $result = Camp::select()
-        //                 ->get();
-
-        //     $responseData = [
-        //         'code' => '0'
-        //         ,'msg' => ''
-        //         ,'data' => $this->getCampDetail($id)
-        //     ];
+        $campList = Camp::select('camps.*')
+                        ->orderBy('camps.state')
+                        ->limit(15);
         
-        //     return response()->json($responseData, 200);
+        if($request->has('state') || !empty($request->state)) {
+            $campList->where('camps.state', $request->state);
+        }
+        if($request->county) {
+            $campList->where('camps.county', $request->county);
+        }
+                        
+        $result = $campList->get();
 
+        $responseData = [
+            'code' => '0'
+            ,'msg' => ''
+            ,'data' => $result->toArray()
+        ];
+    
+        return response()->json($responseData, 200);
     }
 
 

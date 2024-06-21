@@ -99,7 +99,7 @@
                 <hr>
                 <div>{{ $store.state.campData.length }} 개의 검색 결과</div>
             </div>
-            <div class="search-item" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key">
+            <div class="search-item" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
                 <div class="item-img">
                     <img class="img main-img" :src='item.main_img' alt="">
                 </div>
@@ -122,7 +122,7 @@
                     <button><img src="../../public/img/상세보기 화살표.png" alt=""></button>
                 </div>
             </div>
-            <div class="search-item" v-if="searchResult.length > 0" v-for="(item, key) in $store.state.campData" :key="key">
+            <!-- <div class="search-item" v-if="searchResult.length > 0" v-for="(item, key) in $store.state.campData" :key="key">
                 <div class="item-img">
                     <img class="img main-img" :src='item.main_img' alt="">
                 </div>
@@ -144,7 +144,7 @@
                 <div class="item-detail">
                     <button><img src="../../public/img/상세보기 화살표.png" alt=""></button>
                 </div>
-            </div>
+            </div> -->
             
         </div>
         <div class="resizer" id="drag" @mousedown="startResize">
@@ -157,10 +157,10 @@
         <div class="map-container">
             <div class="map">
                 <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true">
-                    <KakaoMapMarker :lat="item.latitude" :lng="item.longitude"></KakaoMapMarker>
-                    <!-- <KakaoMapMarker :lat="coordinate1.lat" :lng="coordinate1.lng"></KakaoMapMarker>
+                    <KakaoMapMarker :lat="coordinate.lat" :lng="coordinate.lng"></KakaoMapMarker>
+                    <KakaoMapMarker :lat="coordinate1.lat" :lng="coordinate1.lng"></KakaoMapMarker>
                     <KakaoMapMarker :lat="coordinate2.lat" :lng="coordinate2.lng"></KakaoMapMarker>
-                    <KakaoMapMarker :lat="coordinate3.lat" :lng="coordinate3.lng"></KakaoMapMarker> -->
+                    <KakaoMapMarker :lat="coordinate3.lat" :lng="coordinate3.lng"></KakaoMapMarker>
                 </KakaoMap>
             </div>
             <div class="float-btn">
@@ -235,21 +235,21 @@ function updateSelectedCounty(e) {
 // 지도 좌표
 
 const coordinate = {
-    lat: 37.566826,
-    lng: 126.9786567
+  lat: 37.566826,
+  lng: 126.9786567
 };
-// const coordinate1 = {
-//     lat: 37.5546788,
-//     lng: 126.9706069
-// };
-// const coordinate2 = {
-//     lat: 37.5660373,
-//     lng: 126.9821930
-// };
-// const coordinate3 = {
-//     lat: 37.5655638,
-//     lng: 126.97489
-// };
+const coordinate1 = {
+  lat: 37.5546788,
+  lng: 126.9706069
+};
+const coordinate2 = {
+  lat: 37.5660373,
+  lng: 126.9821930
+};
+const coordinate3 = {
+  lat: 37.5655638,
+  lng: 126.97489
+};
 
 
 // 검색 화면 리사이즈
@@ -270,7 +270,8 @@ const stopResize = () => {
     window.removeEventListener('mouseup', stopResize);
 }
 
-function searchBtn() {
+function searchBtn(e) {
+    console.log(e);
     store.dispatch('searchResult')
 }
 
