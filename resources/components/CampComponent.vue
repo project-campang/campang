@@ -1,5 +1,6 @@
 <template>
-    {{$route.params.id}}
+    <!-- {{$route.params.id}} -->
+     {{ $route }}
     <main>
         <div class="background-color">
             <div class="main-head">
@@ -17,7 +18,7 @@
                         <div class="detail-info-container">
                             <br>
                             <div class="shop-name-card">
-                                <div class="shop-name">자연 휴양림 오토캠핑장</div>
+                                <div class="shop-name"></div>
                                 <hr>
                                 <div class="shop-name-under">산과 강이 보이는 힐링 캠핑장</div>
                             </div>
