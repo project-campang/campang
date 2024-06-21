@@ -17,8 +17,9 @@ class CampSiteTypeFactory extends Factory
     public function definition()
     {
         return [
-            'camp_id' => $this->faker->numberBetween($min = 1, $max = 10)
-            ,'site_type_no' => $this->faker->numberBetween($min = 1, $max = 10)
+            'camp_id' => $this->faker->numberBetween($min = 1, $max = 50)
+            ,'site_type_no' => $this->faker->numberBetween($min = 8, $max = 14)
+            ,'cnt'=> $this->faker->numberBetween($min = 1, $max = 10)
         ];
     }
 }

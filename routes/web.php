@@ -50,8 +50,8 @@ Route::post('/api/search', [CampController::class, 'searchResult']);
 Route::get('/api/camp/{id}', [CampController::class, 'campDetailGet']);
 
 // 댓글 컨트롤러
-Route::post('/api/comment', [CommentController::class, 'comment']);
-Route::get('/api/commentPage', [CommentController::class, 'commentPaginate']);
+Route::post('/api/comment/{id}', [CommentController::class, 'comment']);
+Route::get('/api/camp/{id}/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
 
 

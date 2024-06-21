@@ -24,9 +24,11 @@
 // import { ref } from 'vue';
 import { onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 import { computed } from 'vue';
 
-  const store = useStore();
+const route = useRoute();
+const store = useStore();
   // const pagination = reactive({});
 
   // 로그인한 사용자 정보 가져오기
@@ -42,7 +44,7 @@ const isAuthor = (userId) => {
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {
-    store.dispatch('commentPageGet');
+    store.dispatch('commentPageGet', route.params.id);
   // console.log(store.state.pagination.current_page);
   })
 

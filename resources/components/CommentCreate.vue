@@ -10,18 +10,19 @@
 </template>
 
 <script setup>
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 
 const store = useStore();
-
+const route = useRoute();
 
 function commentEvent(){
-    store.dispatch('commentStore');
+    store.dispatch('commentStore', route.params.id);
     window.location.reload();
 }
 
 </script>
 
-<style>
-    @import url(../css/camp.css);
+<style >
+@import url(../css/camp.css);
 </style>

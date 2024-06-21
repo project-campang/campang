@@ -15,6 +15,6 @@ class CampTopoSeeder extends Seeder
      */
     public function run()
     {
-        CampTopo::factory(10)->create();
+        CampTopo::factory(50)->create();
     }
 }

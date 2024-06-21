@@ -255,12 +255,13 @@ textarea {
 }
 .co-co {
     font-family: 'SBAggroL';
-    font-size: 1.2rem;
+    font-size: 1.0rem;
 
 }
 .co-nick {
-    font-family: 'SBAggroM';
+    font-family: 'SBAggroB';
     font-size: 1.2rem;
+    margin-top: 10px;
 }
 .co-at {
     font-family: 'SBAggroL';

@@ -17,7 +17,9 @@ class CommentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'camp_id' => $this->faker->numberBetween($min = 1, $max = 200)
+            ,'user_id' => $this->faker->numberBetween($min = 1, $max = 3)
+            ,'comment' => $this->faker->realText(rand(10,200))
         ];
     }
 }
