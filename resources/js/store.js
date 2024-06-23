@@ -150,16 +150,41 @@ const store = createStore({
         // },
     },
     actions: {
-        async login(context, loginForm) {
+        // async login(context, loginForm) {
+        //     try {
+        //         const response = await axios.post('/api/login', loginForm);
+        //         localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+        //         context.commit('setAuthFlg', true);
+        //         context.commit('setUserInfo', response.data.data);
+        //         // router.replace('/main');
+        //     } catch (error) {
+        //         console.error('로그인 실패:', error.response);
+        //         console.log(error);
+        //     }
+        // },
+
+        // async login (context, loginForm)  {
+        //     try {
+        //         const response = await axios.post('/api/login', loginForm);
+        //         context.commit('setAuthFlg', true);
+        //         context.commit('setUserInfo', response.data.data);
+        //         return response;
+        //     } catch (error) {
+        //         if (error.response && error.response.status === 422) {
+        //             throw new Error('Unauthorized'); // 401 Unauthorized 오류 반환
+        //         }
+        //         throw error;
+        //     }
+        // },
+
+        async login({ commit }, loginForm) {
             try {
                 const response = await axios.post('/api/login', loginForm);
-                localStorage.setItem('userInfo', JSON.stringify(response.data.data));
-                context.commit('setAuthFlg', true);
-                context.commit('setUserInfo', response.data.data);
-                // router.replace('/main');
+                commit('setAuthFlg', true);
+                commit('setUserInfo', response.data.data);
+                return response;
             } catch (error) {
-                console.error('로그인 실패:', error.response);
-                console.log(error);
+                throw error;
             }
         },
 

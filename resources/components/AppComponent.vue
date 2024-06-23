@@ -14,11 +14,11 @@
                         <a @click="toggleDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             캠핑Talk 
                         </a>
-                        <ul v-if="showDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <!-- <ul v-if="showDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                             <li v-for="communityType in communityTypes" :key="communityType.type">
                                 <a class="dropdown-item" :href="`/community/${communityType.type}`">{{ communityType.name }}</a>
                             </li>
-                        </ul>
+                        </ul> -->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link active" aria-current="page" href="#">FAQ</a>
@@ -40,36 +40,41 @@
 
     <!-- loginModal -->
     <div v-show="loginFlg" class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="loginModalLabel">로그인</h1>
-                    <button type="button" class="btn-close" @click="closeLogin" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form @submit.prevent="login">
-                        <div class="mb-3">
-                            <label for="loginEmail" class="form-label">이메일</label>
-                            <input type="email" v-model="loginForm.email" class="form-control" id="loginEmail" autocomplete="email">
-                        </div>
-                        <div class="mb-3">
-                            <label for="loginPassword" class="form-label">비밀번호</label>
-                            <input type="password" v-model="loginForm.password" class="form-control" id="loginPassword" autocomplete="password">
-                        </div>
-                        <div class="mb-3">
-                            <p>혹시 가입한 적 없으신가요?</p>
-                            <a href="#" @click.prevent="goToRegistration">회원가입하러가기</a>
-                        </div>
-                        <div class="modal-footer">
-                            <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
-                            <button @click="closeLogin" type="button" class="btn btn-secondary">취소</button>
-                            <button type="submit" class="btn btn-primary">로그인</button>
-                        </div>
-                    </form>
-                </div>
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="loginModalLabel">로그인</h1>
+                <button type="button" class="btn-close" @click="closeLogin" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form @submit.prevent="login">
+                    <div class="mb-3">
+                        <label for="loginEmail" class="form-label">이메일</label>
+                        <input type="email" v-model="loginForm.email" class="form-control" id="loginEmail" autocomplete="email">
+                    </div>
+                    <div class="mb-3">
+                        <label for="loginPassword" class="form-label">비밀번호</label>
+                        <input type="password" v-model="loginForm.password" class="form-control" id="loginPassword" autocomplete="password">
+                    </div>
+                    <!-- 오류 메시지를 여기에 추가 -->
+                    <div v-if="errorMessage" class="alert alert-danger" role="alert">
+                        {{ errorMessage }}
+                    </div>
+                    <div class="mb-3">
+                        <p>혹시 가입한 적 없으신가요?</p>
+                        <a href="#" @click.prevent="goToRegistration">회원가입하러가기</a>
+                    </div>
+                    <div class="modal-footer">
+                        <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
+                        <button @click="closeLogin" type="button" class="btn btn-secondary">취소</button>
+                        <button type="submit" class="btn btn-primary">로그인</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
+
 
     <!-- registrationModal -->
     <div v-show="registrationFlg" class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
@@ -84,13 +89,15 @@
                         <div class="mb-3">
                             <label for="name" class="form-label">이름</label>
                             <input type="text" v-model="registerForm.name" class="form-control" id="name" autocomplete="name">
+                            <div v-if="validationErrors.name" class="alert alert-danger">{{ validationErrors.name }}</div>
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">이메일</label>
                             <input type="email" v-model="registerForm.email" class="form-control" id="email" autocomplete="email">
-                            <div v-if="emailCheckResult !== null" class="alert" :class="[emailCheckResult ? 'alert-danger' : 'alert-success']">
-                                {{ emailCheckResult ? '중복된 이메일입니다.' : '사용 가능한 이메일입니다.' }}
-                            </div>
+                                <div v-if="emailCheckResult !== null" class="alert" :class="[emailCheckResult ? 'alert-danger' : 'alert-success']">
+                                    {{ emailCheckResult ? '중복된 이메일입니다.' : '사용 가능한 이메일입니다.' }}
+                                </div>
+                            <div v-if="validationErrors.email" class="alert alert-danger">{{ validationErrors.email }}</div>
                         </div>
                         <div class="mb-3">
                             <button type="button" @click="checkEmail" class="btn btn-outline-secondary">이메일 중복 확인</button>
@@ -98,24 +105,24 @@
                         <div class="mb-3">
                             <label for="nick_name" class="form-label">닉네임</label>
                             <input type="text" v-model="registerForm.nick_name" class="form-control" id="nick_name" autocomplete="nickname">
+                            <div v-if="validationErrors.nick_name" class="alert alert-danger">{{ validationErrors.nick_name }}</div>
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">비밀번호</label>
                             <input type="password" v-model="registerForm.password" class="form-control" id="password" autocomplete="password">
+                            <div v-if="validationErrors.password" class="alert alert-danger">{{ validationErrors.password }}</div>
                         </div>
                         <div class="mb-3">
                             <label for="ps_chk" class="form-label">비밀번호 확인</label>
                             <input type="password" v-model="registerForm.ps_chk" class="form-control" id="ps_chk" autocomplete="ps_chk">
+                            <div v-if="validationErrors.ps_chk" class="alert alert-danger">{{ validationErrors.ps_chk }}</div>
                         </div>
                         <div class="mb-3">
                             <label for="tel" class="form-label">휴대폰 번호</label>
                             <input type="text" v-model="registerForm.tel" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
+                            <div v-if="validationErrors.tel" class="alert alert-danger">{{ validationErrors.tel }}</div>
                         </div>
-                        <div class="modal-footer">
-                            <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
-                            <button @click="closeRegistration" type="button" class="btn btn-secondary">취소</button>
-                            <button type="submit" class="btn btn-primary">회원가입</button>
-                        </div>
+                        <button type="submit" class="btn btn-primary">가입하기</button>
                     </form>
                 </div>
             </div>
@@ -158,27 +165,162 @@
 </template>
 
 
+
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
 
-// 드롭다운
-// const communityTypes = ref([]);
-// const showDropdown = ref(false);
+// 유효성 검사 함수들
+const validateEmail = (email) => {
+    const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    return regex.test(email);
+};
 
-// onMounted(async () => {
-//     try {
-//         const response = await axios.get('/api/community_types'); // API 호출
-//         communityTypes.value = response.data; // 데이터 설정
-//     } catch (error) {
-//         console.error('Error fetching community types:', error); // 오류 처리
-//     }
-// });
+const validatePassword = (password) => {
+    const regex = /^[a-zA-Z0-9!@*]+$/;
+    return regex.test(password);
+};
 
-// function toggleDropdown() {
-//     showDropdown.value = !showDropdown.value;
+const validateNickName = (nick_name) => {
+    const regex = /^[가-힣a-zA-Z]+$/u;
+    return regex.test(nick_name);
+};
+
+const validateName = (name) => {
+    const regex = /^[가-힣]+$/u;
+    return regex.test(name);
+};
+
+const validateTel = (tel) => {
+    const regex = /^(\d{2,3}-\d{3,4}-\d{4})|(\d{10,11})$/;
+    return regex.test(tel);
+};
+
+// 상태 관리 및 유효성 검사 결과
+// const store = useStore();
+const loginFlg = ref(false);
+const registrationFlg = ref(false);
+const registerForm = ref({
+    email: '',
+    password: '',
+    ps_chk: '',
+    nick_name: '',
+    name: '',
+    tel: ''
+});
+const validationErrors = ref({
+    email: '',
+    password: '',
+    ps_chk: '',
+    nick_name: '',
+    name: '',
+    tel: ''
+});
+
+// 이메일 유효성 검사
+watch(() => registerForm.value.email, (newEmail) => {
+    if (!validateEmail(newEmail)) {
+        validationErrors.value.email = '유효한 이메일을 입력해주세요.';
+    } else {
+        validationErrors.value.email = '';
+    }
+});
+
+// 비밀번호 유효성 검사
+watch(() => registerForm.value.password, (newPassword) => {
+    if (!validatePassword(newPassword)) {
+        validationErrors.value.password = '영문, 숫자, 특수문자(!@*)만 사용 가능합니다.';
+    } else if (newPassword.length < 2 || newPassword.length > 20) {
+        validationErrors.value.password = '비밀번호는 2자 이상, 20자 이하이어야 합니다.';
+    } else {
+        validationErrors.value.password = '';
+    }
+});
+
+// 비밀번호 확인 유효성 검사
+watch(() => registerForm.value.ps_chk, (newPsChk) => {
+    if (newPsChk !== registerForm.value.password) {
+        validationErrors.value.ps_chk = '비밀번호가 일치하지 않습니다.';
+    } else {
+        validationErrors.value.ps_chk = '';
+    }
+});
+
+// 닉네임 유효성 검사
+watch(() => registerForm.value.nick_name, (newNickName) => {
+    if (!validateNickName(newNickName)) {
+        validationErrors.value.nick_name = '한글 또는 영문만 사용 가능합니다.';
+    } else if (newNickName.length < 2 || newNickName.length > 10) {
+        validationErrors.value.nick_name = '닉네임은 2자 이상, 10자 이하이어야 합니다.';
+    } else {
+        validationErrors.value.nick_name = '';
+    }
+});
+
+// 이름 유효성 검사
+watch(() => registerForm.value.name, (newName) => {
+    if (!validateName(newName)) {
+        validationErrors.value.name = '한글만 사용 가능합니다.';
+    } else if (newName.length < 2 || newName.length > 20) {
+        validationErrors.value.name = '이름은 2자 이상, 20자 이하이어야 합니다.';
+    } else {
+        validationErrors.value.name = '';
+    }
+});
+
+// 전화번호 유효성 검사
+watch(() => registerForm.value.tel, (newTel) => {
+    if (!validateTel(newTel)) {
+        validationErrors.value.tel = '유효한 전화번호 형식이 아닙니다.';
+    } else {
+        validationErrors.value.tel = '';
+    }
+});
+
+
+function register() {
+    // 최종 폼 유효성 검사
+    if (Object.values(validationErrors.value).some(error => error)) {
+        alert('입력한 정보를 확인해주세요.');
+        return;
+    }
+
+    store.dispatch('register', registerForm.value)
+        .then(() => {
+            alert(`${registerForm.value.name}님 환영합니다!`);
+            resetRegisterForm();
+            closeRegistration();
+        })
+        .catch(error => {
+            console.error('회원가입 실패:', error);
+        });
+}
+
+function resetRegisterForm() {
+    registerForm.value = {
+        email: '',
+        password: '',
+        ps_chk: '',
+        nick_name: '',
+        name: '',
+        tel: ''
+    };
+    validationErrors.value = {
+        email: '',
+        password: '',
+        ps_chk: '',
+        nick_name: '',
+        name: '',
+        tel: ''
+    };
+
+    emailCheckResult.value = null;
+}
+
+// function closeRegistration() {
+//     registrationFlg.value = false;
 // }
 
 // 스크롤 탑 함수 사용
@@ -190,19 +332,7 @@ const loginForm = ref({
     password: ''
 });
 
-const registerForm = ref({
-    name: '',
-    email: '',
-    nick_name: '',
-    password: '',
-    ps_chk: '',
-    tel: ''
-});
-
 const emailCheckResult = ref(null);
-
-const loginFlg = ref(false);
-const registrationFlg = ref(false);
 
 // Vuex 스토어 사용
 const store = useStore();
@@ -259,16 +389,24 @@ function closeRegistration() {
 }
 
 // 로그인 처리 함수
-function login() {
-    store.dispatch('login', loginForm.value)
-        .then(() => {
-            resetLoginForm();
-            closeLogin();
-        })
-        .catch(error => {
-            console.error('로그인 실패:', error);
-        });
-}
+const errorMessage = ref(null);
+
+        // const loginFlg = ref(false);
+
+        async function login() {
+            try {
+                const response = await store.dispatch('login', loginForm.value);
+                resetLoginForm();
+                closeLogin();
+            } catch (error) {
+                console.error('로그인 실패:', error);
+                if (error.response && error.response.status === 401) {
+                    errorMessage.value = '아이디 혹은 비밀번호가 틀렸습니다.';
+                } else {
+                    errorMessage.value = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
+                }
+            }
+        }
 
 // 로그아웃 처리 함수
 function logout() {
@@ -282,20 +420,6 @@ function logout() {
         });
 }
 
-// 회원가입 처리 함수
-function register() {
-    store.dispatch('register', registerForm.value)
-        .then(() => {
-            // 회원가입 성공 후 환영 메시지 표시
-            alert(`${registerForm.value.name}님 환영합니다!`);
-            resetRegisterForm();
-            closeRegistration();
-        })
-        .catch(error => {
-            console.error('회원가입 실패:', error);
-        });
-}
-
 // 폼 초기화 함수
 function resetLoginForm() {
     loginForm.value = {
@@ -304,18 +428,6 @@ function resetLoginForm() {
     };
 }
 
-function resetRegisterForm() {
-    registerForm.value = {
-        name: '',
-        email: '',
-        nick_name: '',
-        password: '',
-        ps_chk: '',
-        tel: ''
-    };
-    emailCheckResult.value = null; // 이메일 확인 결과 초기화
-    
-}
 
 // 이메일 중복 확인 함수
 async function checkEmail() {
@@ -332,7 +444,7 @@ async function checkEmail() {
         console.log('Checking email:', email);
     } catch (error) {
         console.error('이메일 중복 확인 실패:', error);
-        emailCheckResult.value = true; // 기본적으로 중복된 것으로 간주
+        emailCheckResult.value = true; 
     }
 }
 
@@ -374,20 +486,8 @@ onMounted(() => {
     // store.dispatch('fetchCommunityTypes'); // community_types 데이터 가져오기
 });
 
-// 헤더 스크롤
-// window.addEventListener('scroll', function() {
-//     var scrollPosition = window.scrollY;
-
-//     if (scrollPosition > 100) { // 스크롤 위치가 100px 이상일 때
-//         document.querySelector('.my-nav-header').style.backgroundColor = 'rgba(255, 255, 255, 0.7)'; // 투명도 조정
-//     } else {
-//         document.querySelector('.my-nav-header').style.backgroundColor = 'rgba(255, 255, 255, 0.9)'; // 기본 배경색 복원
-//     }
-// });
-
 </script>
 
 <style scoped src="../css/main.css">
 /* @import url(../css/main.css); */
 </style>
-
