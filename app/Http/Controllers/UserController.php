@@ -17,54 +17,96 @@ use Illuminate\Support\Facades\Storage;
 class UserController extends Controller
 {
     // 로그인 처리
-    public function login(Request $request)
-    {   
-         // 유효성 검사
-         $validator = Validator::make(
-            $request->only('email', 'password')
-            ,[
-                'email' => ['required', 'regex:/^[-A-Za-z0-9_]+[-A-Za-z0-9_.][@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.][.]{1}[A-Za-z]{1,5}$/']
-                ,'password' => ['required', 'min:4', 'max:20', 'regex:/^[a-zA-Z0-9]+$/']
-            ]
-            );
+    // public function login(Request $request)
+    // {   
+    //      // 유효성 검사
+    //      $validator = Validator::make(
+    //         $request->only('email', 'password')
+    //         ,[
+    //             'email' => ['required', 'regex:/^[-A-Za-z0-9_]+[-A-Za-z0-9_.][@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.][.]{1}[A-Za-z]{1,5}$/']
+    //             ,'password' => ['required', 'min:4', 'max:20', 'regex:/^[a-zA-Z0-9]+$/']
+    //         ]
+    //         );
 
-        // 유효성 검사 실패시 처리
-        if($validator->fails()) {
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
-            throw new MyValidateException('E01');
-        }
+    //     // 유효성 검사 실패시 처리
+    //     if($validator->fails()) {
+    //         Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+    //         throw new MyValidateException('E01');
+    //     }
 
-        // 유저 정보 획득
-        $userInfo = User::select('users.*')
-                            ->where('email', $request->email)
-                            ->first();
+    //     // 유저 정보 획득
+    //     $userInfo = User::select('users.*')
+    //                         ->where('email', $request->email)
+    //                         ->first();
 
-        // 유저 정보 없음
-        if(!isset($userInfo)) {
-            // 유저 없음
-            throw new MyAuthException('E20');
-        }
-        else if(!(Hash::check($request->password, $userInfo->password))) {
-            // 비밀번호 오류
-            throw new MyAuthException('E21');
-            return response()->json([
-                'status' => 'error',
-                'errors' => ['email' => ['이메일 또는 비밀번호가 잘못되었습니다.']]
-            ], 422);
-        }
+    //     // 유저 정보 없음
+    //     if(!isset($userInfo)) {
+    //         // 유저 없음
+    //         throw new MyAuthException('E20');
+    //     }
+    //     else if(!(Hash::check($request->password, $userInfo->password))) {
+    //         // 비밀번호 오류
+    //         throw new MyAuthException('E21');
+    //         return response()->json([
+    //             'status' => 'error',
+    //             'errors' => ['email' => ['이메일 또는 비밀번호가 잘못되었습니다.']]
+    //         ], 422);
+    //     }
 
-        // 로그인 처리
-        Auth::login($userInfo);
+    //     // 로그인 처리
+    //     Auth::login($userInfo);
         
-        // 레스폰스 데이터 생성
-        $responseData = [
-            'code' => '0'
-            ,'msg' => '로그인 성공'
-            ,'data' => $userInfo
-        ];
+    //     // 레스폰스 데이터 생성
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => '로그인 성공'
+    //         ,'data' => $userInfo
+    //     ];
 
-        return response()->json($responseData, 200)->cookie('auth', '1', 120, null, null, false, false);
+    //     return response()->json($responseData, 200)->cookie('auth', '1', 120, null, null, false, false);
+    // }
+
+    public function login(Request $request)
+{
+    // 유효성 검사
+    $validator = Validator::make($request->only('email', 'password'), [
+        'email' => ['required', 'email'],
+        'password' => ['required', 'string', 'min:4', 'max:20'],
+    ]);
+
+    // 유효성 검사 실패시 처리
+    if ($validator->fails()) {
+        Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+        return response()->json(['message' => '유효성 검사 실패', 'errors' => $validator->errors()], 422);
     }
+
+    // 유저 정보 획득
+    $userInfo = User::where('email', $request->email)->first();
+
+    // 유저 정보 없음
+    if (!$userInfo) {
+        Log::debug('로그인 실패: 해당 유저 정보가 없습니다.');
+        return response()->json(['message' => '아이디 혹은 비밀번호가 틀렸습니다.'], 401);
+    }
+
+    // 비밀번호 확인
+    if (!Hash::check($request->password, $userInfo->password)) {
+        Log::debug('로그인 실패: 비밀번호가 일치하지 않습니다.');
+        return response()->json(['message' => '아이디 혹은 비밀번호가 틀렸습니다.'], 401);
+    }
+
+    // 로그인 처리
+    Auth::login($userInfo);
+
+    // 레스폰스 데이터 생성
+    $responseData = [
+        'code' => '0',
+        'msg' => '로그인 성공',
+        'data' => $userInfo
+    ];
+
+    return response()->json($responseData, 200)->cookie('auth', '1', 120, null, null, false, false);
+}
 
     // 회원가입 처리
     public function register(Request $request)
@@ -173,11 +215,23 @@ class UserController extends Controller
 
         // 프로필 사진 업데이트
         if ($request->hasFile('profile')) {
+            // 기존 프로필 사진 삭제
             if ($user->profile) {
                 Storage::disk('public')->delete($user->profile);
             }
-            $imagePath = $request->file('profile')->store('profiles', 'public');
-            $user->profile = $imagePath;
+    
+            // 고유한 파일 이름 생성
+            $file = $request->file('profile');
+            $filename = uniqid() . '.' . $file->getClientOriginalExtension();
+    
+            // 파일을 public/img 디렉터리에 저장
+            $path = $file->move(public_path('img'), $filename);
+    
+            if ($path) {
+                $user->profile = '/img/' . $filename;  // '/img/파일명.확장자'로 경로 설정
+            } else {
+                return response()->json(['message' => '파일 저장 실패'], 500);
+            }
         }
 
         $user->save();
