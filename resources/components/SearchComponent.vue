@@ -97,70 +97,48 @@
             </div>
             <div class="result">
                 <hr>
-                <div>{{ $store.state.campData.length }} 개의 검색 결과</div>
+                <div>{{ $store.state.campData.length }} 
+                    <span>개의 캠핑장 발견!</span></div>
             </div>
             <div class="search-item" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
-                <div class="item-img">
-                    <img class="img main-img" :src='item.main_img' alt="">
-                </div>
-                <div class="item-info">
-                    <span class="item-name">{{ item.name }}</span>
-                    <div class="item-info-2">
-                        <span class="item-distance">87.2km</span>
-                        <span>|</span>
-                        <span class="address-depth">{{ item.state }} > {{ item.county }} > </span>
-                        <span class="address-depth2">{{ item.address }}</span>
+                <a :href="`/camp/${item.id}`">
+                    <div class="item-img">
+                        <img class="img main-img" :src='item.main_img' alt="">
                     </div>
-                    <div class="item-info-3">
-                        <span class="item-price">{{ item.price }}</span>
+                    <div class="item-info">
+                        <div>
+                            <span class="item-name">{{ item.name }}</span>
+                            <span class="item-distance sub-text">87.2km</span>
+                        </div>
+                        <div class="item-info-2">
+                            <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
+                            <span class="address-depth2">{{ item.address }}</span>
+                        </div>
+                        <div class="item-info-3">
+                            <span class="item-price">{{ item.price }}
+                                <span class="sub-text">1박 기준</span>
+                            </span>
+                        </div>
+                        <div class="item-tel sub-text">
+                            <span>{{ item.tel }}</span>
+                        </div>
                     </div>
-                    <div class="item-tel">
-                        <span>{{ item.tel }}</span>
+                    <div class="item-detail">
+                        <button><img src="../../public/img/상세보기 화살표.png" alt=""></button>
                     </div>
-                </div>
-                <div class="item-detail">
-                    <button><img src="../../public/img/상세보기 화살표.png" alt=""></button>
-                </div>
-            </div>
-            <!-- <div class="search-item" v-if="searchResult.length > 0" v-for="(item, key) in $store.state.campData" :key="key">
-                <div class="item-img">
-                    <img class="img main-img" :src='item.main_img' alt="">
-                </div>
-                <div class="item-info">
-                    <span class="item-name">{{ item.name }}</span>
-                    <div class="item-info-2">
-                        <span class="item-distance">87.2km</span>
-                        <span>|</span>
-                        <span class="address-depth">{{ item.state }} > {{ item.county }} > </span>
-                        <span class="address-depth2">{{ item.address }}</span>
-                    </div>
-                    <div class="item-info-3">
-                        <span class="item-price">{{ item.price }}</span>
-                    </div>
-                    <div class="item-tel">
-                        <span>{{ item.tel }}</span>
-                    </div>
-                </div>
-                <div class="item-detail">
-                    <button><img src="../../public/img/상세보기 화살표.png" alt=""></button>
-                </div>
-            </div> -->
-            
+                </a>
+            </div>            
         </div>
-        <div class="resizer" id="drag" @mousedown="startResize">
-            <div class="resizer-icon">
-                <!-- <img class="img" src='../../public/img/right-arrow.png' alt=""> -->
-                <!-- <img class="img" src='../../public/img/left-arrow.png' alt=""> -->
-                <!-- <img class="img" src='../../public/images/resizer.png' alt=""> -->
-            </div>
-        </div>
+        <div class="resizer" id="drag" @mousedown="startResize"></div>
         <div class="map-container">
             <div class="map">
-                <KakaoMap :lat="coordinate.lat" :lng="coordinate.lng" :draggable="true">
-                    <KakaoMapMarker :lat="coordinate.lat" :lng="coordinate.lng"></KakaoMapMarker>
-                    <KakaoMapMarker :lat="coordinate1.lat" :lng="coordinate1.lng"></KakaoMapMarker>
-                    <KakaoMapMarker :lat="coordinate2.lat" :lng="coordinate2.lng"></KakaoMapMarker>
-                    <KakaoMapMarker :lat="coordinate3.lat" :lng="coordinate3.lng"></KakaoMapMarker>
+                <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true">
+                    <KakaoMapMarker
+                        v-for="(item, key) in $store.state.campData"
+                        :key="key"
+                        :lat="item.latitude"
+                        :lng="item.longitude"
+                    ></KakaoMapMarker>
                 </KakaoMap>
             </div>
             <div class="float-btn">
@@ -174,12 +152,12 @@
 
 <script setup>
 import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-import { onBeforeMount, onMounted, ref } from 'vue';
+import { onBeforeMount, onMounted, ref, watch } from 'vue';
 import { useStore } from 'vuex';
+
 
 const store = useStore();
 // const imgPlace = ref(false);
-// const selectedState = ref(''); // 아 진짜 모르겟다
 const selectedCounty = ref('');
 const searchResult = ref([]); // 검색 결과
 
@@ -232,24 +210,22 @@ function updateSelectedCounty(e) {
 
 
 
-// 지도 좌표
 
-const coordinate = {
-  lat: 37.566826,
-  lng: 126.9786567
-};
-const coordinate1 = {
-  lat: 37.5546788,
-  lng: 126.9706069
-};
-const coordinate2 = {
-  lat: 37.5660373,
-  lng: 126.9821930
-};
-const coordinate3 = {
-  lat: 37.5655638,
-  lng: 126.97489
-};
+// 지도 중심 좌표
+const mapCenter = ref({ lat: 37.566826, lng: 126.9786567 });
+
+// 검색시 쳣 번 째 캠핑장 좌표로 바꿈
+ watch(store.state.campData, (newData) => {
+  if (newData.length > 0) {
+    const firstItem = newData[0];
+    mapCenter.value = {
+      lat: firstItem.latitude,
+      lng: firstItem.longitude
+    };
+    console.log('중심좌표 변경됨', mapCenter.value);
+  }
+}, { immediate: true });
+
 
 
 // 검색 화면 리사이즈
@@ -280,9 +256,6 @@ function searchBtn(e) {
 // function selectChange() {
 //   // Ref to hold state list
 //   const stateList = ref([]);
-
-
-
 // }
 
 
@@ -296,27 +269,6 @@ const selectState = (e) => {
 const selectCounty = (e) => {
   const selectedCountyValue = e.target.value;
   console.log('선택된 값:', selectedCountyValue);
-};
-
-
-const fetchData = async () => {
-  try {
-    const stateData = store.state.stateData;
-    const countyData = store.state.countyData;
-
-    const stateResponse = await axios.get('/api/state');
-    // console.log('stateResponse', stateResponse);
-    stateData.value = stateResponse.data.data;
-    // console.log('stateData.value', stateData.value);
-
-    const countyResponse = await axios.get('/api/county');
-    // console.log('countyResponse', countyResponse);
-    countyData.value = countyResponse.data.data;
-    // console.log('countyData.value', countyData.value);
-
-  } catch (error) {
-    console.error('데이터 가져오기 실패:', error);
-  }
 };
 
 
@@ -340,8 +292,6 @@ onMounted(() => {
     const resizer = document.querySelector('.resizer');
     resizer.addEventListener('mousedown', startResize);
     window.addEventListener('mouseup', stopResize);
-    // store.dispatch('searchResult');
-    fetchData();
 });
 
 
