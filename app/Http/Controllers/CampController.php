@@ -120,7 +120,7 @@ class CampController extends Controller
                 Log::error('Error in suggestCampingzang: ' . $e->getMessage());
                 return response()->json([
                     'code' => '2',
-                    'msg' => '서버 오류가 발생했습니다.',
+                   'msg' => '서버 오류가 발생했습니다.',
                     'error' => $e->getMessage()
                 ], 500);
             }
@@ -160,22 +160,22 @@ class CampController extends Controller
 
 
     // test
-    // private function getCampDetail($id) {
-    //     $campInfo = Camp::find($id);
-    //     $amenityInfo = Amenity::join('camp_amenities', 'camp_amenities.amenity_no', '=', 'amenities.id')
-    //                             ->where('camp_amenities.camp_id','=',$id)->get();
-    //     $amusementInfo = Amusement::join('camp_amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
-    //                             ->where('camp_amusements.camp_id','=',$id)->get();
-    //     $siteTypeInfo = SiteType::join('camp_site_types', 'camp_site_types.site_type_no', '=', 'site_types.id')
-    //                             ->where('camp_site_types.camp_id','=',$id)->get();
-    //     $topoInfo = Topo::join('camp_topos', 'camp_topos.topo_no','=','topos.id')
-    //                     ->where('camp_topos.camp_id','=',$id)->get();
-    //     return [
-    //         'campInfo' => $campInfo
-    //         ,'amenityInfo' => $amenityInfo
-    //         ,'amusementInfo' => $amusementInfo
-    //         ,'siteTypeInfo' => $siteTypeInfo
-    //         ,'topoInfo' => $topoInfo
-    //     ];
-    // }
+    private function getCampDetail($id) {
+        $campInfo = Camp::find($id);
+        $amenityInfo = Amenity::join('camp_amenities', 'camp_amenities.amenity_no', '=', 'amenities.id')
+                                ->where('camp_amenities.camp_id','=',$id)->get();
+        $amusementInfo = Amusement::join('camp_amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
+                                ->where('camp_amusements.camp_id','=',$id)->get();
+        $siteTypeInfo = SiteType::join('camp_site_types', 'camp_site_types.site_type_no', '=', 'site_types.id')
+                                ->where('camp_site_types.camp_id','=',$id)->get();
+        $topoInfo = Topo::join('camp_topos', 'camp_topos.topo_no','=','topos.id')
+                        ->where('camp_topos.camp_id','=',$id)->get();
+        return [
+            'campInfo' => $campInfo
+            ,'amenityInfo' => $amenityInfo
+            ,'amusementInfo' => $amusementInfo
+            ,'siteTypeInfo' => $siteTypeInfo
+            ,'topoInfo' => $topoInfo
+        ];
+    }
 }

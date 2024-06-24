@@ -8,6 +8,7 @@ use App\Http\Controllers\CampTopoController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CommunityTypeController;
 use App\Http\Controllers\CountyController;
+use App\Http\Controllers\StampController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\WishController;
 use Illuminate\Support\Facades\Route;
@@ -34,6 +35,8 @@ Route::post('/api/register', [UserController::class, 'register']);
 Route::post('/api/logout', [UserController::class, 'logout']);
 Route::post('/api/check-email', [UserController::class, 'checkEmail']);
 Route::post('/mypage/update', [UserController::class, 'update']);
+Route::get('/api/mypage/stamp', [StampController::class, 'stampGet']);
+Route::get('/api/mypage/wishes', [WishController::class, 'wishGet']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
@@ -67,5 +70,8 @@ Route::get('/community_types/{id}', [CommunityTypeController::class, 'index']);
 Route::get('/api/community_types', [CommunityTypeController::class, 'index']);
 
 
-// // 위시 컨트롤러
-// Route::post('/api/wishBtn', [WishController::class, 'clickWishBtn']);
+// 위시 컨트롤러
+    //위시 추가
+Route::post('/api/camp/{id}/wishBtnUpsert', [WishController::class, 'wishBtnUpsert']);
+    //위시 삭제
+Route::post('/api/camp/{id}/wishBtnRemove', [WishController::class, 'wishBtnRemove']);

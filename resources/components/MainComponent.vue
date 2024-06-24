@@ -124,53 +124,73 @@
     <!-- 네번째 -->
     <div class="bg-white">
         <div class="last-main">
-            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            <div id="carouselExampleSlidesOnly" class="carousel slide last-left" data-bs-ride="carousel">
                 <h2>캠팡 추천 캠핑장</h2>
+                <p>캠팡 제휴업체에서 할인받자 !</p>
+                <p class="text-end">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="carousel-inner">
                     <div class="carousel-item" 
                         v-for="(camp, index) in $store.state.suggestCam" 
                         :class="{'active': index === 0}" 
                         :key="index">
-                        <img :src="camp.main_img" class="d-block  w-100" alt="추천 캠핑장 이미지">
+                        <img :src="camp.main_img" class="d-block last-box-img" alt="추천 캠핑장 이미지">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>{{ camp.name }}</h5>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="last-left" v-if="$store.state.suggestCam">
-                <h2>캠팡 추천 캠핑장</h2>
-                <img class="last-main-img" :src="$store.state.suggestCam.main_img" loading="lazy" alt="추천 캠핑장 이미지">
-                <p>{{ $store.state.suggestCam.name }}</p>
-            </div> -->
-            <!--  -->
-            <!-- <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="..." class="d-block w-100" alt="...">
-                    </div>
-                        <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                    </div>
-                        <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                    </div>
-                </div>
-            </div> -->
-
-
             <div class="last-right">
-                <h2>캠팡 추천 브랜드</h2>
+            <h2>캠팡 추천 브랜드</h2>
+            <p>믿고 보는 캠팡PICK!</p>
+            <p class="text-end">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="last-right-box">
-                    <div v-for="(item, key) in $store.state.suggestbrand" :key="key">
-                        <img :src="item.img">
-                        <p>{{ item.name }}</p>
+                    <div class="slider">
+                        <div class="slide" v-for="(item, key) in $store.state.suggestbrand" :key="key">
+                            <img :src="item.img" alt="브랜드 이미지">
+                            <p>{{ item.name }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
+    <!-- 모바일에서만 나오는 섹션 -->
+        <div class="animate__animated animate__pulse animate__infinite mobile-float">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">지금 어디어디에 계시는군요!<br>도장찍으러 가기 >></button>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h1 class="modal-title fs-5" id="exampleModalLabel"></h1> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <div class=" modal-body-gap">
+                            <div class="text-center first-line animate__animated animate__tada animate__repeat-3">축하 합니다!</div>
+                        </div>
+                        <div class="modal-body-gap">
+                            <div class="text-center second-line">벌써 <b>00</b>번째 정복중</div>
+                        </div>
+                        <div class="modal-body-gap">
+                            <div class="text-center third-line">어디저기 요기조기 캠핑장</div>
+                        </div>
+                        <button class="modal-body-gap stampArea text-center">
+                            <div class="text-center stamp-pang">도장 팡팡!</div>
+                            <div class="click text-center">click</div>
+                        </button>
+                        <div class="text-center">
+                            <router-link to="/mypage"  class="text-center fifth-line">도장판 보러가기 -></router-link>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+                </div>
+            </div>
+        </div>
 </template>
 
 <script setup>

@@ -100,7 +100,7 @@
                             <div v-if="validationErrors.email" class="alert alert-danger">{{ validationErrors.email }}</div>
                         </div>
                         <div class="mb-3">
-                            <button type="button" @click="checkEmail" class="btn btn-outline-secondary">이메일 중복 확인</button>
+                            <button type="button" @click="checkEmail" class="btn btn-outline-secondary" >이메일 중복 확인</button>
                         </div>
                         <div class="mb-3">
                             <label for="nick_name" class="form-label">닉네임</label>
@@ -122,7 +122,8 @@
                             <input type="text" v-model="registerForm.tel" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
                             <div v-if="validationErrors.tel" class="alert alert-danger">{{ validationErrors.tel }}</div>
                         </div>
-                        <button type="submit" class="btn btn-primary">가입하기</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary" >가입하기</button>
                     </form>
                 </div>
             </div>
@@ -141,6 +142,8 @@
             <p>
                 대구시 달서구 남일동 109-2 그린컴퓨터아트학원 
                 <hr>
+                캠핑장 및 브랜드 광고에 관심 있으신가요? 아래 연락처로 문의해 주세요.
+                <br>
                 대구캠퍼스 TEL : 0507-1414-1018 (상담시간 : 평일 10:00~18:00)EMAIL : green@gampang.or.kr
                 <hr>
                 <br>
@@ -171,6 +174,8 @@ import { ref, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
+
+
 
 // 유효성 검사 함수들
 const validateEmail = (email) => {
@@ -285,7 +290,7 @@ function register() {
     if (Object.values(validationErrors.value).some(error => error)) {
         alert('입력한 정보를 확인해주세요.');
         return;
-    }
+    } 
 
     store.dispatch('register', registerForm.value)
         .then(() => {
@@ -368,12 +373,14 @@ function openLogin() {
     loginFlg.value = true;
     resetLoginForm();
     loginModal.show();
+    resetvalidation();
 }
 
 function closeLogin() {
     loginFlg.value = false;
     resetLoginForm(); // 폼 초기화
     loginModal.hide();
+    resetvalidation();
 }
 
 function openRegistration() {
@@ -425,6 +432,17 @@ function resetLoginForm() {
     loginForm.value = {
         email: '',
         password: ''
+    };
+}
+
+function resetvalidation() {
+    validationErrors.value = {
+        email: '',
+        password: '',
+        ps_chk: '',
+        nick_name: '',
+        name: '',
+        tel: ''
     };
 }
 
