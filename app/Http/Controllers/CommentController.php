@@ -25,7 +25,7 @@ class CommentController extends Controller
         // 유효성 검사 실패 체크
         if($validator->fails()){ // 실패했으면 true
             Log::debug('유효성 검사 실패 : ', $validator->errors()->toArray()); //로그의 첫번째 파라미터는 문자열이다
-            throw new Exception('유효성 검사 실패');
+            throw new Exception('유효성 검사 실패 댓글');
         };
         
         $insertData = $request->only('comment');

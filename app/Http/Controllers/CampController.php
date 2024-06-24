@@ -16,8 +16,10 @@ use Illuminate\Support\Facades\Log;
 class CampController extends Controller
 {
 
-    // 캠핑장 데이터 획득
+
+    // 캠핑장 데이터 획득 + 페이지네이션
     public function campListGet() {
+        // log::debug('campListGet');
         
         $campList = Camp::select('camps.*')
                         // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
@@ -26,10 +28,9 @@ class CampController extends Controller
                         // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
                         // ->groupBy('camps.id' )
                         ->orderBy('camps.state')
-                        ->limit(15)
-                        ->get();
-    
-        // log::debug('게시글 정보', $campList->toArray());
+                        // ->limit(15)
+                        ->paginate(5);
+                        // ->get()
     
         $responseData = [
             'code' => '0'
@@ -131,50 +132,50 @@ class CampController extends Controller
 
 
 
-//     // public function campDetailGet($id){ // TODO : 미완성
-//     //     // 캠핑장 데이터 획득
-//     //     // $sql = Camp::select('*')->whereNull('deleted_at')->get();
-//     //     $sql = Camp::find($id);
+    // public function campDetailGet($id){ // TODO : 미완성
+    //     // 캠핑장 데이터 획득
+    //     // $sql = Camp::select('*')->whereNull('deleted_at')->get();
+    //     $sql = Camp::find($id);
 
-//     //     $responseData = [
-//     //         'code' => '0'
-//     //         ,'msg' => ''
-//     //         ,'data' => $sql->toArray()
-//     //     ];
-//     //     Log::debug('camp/id', $sql->toArray());
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => ''
+    //         ,'data' => $sql->toArray()
+    //     ];
+    //     Log::debug('camp/id', $sql->toArray());
 
-//     //     return response()->json($responseData, 200);
-//     // }
+    //     return response()->json($responseData, 200);
+    // }
 
-//     public function campDetailGet($id) {
+    public function campDetailGet($id) {
 
-//         $responseData = [
-//             'code' => '0'
-//             ,'msg' => ''
-//             ,'data' => $this->getCampDetail($id)
-//         ];
-//         Log::debug('상세', $responseData);
-//         return response()->json($responseData, 200);
-//     }
+        $responseData = [
+            'code' => '0'
+            ,'msg' => ''
+            ,'data' => $this->getCampDetail($id)
+        ];
+        Log::debug('상세', $responseData);
+        return response()->json($responseData, 200);
+    }
 
 
-//     // test
-//     private function getCampDetail($id) {
-//         $campInfo = Camp::find($id);
-//         $amenityInfo = Amenity::join('camp_amenities', 'camp_amenities.amenity_no', '=', 'amenities.id')
-//                                 ->where('camp_amenities.camp_id','=',$id)->get();
-//         $amusementInfo = Amusement::join('camp_amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
-//                                 ->where('camp_amusements.camp_id','=',$id)->get();
-//         $siteTypeInfo = SiteType::join('camp_site_types', 'camp_site_types.site_type_no', '=', 'site_types.id')
-//                                 ->where('camp_site_types.camp_id','=',$id)->get();
-//         $topoInfo = Topo::join('camp_topos', 'camp_topos.topo_no','=','topos.id')
-//                         ->where('camp_topos.camp_id','=',$id)->get();
-//         return [
-//             'campInfo' => $campInfo
-//             ,'amenityInfo' => $amenityInfo
-//             ,'amusementInfo' => $amusementInfo
-//             ,'siteTypeInfo' => $siteTypeInfo
-//             ,'topoInfo' => $topoInfo
-//         ];
-//     }
+    // test
+    // private function getCampDetail($id) {
+    //     $campInfo = Camp::find($id);
+    //     $amenityInfo = Amenity::join('camp_amenities', 'camp_amenities.amenity_no', '=', 'amenities.id')
+    //                             ->where('camp_amenities.camp_id','=',$id)->get();
+    //     $amusementInfo = Amusement::join('camp_amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
+    //                             ->where('camp_amusements.camp_id','=',$id)->get();
+    //     $siteTypeInfo = SiteType::join('camp_site_types', 'camp_site_types.site_type_no', '=', 'site_types.id')
+    //                             ->where('camp_site_types.camp_id','=',$id)->get();
+    //     $topoInfo = Topo::join('camp_topos', 'camp_topos.topo_no','=','topos.id')
+    //                     ->where('camp_topos.camp_id','=',$id)->get();
+    //     return [
+    //         'campInfo' => $campInfo
+    //         ,'amenityInfo' => $amenityInfo
+    //         ,'amusementInfo' => $amusementInfo
+    //         ,'siteTypeInfo' => $siteTypeInfo
+    //         ,'topoInfo' => $topoInfo
+    //     ];
+    // }
 }

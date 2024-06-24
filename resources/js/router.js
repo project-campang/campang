@@ -24,6 +24,15 @@ const routes = [
     {
         path: "/community/:type",
         component: CommunityComponent,
+        props: true,  // props로 :type을 전달받을 수 있도록 설정
+        children: [
+            {
+                path: 'communityPage',
+                name: 'CommunityPage',
+                component: CommunityPage,
+                props: true,  // props로 페이지 번호를 전달받을 수 있도록 설정
+            }
+        ]
     },
     {
         path: "/mypage",

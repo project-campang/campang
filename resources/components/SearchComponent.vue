@@ -100,8 +100,7 @@
                 <div>{{ $store.state.campData.length }} 
                     <span>개의 캠핑장 발견!</span></div>
             </div>
-            <div class="search-item" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
-                <a :href="`/camp/${item.id}`">
+            <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
                     <div class="item-img">
                         <img class="img main-img" :src='item.main_img' alt="">
                     </div>
@@ -124,10 +123,18 @@
                         </div>
                     </div>
                     <div class="item-detail">
-                        <button><img src="../../public/img/상세보기 화살표.png" alt=""></button>
+                        <button>
+                            <a :href="`/camp/${item.id}`">
+                                <img src="../../public/img/상세보기 화살표.png" alt="">
+                            </a>
+                        </button>
                     </div>
-                </a>
-            </div>            
+            </div> 
+            <div class="pagination">
+                <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()">< 이전 </button>
+                <div class="page-num">{{ $store.state.paginationSearch.current_page+'/'+$store.state.paginationSearch.last_page }}</div>
+                <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()"> 다음 > </button>
+            </div>           
         </div>
         <div class="resizer" id="drag" @mousedown="startResize"></div>
         <div class="map-container">
@@ -138,6 +145,7 @@
                         :key="key"
                         :lat="item.latitude"
                         :lng="item.longitude"
+                        :title="item.name"
                     ></KakaoMapMarker>
                 </KakaoMap>
             </div>
@@ -158,47 +166,15 @@ import { useStore } from 'vuex';
 
 const store = useStore();
 // const imgPlace = ref(false);
-const selectedCounty = ref('');
+// const selectedCounty = ref('');
 const searchResult = ref([]); // 검색 결과
-
-
-
-
-
-function updateSelectedState(e) {
-  selectedState.value = e.target.value;
-};
-
-function updateSelectedCounty(e) {
-  selectedCounty.value = e.target.value;
-};
-
-
-
-
+const stateData = ref(store.state.stateData);
+const countyData = ref(store.state.countyData);
+const campData = ref(store.state.campData);
 
 
 
 // 선택한 시/도에 따라 구/군 목록 업데이트
-// const selectChange = async () => {
-//   try {
-//     const stateName = selectedState.value;
-//     // if (!stateName) return;
-
-//     const add = stateList.value.indexOf(stateName);
-//     if (add !== -1) {
-//       selectedCounty.value = `${stateName} 전체`; // 구/군 선택 초기화
-
-//       // 선택된 시/도에 해당하는 구/군 목록을 가져옴
-//       const response = await axios.get(`/api/counties/${stateName}`); // 시/도에 따른 구/군 목록을 가져옴
-//       counties.value = response.data; // response.data가 구/군 이름들의 배열이라 가정
-//     } else {
-//       console.error('시/도를 찾을 수 없습니다.');
-//     }
-//   } catch (error) {
-//     console.error('구/군 목록을 불러오지 못했습니다:', error);
-//   }
-// };
 
 
 
@@ -210,12 +186,16 @@ function updateSelectedCounty(e) {
 
 
 
+// 지도 중심 좌표 초기화
+const mapCenter = ref(store.state.mapCenter);
 
-// 지도 중심 좌표
-const mapCenter = ref({ lat: 37.566826, lng: 126.9786567 });
+// Vuex의 `mapCenter` 상태를 반응형으로 감시하여 자동 업데이트
+watch(() => store.state.mapCenter, (newCenter) => {
+  mapCenter.value = newCenter;
+}, { immediate: true });
 
 // 검색시 쳣 번 째 캠핑장 좌표로 바꿈
- watch(store.state.campData, (newData) => {
+watch(campData, (newData) => {
   if (newData.length > 0) {
     const firstItem = newData[0];
     mapCenter.value = {
@@ -225,6 +205,12 @@ const mapCenter = ref({ lat: 37.566826, lng: 126.9786567 });
     console.log('중심좌표 변경됨', mapCenter.value);
   }
 }, { immediate: true });
+
+// function markerShow(e) {
+//     console.log(e);
+//     store.dispatch('markerShow')
+
+// }
 
 
 
@@ -246,6 +232,8 @@ const stopResize = () => {
     window.removeEventListener('mouseup', stopResize);
 }
 
+// 검색 버튼
+
 function searchBtn(e) {
     console.log(e);
     store.dispatch('searchResult')
@@ -260,19 +248,29 @@ function searchBtn(e) {
 
 
 
-const selectState = (e) => {
-//   const selectedStateValue = e.target.value;
-//   console.log('선택된 값:', selectedStateValue);
-};
+// const selectState = (e) => {
+// //   const selectedStateValue = e.target.value;
+// //   console.log('선택된 값:', selectedStateValue);
+// };
 
 
-const selectCounty = (e) => {
-  const selectedCountyValue = e.target.value;
-  console.log('선택된 값:', selectedCountyValue);
-};
+// const selectCounty = (e) => {
+//   const selectedCountyValue = e.target.value;
+//   console.log('선택된 값:', selectedCountyValue);
 
+//   if(isSet(selectedCountyValue)) {
 
+//   }
+// };
 
+// 페이지네이션
+function prevPage() {
+ store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
+}
+
+function nextPage() {
+ store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
+}
 
 
 
@@ -292,6 +290,7 @@ onMounted(() => {
     const resizer = document.querySelector('.resizer');
     resizer.addEventListener('mousedown', startResize);
     window.addEventListener('mouseup', stopResize);
+    // store.dispatch('getAllCounties');
 });
 
 

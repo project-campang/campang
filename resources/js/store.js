@@ -10,6 +10,8 @@ const store = createStore({
             commentList: [],
             pagination: {},
             paginationReview: {},
+            paginationSearch: {},
+            paginationCommunity: {},
             communityData: [],
             boardData: [],
             rankData: [],
@@ -27,6 +29,7 @@ const store = createStore({
             stateData: [],
             countyData: [],
             selectedState: null, // 선택된 시/도
+            mapCenter: { lat: 37.566826, lng: 126.9786567 } // 임시 기본 좌표
 
         }
     },
@@ -92,6 +95,12 @@ const store = createStore({
         setPaginationReview(state, data){
             state.paginationReview = data;
         },
+        setPaginationSearch(state, data){
+            state.paginationSearch = data;
+        },
+        setPaginationCommunity(state, data){
+            state.paginationCommunity = data;
+        },
         // addWish(state, camp_id) {
         //     state.wishes.push({ camp_id });
         // },
@@ -148,6 +157,9 @@ const store = createStore({
         // setSearchResult(state, campData) {
         //     state.searchResult = countyData;
         // },
+        updateMapCenter(state, center) {
+            state.mapCenter = center;
+          }
     },
     actions: {
         // async login(context, loginForm) {
@@ -528,18 +540,29 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        communityGet(context) {
-            const url = '/api/community';
+        communityGet(context, page=1) {
+            const url = ('/api/community/communityPage?page='+page);
 
             axios.get(url)
             .then(response => {
                 // const data = response.data.data;
                 context.commit('setCommunityList', response.data.data);
+                context.commit('paginationCommunity', {
+                    current_page: response.data.data.current_page, // 현재페이지
+                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                    last_page: response.data.data.last_page, // 마지막페이지
+                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                    total: response.data.data.total, // 총 페이지
+                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                    links: response.data.data.links,
+                })
                 // console.log(response.data.data);
                 // console.log(setCommunityList);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('오류오류~~' + error.response.data);
             })
         },
 
@@ -552,7 +575,7 @@ const store = createStore({
          */
         
         communityInsert(context) {
-            const url = '/api/community';
+            const url = '/api/community/'+id;
 
             const insertForm = document.querySelector('#insertForm');
             console.log('insertForm', insertForm);
@@ -652,18 +675,30 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        campListGet(context) {
-            const url = '/api/search';
-
+        campListGet(context, page=1) {
+            const url = ('/api/search/searchPage?page=' + page);
+            console.log(url);
             axios.get(url)
             .then(response => {
                 // const data = response.data.data;
                 context.commit('setCampList', response.data.data);
                 // console.log(response.data.data);
                 // console.log(setCampList);
+                context.commit('setPaginationSearch', {
+                    current_page: response.data.data.current_page, // 현재페이지
+                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                    last_page: response.data.data.last_page, // 마지막페이지
+                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                    total: response.data.data.total, // 총 페이지
+                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                    links: response.data.data.links,
+                })
+                
             })
             .catch(error => {
-                alert('캠핑장 데이터 획득 시 오류' + error.response.data);
+                console.log(error);
             })
         },
 
@@ -724,8 +759,23 @@ const store = createStore({
 
             axios.post(url, data)
                 .then(response => {
-                    context.commit('setCampList', response.data.data);
-                    console.log('검색 결과 획득 성공', response.data.data); 
+                    const campList = response.data.data;
+                    context.commit('setCampList', campList);
+                    console.log('검색 결과 획득 성공', campList);
+                    console.log(campList[0]);
+
+                    if (campList.length > 0) {
+                        const newCenter = {
+                            lat: campList[0].latitude,
+                            lng: campList[0].longitude
+                        }
+                        context.commit('updateMapCenter', newCenter);
+                        console.log('지도 중심 좌표 업데이트', newCenter);
+                    };
+
+
+                    console.log(response.data.data[0].latitude);
+                    console.log(response.data.data[0].longitude);
 
                 })
                 .catch(error => {
@@ -773,6 +823,9 @@ const store = createStore({
             // }
 
     },
+
+
+
 });
 
 export default store;
