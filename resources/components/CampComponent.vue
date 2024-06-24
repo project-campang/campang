@@ -41,24 +41,24 @@
                                 </div>
                                 <div class="shop-info-btn-container">
                                     <div class="shop-info-btn-item">
-                                        <button class="btn-group">
+                                        <button @click="shareBtn()" class="btn-group">
                                             <img class="shop-info-btn" src="../../public/img_nr/공유하기.png" alt="공유">
-                                            <div class="shop-info-btn-name">공유하기</div>
+                                            <div  class="shop-info-btn-name" id="share-btn">공유하기</div>
                                         </button>
                                     </div>
                                     <div class="shop-info-btn-item">
                                         <!-- <button @click="toggleWish" class="btn-group"> -->
-                                        <button class="btn-group">
-                                            <!-- <img v-if="isWished" class="shop-info-btn" src="../../public/img_nr/찜하기_활성화.png" alt="찜후"> -->
-                                            <img class="shop-info-btn" src="../../public/img_nr/찜하기.png" alt="찜전">
+                                        <button @click="toggleWish()" class="btn-group">
+                                            <img v-if="!isWished"  class="shop-info-btn" src="../../public/img_nr/찜하기.png" alt="찜전">
+                                            <img v-else class="shop-info-btn" src="../../public/img_nr/찜하기_활성화.png" alt="찜후">
                                             <div class="shop-info-btn-name">찜하기</div>
                                         </button>
                                     </div>
                                     <div class="shop-info-btn-item">
-                                        <button class="btn-group">
+                                        <a @click="gotoLink()" :href="$store.state.campDetail.campInfo.link" class="btn-group">
                                             <img class="shop-info-btn" src="../../public/img_nr/예약하기.png" alt="예약">
                                             <div class="shop-info-btn-name">예약하기</div>
-                                        </button>
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -129,8 +129,6 @@
         </div>
     </main>
 
-
-
 </template>
     
     
@@ -138,13 +136,13 @@
 import CommentCreate from './CommentCreate.vue';
 import CommentListItem from './CommentListItem.vue';
 import CampReviewTap from './CampReviewTap.vue';
-import { onBeforeMount, reactive, ref,computed, onMounted } from 'vue';
+import { onBeforeMount, reactive, ref,computed, onMounted, watchEffect } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
 const store = useStore();
 const route = useRoute();
-
+const routeParams = useRoute().params;
 
 // 컴포넌트가 생성될 때 액션을 호출하여 데이터를 가져옴
 onBeforeMount(() => {
@@ -177,10 +175,32 @@ function showReviewTap() {
 // ---------------------------------------------------
 
 
+// ------------------ 공유하기 ------------------------
+const shareBtn = () => {
+  const url = `http://127.0.0.1:8000/camp/${route.params.id}`;
+  console.log(url);
+  window.navigator.clipboard.writeText(url).then(() => {
+    alert('링크 복사 완료 ! \n 지금 공유 해보세요!');
+  }).catch(err => {
+    console.error('클립보드에 복사 실패:', err);
+  });
+};
+// ---------------------------------------------------
 
-// // 찜하기
+
+//---------------------- 찜하기 -----------------------
 // const isWished = ref(false);
 
+// watchEffect(() => {
+//   isWished.value = store.state.wishes;
+// });
+
+const camp_param_id = route.params.id;
+
+function toggleWish(){
+    store.dispatch('detailWishToggle', camp_param_id);
+    console.log(camp_param_id)
+}
 // const toggleWish = async () => {
 //   const camp_id = 1; // 예시로 고정된 캠핑장 ID
 //   await store.dispatch('toggleWish', { user_id: store.state.userInfo.id, camp_id });
@@ -193,6 +213,13 @@ function showReviewTap() {
 
 // // const camp_id = route.params.id;
 // });
+// ---------------------------------------------------
 
+
+// ------------------- 예약하기 -----------------------
+function gotoLink() {
+    alert('\n[[캠팡]]은 예약 링크만 제공하며, 서비스는 제공하지 않습니다.\n예약사이트로 이동합니다.');
+}
+// ---------------------------------------------------
 </script>
 

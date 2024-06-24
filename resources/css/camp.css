@@ -139,6 +139,9 @@ p {
     align-items: center;
     gap: 7px;
     border: none;
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
 }
 .shop-info-btn {
     width: 45px;

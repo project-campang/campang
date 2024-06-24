@@ -69,5 +69,8 @@ Route::get('/community_types/{id}', [CommunityTypeController::class, 'index']);
 Route::get('/api/community_types', [CommunityTypeController::class, 'index']);
 
 
-// // 위시 컨트롤러
-// Route::post('/api/wishBtn', [WishController::class, 'clickWishBtn']);
+// 위시 컨트롤러
+    //위시 추가
+Route::post('/api/camp/{id}/wishBtnUpsert', [WishController::class, 'wishBtnUpsert']);
+    //위시 삭제
+Route::post('/api/camp/{id}/wishBtnRemove', [WishController::class, 'wishBtnRemove']);

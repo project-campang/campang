@@ -119,7 +119,7 @@ class CampController extends Controller
                 Log::error('Error in suggestCampingzang: ' . $e->getMessage());
                 return response()->json([
                     'code' => '2',
-                    'msg' => '서버 오류가 발생했습니다.',
+                   'msg' => '서버 오류가 발생했습니다.',
                     'error' => $e->getMessage()
                 ], 500);
             }
@@ -131,20 +131,20 @@ class CampController extends Controller
 
 
 
-//     // public function campDetailGet($id){ // TODO : 미완성
-//     //     // 캠핑장 데이터 획득
-//     //     // $sql = Camp::select('*')->whereNull('deleted_at')->get();
-//     //     $sql = Camp::find($id);
+    // public function campDetailGet($id){ // TODO : 미완성
+    //     // 캠핑장 데이터 획득
+    //     // $sql = Camp::select('*')->whereNull('deleted_at')->get();
+    //     $sql = Camp::find($id);
 
-//     //     $responseData = [
-//     //         'code' => '0'
-//     //         ,'msg' => ''
-//     //         ,'data' => $sql->toArray()
-//     //     ];
-//     //     Log::debug('camp/id', $sql->toArray());
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => ''
+    //         ,'data' => $sql->toArray()
+    //     ];
+    //     Log::debug('camp/id', $sql->toArray());
 
-//     //     return response()->json($responseData, 200);
-//     // }
+    //     return response()->json($responseData, 200);
+    // }
 
     public function campDetailGet($id) {
 

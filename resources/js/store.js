@@ -22,7 +22,7 @@ const store = createStore({
             communityType: [], // community_types 데이터를 저장할 상태
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
-            // wishes: [],
+            wishes: false,
             campDetail: {},
             stateData: [],
             countyData: [],
@@ -100,9 +100,9 @@ const store = createStore({
         setPaginationReview(state, data){
             state.paginationReview = data;
         },
-        // addWish(state, camp_id) {
-        //     state.wishes.push({ camp_id });
-        // },
+        toggleWish(state) {
+            state.wishes = !state.wishes;
+        },
         // // 찜 삭제
         // removeWish(state, camp_id) {
         //     state.wishes = state.wishes.filter(wish => wish.camp_id !== camp_id);
@@ -419,40 +419,7 @@ const store = createStore({
                 alert('댓글 작성 실패'+error.response.data)
             })
         },
-        // /**
-        //  * 댓글 페이지네이션
-        //  * @param {*} context 
-        //  * @param {*} page 
-        //  */
-        // commentPageGet(context, page=1) {
-        //     const url = ('/api/commentPage?page=' + page);
-        //     console.log(url);
-        //     axios.get(url)
-        //     .then(response => {
-        //         // const test = response.data.data.links.filter((item, key) => {
-        //         //     return !(key == 0 || key == (response.data.data.links.length - 1));
-        //         // });
-        //         context.commit('setCommentList', response.data.data.data);
-        //         context.commit('setPagination', {
-        //             current_page: response.data.data.current_page, // 현재페이지
-        //             first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
-        //             last_page: response.data.data.last_page, // 마지막페이지
-        //             last_page_url: response.data.data.last_page_url, // 마지막페이지url
-        //             total: response.data.data.total, // 총 페이지
-        //             per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
-        //             prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
-        //             next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
-        //             links: response.data.data.links,
-        //             // test: test,
-        //         });
-        //         // context.commit('setCurrentPage', data);
-        //         // console.log(test);
-        //         // console.log(response.data);
-        //     })
-        //     .catch((e) => {
-        //             console.log(e);
-        //         })
-        // },
+
          /**
          * 댓글 페이지네이션
          * @param {*} context 
@@ -505,20 +472,30 @@ const store = createStore({
             })
         },
 
-        // detailWishToggle(context){
-        //     const url = '/api/wishBtn';
+        detailWishToggle({context,state}, id){
+            const upsertUrl = '/api/camp/'+id+'/wishBtnUpsert';
+            const deleteUrl = '/api/camp/'+id+'/wishBtnRemove';
 
-        //     axios.post(url)
-        //     .then(response => {
-        //         console.log(response);
-        //         context.commit('setToggleWish', response.data);
-        //     })
-        //     .catch(error => {
-        //         alert('오류오류' + error.response);
-        //         console.log(error);
-        //     })
-
-        // },
+            if(state.wishes){
+                axios.post(deleteUrl)
+                .then(() => {
+                    context.commit('toggleWish');
+                })
+                .catch(error=> {
+                    alert('삭제 오류오류', error);
+                    console.log(state.wishes);
+                });
+            } else {
+                axios.post(upsertUrl)
+                .then(() => {
+                    context.commit('toggleWish');
+                })
+                .catch(error=> {
+                    alert('업설트 오류오류', error);
+                    console.log(state.wishes);
+                });
+            }
+        },
 
         // // 찜 토글
         // async toggleWish({ commit, state }, { user_id, camp_id }) {
