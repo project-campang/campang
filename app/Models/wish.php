@@ -13,6 +13,7 @@ class Wish extends Model
     protected $fillable = [
         'user_id',
         'camp_id',
+        'created_at',
     ];
 
         /**

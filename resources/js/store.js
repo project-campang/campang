@@ -273,7 +273,7 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 console.log(response.data); // TODO
-                context.commit('setStampCampingzang', response.data.data);
+                context.commit('setMypageWishes', response.data.data);
             })
             .catch(error => {
                 console.log(error.response); // TODO
