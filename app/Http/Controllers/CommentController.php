@@ -30,7 +30,10 @@ class CommentController extends Controller
         
         $insertData = $request->only('comment');
         $insertData['user_id'] = Auth::id();
-        $insertData['camp_id'] = Camp::find($id);
+
+        $campId = Camp::find($id);
+        $insertData['camp_id'] = $campId->id;
+        // Log::debug('캠프아이디', Camp::find($id)->toArray() );
 
         $commentInsert = Comment::create($insertData);
 
