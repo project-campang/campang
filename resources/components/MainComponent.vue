@@ -158,52 +158,36 @@
     <!-- 네번째 -->
     <div class="bg-white">
         <div class="last-main">
-            <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
+            <div id="carouselExampleSlidesOnly" class="carousel slide last-left" data-bs-ride="carousel">
                 <h2>캠팡 추천 캠핑장</h2>
+                <p>캠팡 제휴업체에서 할인받자 !</p>
+                <p class="text-end">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="carousel-inner">
                     <div class="carousel-item" 
                         v-for="(camp, index) in $store.state.suggestCam" 
                         :class="{'active': index === 0}" 
                         :key="index">
-                        <img :src="camp.main_img" class="d-block  w-100" alt="추천 캠핑장 이미지">
+                        <img :src="camp.main_img" class="d-block last-box-img" alt="추천 캠핑장 이미지">
                         <div class="carousel-caption d-none d-md-block">
                             <h5>{{ camp.name }}</h5>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- <div class="last-left" v-if="$store.state.suggestCam">
-                <h2>캠팡 추천 캠핑장</h2>
-                <img class="last-main-img" :src="$store.state.suggestCam.main_img" loading="lazy" alt="추천 캠핑장 이미지">
-                <p>{{ $store.state.suggestCam.name }}</p>
-            </div> -->
-            <!--  -->
-            <!-- <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="..." class="d-block w-100" alt="...">
-                    </div>
-                        <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                    </div>
-                        <div class="carousel-item">
-                    <img src="..." class="d-block w-100" alt="...">
-                    </div>
-                </div>
-            </div> -->
-
-
             <div class="last-right">
-                <h2>캠팡 추천 브랜드</h2>
+            <h2>캠팡 추천 브랜드</h2>
+            <p>믿고 보는 캠팡PICK!</p>
+            <p class="text-end">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="last-right-box">
-                    <div v-for="(item, key) in $store.state.suggestbrand" :key="key">
-                        <img :src="item.img">
-                        <p>{{ item.name }}</p>
+                    <div class="slider">
+                        <div class="slide" v-for="(item, key) in $store.state.suggestbrand" :key="key">
+                            <img :src="item.img" alt="브랜드 이미지">
+                            <p>{{ item.name }}</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
 </template>
 
