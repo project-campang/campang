@@ -581,6 +581,58 @@ a {
     width: 45px;
 }
 
+/* 나라가 한 부분(모바일) */
+.mobile-width {
+    width: 100vw;
+}
+.mobile-float {
+    position: fixed;
+    bottom: 3%;
+    left: 43%;
+    background-color: #ffd8d8;
+    padding: 20px 50px ;
+}
+.modal-body{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.stampArea {
+    background-color: #ffd8d8;
+    padding: 94px 50px;
+    border-radius: 180px;
+    width: 60%;
+    /* margin: 0 auto; */
+}
+.stampArea:hover{
+    /* background-image: url('../../public/img_nr/캠핑장1.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 0 0 10px #ff9292 inset; */
+    color: #ff8686;
+}
+.modal-body-gap {
+    margin-bottom: 30px;
+}
+.first-line {
+    font-size: 2rem;
+}
+.second-line{
+    font-size: 1.5rem;
+    background-color: #FFD649;
+    border-radius: 30px;
+    padding-top: 8px;
+    font-family: 'SBAggroL';
+    padding:8px 70px 0 70px;
+}
+.stamp-pang {
+    font-size: 1.7rem;
+}
+.fifth-line {
+    margin: 0 auto;
+}
+/* 나라가 한 부분 끝 */
+
 /* 끝 */
 
 /* 스크롤이벤트 */

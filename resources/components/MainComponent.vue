@@ -189,6 +189,42 @@
             </div>
         </div>
     </div>
+    <!-- 모바일에서만 나오는 섹션 -->
+        <div class="animate__animated animate__pulse animate__infinite mobile-float">
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">지금 어디어디에 계시는군요!<br>도장찍으러 가기 >></button>
+        </div>
+
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                <div class="modal-header">
+                    <!-- <h1 class="modal-title fs-5" id="exampleModalLabel"></h1> -->
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                        <div class=" modal-body-gap">
+                            <div class="text-center first-line animate__animated animate__tada animate__repeat-3">축하 합니다!</div>
+                        </div>
+                        <div class="modal-body-gap">
+                            <div class="text-center second-line">벌써 <b>00</b>번째 정복중</div>
+                        </div>
+                        <div class="modal-body-gap">
+                            <div class="text-center third-line">어디저기 요기조기 캠핑장</div>
+                        </div>
+                        <button class="modal-body-gap stampArea text-center">
+                            <div class="text-center stamp-pang">도장 팡팡!</div>
+                            <div class="click text-center">click</div>
+                        </button>
+                        <div class="text-center">
+                            <router-link to="/mypage"  class="text-center fifth-line">도장판 보러가기 -></router-link>
+                        </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+                </div>
+                </div>
+            </div>
+        </div>
 </template>
 
 <script setup>
