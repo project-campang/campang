@@ -114,7 +114,7 @@
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr;
     gap: 1rem;
-    padding: 1rem;
+    /* padding: 1rem; */
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 0.5rem;
@@ -217,3 +217,4 @@
 .stamp-top-item:hover .stamp-overlay {
     opacity: 1;
 }
+

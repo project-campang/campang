@@ -18,10 +18,10 @@
     <div v-if="isstampVisible">
       <h1>정복한 캠핑장 _도장깨기</h1>
       <div class="stamp-top">
-        <h3 class="stamp-top-h2">총 20군데 정복!</h3>
+        <h3 class="stamp-top-h2" >총 20군데 정복!</h3>
         <div class="stamp-top-item"  v-for="(item, key) in $store.state.stampCampingzang" :key="key">
           <router-link :to="`/camp/${item.camp_id}`"><img :src="item.main_img" alt=""></router-link>
-          <div class="stamp-overlay">{{ item.updated_at }}<br>{{ item.name }}</div>
+          <div class="stamp-overlay">{{ item.updated_at }}<br>{{ item.camp_name }}</div>
         </div>
       </div>
       <h1>찜한 캠핑장 _찜목록</h1>
@@ -30,25 +30,27 @@
           <div class="my-content-box">
             <div class="list-group">
               <div class="content-column list-item" aria-disabled="true">
-                <div class="my-page-top">번호</div>
-                <div class="my-page-top">캠핑장 이름</div>
-                <div class="my-page-top">찜한 날짜</div>
+                <div class="my-page-top text-center">번호</div>
+                <div class="my-page-top text-center">캠핑장 이름</div>
+                <div class="my-page-top text-center">찜한 날짜</div>
               </div>
               <div class="content-row text-center" v-for="(item, index) in $store.state.mypageWishes" :key="index">
                   <div class="content-row-num">{{ index + 1 }}</div>
-                  <div class="title-text-align">{{ item.name }}</div>
-                  <div>{{ item.created_at }}</div>
+                  <router-link :to="`/camp/${item.camp_id}`"><div class=" text-center">{{ item.camp_name }}</div></router-link>
+                  <div class="text-center">{{ item.created_at }}</div>
               </div>
               <hr class="item-hr">
             </div>
-            <div class="pagination">
-              <이전 1/5 다음>
-            </div>
+            <!-- <div class="pagination">
+              <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == 1" @click="prevPage()">< 이전 </button>
+              <div class="page-num">{{ $store.state.pagination.current_page+'/'+$store.state.pagination.last_page }}</div>
+              <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()"> 다음 > </button>
+            </div> -->
           </div>
         </div>
     </div>
     <div v-else class="posts-section">
-        <h1>게시글</h1>
+        <h1>내 게시글</h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
@@ -56,22 +58,14 @@
               <div class="content-column list-item" aria-disabled="true">
                 <div class="my-page-top">글 번호</div>
                 <div class="my-page-top">글 제목</div>
-                <div class="my-page-top">작성자</div>
                 <div class="my-page-top">작성일</div>
+                <div class="my-page-top"></div>
               </div>
               <div class="content-row text-center">
                 <div class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
+                <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal">어쩌고저쩌고끙끙 </div>
                 <div>2024-06-21</div>
-                <div  class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
-                <div>2024-06-21</div>
-                <div  class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
-                <div>2024-06-21</div>
+                <div><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#contentUpdateModal">수정</button><button type="button" class="btn">삭제</button></div>
               </div>
               <hr class="item-hr">
             </div>
@@ -80,7 +74,7 @@
             </div>
           </div>
         </div>
-        <h1>리뷰</h1>
+        <h1>내가 쓴 리뷰</h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
@@ -88,29 +82,21 @@
               <div class="content-column list-item" aria-disabled="true">
                 <div class="my-page-top">글 번호</div>
                 <div class="my-page-top">글 제목</div>
-                <div class="my-page-top">작성자</div>
                 <div class="my-page-top">작성일</div>
+                <div class="my-page-top"></div>
               </div>
               <div class="content-row text-center">
                 <div class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
+                <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#reviewModal">어쩌고저쩌고끙끙</div>
                 <div>2024-06-21</div>
-                <div class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
-                <div>2024-06-21</div>
-                <div class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
-                <div>2024-06-21</div>
+                <div><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#reviewUpdateModal">수정</button><button type="button" class="btn">삭제</button></div>
               </div>
               <hr class="item-hr">
             </div>
             <div class="pagination"></div>
           </div>
         </div>
-        <h1>댓글</h1>
+        <h1>내가 쓴 댓글</h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
@@ -118,22 +104,14 @@
               <div class="content-column list-item" aria-disabled="true">
                 <div class="my-page-top">글 번호</div>
                 <div class="my-page-top">글 제목</div>
-                <div class="my-page-top">작성자</div>
                 <div class="my-page-top">작성일</div>
+                <div class="my-page-top"></div>
               </div>
               <div class="content-row text-center">
                 <div class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
+                <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#commentModal">어쩌고저쩌고끙끙</div>
                 <div>2024-06-21</div>
-                <div class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
-                <div>2024-06-21</div>
-                <div class="content-row-num">1</div>
-                <div class="title-text-align">어쩌고저쩌고끙끙</div>
-                <div>이서린</div>
-                <div>2024-06-21</div>
+                <div><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#commentUpdateModal">수정</button><button type="button" class="btn">삭제</button></div>
               </div>
               <hr class="item-hr">
             </div>
@@ -183,6 +161,107 @@
       </div>
     </div>
   </div>
+  <!-- 내게시글 -->
+  <div class="modal fade" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userModalLabel">상세게시글제목</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- <div class="modal fade" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="contentModalLabel">Modal title</h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+  <!-- 리뷰 -->
+  <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userModalLabel">상세리뷰제목</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!--  -->
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 댓글 -->
+  <div class="modal fade" id="commentModal" tabindex="-1" aria-labelledby="commentModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userModalLabel">상세댓글제목</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!--  -->
+        </div>
+      </div>
+    </div>
+  </div>
+<!-- 내 게시글 수정 모달 -->
+  <div class="modal fade" id="contentUpdateModal" tabindex="-1" aria-labelledby="contentUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userModalLabel">내게시글 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 내 리뷰 수정 모달 -->
+  <div class="modal fade" id="reviewUpdateModal" tabindex="-1" aria-labelledby="reviewUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userModalLabel">내리뷰 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- 내 댓글 수정 모달 -->
+  <div class="modal fade" id="commentUpdateModal" tabindex="-1" aria-labelledby="commentUpdateModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="userModalLabel">내댓글 수정</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -191,6 +270,14 @@ import { useStore } from 'vuex';
 import { Modal } from 'bootstrap';
 
 const store = useStore();
+
+function prevPage() {
+ store.dispatch('commentPageGet', store.state.pagination.current_page-1);
+}
+
+function nextPage() {
+ store.dispatch('commentPageGet', store.state.pagination.current_page+1);
+}
 
 onBeforeMount(() => {
   if(store.state.stampCampingzang.length < 1 ) {
