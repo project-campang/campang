@@ -17,7 +17,8 @@ class StampFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'user_id' => '1'
+            ,'camp_id' => $this->faker->numberBetween($min = 1, $max = 200)
         ];
     }
 }

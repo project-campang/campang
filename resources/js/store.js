@@ -27,6 +27,8 @@ const store = createStore({
             stateData: [],
             countyData: [],
             selectedState: null, // 선택된 시/도
+            stampCampingzang: [],
+            mypageWishes:[],
 
         }
     },
@@ -67,8 +69,14 @@ const store = createStore({
         setSuggestBrand(state,data) {
             state.suggestbrand = data;
         },
-        setCommunityTypes(state, communityTypes) {
-            state.communityTypes = communityTypes; // 상태 업데이트
+        setCommunityTypes(state, data) {
+            state.communityTypes = data; // 상태 업데이트
+        },
+        setStampCampingzang(state, data) {
+            state.stampCampingzang = data; // 상태 업데이트
+        },
+        setMypageWishes(state, data) {
+            state.mypageWishes = data; // 상태 업데이트
         },
 
         //댓글 초기 삽입
@@ -191,12 +199,12 @@ const store = createStore({
         async register({ commit }, registerForm) {
             try {
                 const response = await axios.post('/api/register', registerForm);
+                console.log(response);
                 commit('setAuthFlg', true);
                 commit('setUserInfo', response.data.data);
                 // router.replace('/main');
-                console.error('회원가입 실패:', error.response.data.message);
             } catch (error) {
-                console.error('회원가입 실패:', error.response.data.message);
+                console.error('회원가입 실패:', error);
             }
         },
         async checkEmailDuplicate(email) {
@@ -210,24 +218,9 @@ const store = createStore({
         },
         async  updateUserInfo() {
             const formData = new FormData(document.querySelector('#updateUserInfoForm'));
-            // formData.append('name', userInfo.value.name);
-            // formData.append('nick_name', userInfo.value.nick_name);
-            // formData.append('email', userInfo.value.email);
-            // formData.append('tel', userInfo.value.tel);
-        
-            // 프로필이 변경되지 않은 경우에도 기존 프로필 데이터를 포함합니다.
-            // if (userInfo.value.profile) {
-            //     formData.append('profile', userInfo.value.profile);
-            // } else {
-            //     formData.append('profile', ''); // 또는 기존 프로필 URL을 넣어줍니다.
-            // }
-        
             try {
                 const response = await axios.post('/mypage/update', formData);
                 store.commit('updateUserInfo', response.data.user);
-                // const modalElement = document.getElementById('userModal');
-                // const modalInstance = bootstrap.Modal.getInstance(modalElement);
-                // modalInstance.hide();
             } catch (error) {
                 console.error('Error updating user information:', error);
             }
@@ -260,6 +253,34 @@ const store = createStore({
                 console.error('Kakao callback failed:', error);
             }
         },
+        
+        setStampCampingzang(context) {
+            const url = '/api/mypage/stamp';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setStampCampingzang', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`게시글 획득 실패 (${error.response.data.code})`)
+            })
+        },
+        setMypageWishes(context) {
+            const url = '/api/mypage/wishes';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setStampCampingzang', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`게시글 획득 실패 (${error.response.data.code})`)
+            })
+        },
+
 
         getBoardData(context) {
             const url = '/api/main';

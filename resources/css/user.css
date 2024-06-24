@@ -1,9 +1,10 @@
 
 /* 전체 레이아웃 */
 .my-page-section {
+    justify-content: center;
     display: grid;
-    grid-template-columns: 1fr 3fr; /* 사이드바와 콘텐츠 영역의 비율을 1:3으로 설정 */
-    gap: 2rem; /* 사이드바와 콘텐츠 영역 사이의 여백 추가 */
+    grid-template-columns: 300px 1000px; /* 사이드바와 콘텐츠 영역의 비율을 1:3으로 설정 */
+    gap: 4rem; /* 사이드바와 콘텐츠 영역 사이의 여백 추가 */
     padding: 2rem;
 }
 
@@ -155,8 +156,10 @@
 }
 .stamp-top img {
     width: 150px;
-    height: 100px;
+    height: 150px;
     border-radius: 50%;
+    background-position: center;
+    background-size: cover;
 }
 
 .stamp-top-h2 {
@@ -180,4 +183,37 @@
     grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
     justify-items: center;
     gap: 1rem;
+    position: relative; /* Ensure relative positioning */
+    display: inline-block;
+}
+
+.stamp-top-item {
+    position: relative;
+    display: inline-block;
+    
+}
+
+.stamp-overlay {
+    position: absolute;
+    top: 50%; /* Center vertically */
+    left: 50%; /* Center horizontally */
+    transform: translate(-50%, -50%); /* Centering trick */
+    width: 150px;
+    height: 150px;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    pointer-events: none;
+    border-radius: 50%;
+}
+
+
+.stamp-top-item:hover .stamp-overlay {
+    opacity: 1;
 }
