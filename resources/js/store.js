@@ -946,7 +946,7 @@ const store = createStore({
             setSelection(context) {
                 commit('setSelectedState', selectedState);
                 commit('setSelectedCounty', selectedCounty);
-            }
+            },
 
 
 
