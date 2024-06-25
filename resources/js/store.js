@@ -449,7 +449,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('setMainCampingler 오류오류' + error.response.data);
             })
         },
         setMainCampingzang(context) {
@@ -461,7 +461,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('setMainCampingzang 오류오류' + error.response.data);
             })
         },
         setMainCommunity(context) {
@@ -473,7 +473,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('setMainCommunity 오류오류' + error.response.data);
             })
         },
         setSuggestCam(context) {
@@ -486,7 +486,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('setSuggestCam 오류오류' + error.response.data);
                 console.log(response.data.data);
             })
         },
@@ -600,7 +600,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('detailReviewTap 오류오류' + error.response.data);
             })
         },
 
@@ -665,22 +665,22 @@ const store = createStore({
             .then(response => {
                 // const data = response.data.data;
                 context.commit('setCommunityList', response.data.data);
-                context.commit('paginationCommunity', {
-                    current_page: response.data.data.current_page, // 현재페이지
-                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
-                    last_page: response.data.data.last_page, // 마지막페이지
-                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
-                    total: response.data.data.total, // 총 페이지
-                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
-                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
-                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
-                    links: response.data.data.links,
-                })
+                // context.commit('paginationCommunity', {
+                //     current_page: response.data.data.current_page, // 현재페이지
+                //     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                //     last_page: response.data.data.last_page, // 마지막페이지
+                //     last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                //     total: response.data.data.total, // 총 페이지
+                //     per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                //     prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                //     next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                //     links: response.data.data.links,
+                // })
                 // console.log(response.data.data);
                 // console.log(setCommunityList);
             })
             .catch(error => {
-                alert('오류오류~~' + error.response.data);
+                alert('communityGet 오류오류~~' + error.response.data);
             })
         },
 
