@@ -33,6 +33,9 @@ const store = createStore({
             mapCenter: { lat: 37.566826, lng: 126.9786567 }, // 임시 기본 좌표
             stampCampingzang: [],
             mypageWishes:[],
+            mypageContent:[],
+            mypageReview:[],
+            mypageComment:[],
 
         }
     },
@@ -81,6 +84,15 @@ const store = createStore({
         },
         setMypageWishes(state, data) {
             state.mypageWishes = data; // 상태 업데이트
+        },
+        setMypageContent(state, data) {
+            state.mypageContent = data; // 상태 업데이트
+        },
+        setMypageReview(state, data) {
+            state.mypageReview = data; // 상태 업데이트
+        },
+        setMypageComment(state, data) {
+            state.mypageComment = data; // 상태 업데이트
         },
 
         //댓글 초기 삽입
@@ -296,6 +308,108 @@ const store = createStore({
             .catch(error => {
                 console.log(error.response); // TODO
                 alert(`게시글 획득 실패 (${error.response.data.code})`)
+            })
+        },
+        setMypageContent(context) {
+            const url = '/api/mypage/content';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setMypageContent', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`게시글 획득 실패 (${error.response.data.code})`)
+            })
+        },
+        setMypageReview(context) {
+            const url = '/api/mypage/review';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setMypageReview', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`게시글 획득 실패 (${error.response.data.code})`)
+            })
+        },
+        setMypageComment(context) {
+            const url = '/api/mypage/comment';
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setMypageComment', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`게시글 획득 실패 (${error.response.data.code})`)
+            })
+        },
+          async updatePost({ commit }, content) {
+            try {
+              const response = await axios.post('/api/content/update', content);
+              commit('setMypageContent', response.data);
+            } catch (error) {
+              throw new Error('게시글 수정 실패');
+            }
+          },
+          async updateReview({ commit }, content) {
+            try {
+              const response = await axios.post('/api/review/update', content);
+              commit('setMypageReview', response.data);
+            } catch (error) {
+              throw new Error('리뷰 수정 실패');
+            }
+          },
+          async updateComment({ commit }, content) {
+            try {
+              const response = await axios.post('/api/comment/update', content);
+              commit('setMypageComment', response.data);
+            } catch (error) {
+              throw new Error('댓글 수정 실패');
+            }
+          },
+        deletePost(context, content) {
+            const url = '/api/posts/delete';
+            axios.post(url, { id: content.id }) // 컨텐츠 ID를 전송
+                .then(response => {
+                    console.log(response.data);
+                    context.commit('setMypageContent', response.data.data);
+                })
+                .catch(error => {
+                    console.log(error.response);
+                    alert(`게시글 삭제 실패 (${error.response.data.code})`);
+                });
+        },
+        
+        deleteReview(context, content) {
+            const url = '/api/reviews/delete';
+
+            axios.post(url, content)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setMypageReview', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`리뷰 삭제 실패 (${error.response.data.code})`)
+            })
+        },
+        deleteComment(context , content) {
+            const url = '/api/comments/delete';
+
+            axios.post(url, content)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setMypageComment', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`리뷰 삭제 실패 (${error.response.data.code})`)
             })
         },
 
