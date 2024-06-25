@@ -1,158 +1,163 @@
 <template>
-    <main class="main-container-search">
-        <!-- <div class="search-container"> -->
-        <div class="search-container" ref="searchContainer">
-            <div class="search-box">
-                <form action="" id="searchForm">
-                    <label for="address"></label>
-                    <select @change="selectState" name="state" id="select1" class="address">
-                        <option>전체 시/도</option>
-                        <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
-                    </select>
-                    <select @change="selectCounty" name="county" id="select2" class="address">
-                        <option>전체 구/군</option>
-                        <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
-                    </select>
-                    <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">간편 검색</button>
-                    <div class="accordion" id="accordionPanelsStayOpenExample">
-                        <!-- 상세 검색 아코디언 -->
-                        <div class="accordion-item" style="background-color: white;">
-                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                상세 검색
-                            </button>
-                            </h2>
-                            <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
-                                <div class="accordion-body">
-                                    <!-- 내부 아코디언 시작 -->
-                                    <div class="accordion" id="nestedAccordionOne">
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="nested-headingOne">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseOne" aria-expanded="true" aria-controls="nested-collapseOne">
-                                                지형/환경
-                                            </button>
-                                            </h2>
-                                            <div id="nested-collapseOne" class="accordion-collapse collapse" aria-labelledby="nested-headingOne">
-                                                <div class="accordion-body">
-                                                    <label for="topo">
-                                                        <span><input type="checkbox" name="revierside" id="topo1">강변</span>
-                                                        <span><input type="checkbox" name="valley" id="topo2">계곡</span>
-                                                        <span><input type="checkbox" name="city" id="topo3">도심</span>
-                                                        <span><input type="checkbox" name="ocean" id="topo4">바다</span>
-                                                        <span><input type="checkbox" name="mountain" id="topo5">산</span>
-                                                        <span><input type="checkbox" name="island" id="topo6">섬</span>
-                                                    </label>
+    <main>
+        <div class="main-container-search">
+            <!-- <div class="search-container"> -->
+            <div class="search-container" ref="searchContainer">
+                <div class="search-box">
+                    <form action="" id="searchForm">
+                        <label for="address"></label>
+                        <select @change="selectState" name="state" id="select1" class="address">
+                            <option>전체 시/도</option>
+                            <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
+                        </select>
+                        <select @change="selectCounty" name="county" id="select2" class="address">
+                            <option>전체 구/군</option>
+                            <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
+                        </select>
+                        <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">간편 검색</button>
+                        <div class="accordion" id="accordionPanelsStayOpenExample">
+                            <!-- 상세 검색 아코디언 -->
+                            <div class="accordion-item" style="background-color: white;">
+                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
+                                    상세 검색
+                                </button>
+                                </h2>
+                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
+                                    <div class="accordion-body">
+                                        <!-- 내부 아코디언 시작 -->
+                                        <div class="accordion" id="nestedAccordionOne">
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="nested-headingOne">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseOne" aria-expanded="true" aria-controls="nested-collapseOne">
+                                                    지형/환경
+                                                </button>
+                                                </h2>
+                                                <div id="nested-collapseOne" class="accordion-collapse collapse" aria-labelledby="nested-headingOne">
+                                                    <div class="accordion-body">
+                                                        <label for="topo">
+                                                            <span><input type="checkbox" name="revierside" id="topo1">강변</span>
+                                                            <span><input type="checkbox" name="valley" id="topo2">계곡</span>
+                                                            <span><input type="checkbox" name="city" id="topo3">도심</span>
+                                                            <span><input type="checkbox" name="ocean" id="topo4">바다</span>
+                                                            <span><input type="checkbox" name="mountain" id="topo5">산</span>
+                                                            <span><input type="checkbox" name="island" id="topo6">섬</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="nested-headingTwo">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseTwo" aria-expanded="false" aria-controls="nested-collapseTwo">
+                                                    편의 시설
+                                                </button>
+                                                </h2>
+                                                <div id="nested-collapseTwo" class="accordion-collapse collapse" aria-labelledby="nested-headingTwo">
+                                                    <div class="accordion-body">
+                                                        <label for="amenities">
+                                                            <span><input type="checkbox" name="wash" id="amenities1">개수대</span>
+                                                            <span><input type="checkbox" name="store" id="amenities2">편의점</span>
+                                                            <span><input type="checkbox" name="barbecue" id="amenities3">바비큐</span>
+                                                            <span><input type="checkbox" name="shower-booth" id="amenities4">샤워시설</span><br>
+                                                            <span><input type="checkbox" name="heated-water" id="amenities5">온수</span>
+                                                            <span><input type="checkbox" name="wi-fi" id="amenities6">와이파이</span>
+                                                            <span><input type="checkbox" name="long-stay" id="amenities7">장기숙박</span>
+                                                            <span><input type="checkbox" name="electricity" id="amenities8">전기</span><br>
+                                                            <span><input type="checkbox" name="rental" id="amenities9">캠핑용품 대여</span>
+                                                            <span><input type="checkbox" name="restroom" id="amenities10">화장실</span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="accordion-item">
+                                                <h2 class="accordion-header" id="nested-headingThree">
+                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseThree" aria-expanded="false" aria-controls="nested-collapseThree">
+                                                    즐길거리
+                                                </button>
+                                                </h2>
+                                                <div id="nested-collapseThree" class="accordion-collapse collapse" aria-labelledby="nested-headingThree">
+                                                    <div class="accordion-body">
+                                                        <label for="amusement">
+                                                            <span><input type="checkbox" name="sea-fishing" id="amusement1">바다낚시</span>
+                                                            <span><input type="checkbox" name="river-fishing" id="amusement2">민물낚시</span>
+                                                            <span><input type="checkbox" name="pool" id="amusement3">수영장</span>
+                                                            <span><input type="checkbox" name="karaoke" id="amusement4">노래방</span><br>
+                                                            <span><input type="checkbox" name="leisure" id="amusement5">수상레저</span>
+                                                            <span><input type="checkbox" name="playground" id="amusement6">체육시설(놀이터)</span>
+                                                        </label>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="nested-headingTwo">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseTwo" aria-expanded="false" aria-controls="nested-collapseTwo">
-                                                편의 시설
-                                            </button>
-                                            </h2>
-                                            <div id="nested-collapseTwo" class="accordion-collapse collapse" aria-labelledby="nested-headingTwo">
-                                                <div class="accordion-body">
-                                                    <label for="amenities">
-                                                        <span><input type="checkbox" name="wash" id="amenities1">개수대</span>
-                                                        <span><input type="checkbox" name="store" id="amenities2">편의점</span>
-                                                        <span><input type="checkbox" name="barbecue" id="amenities3">바비큐</span>
-                                                        <span><input type="checkbox" name="shower-booth" id="amenities4">샤워시설</span><br>
-                                                        <span><input type="checkbox" name="heated-water" id="amenities5">온수</span>
-                                                        <span><input type="checkbox" name="wi-fi" id="amenities6">와이파이</span>
-                                                        <span><input type="checkbox" name="long-stay" id="amenities7">장기숙박</span>
-                                                        <span><input type="checkbox" name="electricity" id="amenities8">전기</span><br>
-                                                        <span><input type="checkbox" name="rental" id="amenities9">캠핑용품 대여</span>
-                                                        <span><input type="checkbox" name="restroom" id="amenities10">화장실</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="accordion-item">
-                                            <h2 class="accordion-header" id="nested-headingThree">
-                                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseThree" aria-expanded="false" aria-controls="nested-collapseThree">
-                                                즐길거리
-                                            </button>
-                                            </h2>
-                                            <div id="nested-collapseThree" class="accordion-collapse collapse" aria-labelledby="nested-headingThree">
-                                                <div class="accordion-body">
-                                                    <label for="amusement">
-                                                        <span><input type="checkbox" name="sea-fishing" id="amusement1">바다낚시</span>
-                                                        <span><input type="checkbox" name="river-fishing" id="amusement2">민물낚시</span>
-                                                        <span><input type="checkbox" name="pool" id="amusement3">수영장</span>
-                                                        <span><input type="checkbox" name="karaoke" id="amusement4">노래방</span><br>
-                                                        <span><input type="checkbox" name="leisure" id="amusement5">수상레저</span>
-                                                        <span><input type="checkbox" name="playground" id="amusement6">체육시설(놀이터)</span>
-                                                    </label>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <!-- 내부 아코디언 끝 -->
                                     </div>
-                                    <!-- 내부 아코디언 끝 -->
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
+                <div class="result">
+                    <hr>
+                    <div>{{ $store.state.campData.length }} 
+                        <span>개의 캠핑장 발견!</span></div>
+                </div>
+                <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
+                        <div class="item-img">
+                            <img class="img main-img" :src='item.main_img' alt="">
+                        </div>
+                        <div class="item-info">
+                            <div>
+                                <span class="item-name">{{ item.name }}</span>
+                                <span class="item-distance sub-text">87.2km</span>
+                            </div>
+                            <div class="item-info-2">
+                                <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
+                                <span class="address-depth2">{{ item.address }}</span>
+                            </div>
+                            <div class="item-info-3">
+                                <span class="item-price">{{ item.price }}
+                                    <span class="sub-text">1박 기준</span>
+                                </span>
+                            </div>
+                            <div class="item-tel sub-text">
+                                <span>{{ item.tel }}</span>
+                            </div>
+                        </div>
+                        <div class="item-detail">
+                            <button>
+                                <a :href="`/camp/${item.id}`">
+                                    <img src="../../public/img/상세보기 화살표.png" alt="">
+                                </a>
+                            </button>
+                        </div>
+                </div> 
+                <div class="pagination">
+                    <!-- <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()">< 이전 </button> -->
+                    <!-- <div class="page-num">{{ $store.state.paginationSearch.current_page+'/'+$store.state.paginationSearch.last_page }}</div> -->
+                    <!-- <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()"> 다음 > </button> -->
+                </div>           
             </div>
-            <div class="result">
-                <hr>
-                <div>{{ $store.state.campData.length }} 
-                    <span>개의 캠핑장 발견!</span></div>
-            </div>
-            <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
-                    <div class="item-img">
-                        <img class="img main-img" :src='item.main_img' alt="">
-                    </div>
-                    <div class="item-info">
-                        <div>
-                            <span class="item-name">{{ item.name }}</span>
-                            <span class="item-distance sub-text">87.2km</span>
-                        </div>
-                        <div class="item-info-2">
-                            <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
-                            <span class="address-depth2">{{ item.address }}</span>
-                        </div>
-                        <div class="item-info-3">
-                            <span class="item-price">{{ item.price }}
-                                <span class="sub-text">1박 기준</span>
-                            </span>
-                        </div>
-                        <div class="item-tel sub-text">
-                            <span>{{ item.tel }}</span>
-                        </div>
-                    </div>
-                    <div class="item-detail">
-                        <button>
-                            <a :href="`/camp/${item.id}`">
-                                <img src="../../public/img/상세보기 화살표.png" alt="">
-                            </a>
-                        </button>
-                    </div>
-            </div> 
-            <div class="pagination">
-                <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()">< 이전 </button>
-                <div class="page-num">{{ $store.state.paginationSearch.current_page+'/'+$store.state.paginationSearch.last_page }}</div>
-                <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()"> 다음 > </button>
-            </div>           
-        </div>
-        <div class="resizer" id="drag" @mousedown="startResize"></div>
-        <div class="map-container">
-            <div class="map">
-                <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true">
-                    <KakaoMapMarker
-                        v-for="(item, key) in $store.state.campData"
-                        :key="key"
-                        :lat="item.latitude"
-                        :lng="item.longitude"
-                        :title="item.name"
-                    ></KakaoMapMarker>
-                </KakaoMap>
-            </div>
-            <div class="float-btn">
-                <button class="result-pin">검색</button>
-                <button class="wishlist-pin">찜</button>
-                <button class="complete-pin">정복</button>
+            <div class="resizer" id="drag" @mousedown="startResize"></div>
+            <div class="map-container">
+                <div class="map">
+                    <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true" :level="7">
+                        <KakaoMapMarker
+                            @on-click-kakao-map-marker="mapMarkerClick"
+                            @mouse-over-kakao-map-marker="mapMarkerMouseOver"
+                            v-for="(item, key) in $store.state.campData"
+                            :key="key"
+                            :lat="item.latitude"
+                            :lng="item.longitude"
+                            :title="item.name"
+                            :clickable="true"
+                        ></KakaoMapMarker>
+                    </KakaoMap>
+                </div>
+                <div class="float-btn">
+                    <button class="result-pin">검색</button>
+                    <button class="wishlist-pin">찜</button>
+                    <button class="complete-pin">정복</button>
+                </div>
             </div>
         </div>
     </main>
@@ -172,14 +177,35 @@ const stateData = ref(store.state.stateData);
 const countyData = ref(store.state.countyData);
 const campData = ref(store.state.campData);
 
+// const stateData = ref([]);
+// const countyData = ref([]);
+// const campData = ref([]);
 
+watch(() => store.state.stateData, (newStateData) => {
+    stateData.value = newStateData;
+})
+
+watch(() => store.state.countyData, (newCountyData) => {
+    countyData.value = newCountyData;
+})
+
+// watch(() => store.state.campData, (newCampData) => {
+//     campData.value = newCampData;
+// });
 
 // 선택한 시/도에 따라 구/군 목록 업데이트
 
 
+let selectedState = '';
+let selectedCounty = '';
 
+function selectState(event) {
+    selectedState = event.target.value;
+}
 
-
+function selectCounty(event) {
+    selectedCounty = event.target.value;
+}
 
 
 
@@ -235,8 +261,19 @@ const stopResize = () => {
 // 검색 버튼
 
 function searchBtn(e) {
-    console.log(e);
-    store.dispatch('searchResult')
+    const selectStateElement = document.querySelector('#select1');
+    const selectCountyElement = document.querySelector('#select2');
+    const selectedState = selectStateElement.value;
+    const selectedCounty = selectCountyElement.value;
+
+    console.log('선택된 값:', selectedState);
+    console.log('선택된 값:', selectedCounty);
+    
+    store.dispatch('searchResult', {
+        state: selectedState, // 선택된 시/도 값
+        county: selectedCounty, // 선택된 구/군 값
+        // 추가
+    });
 }
 
 
@@ -248,32 +285,27 @@ function searchBtn(e) {
 
 
 
-// const selectState = (e) => {
-// //   const selectedStateValue = e.target.value;
-// //   console.log('선택된 값:', selectedStateValue);
-// };
-
-
-// const selectCounty = (e) => {
-//   const selectedCountyValue = e.target.value;
-//   console.log('선택된 값:', selectedCountyValue);
-
-//   if(isSet(selectedCountyValue)) {
-
-//   }
-// };
 
 // 페이지네이션
-function prevPage() {
- store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
+// function prevPage() {
+//  store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
+// }
+
+// function nextPage() {
+//  store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
+// }
+
+function mapMarkerMouseOver(e) {
+    console.log(store.state.campData[0].name);
 }
 
-function nextPage() {
- store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
+function mapMarkerClick(e) {
+    console.log(e);
+    console.log('mapMarkerClick');
+
+    const url = `/camp/${store.state.campData[0].id}`;
+    window.location.href = url;
 }
-
-
-
 
 
 
@@ -282,6 +314,7 @@ function nextPage() {
 
 onBeforeMount(() => {
     store.dispatch('campListGet');
+    console.log('campListGet');
 })
 
 onMounted(() => {
@@ -290,7 +323,6 @@ onMounted(() => {
     const resizer = document.querySelector('.resizer');
     resizer.addEventListener('mousedown', startResize);
     window.addEventListener('mouseup', stopResize);
-    // store.dispatch('getAllCounties');
 });
 
 

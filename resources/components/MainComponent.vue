@@ -5,35 +5,36 @@
             <img src="/img/logo-ko3.png" class="img-fluid" alt="Logo" loading="lazy">
         </div>
         <div class="main-search">
-            <div class="d-flex flex-wrap align-items-center justify-content-center">
+            <form action="" id="searchForm" class="d-flex flex-wrap align-items-center justify-content-center">
                 <span class="me-2">어느지역?</span>
                 <div class="main-select-box me-2">
-                    <select @change="selectState" name="h_area1" class="select" onChange="cat1_change(this.value,h_area2)">
+                    <select @change="selectState" name="state" id="select1" class="select">
                         <option>전체 시/도</option>
                         <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
                         {{ console.log('stateData', stateData) }}
                     </select>
                 </div>
                 <div class="main-select-box">
-                    <select @change="selectCounty" name="h_area2" class="select">
+                    <select @change="selectCounty" name="county" id="select2" class="select">
                         <option>전체 구/군</option>
                         <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
                         {{ console.log('countyData', countyData) }}
                     </select>
                 </div>
-            </div>
-            <div class="d-flex flex-wrap align-items-center justify-content-center mt-3">
-                <span class="me-2">어디갈래?</span>
-                <div class="main-select-box me-2">
-                    <select name="h_area3" class="select">
-                        <option>-선택-</option>
-                        <option value='1' selected>글램핑</option>
-                        <option value='2'>오지/노지캠핑</option>
-                        <option value='3'>카라반</option>
-                    </select>
+                <div class="d-flex flex-wrap align-items-center justify-content-center mt-3">
+                    <span class="me-2">어디갈래?</span>
+                    <div class="main-select-box me-2">
+                        <select name="option" class="select">
+                            <option>선택</option>
+                            <option value='1'>글램핑</option>
+                            <option value='2'>오지/노지캠핑</option>
+                            <option value='3'>카라반</option>
+                        </select>
+                    </div>
+                    <!-- <button @click="searchBtn" class="main-search-button">검색</button> -->
+                    <router-link to="/search" @click="searchBtn" class="main-search-button">검색</router-link>
                 </div>
-                <button class="main-search-button" @click="searchBtn">검색</button>
-            </div>
+            </form>
         </div>
     
     <!-- 두번째 -->
@@ -195,10 +196,14 @@
 
 <script setup>
 import axios from 'axios';
-import { onBeforeMount,ref, computed } from 'vue';
+import { onBeforeMount,ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 
+
 const store = useStore();
+const stateData = ref(store.state.stateData);
+const countyData = ref(store.state.countyData);
+const campData = ref(store.state.campData);
 
 
 // 스크롤 이벤트
@@ -237,24 +242,24 @@ window.addEventListener('scroll', throttle(observeSections, 200));
 
 // 카운터
 const counter = ($counter, max) => {
-  let now = 0;
+    let now = 0;
 
-  const handle = setInterval(() => {
+    const handle = setInterval(() => {
     $counter.innerHTML = Math.ceil(now);
 
     // 목표 수치에 도달하면 정지
     if (now >= max) {
-      clearInterval(handle);
-      if (max === 100) {
+        clearInterval(handle);
+        if (max === 100) {
         $counter.innerHTML = '100+'; // 목표 수치가 100이면 100+로 표시
-      }
+        }
     } else {
       // 증가되는 값이 계속하여 작아짐
-      const step = (max - now) / 10;
+        const step = (max - now) / 10;
       // 값을 적용시키면서 다음 차례에 영향을 끼침
-      now += step;
+        now += step;
     }
-  }, 50);
+    }, 50);
 }
 
 window.onload = () => {
@@ -354,23 +359,45 @@ function createStamp() {
 
 
 
-const stateData = ref(store.state.stateData);
-const countyData = ref(store.state.countyData);
 
 
-onBeforeMount(() => {
-  if (!stateData.value.length) {
-    store.dispatch('stateGet');
-  }
-  if (!countyData.value.length) {
-    store.dispatch('countyGet');
+
+
+onMounted(() => {
+    const stateData = ref(store.state.stateData);
+    const countyData = ref(store.state.countyData);
+    // store.dispatch('stateGet');
+    // store.dispatch('countyGet');
+    if (!stateData.value.length) {
+        store.dispatch('stateGet');
+    }
+    if (!countyData.value.length) {
+        store.dispatch('countyGet');
   }
 });
 
 
 function searchBtn(e) {
-    console.log(e);
-    store.dispatch('searchResult')
+    const selectStateElement = document.querySelector('#select1');
+    const selectCountyElement = document.querySelector('#select2');
+    const selectedState = selectStateElement.value;
+    const selectedCounty = selectCountyElement.value;
+
+    console.log('선택된 값:', selectedState);
+    console.log('선택된 값:', selectedCounty);
+    
+    // store.dispatch('setSelection', {
+    //     selectedState: selectedState,
+    //     selectedCounty: selectedCounty,
+    //     // state: selectedState, // 선택된 시/도 값
+    //     // county: selectedCounty, // 선택된 구/군 값
+    //     // 추가
+    // });
+
+    store.dispatch('searchResult');
+    
+    // const url = '/search/mainSearch';
+    // window.location.href = url;
 }
 
 

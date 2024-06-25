@@ -29,7 +29,8 @@ const store = createStore({
             campDetail: {},
             stateData: [],
             countyData: [],
-            selectedState: null, // 선택된 시/도
+            selectedState: '', // 선택된 시/도
+            selectedCounty: '', // 선택된 구/군
             mapCenter: { lat: 37.566826, lng: 126.9786567 }, // 임시 기본 좌표
             stampCampingzang: [],
             mypageWishes:[],
@@ -119,6 +120,15 @@ const store = createStore({
         setPaginationReview(state, data){
             state.paginationReview = data;
         },
+        setPaginationSearch(state, data){
+            state.paginationSearch = data;
+        },
+        setPaginationCommunity(state, data){
+            state.paginationCommunity = data;
+        },
+        // addWish(state, camp_id) {
+        //     state.wishes.push({ camp_id });
+        // },
         toggleWish(state) {
             state.wishes = !state.wishes;
         },
@@ -167,6 +177,11 @@ const store = createStore({
         setSelectedState(state, selectedState) {
             state.selectedState = selectedState;
         },
+        // 선택된 구/군 획득
+        setSelectedCounty(state, selectedCounty) {
+            state.selectedCounty = selectedCounty;
+        },
+
         // 캠핑장 데이터 획득
         setCampList(state, data) {
             state.campData = data;
@@ -812,7 +827,8 @@ const store = createStore({
          * @param {*} context 
          */
         campListGet(context, page=1) {
-            const url = ('/api/search/searchPage?page=' + page);
+            // const url = ('/api/search/searchPage?page=' + page);
+            const url = '/api/search';
             console.log(url);
             axios.get(url)
             .then(response => {
@@ -845,8 +861,9 @@ const store = createStore({
          * @param {*} context 
          */
         stateGet(context) {
-            const url = '/api/state';
-
+            const url = '/api/state'
+            
+            console.log('stateGet 실행됨');
             axios.get(url)
             .then(response => {
                 context.commit('setStateData', response.data.data);
@@ -882,6 +899,11 @@ const store = createStore({
          * @param {*} context 
          */
         searchResult(context) {
+            const state = context.state; // context에서 state 값을 가져옴
+            const county = context.county; // context에서 county 값을 가져옴
+            // const page = context.page; // context에서 page 값을 가져옴
+
+            // const url = `/api/search?state=${state}&county=${county}&page=${page}`;
             const url = '/api/search';
             
             // const selectStateElement = document.querySelector('#select1');
@@ -915,10 +937,16 @@ const store = createStore({
 
                 })
                 .catch(error => {
-                    console.error('검색 결과 획득 실패', response.data);
+                    console.error('검색 결과 획득 실패', error);
                     alert('검색 실패'+error.response);
                 });
             },
+
+            // 메인에서 검색값 가져오는 처리
+            setSelection(context) {
+                commit('setSelectedState', selectedState);
+                commit('setSelectedCounty', selectedCounty);
+            }
 
 
 
@@ -947,7 +975,7 @@ const store = createStore({
 
             // async searchResult({ commit }, { state, county }) { // `searchResult` 액션 추가
             //     const url = '/api/search';
-          
+        
             //     try {
             //       const response = await axios.post(url, { state, county });
             //       commit('setSearchResult', response.data);
