@@ -77,7 +77,7 @@ class UserController extends Controller
     // 유효성 검사 실패시 처리
     if ($validator->fails()) {
         Log::debug('유효성 검사 실패', $validator->errors()->toArray());
-        return response()->json(['message' => '유효성 검사 실패', 'errors' => $validator->errors()], 422);
+        return response()->json(['message' => '유효성 검사 실패 유저', 'errors' => $validator->errors()], 422);
     }
 
     // 유저 정보 획득
@@ -126,7 +126,7 @@ class UserController extends Controller
         );
 
         if ($validator->fails()) {
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            Log::debug('유효성 검사 실패 회원가입', $validator->errors()->toArray());
             throw new MyValidateException('E01');
             return response()->json([
                 'status' => 'error',
@@ -198,7 +198,7 @@ class UserController extends Controller
         );
 
         if ($validator->fails()) {
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            Log::debug('유효성 검사 실패 이메일 중복', $validator->errors()->toArray());
             return response()->json([
                 'status' => 'error',
                 'errors' => $validator->errors()

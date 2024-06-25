@@ -18,18 +18,19 @@
         </div>
         <div class="content-container">
             <div class="content-top">
-                <nav class="content-top-2 navbar navbar-expand-lg bg-body-tertiary">
+                <nav class="content-top-2">
                     <div class="content-head">
+                        <div>자유게시판</div>
                         <div v-if="communityType">
                             <a :href="`/board/${communityType.id}`" class="list-item">{{ communityType.name }}</a>
                             <button @click="openInsertModal" class="btn btn-outline-success">+</button>
                         </div>
-                        <div class="board-comment nav-item" id="navbarSupportedContent">
+                        <div class="board-comment">
                                 <span>어쩌구 저쩌구를 남겨보세요.</span>
                         </div>
                         <div class="nav-item board-btn">
-                            <button class="btn btn-outline-secondary">최신순</button>
-                            <button class="btn btn-outline-secondary">인기순</button>
+                            <button class="">최신순</button>
+                            <button class="">인기순</button>
                         </div>
                     </div>
                     </nav>
@@ -37,7 +38,7 @@
             <div class="content-bottom">
                 <div class="content-box">
                     <div class="list-group">
-                        <div class="content-column list-item" aria-disabled="true">
+                        <div class="content-column2">
                             <div>글 번호</div>
                             <div class="title-text-align">글 제목</div>
                             <div>작성자</div>
@@ -50,10 +51,13 @@
                             <div>{{ item.user_id }}</div>
                             <div>{{ item.created_at }}</div>
                             <div>{{ item.views }}</div>
-                            </div>
-                        <hr class="item-hr">
+                        </div>
                     </div>
-                    <div class="pagination"></div>
+                    <div class="pagination">
+                <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == 1" @click="prevPage()">< 이전 </button>
+                <div class="page-num">{{ $store.state.paginationCommunity.current_page+'/'+$store.state.paginationCommunity.last_page }}</div>
+                <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == $store.state.paginationCommunity.last_page" @click="nextPage()"> 다음 > </button>
+            </div>  
                 </div>
             </div>
         </div>

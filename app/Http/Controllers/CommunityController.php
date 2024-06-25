@@ -55,6 +55,7 @@ class CommunityController extends Controller
         $communityData = Community::select('communities.*', 'users.nick_name')
                                     ->join('users', 'users.id', '=', 'communities.user_id')
                                     ->orderBy('communities.id', 'DESC')
+                                    ->limit(9)
                                     ->get();
         $responseData = [
             'code' => '0',
@@ -101,7 +102,7 @@ class CommunityController extends Controller
         // 유효성 검사 실패 시 처리
         if($validator->fails()) {
             Log::debug('---', $validator->errors()->toArray());
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            Log::debug('커뮤니티 페이지 유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
 
