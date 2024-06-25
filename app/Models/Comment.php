@@ -19,6 +19,8 @@ class Comment extends Model
         'user_id',
         'camp_id',
         'comment',
+        'created_at',
+        'updated_at',
     ];
 
     /**

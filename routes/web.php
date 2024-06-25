@@ -37,6 +37,14 @@ Route::post('/api/check-email', [UserController::class, 'checkEmail']);
 Route::post('/mypage/update', [UserController::class, 'update']);
 Route::get('/api/mypage/stamp', [StampController::class, 'stampGet']);
 Route::get('/api/mypage/wishes', [WishController::class, 'wishGet']);
+Route::get('/api/mypage/content', [CommunityController::class, 'contentGet']);
+Route::get('/api/mypage/review', [CommunityController::class, 'reviewGet']);
+Route::get('/api/mypage/comment', [CommentController::class, 'CommentGet']);
+Route::post('/api/content/update', [CommunityController::class, 'updateContent']);
+Route::post('/api/review/update', [CommunityController::class, 'updateReview']);
+Route::post('/api/posts/delete', [CommunityController::class, 'deletePost']);
+Route::post('/api/reviews/delete', [CommunityController::class, 'deleteReview']);
+Route::post('/api/comments/delete', [CommentController::class, 'deleteComment']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
