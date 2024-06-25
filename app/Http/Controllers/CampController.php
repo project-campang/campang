@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Log;
 class CampController extends Controller
 {
 
-    // 캠핑장 데이터 획득
+
+    // 캠핑장 데이터 획득 + 페이지네이션
     public function campListGet() {
+        // log::debug('campListGet');
         
         $campList = Camp::select('camps.*')
                         // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
@@ -29,10 +31,9 @@ class CampController extends Controller
                         // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
                         // ->groupBy('camps.id' )
                         ->orderBy('camps.state')
-                        ->limit(15)
-                        ->get();
-    
-        // log::debug('게시글 정보', $campList->toArray());
+                        // ->limit(15)
+                        ->paginate(5);
+                        // ->get()
     
         $responseData = [
             'code' => '0'

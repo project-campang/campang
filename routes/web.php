@@ -37,6 +37,14 @@ Route::post('/api/check-email', [UserController::class, 'checkEmail']);
 Route::post('/mypage/update', [UserController::class, 'update']);
 Route::get('/api/mypage/stamp', [StampController::class, 'stampGet']);
 Route::get('/api/mypage/wishes', [WishController::class, 'wishGet']);
+Route::get('/api/mypage/content', [CommunityController::class, 'contentGet']);
+Route::get('/api/mypage/review', [CommunityController::class, 'reviewGet']);
+Route::get('/api/mypage/comment', [CommentController::class, 'CommentGet']);
+Route::post('/api/content/update', [CommunityController::class, 'updateContent']);
+Route::post('/api/review/update', [CommunityController::class, 'updateReview']);
+Route::post('/api/posts/delete', [CommunityController::class, 'deletePost']);
+Route::post('/api/reviews/delete', [CommunityController::class, 'deleteReview']);
+Route::post('/api/comments/delete', [CommentController::class, 'deleteComment']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
@@ -52,8 +60,9 @@ Route::get('/api/stampCnt', [CampController::class, 'stampCnt']);
 Route::post('/api/stampStore/{id}', [StampController::class, 'stampStore']);
 
 // 캠프 컨트롤러
-Route::get('/api/search', [CampController::class, 'campListGet']);
-Route::post('/api/search', [CampController::class, 'searchResult']);
+Route::get('/api/search/searchPage', [CampController::class, 'campListGet']);
+Route::get('/api/search', [CampController::class, 'searchResult']);
+Route::get('/api/camp/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/camp/{id}', [CampController::class, 'campDetailGet']);
 Route::get('/api/state', [StateController::class, 'stateGet']); // state
 Route::get('/api/county', [CountyController::class, 'countyGet']); // county
@@ -65,7 +74,7 @@ Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
 
 
 // 커뮤니티 컨트롤러
-Route::get('/api/community', [CommunityController::class, 'communityGet']);
+Route::get('/api/community/communityPage', [CommunityController::class, 'communityGet']);
 Route::post('/api/community', [CommunityController::class, 'communityStore']);
 Route::get('/community_types/{id}', [CommunityTypeController::class, 'index']);
 Route::get('/api/community_types', [CommunityTypeController::class, 'index']);

@@ -55,6 +55,7 @@ class CommunityController extends Controller
         $communityData = Community::select('communities.*', 'users.nick_name')
                                     ->join('users', 'users.id', '=', 'communities.user_id')
                                     ->orderBy('communities.id', 'DESC')
+                                    ->limit(9)
                                     ->get();
         $responseData = [
             'code' => '0',
@@ -101,7 +102,7 @@ class CommunityController extends Controller
         // 유효성 검사 실패 시 처리
         if($validator->fails()) {
             Log::debug('---', $validator->errors()->toArray());
-            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
+            Log::debug('커뮤니티 페이지 유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
 
@@ -328,6 +329,7 @@ class CommunityController extends Controller
         $RankData = Community::select('communities.title', 'users.name')
                         ->join('users', 'users.id', '=', 'communities.user_id')
                         ->where('communities.type', '<>', 2) // type이 2인 것 제외
+                        ->whereNull('deleted_at')
                         ->orderBy('communities.views', 'DESC') // views 기준 내림차순 정렬
                         ->take(5) // 최대 5개의 결과만 가져옴
                         ->get();
@@ -342,7 +344,129 @@ class CommunityController extends Controller
     
         return response()->json($responseData, 200);
     }
+
+
+    public function contentGet(Request $request) {
+        // 로그인한 사용자의 ID를 가져옵니다.
+        $userId = auth()->id();
     
+    
+        // 사용자가 작성한 게시글 중 communities.type이 2인 데이터만 가져옵니다.
+        $RankData = Community::select('title', 'content', 'created_at', 'id')
+                        ->where('type', '=', 1) // type이 2인 데이터만 가져옴
+                        ->where('user_id', '=', $userId) // 현재 로그인한 사용자의 게시글만 가져옴
+                        ->whereNull('deleted_at')
+                        ->orderBy('views', 'DESC') // views 기준 내림차순 정렬
+                        ->get();
+    
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득 완료',
+            'data' => $RankData->toArray()
+        ];
+    
+        return response()->json($responseData, 200);
+    }
+    public function ReviewGet(Request $request) {
+        // 로그인한 사용자의 ID를 가져옵니다.
+        $userId = auth()->id();
+    
+    
+        // 사용자가 작성한 게시글 중 communities.type이 2인 데이터만 가져옵니다.
+        $RankData = Community::select('title', 'content', 'created_at')
+                        ->where('type', '=', 2) // type이 2인 데이터만 가져옴
+                        ->where('user_id', '=', $userId) // 현재 로그인한 사용자의 게시글만 가져옴
+                        ->whereNull('deleted_at')
+                        ->orderBy('views', 'DESC') // views 기준 내림차순 정렬
+                        ->get();
+    
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득 완료',
+            'data' => $RankData->toArray()
+        ];
+    
+        return response()->json($responseData, 200);
+    }
+    
+    public function updateContent(Request $request)
+    {
+        // 요청에서 필요한 데이터 추출
+        $postId = $request->input('postId');
+        $title = $request->input('title');
+        $content = $request->input('content');
+
+        // 게시글 업데이트
+        $post = Community::find($postId);
+        if (!$post) {
+            return response()->json(['error' => '게시글을 찾을 수 없습니다.'], 404);
+        }
+
+        $post->title = $title;
+        $post->content = $content;
+        $post->save();
+
+        return response()->json(['message' => '게시글이 성공적으로 업데이트되었습니다.']);
+    }
+
+    public function updateReview(Request $request)
+    {
+        // 요청에서 필요한 데이터 추출
+        $postId = $request->input('postId');
+        $title = $request->input('title');
+        $content = $request->input('content');
+
+        // 게시글 업데이트
+        $review = Community::find($postId);
+        if ($review) {
+            return response()->json(['error' => '게시글을 찾을 수 없습니다.'], 404);
+        }
+
+        $review->title = $title;
+        $review->content = $content;
+        $review->save();
+
+        return response()->json(['message' => '게시글이 성공적으로 업데이트되었습니다.']);
+    }
+
+    public function deletePost(Request $request, $id)
+    {
+        try {
+            // 리뷰 찾기
+            $Post = Community::findOrFail($id);
+
+            // 리뷰 삭제
+            $Post->delete();
+
+            // 성공 응답 반환
+            return response()->json(['message' => '리뷰가 성공적으로 삭제되었습니다.'], 200);
+        } catch (\Exception $e) {
+            // 에러 응답 반환
+            return response()->json(['message' => '리뷰 삭제 중 오류가 발생했습니다.', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+    public function deleteReview(Request $request, $id)
+    {
+        try {
+            // 리뷰 찾기
+            $Review = Community::findOrFail($id);
+
+            // 리뷰 삭제
+            $Review->delete();
+
+            // 성공 응답 반환
+            return response()->json(['message' => '리뷰가 성공적으로 삭제되었습니다.'], 200);
+        } catch (\Exception $e) {
+            // 에러 응답 반환
+            return response()->json(['message' => '리뷰 삭제 중 오류가 발생했습니다.', 'error' => $e->getMessage()], 500);
+        }
+    }
+
+
+
+
+
     
 }
     

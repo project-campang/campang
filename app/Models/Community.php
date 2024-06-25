@@ -21,6 +21,7 @@ class Community extends Model
         'other_img5',
         'views',
         'created_at',
+        'updated_at',
     ];
 
         /**
