@@ -7,9 +7,12 @@ use App\Models\Amusement;
 use App\Models\Camp;
 use App\Models\County;
 use App\Models\SiteType;
+use App\Models\Stamp;
 use App\Models\State;
 use App\Models\Topo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
@@ -176,5 +179,27 @@ class CampController extends Controller
             ,'siteTypeInfo' => $siteTypeInfo
             ,'topoInfo' => $topoInfo
         ];
+    }
+
+    public function gpsTargetStamp(){
+        $campInfo = Camp::all();
+        $responseData = [
+            'code' => '0'
+            ,'msg' => ''
+            ,'data' => $campInfo
+        ];
+        return response()->json($responseData, 200);
+    }
+
+    public function stampCnt(){
+        $stampInfo = Stamp::select(DB::raw('count(*) as cnt'))->where('user_id', Auth::id())->get();
+
+        $responseData = [
+            'code' => '0',
+            'msg' => '',
+            'data' => $stampInfo
+        ];
+
+        return response()->json($responseData, 200);
     }
 }

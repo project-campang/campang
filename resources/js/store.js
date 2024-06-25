@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import router from './router';
+import { floor } from 'lodash';
 
 const store = createStore({
     state() {
@@ -29,7 +30,13 @@ const store = createStore({
             selectedState: null, // 선택된 시/도
             stampCampingzang: [],
             mypageWishes:[],
-
+            targetCamp: [],
+            userPosition: null,
+            currentTarget: null,
+            isWithinTargetArea: false,
+            stampCnt: {},
+            stampUser:{id:null},
+            currentCamp:{id:null},
         }
     },
     mutations: {
@@ -79,10 +86,6 @@ const store = createStore({
             state.mypageWishes = data; // 상태 업데이트
         },
 
-        //댓글 초기 삽입
-        // setCommentData(state, data){ 
-        //     state.commentData = data;
-        // },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
@@ -103,10 +106,6 @@ const store = createStore({
         toggleWish(state) {
             state.wishes = !state.wishes;
         },
-        // // 찜 삭제
-        // removeWish(state, camp_id) {
-        //     state.wishes = state.wishes.filter(wish => wish.camp_id !== camp_id);
-        // },
 
         // 게시글 획득
         setCommunityList(state, data) {
@@ -156,6 +155,32 @@ const store = createStore({
         // setSearchResult(state, campData) {
         //     state.searchResult = countyData;
         // },
+        // 유저 위치 획득
+        setUserPosition(state,position){
+            state.userPosition = position;
+        },
+        // 정복캠핑장 정보
+        setTargetCamp(state, data){
+            state.targetCamp = data;
+        },
+        // 캠핑장 위치 반경 내
+        setWithinTargetArea(state, isWithin) {
+            state.isWithinTargetArea = isWithin;
+        },
+        setCurrentTarget(state, data){
+            state.currentTarget = data;
+        },
+        // 스탬프 갯수
+        setStampCnt(state, data){
+            state.stampCnt = data;
+        },
+        //스탬프 찍기
+        setStampUser(state, user){
+            state.stampUser.id = user.id;
+        },
+        setCurruntCamp(state, camp){
+            state.currentCamp.id = camp.id;
+        },
     },
     actions: {
         // async login(context, loginForm) {
@@ -770,7 +795,112 @@ const store = createStore({
             //     }
             // }
 
+
+            async fetchCamps({commit, dispatch}){
+                const url = 'api/main/stampTarget';
+                try{
+                    const response = await axios.get(url);
+                    commit('setTargetCamp', response.data.data);
+                    dispatch('checkPosition');
+            } catch(e){
+                    console.error('캠핑장 패치 실패', e);
+                }
+            },
+            updateUserPosition({commit, dispatch}){
+                if(navigator.geolocation) {
+                navigator.geolocation.watchPosition(
+                    (position) => {
+                        commit('setUserPosition', {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            });
+                        dispatch('checkPosition');
+                    },
+                    () => {
+                        console.error('유저 위치 확인 실패');
+                    });
+                } else {
+                    console.error('geolocation을 사용할 수 없는 브라우저');
+                }
+            },
+            checkPosition({state, commit}){
+                let flg = true;
+                if(!state.userPosition || state.targetCamp.length === 0) return;
+
+                state.targetCamp.forEach(targetCamp => {
+                const distance = floor(
+                        calculateSimpleDistance(
+                        state.userPosition.latitude,
+                        state.userPosition.longitude,
+                        targetCamp.latitude,
+                        targetCamp.longitude
+                        ),
+                        2
+                    ) ;
+                    const targetRadius = 0.01; // 목표위치 반경 약 1km
+                    if(distance <= targetRadius) {
+                        commit('setCurrentTarget', targetCamp);
+                        commit('setWithinTargetArea', true);
+                        flg = false;
+                        return;
+                    }
+                });
+
+                if(flg) {
+                    commit('setWithinTargetArea', false);
+                }
+            },
+            stampCnt(context){
+                const url = 'api/stampCnt';
+                axios.get(url)
+                .then(response => {
+                    console.log('stampCnt then');
+                    context.commit('setStampCnt', response.data.data[0]);
+                // console.log(response.data.data);
+                })
+                .catch(error => {
+                    console.log('stamp 갯수 획득 실패' + error.response);
+                })
+            },
+            // stampStore(context){
+            //     const url = 'api/stampStore';
+            //     axios.post(url)
+            //     .then(response => {
+            //         console.log('stamp갱신 성공');
+                    
+            //     })
+            //     .catch(error => {
+            //         console.log('stamp 갱신 실패' + error.response);
+            //     })
+            // },
+            updateUser({ commit }, user) {
+                commit('setStampUser', user);
+            },
+            updateCurrentCamp({ commit }, camp) {
+                commit('setCurrentCamp', camp);
+            },
+
     },
 });
+
+// 단순 거리 계산 함수 (Pythagorean Theorem 사용)
+function calculateSimpleDistance(lat1, lon1, lat2, lon2) {
+    return Math.sqrt(
+      Math.pow(lat1 - lat2, 2) +
+      Math.pow(lon1 - lon2, 2)
+    );
+    // const R = 6371e3; // 지구의 반경 (미터 단위)
+    // const P1 = lat1 * Math.PI / 180; // φ, λ를 라디안으로 변환
+    // const P2 = lat2 * Math.PI / 180;
+    // const DP = (lat2 - lat1) * Math.PI / 180;
+    // const DL = (lon2 - lon1) * Math.PI / 180;
+  
+    // const a =
+    //   Math.sin(DP / 2) * Math.sin(DP / 2) +
+    //   Math.cos(P1) * Math.cos(P2) * Math.sin(DL / 2) * Math.sin(DL / 2);
+    // const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  
+    // return R * c;
+  }
 
 export default store;

@@ -582,6 +582,9 @@ a {
 }
 
 /* 나라가 한 부분(모바일) */
+.my-stamp-btn {
+    font-family: 'SBAggroL';
+}
 .mobile-width {
     width: 100vw;
 }
@@ -591,6 +594,8 @@ a {
     left: 43%;
     background-color: #ffd8d8;
     padding: 20px 50px ;
+    border: 5px solid #ff8686;
+    border-radius: 20px;
 }
 .modal-body{
     display: flex;
@@ -605,11 +610,14 @@ a {
     /* margin: 0 auto; */
 }
 .stampArea:hover{
-    /* background-image: url('../../public/img_nr/캠핑장1.png');
+
+    color: #ff8686;
+}
+.stampBackGround{
+    background-image: url('../../public/img_nr/캠핑장1.png');
     background-repeat: no-repeat;
     background-size: cover;
-    box-shadow: 0 0 0 10px #ff9292 inset; */
-    color: #ff8686;
+    box-shadow: 0 0 0 10px #ff9292 inset;
 }
 .modal-body-gap {
     margin-bottom: 30px;
