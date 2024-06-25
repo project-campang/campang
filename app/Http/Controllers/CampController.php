@@ -21,35 +21,35 @@ class CampController extends Controller
 
 
     // 캠핑장 데이터 획득 + 페이지네이션
-    public function campListGet(Request $request) {
-        // log::debug('campListGet');
+    // public function campListGet(Request $request) {
+    //     // log::debug('campListGet');
 
         
-            $campList = Camp::select('camps.*')
-                            // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
-                            // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
-                            // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
-                            // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
-                            // ->groupBy('camps.id' )
-                            ->orderBy('camps.state')
-                            ->limit(5)
-                            // ->paginate(5);
-                            ->get();
+    //         $campList = Camp::select('camps.*')
+    //                         // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
+    //                         // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
+    //                         // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
+    //                         // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
+    //                         // ->groupBy('camps.id' )
+    //                         ->orderBy('camps.state')
+    //                         ->limit(5)
+    //                         // ->paginate(5);
+    //                         ->get();
         
-            $responseData = [
-                'code' => '0'
-                ,'msg' => ''
-                ,'data' => $campList->toArray()
-            ];
+    //         $responseData = [
+    //             'code' => '0'
+    //             ,'msg' => ''
+    //             ,'data' => $campList->toArray()
+    //         ];
     
-            log::debug('responseData', $responseData);
+    //         log::debug('responseData', $responseData);
     
-            return response()->json($responseData, 200);
+    //         return response()->json($responseData, 200);
 
         
         
 
-        }
+    //     }
 
 
 
