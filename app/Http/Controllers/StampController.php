@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Camp;
 use App\Models\Stamp;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class StampController extends Controller
 {
@@ -39,6 +41,35 @@ class StampController extends Controller
         return response()->json($responseData, 200);
     }
     
+    public function stampStore($id) {
+        $userId = Auth::id();
+        $campId = Camp::find($id);
+        
+        $existingStamp = Stamp::where('user_id', $userId)
+                              ->where('camp_id', $campId->id)
+                              ->exists();
 
+        if ($existingStamp) {
+            return response()->json(['message' => 'Duplicate stamp.'], 409); // Conflict 상태 코드 반환
+        }
+
+
+
+        $insertData['user_id'] = $userId;
+        $insertData['camp_id'] = $campId->id;
+        // Log::debug('캠프아이디', Camp::find($id)->toArray() );
+
+        $stampInsert = Stamp::create($insertData);
+        $responseData = [
+            'code' => '0',
+            'msg' => '',
+            'data' => $stampInsert
+        ];
+        Log::debug('스탬프갱신성공', $stampInsert->toArray());
+
+        return response()->json($responseData, 200);   
+
+
+    }
     
 }

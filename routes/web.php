@@ -55,7 +55,9 @@ Route::get('/api/rank',[CampTopoController::class, 'campingzang']);
 Route::get('/api/main/community',[CommunityController::class, 'mainCommunity']);
 Route::get('/api/main/suggest/campingzang',[CampController::class, 'suggestCampingzang']);
 Route::get('/api/main/suggest/brand',[BrandController::class, 'suggestBrand']);
-
+Route::get('/api/main/stampTarget', [CampController::class, 'gpsTargetStamp']);
+Route::get('/api/stampCnt', [CampController::class, 'stampCnt']);
+Route::post('/api/stampStore/{id}', [StampController::class, 'stampStore']);
 
 // 캠프 컨트롤러
 Route::get('/api/search', [CampController::class, 'campListGet']);

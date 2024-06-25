@@ -157,8 +157,8 @@
         </div>
     </div>
     <!-- 모바일에서만 나오는 섹션 -->
-        <div class="animate__animated animate__pulse animate__infinite mobile-float">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">지금 어디어디에 계시는군요!<br>도장찍으러 가기 >></button>
+        <div v-if="isWithinTargetArea && $store.state.authFlg" class="animate__animated animate__pulse animate__infinite mobile-float">
+            <button type="button" class="btn my-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">지금 <b>{{currentTarget.name}}</b>에 계시는군요!<br>도장찍으러 가기 >></button>
         </div>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -173,18 +173,18 @@
                             <div class="text-center first-line animate__animated animate__tada animate__repeat-3">축하 합니다!</div>
                         </div>
                         <div class="modal-body-gap">
-                            <div class="text-center second-line">벌써 <b>00</b>번째 정복중</div>
+                            <div class="text-center second-line">벌써 <b>{{stampCnt.cnt + 1}}</b>번째 정복중</div>
                         </div>
-                        <div class="modal-body-gap">
-                            <div class="text-center third-line">어디저기 요기조기 캠핑장</div>
+                        <div v-if="isWithinTargetArea" class="modal-body-gap">
+                            <div class="text-center third-line">{{currentTarget.name}}</div>
                         </div>
-                        <button class="modal-body-gap stampArea text-center">
+                        <button @click="createStamp" :class="{ stampBackGround: isStamped, animate__animated: isTrue, animate__bounce: isTrue }" class="modal-body-gap stampArea text-center">
                             <div class="text-center stamp-pang">도장 팡팡!</div>
                             <div class="click text-center">click</div>
                         </button>
-                        <div class="text-center">
-                            <router-link to="/mypage"  class="text-center fifth-line">도장판 보러가기 -></router-link>
-                        </div>
+                        <!-- <div class="text-center">
+                            <router-link to="/mypage"  class="text-center fifth-line"  @click="closeModalAndNavigate">도장판 보러가기 -></router-link>
+                        </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -195,7 +195,8 @@
 </template>
 
 <script setup>
-import { onBeforeMount, onMounted, ref } from 'vue';
+import axios from 'axios';
+import { onBeforeMount,ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -326,9 +327,37 @@ onBeforeMount(() => {
 //   if (store.state.suggestbrand && store.state.suggestbrand.length <= 1) {
 //     store.dispatch('setSuggestBrand');
 //   }
-
-
+    store.dispatch('fetchCamps');
+    store.dispatch('updateUserPosition');
+    store.dispatch('stampCnt');
 })
+const stampCnt = computed(() => store.state.stampCnt);
+const isWithinTargetArea = computed(() => store.state.isWithinTargetArea);
+const currentTarget = computed(() => store.state.currentTarget);
+
+let isStamped = ref(false);
+let isTrue = ref(false);
+
+function createStamp() {
+  const userId = store.state.stampUser.id; // 로그인된 유저의 ID
+  const campId = store.state.currentTarget.id; // 현재 위치한 캠프의 ID
+
+  axios.post(`api/stampStore/${campId}`, {
+    user_id: userId,
+  })
+  .then(function(response) {
+    console.log('Stamp created:', response.data);
+    // 성공적으로 stamp가 생성된 경우 추가적으로 할 작업이 필요하면 여기에 추가
+    isStamped.value = true;
+    isTrue = true;
+  })
+  .catch(function(error) {
+    console.error('Error creating stamp:', error);
+    alert('이미 정복한 캠핑장 입니다!');
+  });
+}
+
+
 
 
 
