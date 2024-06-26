@@ -7,9 +7,12 @@ use App\Models\Amusement;
 use App\Models\Camp;
 use App\Models\County;
 use App\Models\SiteType;
+use App\Models\Stamp;
 use App\Models\State;
 use App\Models\Topo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 
@@ -18,30 +21,36 @@ class CampController extends Controller
 
 
     // 캠핑장 데이터 획득 + 페이지네이션
-    public function campListGet() {
-        // log::debug('campListGet');
+    // public function campListGet(Request $request) {
+    //     // log::debug('campListGet');
+
         
-        $campList = Camp::select('camps.*')
-                        // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
-                        // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
-                        // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
-                        // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
-                        // ->groupBy('camps.id' )
-                        ->orderBy('camps.state')
-                        // ->limit(15)
-                        ->paginate(5);
-                        // ->get()
+    //         $campList = Camp::select('camps.*')
+    //                         // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
+    //                         // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
+    //                         // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
+    //                         // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
+    //                         // ->groupBy('camps.id' )
+    //                         ->orderBy('camps.state')
+    //                         ->limit(5)
+    //                         // ->paginate(5);
+    //                         ->get();
+        
+    //         $responseData = [
+    //             'code' => '0'
+    //             ,'msg' => ''
+    //             ,'data' => $campList->toArray()
+    //         ];
     
-        $responseData = [
-            'code' => '0'
-            ,'msg' => ''
-            ,'data' => $campList->toArray()
-        ];
+    //         log::debug('responseData', $responseData);
+    
+    //         return response()->json($responseData, 200);
 
-        // log::debug('responseData', $responseData);
+        
+        
 
-        return response()->json($responseData, 200);
-    }
+    //     }
+
 
 
 
@@ -52,12 +61,12 @@ class CampController extends Controller
 
         $campList = Camp::select('camps.*')
                         ->orderBy('camps.state')
-                        ->limit(15);
+                        ->limit(5);
         
-        if($request->has('state') || !empty($request->state)) {
+        if ($request->has('state') || filled($request->state)) {
             $campList->where('camps.state', $request->state);
         }
-        if($request->county) {
+        if ($request->has('county') || filled($request->county)) {
             $campList->where('camps.county', $request->county);
         }
                         
@@ -71,6 +80,33 @@ class CampController extends Controller
     
         return response()->json($responseData, 200);
     }
+
+    // 메인에서 검색 결과 획득
+    // public function mainResult(Request $request) {
+    //     $state = $request->state;
+    //     $county = $request->county;
+
+    //     $campList = Camp::select('camps.*')
+    //                     ->orderBy('camps.state')
+    //                     ->limit(5);
+        
+    //     if ($request->has('state') || filled($request->state)) {
+    //         $campList->where('camps.state', $request->state);
+    //     }
+    //     if ($request->has('county') || filled($request->county)) {
+    //         $campList->where('camps.county', $request->county);
+    //     }
+                        
+    //     $result = $campList->get();
+
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => ''
+    //         ,'data' => $result->toArray()
+    //     ];
+    
+    //     return response()->json($responseData, 200);
+    // }
 
 
 
@@ -177,5 +213,27 @@ class CampController extends Controller
             ,'siteTypeInfo' => $siteTypeInfo
             ,'topoInfo' => $topoInfo
         ];
+    }
+
+    public function gpsTargetStamp(){
+        $campInfo = Camp::all();
+        $responseData = [
+            'code' => '0'
+            ,'msg' => ''
+            ,'data' => $campInfo
+        ];
+        return response()->json($responseData, 200);
+    }
+
+    public function stampCnt(){
+        $stampInfo = Stamp::select(DB::raw('count(*) as cnt'))->where('user_id', Auth::id())->get();
+
+        $responseData = [
+            'code' => '0',
+            'msg' => '',
+            'data' => $stampInfo
+        ];
+
+        return response()->json($responseData, 200);
     }
 }

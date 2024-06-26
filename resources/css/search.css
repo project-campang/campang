@@ -43,19 +43,19 @@
     text-decoration: none;
 } */
 
+main {
+    height: 800px;
+}
+
 a {
     color: #000;
 }
 
 .main-container-search {
     display: flex;
-    /* display: grid; */
-    /* grid-template-columns: 650px 10px auto; */
 }
 
 .search-container {
-    /* width: 100%; */
-    width: 40%;
     width: 500px;
     min-width: 30%;
     max-width: 50%;

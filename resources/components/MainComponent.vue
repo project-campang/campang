@@ -5,35 +5,36 @@
             <img src="/img/logo-ko3.png" class="img-fluid" alt="Logo" loading="lazy">
         </div>
         <div class="main-search">
-            <div class="d-flex flex-wrap align-items-center justify-content-center">
+            <form action="" id="searchForm" class="d-flex flex-wrap align-items-center justify-content-center">
                 <span class="me-2">어느지역?</span>
                 <div class="main-select-box me-2">
-                    <select @change="selectState" name="h_area1" class="select" onChange="cat1_change(this.value,h_area2)">
+                    <select @change="selectState" name="state" id="select1" class="select">
                         <option>전체 시/도</option>
                         <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
                         {{ console.log('stateData', stateData) }}
                     </select>
                 </div>
                 <div class="main-select-box">
-                    <select @change="selectCounty" name="h_area2" class="select">
+                    <select @change="selectCounty" name="county" id="select2" class="select">
                         <option>전체 구/군</option>
                         <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
                         {{ console.log('countyData', countyData) }}
                     </select>
                 </div>
-            </div>
-            <div class="d-flex flex-wrap align-items-center justify-content-center mt-3">
-                <span class="me-2">어디갈래?</span>
-                <div class="main-select-box me-2">
-                    <select name="h_area3" class="select">
-                        <option>-선택-</option>
-                        <option value='1' selected>글램핑</option>
-                        <option value='2'>오지/노지캠핑</option>
-                        <option value='3'>카라반</option>
-                    </select>
+                <div class="d-flex flex-wrap align-items-center justify-content-center mt-3">
+                    <span class="me-2">어디갈래?</span>
+                    <div class="main-select-box me-2">
+                        <select name="option" class="select">
+                            <option>선택</option>
+                            <option value='1'>글램핑</option>
+                            <option value='2'>오지/노지캠핑</option>
+                            <option value='3'>카라반</option>
+                        </select>
+                    </div>
+                    <!-- <button @click="searchBtn" class="main-search-button">검색</button> -->
+                    <router-link to="/search" @click="searchBtn" class="main-search-button">검색</router-link>
                 </div>
-                <button class="main-search-button" @click="searchBtn">검색</button>
-            </div>
+            </form>
         </div>
     
     <!-- 두번째 -->
@@ -156,8 +157,8 @@
         </div>
     </div>
     <!-- 모바일에서만 나오는 섹션 -->
-        <div class="animate__animated animate__pulse animate__infinite mobile-float">
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">지금 어디어디에 계시는군요!<br>도장찍으러 가기 >></button>
+        <div v-if="isWithinTargetArea && $store.state.authFlg" class="animate__animated animate__pulse animate__infinite mobile-float">
+            <button type="button" class="btn my-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">지금 <b>{{currentTarget.name}}</b>에 계시는군요!<br>도장찍으러 가기 >></button>
         </div>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -172,18 +173,18 @@
                             <div class="text-center first-line animate__animated animate__tada animate__repeat-3">축하 합니다!</div>
                         </div>
                         <div class="modal-body-gap">
-                            <div class="text-center second-line">벌써 <b>00</b>번째 정복중</div>
+                            <div class="text-center second-line">벌써 <b>{{stampCnt.cnt + 1}}</b>번째 정복중</div>
                         </div>
-                        <div class="modal-body-gap">
-                            <div class="text-center third-line">어디저기 요기조기 캠핑장</div>
+                        <div v-if="isWithinTargetArea" class="modal-body-gap">
+                            <div class="text-center third-line">{{currentTarget.name}}</div>
                         </div>
-                        <button class="modal-body-gap stampArea text-center">
+                        <button @click="createStamp" :class="{ stampBackGround: isStamped, animate__animated: isTrue, animate__bounce: isTrue }" class="modal-body-gap stampArea text-center">
                             <div class="text-center stamp-pang">도장 팡팡!</div>
                             <div class="click text-center">click</div>
                         </button>
-                        <div class="text-center">
-                            <router-link to="/mypage"  class="text-center fifth-line">도장판 보러가기 -></router-link>
-                        </div>
+                        <!-- <div class="text-center">
+                            <router-link to="/mypage"  class="text-center fifth-line"  @click="closeModalAndNavigate">도장판 보러가기 -></router-link>
+                        </div> -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -194,10 +195,15 @@
 </template>
 
 <script setup>
-import { onBeforeMount,ref } from 'vue';
+import axios from 'axios';
+import { onBeforeMount,ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
 
+
 const store = useStore();
+const stateData = ref(store.state.stateData);
+const countyData = ref(store.state.countyData);
+const campData = ref(store.state.campData);
 
 
 // 스크롤 이벤트
@@ -236,24 +242,24 @@ window.addEventListener('scroll', throttle(observeSections, 200));
 
 // 카운터
 const counter = ($counter, max) => {
-  let now = 0;
+    let now = 0;
 
-  const handle = setInterval(() => {
+    const handle = setInterval(() => {
     $counter.innerHTML = Math.ceil(now);
 
     // 목표 수치에 도달하면 정지
     if (now >= max) {
-      clearInterval(handle);
-      if (max === 100) {
+        clearInterval(handle);
+        if (max === 100) {
         $counter.innerHTML = '100+'; // 목표 수치가 100이면 100+로 표시
-      }
+        }
     } else {
       // 증가되는 값이 계속하여 작아짐
-      const step = (max - now) / 10;
+        const step = (max - now) / 10;
       // 값을 적용시키면서 다음 차례에 영향을 끼침
-      now += step;
+        now += step;
     }
-  }, 50);
+    }, 50);
 }
 
 window.onload = () => {
@@ -321,27 +327,77 @@ onBeforeMount(() => {
 //   if (store.state.suggestbrand && store.state.suggestbrand.length <= 1) {
 //     store.dispatch('setSuggestBrand');
 //   }
-
-
+    store.dispatch('fetchCamps');
+    store.dispatch('updateUserPosition');
+    store.dispatch('stampCnt');
 })
+const stampCnt = computed(() => store.state.stampCnt);
+const isWithinTargetArea = computed(() => store.state.isWithinTargetArea);
+const currentTarget = computed(() => store.state.currentTarget);
 
-const stateData = ref(store.state.stateData);
-const countyData = ref(store.state.countyData);
+let isStamped = ref(false);
+let isTrue = ref(false);
+
+function createStamp() {
+  const userId = store.state.stampUser.id; // 로그인된 유저의 ID
+  const campId = store.state.currentTarget.id; // 현재 위치한 캠프의 ID
+
+  axios.post(`api/stampStore/${campId}`, {
+    user_id: userId,
+  })
+  .then(function(response) {
+    console.log('Stamp created:', response.data);
+    // 성공적으로 stamp가 생성된 경우 추가적으로 할 작업이 필요하면 여기에 추가
+    isStamped.value = true;
+    isTrue = true;
+  })
+  .catch(function(error) {
+    console.error('Error creating stamp:', error);
+    alert('이미 정복한 캠핑장 입니다!');
+  });
+}
 
 
-onBeforeMount(() => {
-  if (!stateData.value.length) {
-    store.dispatch('stateGet');
-  }
-  if (!countyData.value.length) {
-    store.dispatch('countyGet');
+
+
+
+
+
+onMounted(() => {
+    const stateData = ref(store.state.stateData);
+    const countyData = ref(store.state.countyData);
+    // store.dispatch('stateGet');
+    // store.dispatch('countyGet');
+    if (!stateData.value.length) {
+        store.dispatch('stateGet');
+    }
+    if (!countyData.value.length) {
+        store.dispatch('countyGet');
   }
 });
 
 
 function searchBtn(e) {
-    console.log(e);
-    store.dispatch('searchResult')
+    const selectStateElement = document.querySelector('#select1');
+    const selectCountyElement = document.querySelector('#select2');
+    const selectedState = selectStateElement.value;
+    const selectedCounty = selectCountyElement.value;
+
+    console.log('선택된 값:', selectedState);
+    console.log('선택된 값:', selectedCounty);
+    
+    // store.dispatch('setSelection', {
+    //     selectedState: selectedState,
+    //     selectedCounty: selectedCounty,
+    //     // state: selectedState, // 선택된 시/도 값
+    //     // county: selectedCounty, // 선택된 구/군 값
+    //     // 추가
+    // });
+
+    store.dispatch('searchResult');
+    
+    // const url = '/search/mainSearch';
+    // window.location.href = url;
 }
 
 

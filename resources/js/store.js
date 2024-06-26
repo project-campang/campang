@@ -1,5 +1,6 @@
 import { createStore } from 'vuex';
 import router from './router';
+import { floor } from 'lodash';
 
 const store = createStore({
     state() {
@@ -28,10 +29,18 @@ const store = createStore({
             campDetail: {},
             stateData: [],
             countyData: [],
-            selectedState: null, // 선택된 시/도
+            selectedState: '', // 선택된 시/도
+            selectedCounty: '', // 선택된 구/군
             mapCenter: { lat: 37.566826, lng: 126.9786567 }, // 임시 기본 좌표
             stampCampingzang: [],
             mypageWishes:[],
+            targetCamp: [],
+            userPosition: null,
+            currentTarget: null,
+            isWithinTargetArea: false,
+            stampCnt: {},
+            stampUser:{id:null},
+            currentCamp:{id:null},
             mypageContent:[],
             mypageReview:[],
             mypageComment:[],
@@ -94,10 +103,6 @@ const store = createStore({
             state.mypageComment = data; // 상태 업데이트
         },
 
-        //댓글 초기 삽입
-        // setCommentData(state, data){ 
-        //     state.commentData = data;
-        // },
         //작성된 댓글 맨위로 정렬
         setUnshiftCommentData(state,data) {
             state.CommentData.unshift(data);
@@ -115,9 +120,18 @@ const store = createStore({
         setPaginationReview(state, data){
             state.paginationReview = data;
         },
+        setPaginationSearch(state, data){
+            state.paginationSearch = data;
+        },
+        setPaginationCommunity(state, data){
+            state.paginationCommunity = data;
+        },
         // addWish(state, camp_id) {
         //     state.wishes.push({ camp_id });
         // },
+        toggleWish(state) {
+            state.wishes = !state.wishes;
+        },
         // // 찜 삭제
         // removeWish(state, camp_id) {
         //     state.wishes = state.wishes.filter(wish => wish.camp_id !== camp_id);
@@ -163,6 +177,11 @@ const store = createStore({
         setSelectedState(state, selectedState) {
             state.selectedState = selectedState;
         },
+        // 선택된 구/군 획득
+        setSelectedCounty(state, selectedCounty) {
+            state.selectedCounty = selectedCounty;
+        },
+
         // 캠핑장 데이터 획득
         setCampList(state, data) {
             state.campData = data;
@@ -171,6 +190,32 @@ const store = createStore({
         // setSearchResult(state, campData) {
         //     state.searchResult = countyData;
         // },
+        // 유저 위치 획득
+        setUserPosition(state,position){
+            state.userPosition = position;
+        },
+        // 정복캠핑장 정보
+        setTargetCamp(state, data){
+            state.targetCamp = data;
+        },
+        // 캠핑장 위치 반경 내
+        setWithinTargetArea(state, isWithin) {
+            state.isWithinTargetArea = isWithin;
+        },
+        setCurrentTarget(state, data){
+            state.currentTarget = data;
+        },
+        // 스탬프 갯수
+        setStampCnt(state, data){
+            state.stampCnt = data;
+        },
+        //스탬프 찍기
+        setStampUser(state, user){
+            state.stampUser.id = user.id;
+        },
+        setCurruntCamp(state, camp){
+            state.currentCamp.id = camp.id;
+        },
         updateMapCenter(state, center) {
             state.mapCenter = center;
           }
@@ -437,7 +482,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('setMainCampingler 오류오류' + error.response.data);
             })
         },
         setMainCampingzang(context) {
@@ -449,7 +494,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('setMainCampingzang 오류오류' + error.response.data);
             })
         },
         setMainCommunity(context) {
@@ -461,7 +506,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('setMainCommunity 오류오류' + error.response.data);
             })
         },
         setSuggestCam(context) {
@@ -474,7 +519,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('setSuggestCam 오류오류' + error.response.data);
                 console.log(response.data.data);
             })
         },
@@ -588,7 +633,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
             .catch(error => {
-                alert('오류오류' + error.response.data);
+                alert('detailReviewTap 오류오류' + error.response.data);
             })
         },
 
@@ -653,22 +698,22 @@ const store = createStore({
             .then(response => {
                 // const data = response.data.data;
                 context.commit('setCommunityList', response.data.data);
-                context.commit('paginationCommunity', {
-                    current_page: response.data.data.current_page, // 현재페이지
-                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
-                    last_page: response.data.data.last_page, // 마지막페이지
-                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
-                    total: response.data.data.total, // 총 페이지
-                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
-                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
-                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
-                    links: response.data.data.links,
-                })
+                // context.commit('paginationCommunity', {
+                //     current_page: response.data.data.current_page, // 현재페이지
+                //     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                //     last_page: response.data.data.last_page, // 마지막페이지
+                //     last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                //     total: response.data.data.total, // 총 페이지
+                //     per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                //     prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                //     next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                //     links: response.data.data.links,
+                // })
                 // console.log(response.data.data);
                 // console.log(setCommunityList);
             })
             .catch(error => {
-                alert('오류오류~~' + error.response.data);
+                alert('communityGet 오류오류~~' + error.response.data);
             })
         },
 
@@ -782,7 +827,8 @@ const store = createStore({
          * @param {*} context 
          */
         campListGet(context, page=1) {
-            const url = ('/api/search/searchPage?page=' + page);
+            // const url = ('/api/search/searchPage?page=' + page);
+            const url = '/api/search';
             console.log(url);
             axios.get(url)
             .then(response => {
@@ -815,8 +861,9 @@ const store = createStore({
          * @param {*} context 
          */
         stateGet(context) {
-            const url = '/api/state';
-
+            const url = '/api/state'
+            
+            console.log('stateGet 실행됨');
             axios.get(url)
             .then(response => {
                 context.commit('setStateData', response.data.data);
@@ -852,6 +899,11 @@ const store = createStore({
          * @param {*} context 
          */
         searchResult(context) {
+            const state = context.state; // context에서 state 값을 가져옴
+            const county = context.county; // context에서 county 값을 가져옴
+            // const page = context.page; // context에서 page 값을 가져옴
+
+            // const url = `/api/search?state=${state}&county=${county}&page=${page}`;
             const url = '/api/search';
             
             // const selectStateElement = document.querySelector('#select1');
@@ -885,9 +937,15 @@ const store = createStore({
 
                 })
                 .catch(error => {
-                    console.error('검색 결과 획득 실패', response.data);
+                    console.error('검색 결과 획득 실패', error);
                     alert('검색 실패'+error.response);
                 });
+            },
+
+            // 메인에서 검색값 가져오는 처리
+            setSelection(context) {
+                commit('setSelectedState', selectedState);
+                commit('setSelectedCounty', selectedCounty);
             },
 
 
@@ -917,7 +975,7 @@ const store = createStore({
 
             // async searchResult({ commit }, { state, county }) { // `searchResult` 액션 추가
             //     const url = '/api/search';
-          
+        
             //     try {
             //       const response = await axios.post(url, { state, county });
             //       commit('setSearchResult', response.data);
@@ -928,10 +986,115 @@ const store = createStore({
             //     }
             // }
 
+
+            async fetchCamps({commit, dispatch}){
+                const url = 'api/main/stampTarget';
+                try{
+                    const response = await axios.get(url);
+                    commit('setTargetCamp', response.data.data);
+                    dispatch('checkPosition');
+            } catch(e){
+                    console.error('캠핑장 패치 실패', e);
+                }
+            },
+            updateUserPosition({commit, dispatch}){
+                if(navigator.geolocation) {
+                navigator.geolocation.watchPosition(
+                    (position) => {
+                        commit('setUserPosition', {
+                            latitude: position.coords.latitude,
+                            longitude: position.coords.longitude,
+                            });
+                        dispatch('checkPosition');
+                    },
+                    () => {
+                        console.error('유저 위치 확인 실패');
+                    });
+                } else {
+                    console.error('geolocation을 사용할 수 없는 브라우저');
+                }
+            },
+            checkPosition({state, commit}){
+                let flg = true;
+                if(!state.userPosition || state.targetCamp.length === 0) return;
+
+                state.targetCamp.forEach(targetCamp => {
+                const distance = floor(
+                        calculateSimpleDistance(
+                        state.userPosition.latitude,
+                        state.userPosition.longitude,
+                        targetCamp.latitude,
+                        targetCamp.longitude
+                        ),
+                        2
+                    ) ;
+                    const targetRadius = 0.01; // 목표위치 반경 약 1km
+                    if(distance <= targetRadius) {
+                        commit('setCurrentTarget', targetCamp);
+                        commit('setWithinTargetArea', true);
+                        flg = false;
+                        return;
+                    }
+                });
+
+                if(flg) {
+                    commit('setWithinTargetArea', false);
+                }
+            },
+            stampCnt(context){
+                const url = 'api/stampCnt';
+                axios.get(url)
+                .then(response => {
+                    console.log('stampCnt then');
+                    context.commit('setStampCnt', response.data.data[0]);
+                // console.log(response.data.data);
+                })
+                .catch(error => {
+                    console.log('stamp 갯수 획득 실패' + error.response);
+                })
+            },
+            // stampStore(context){
+            //     const url = 'api/stampStore';
+            //     axios.post(url)
+            //     .then(response => {
+            //         console.log('stamp갱신 성공');
+                    
+            //     })
+            //     .catch(error => {
+            //         console.log('stamp 갱신 실패' + error.response);
+            //     })
+            // },
+            updateUser({ commit }, user) {
+                commit('setStampUser', user);
+            },
+            updateCurrentCamp({ commit }, camp) {
+                commit('setCurrentCamp', camp);
+            },
+
     },
 
 
 
 });
+
+// 단순 거리 계산 함수 (Pythagorean Theorem 사용)
+function calculateSimpleDistance(lat1, lon1, lat2, lon2) {
+    return Math.sqrt(
+      Math.pow(lat1 - lat2, 2) +
+      Math.pow(lon1 - lon2, 2)
+    );
+    // const R = 6371e3; // 지구의 반경 (미터 단위)
+    // const P1 = lat1 * Math.PI / 180; // φ, λ를 라디안으로 변환
+    // const P2 = lat2 * Math.PI / 180;
+    // const DP = (lat2 - lat1) * Math.PI / 180;
+    // const DL = (lon2 - lon1) * Math.PI / 180;
+  
+    // const a =
+    //   Math.sin(DP / 2) * Math.sin(DP / 2) +
+    //   Math.cos(P1) * Math.cos(P2) * Math.sin(DL / 2) * Math.sin(DL / 2);
+    // const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  
+    // return R * c;
+  }
 
 export default store;

@@ -55,11 +55,14 @@ Route::get('/api/rank',[CampTopoController::class, 'campingzang']);
 Route::get('/api/main/community',[CommunityController::class, 'mainCommunity']);
 Route::get('/api/main/suggest/campingzang',[CampController::class, 'suggestCampingzang']);
 Route::get('/api/main/suggest/brand',[BrandController::class, 'suggestBrand']);
-
+Route::get('/api/main/stampTarget', [CampController::class, 'gpsTargetStamp']);
+Route::get('/api/stampCnt', [CampController::class, 'stampCnt']);
+Route::post('/api/stampStore/{id}', [StampController::class, 'stampStore']);
 
 // 캠프 컨트롤러
-Route::get('/api/search/searchPage', [CampController::class, 'campListGet']);
-Route::get('/api/search', [CampController::class, 'searchResult']);
+Route::get('/api/search', [CampController::class, 'campListGet']);
+Route::post('/api/search', [CampController::class, 'searchResult']);
+// Route::get('/api/search/mainSearch', [CampController::class, 'mainResult']);
 Route::get('/api/camp/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/camp/{id}', [CampController::class, 'campDetailGet']);
 Route::get('/api/state', [StateController::class, 'stateGet']); // state
@@ -72,7 +75,7 @@ Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
 
 
 // 커뮤니티 컨트롤러
-Route::get('/api/community/communityPage', [CommunityController::class, 'communityGet']);
+Route::get('/api/community/{id}', [CommunityController::class, 'communityGet']);
 Route::post('/api/community', [CommunityController::class, 'communityStore']);
 Route::get('/community_types/{id}', [CommunityTypeController::class, 'index']);
 Route::get('/api/community_types', [CommunityTypeController::class, 'index']);
