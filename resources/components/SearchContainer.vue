@@ -1,7 +1,4 @@
 <template>
-    <main>
-        <div class="main-container-search">
-            <!-- <div class="search-container"> -->
             <div class="search-container" ref="searchContainer">
                 <div class="search-box">
                     <form action="" id="searchForm">
@@ -135,235 +132,21 @@
                     <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()"> 다음 > </button>
                 </div>          
             </div>
-            <div class="resizer" id="drag" @mousedown="startResize"></div>
-            <div class="map-container">
-                <div class="map">
-                    <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true" :level="7">
-                        <KakaoMapMarker
-                            v-for="(item, key) in $store.state.campData"
-                            :key="key"
-                            :id="item.id"
-                            :lat="item.latitude"
-                            :lng="item.longitude"
-                            :title="item.name"
-                            :clickable="true"
-                            @on-click-kakao-map-marker="openMarkerLink(`/camp/${item.id}`)"
-                        ></KakaoMapMarker>
-                    </KakaoMap>
-                </div>
-                <div class="float-btn">
-                    <!-- <button class="result-pin" @click="adjustMarkerZIndex">검색</button>
-                    <button class="wishlist-pin">찜</button>
-                    <button class="complete-pin">정복</button> -->
-                </div>
-            </div>
-        </div>
-    </main>
 </template>
 
 <script setup>
-import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-import { onBeforeMount, onMounted, ref, watch, computed } from 'vue';
-import { useStore } from 'vuex';
-
-
-const store = useStore();
-// const imgPlace = ref(false);
-// const selectedCounty = ref('');
-const searchResult = ref([]); // 검색 결과
-// const stateData = ref(store.state.stateData);
-// const countyData = ref(store.state.countyData);
-const campData = ref(store.state.campData);
-
-// const stateData = ref([]);
-// const countyData = ref([]);
-// const campData = ref([]);
-
-// watch(() => store.state.stateData, (newStateData) => {
-//     stateData.value = newStateData;
-// })
-
-// watch(() => store.state.countyData, (newCountyData) => {
-//     countyData.value = newCountyData;
-// })
-
-// watch(() => store.state.campData, (newCampData) => {
-//     campData.value = newCampData;
-// });
-
-// 선택한 시/도에 따라 구/군 목록 업데이트
-
-// let selectedState = ref('');
-// let selectedCounty = ref('');
-// const stateData = ref(store.state.stateData);
-// const countyData = ref(store.state.countyData);
-
-// const filteredCounties = computed(() => {
-//     return countyData.value.filter(county => county.state_id === selectedState.value);
-// });
-
-// // state 변경 감지
-// watch(() => store.state.stateData, (newStateData) => {
-//     stateData.value = newStateData;
-// });
-
-// // // county 변경 감지
-// watch(() => store.state.countyData, (newCountyData) => {
-//     countyData.value = newCountyData;
-// });
-
-// // // 첫 번째 셀렉트 박스에서 state 선택 시 실행되는 함수
-const selectState = (e) => {
-    const selectedStateId = e.target.value;
-
-    store.dispatch('countyGet', selectedStateId);
-};
-
-// // // 두 번째 셀렉트 박스에서 county 선택 시 실행되는 함수
-// const selectCounty = (event) => {
-//     selectedCounty.value = event.target.value;
-// };
-
-
-// 지도 중심 좌표 초기화
-const mapCenter = ref(store.state.mapCenter);
-
-// Vuex의 `mapCenter` 상태를 반응형으로 감시하여 자동 업데이트
-watch(() => store.state.mapCenter, (newCenter) => {
-  mapCenter.value = newCenter;
-}, { immediate: true });
-
-// 검색시 쳣 번 째 캠핑장 좌표로 바꿈
-watch(campData, (newData) => {
-  if (newData.length > 0) {
-    const firstItem = newData[0];
-    mapCenter.value = {
-      lat: firstItem.latitude,
-      lng: firstItem.longitude
-    };
-    console.log('중심좌표 변경됨', mapCenter.value);
-  }
-}, { immediate: true });
-
-// function markerShow(e) {
-//     console.log(e);
-//     store.dispatch('markerShow')
-
-// }
-
-
-
-// 검색 화면 리사이즈
-
-const startResize = () => {
-    window.addEventListener('mousemove', resize);
-    window.addEventListener('mouseup', stopResize);
-}
-const resize = (e) => {
-    const container = document.querySelector('.search-container');
-    const resizer = document.querySelector('.resizer');
-    const offsetRight = document.documentElement.clientWidth - e.clientX;
-    container.style.width = e.clientX - container.getBoundingClientRect().left + 'px';
-    resizer.style.right = offsetRight + 'px';
-};
-const stopResize = () => {
-    window.removeEventListener('mousemove', resize);
-    window.removeEventListener('mouseup', stopResize);
-}
-
-// 검색 버튼
-
-function searchBtn(e) {
-    const selectStateElement = document.querySelector('#select1');
-    const selectCountyElement = document.querySelector('#select2');
-    const selectedState = selectStateElement.value;
-    const selectedCounty = selectCountyElement.value;
-
-    console.log('선택된 값:', selectedState);
-    console.log('선택된 값:', selectedCounty);
-    
-    store.dispatch('searchResult', {
-        state: selectedState, // 선택된 시/도 값
-        county: selectedCounty, // 선택된 구/군 값
-        // 추가
-    });
-    
-}
-
-
-// // 검색 셀렉트박스 연결
-// function selectChange() {
-//   // Ref to hold state list
-//   const stateList = ref([]);
-// }
-
-
-
-
-// 페이지네이션
-// function prevPage() {
-//  store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
-// }
-
-// function nextPage() {
-//  store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
-// }
-
-
-function openMarkerLink(url) {
-      window.location.href = url;
-      element.style.width = '200px';
+    // 페이지네이션
+    function prevPage() {
+        store.dispatch('detailReviewTap', store.state.paginationReview.current_page-1);
     }
 
-
-const adjustMarkerZIndex = () => {
-    // 각 마커의 z-index를 조정
-    const campData = store.state.campData;
-    campData.forEach((item, index) => {
-        item.markerZIndex = index === 0 ? 0 : 1; // 첫 번째 마커는 0(z-index), 나머지는 1(z-index)
-    });
-};
-
-// const campData = ref([]);
-// watch(() => store.state.campData, (newCampData) => {
-//     campData.value = newCampData.map((item, index) => ({
-//         ...item,
-//         markerZIndex: 1 // 초기 z-index 설정
-//     }));
-// });
-
-
-// // 페이지네이션
-// function prevPage() {
-//  store.dispatch('searchResult', store.state.paginationSearch.current_page-1);
-// }
-
-// function nextPage() {
-//  store.dispatch('searchResult', store.state.paginationSearch.current_page+1);
-//  console.log(store.state.paginationSearch.current_page);
-// }
-
-
-onBeforeMount(() => {
-    // console.log('onBeforeMount');
-    if(store.state.campData.length <  1) {
-        store.dispatch('campListGet'); 
+    function nextPage() {
+        store.dispatch('detailReviewTap', store.state.paginationReview.current_page+1);
+        console.log(store.state.paginationReview.current_page);
     }
-    // console.log('campListGet');
-})
-
-onMounted(() => {
-    store.dispatch('stateGet');
-    // store.dispatch('countyGet' );
-    const resizer = document.querySelector('.resizer');
-    resizer.addEventListener('mousedown', startResize);
-    window.addEventListener('mouseup', stopResize);
-});
-
 
 </script>
 
-<!-- <style> -->
-<style scoped src="../css/search.css">
-    /* @import url(../css/search.css); */
+<style>
+
 </style>

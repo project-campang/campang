@@ -9,14 +9,14 @@
                 <span class="me-2">어느지역?</span>
                 <div class="main-select-box me-2">
                     <select @change="selectState" name="state" id="select1" class="select">
-                        <option>전체 시/도</option>
+                        <option>시/도 선택</option>
                         <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
                         {{ console.log('stateData', stateData) }}
                     </select>
                 </div>
                 <div class="main-select-box">
                     <select @change="selectCounty" name="county" id="select2" class="select">
-                        <option>전체 구/군</option>
+                        <option>구/군 선택</option>
                         <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
                         {{ console.log('countyData', countyData) }}
                     </select>
@@ -198,9 +198,11 @@
 import axios from 'axios';
 import { onBeforeMount,ref, onMounted, computed } from 'vue';
 import { useStore } from 'vuex';
+import { useRoute } from 'vue-router';
 
 
 const store = useStore();
+const route = useRoute();
 const stateData = ref(store.state.stateData);
 const countyData = ref(store.state.countyData);
 const campData = ref(store.state.campData);
@@ -385,19 +387,12 @@ function searchBtn(e) {
 
     console.log('선택된 값:', selectedState);
     console.log('선택된 값:', selectedCounty);
-    
-    // store.dispatch('setSelection', {
-    //     selectedState: selectedState,
-    //     selectedCounty: selectedCounty,
-    //     // state: selectedState, // 선택된 시/도 값
-    //     // county: selectedCounty, // 선택된 구/군 값
-    //     // 추가
-    // });
 
-    store.dispatch('searchResult');
-    
-    // const url = '/search/mainSearch';
-    // window.location.href = url;
+    store.dispatch('searchResult', {
+        state: selectedState, // 선택된 시/도 값
+        county: selectedCounty, // 선택된 구/군 값
+        // 추가
+    });
 }
 
 

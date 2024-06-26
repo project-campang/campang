@@ -39,8 +39,8 @@ const store = createStore({
             currentTarget: null,
             isWithinTargetArea: false,
             stampCnt: {},
-            stampUser:{id:null},
-            currentCamp:{id:null},
+            stampUser:{id: null},
+            currentCamp:{id: null},
             mypageContent:[],
             mypageReview:[],
             mypageComment:[],
@@ -698,19 +698,19 @@ const store = createStore({
             .then(response => {
                 // const data = response.data.data;
                 context.commit('setCommunityList', response.data.data);
-                // context.commit('paginationCommunity', {
-                //     current_page: response.data.data.current_page, // 현재페이지
-                //     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
-                //     last_page: response.data.data.last_page, // 마지막페이지
-                //     last_page_url: response.data.data.last_page_url, // 마지막페이지url
-                //     total: response.data.data.total, // 총 페이지
-                //     per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
-                //     prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
-                //     next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
-                //     links: response.data.data.links,
-                // })
-                // console.log(response.data.data);
-                // console.log(setCommunityList);
+                context.commit('paginationCommunity', {
+                    current_page: response.data.data.current_page, // 현재페이지
+                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                    last_page: response.data.data.last_page, // 마지막페이지
+                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                    total: response.data.data.total, // 총 페이지
+                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                    links: response.data.data.links,
+                })
+                console.log(response.data.data);
+                console.log(setCommunityList);
             })
             .catch(error => {
                 alert('communityGet 오류오류~~' + error.response.data);
@@ -828,12 +828,16 @@ const store = createStore({
          */
         campListGet(context, page=1) {
             // const url = ('/api/search/searchPage?page=' + page);
+            // const url = ('/api/search/searchPage?page=' + page);
             const url = '/api/search';
             console.log(url);
             axios.get(url)
             .then(response => {
+
+                const campList = response.data.data;
+                context.commit('setCampList', campList);
                 // const data = response.data.data;
-                context.commit('setCampList', response.data.data);
+                // context.commit('setCampList', response.data.data);
                 // console.log(response.data.data);
                 // console.log(setCampList);
                 context.commit('setPaginationSearch', {
@@ -846,7 +850,16 @@ const store = createStore({
                     prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
                     next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
                     links: response.data.data.links,
-                })
+                    // test: test,
+                });
+                if (campList.length > 0) {
+                    const newCenter = {
+                        lat: campList[0].latitude,
+                        lng: campList[0].longitude
+                    }
+                    context.commit('updateMapCenter', newCenter);
+                    console.log('지도 중심 좌표 업데이트', newCenter);
+                };
                 
             })
             .catch(error => {
@@ -878,19 +891,34 @@ const store = createStore({
          * 군/구 데이터 획득
          * @param {*} context 
          */
-        countyGet(context) {
-            const url = '/api/county';
+        // countyGet(context) {
+        //     const url = '/api/county';
 
-            axios.get(url)
+        //     axios.get(url)
+        //     .then(response => {
+        //         context.commit('setCountyData', response.data.data);
+        //         // console.log(response.data.data);
+        //     })
+        //     .catch(error => {
+        //         alert('county 획득 실패' + error.response.data);
+        //     })
+        // },
+    // Vuex 액션
+        countyGet({ commit }, selectedStateId) {
+            const url = '/api/county';
+        
+            axios.get(url, {
+            params: {
+                state_id: selectedStateId
+            }
+            })
             .then(response => {
-                context.commit('setCountyData', response.data.data);
-                // console.log(response.data.data);
+            commit('setCountyData', response.data.data);
             })
             .catch(error => {
-                alert('county 획득 실패' + error.response.data);
-            })
+            alert('군/구 데이터 획득 실패: ' + error.response.data);
+            });
         },
-
 
 
         /**
@@ -898,10 +926,11 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        searchResult(context) {
-            const state = context.state; // context에서 state 값을 가져옴
-            const county = context.county; // context에서 county 값을 가져옴
-            // const page = context.page; // context에서 page 값을 가져옴
+        searchResult(context, local) {
+            console.log('searchResult Start');
+            const selectedState = local.state;
+            const selectedCounty = local.county;
+            // const page = context.page;
 
             // const url = `/api/search?state=${state}&county=${county}&page=${page}`;
             const url = '/api/search';
@@ -919,7 +948,8 @@ const store = createStore({
                 .then(response => {
                     const campList = response.data.data;
                     context.commit('setCampList', campList);
-                    console.log('검색 결과 획득 성공', campList);
+                    console.log('searchResult 검색 결과 획득 성공', campList);
+                    console.log('searchResult setCampList', context.state.campData);
                     console.log(campList[0]);
 
                     if (campList.length > 0) {
@@ -928,7 +958,7 @@ const store = createStore({
                             lng: campList[0].longitude
                         }
                         context.commit('updateMapCenter', newCenter);
-                        console.log('지도 중심 좌표 업데이트', newCenter);
+                        console.log('searchResult 지도 중심 좌표 업데이트', newCenter);
                     };
 
 
@@ -938,15 +968,15 @@ const store = createStore({
                 })
                 .catch(error => {
                     console.error('검색 결과 획득 실패', error);
-                    alert('검색 실패'+error.response);
+                    alert('시/도와 구/군을 모두 선택해주세요');
                 });
             },
 
             // 메인에서 검색값 가져오는 처리
-            setSelection(context) {
-                commit('setSelectedState', selectedState);
-                commit('setSelectedCounty', selectedCounty);
-            },
+            // setSelection(context) {
+            //     context.commit('setSelectedState', selectedState);
+            //     context.commit('setSelectedCounty', selectedCounty);
+            // },
 
 
 

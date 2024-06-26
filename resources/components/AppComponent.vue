@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">캠핑장 모아보기</a>
+                        <a @click="searchPage" class="nav-link active" aria-current="page" href="#">캠핑장 모아보기</a>
                     </li>
                     <li class="nav-item dropdown">
                         <a @click="toggleDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -495,6 +495,13 @@ function goToRegistration() {
     closeLogin();
     openRegistration();
 }
+
+// 검색 페이지로 이동
+function searchPage() {
+    window.location.href = './search';
+    store.dispatch('campListGet');
+}
+
 
 // 게시판 이름
 const communityTypes = computed(() => store.state.communityTypes);
