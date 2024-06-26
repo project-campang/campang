@@ -82,16 +82,16 @@
           <div class="my-content-box">
             <div class="list-group">
               <div class="content-column list-item text-center" aria-disabled="true">
-                <div class="my-page-top">글 번호</div>
+                <div class="my-page-top">번호</div>
+                <div class="my-page-top">제목</div>
                 <div class="my-page-top">캠핑장</div>
-                <div class="my-page-top">글 제목</div>
                 <!-- <div class="my-page-top">작성자</div> -->
                 <div class="my-page-top">작성일</div>
               </div>
               <div class="content-row text-center" v-for="(item, index) in $store.state.mypageReview" :key="index">
                 <div class="content-row-num">{{ index + 1 }}</div>
-                <div>{{ item.name }}</div>
-                <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
+                <div class="title-text-align=" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
+                <div class="review-cam ">{{ item.name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
                 <div>{{ item.created_at }}</div>
                 <!-- <div><button type="button" class="btn" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></div> -->
