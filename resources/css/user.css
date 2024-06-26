@@ -108,6 +108,8 @@
 
 /* 콘텐츠 행 스타일 */
 .content-row {
+    justify-items: center;
+    align-items: center;
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr;
     gap: 1rem;
@@ -228,4 +230,24 @@
 
 .my-update-form {
     height: 300px;
+}
+
+.wish-created {
+    white-space: nowrap;        /* 한 줄로 표시 */
+    overflow: hidden;           /* 넘친 부분 숨기기 */
+    /* text-overflow: ellipsis;     */
+    width: 9.5ch;                /* 10글자 만큼의 너비로 제한 (영문 기준) */
+}
+
+.review-cam {
+    text-align: center;
+    white-space: nowrap;        /* 한 줄로 표시 */
+    overflow: hidden;           /* 넘친 부분 숨기기 */
+    text-overflow: ellipsis;    
+    width: 10ch;                /* 10글자 만큼의 너비로 제한 (영문 기준) */
+}
+
+.review-title {
+    width: 100%;
+    text-align: center;
 }

@@ -25,6 +25,9 @@ button {
     z-index: 1; */
 }
 
+.register-modal {
+    width: 400px;
+}
 
 
 /* 위로가기 */

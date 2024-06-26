@@ -30,17 +30,17 @@ class CampTopoController extends Controller
 
     public function campingler() {
         $topReviewers = User::select('users.id', 'users.nick_name', 'users.profile')
-            ->join('communities', 'users.id', '=', 'communities.user_id')
-            ->where('communities.type', 2)  // type이 2인 것만 필터링
-            ->selectRaw('users.id, users.nick_name, users.profile, COUNT(communities.id) as community_count')
+            ->join('stamps', 'users.id', '=', 'stamps.user_id')
+            ->selectRaw('users.id, users.nick_name, users.profile, COUNT(stamps.id) as stamp_count')
             ->groupBy('users.id', 'users.nick_name', 'users.profile')
-            ->orderByDesc('community_count')  // user_id가 가장 많은 순서대로 정렬
+            ->orderByDesc('stamp_count')  // stamps.user_id가 가장 많은 순서대로 정렬
             ->take(3)  // 최대 3명의 유저만 가져옴
             ->get();
-            Log::debug( $topReviewers);
+    
+        Log::debug($topReviewers);
         return response()->json([
             'code' => '0',
-            'msg' => '상위 리뷰어 목록 획득 완료',
+            'msg' => '상위 스탬프 유저 목록 획득 완료',
             'data' => $topReviewers->toArray()
         ], 200);
     }

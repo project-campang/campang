@@ -70,35 +70,76 @@ class CommentController extends Controller
         // 로그인한 사용자의 ID를 가져옵니다.
         $userId = auth()->id();
     
-    
+        
+         // 사용자의 nick_name을 가져옵니다.
+         $userNickName = auth()->user()->nick_name;
+
         // 사용자가 작성한 게시글 중 communities.type이 2인 데이터만 가져옵니다.
         $RankData = Comment::select('comments.*')
                         ->where('user_id', '=', $userId) // 현재 로그인한 사용자의 게시글만 가져옴
                         ->whereNull('deleted_at')
                         ->orderBy('created_at', 'DESC')
                         ->get();
-    
+        
+        $formattedRankData = $RankData->map(function ($item) use ($userNickName) {
+            $item->user_nick_name = $userNickName;
+            return $item;
+        });       
+
         $responseData = [
             'code' => '0',
             'msg' => '게시글 획득 완료',
-            'data' => $RankData->toArray()
+            'data' => $formattedRankData->toArray()
         ];
     
         return response()->json($responseData, 200);
     }
 
+    public function updateWish(Request $request)
+    {   
+        Log::debug('Request Data:', $request->all());
+
+        // 요청에서 필요한 데이터 추출
+        $postId = $request->input('id');
+        $comment = $request->input('comment');
+
+        // 게시글 업데이트
+        $post = Comment::find($postId);
+        if (!$post) {
+            Log::error('게시글을 찾을 수 없습니다. Post ID: ' . $postId);
+            return response()->json(['error' => '게시글을 찾을 수 없습니다.'], 500);
+        }
+
+        // 레코드가 존재할 경우에만 업데이트 수행
+        $post->comment = $comment;
+        $post->save();
+
+        Log::info('게시글이 성공적으로 업데이트되었습니다. Post ID: ' . $postId);
+        return response()->json(['message' => '게시글이 성공적으로 업데이트되었습니다.']);
+    }
+
+
     public function deleteComment(Request $request, $id)
     {
+        Log::debug('Delete request received for post ID: ' . $id);
+
         try {
             // 리뷰 찾기
-            $Comment = Comment::findOrFail($id);
+            $Post = Comment::findOrFail($id);
+
+            Log::debug('Post found: ' . json_encode($Post));
 
             // 리뷰 삭제
-            $Comment->delete();
+            $Post->delete();
+
+            Log::info('Post deleted successfully: ' . json_encode($Post));
 
             // 성공 응답 반환
             return response()->json(['message' => '리뷰가 성공적으로 삭제되었습니다.'], 200);
         } catch (\Exception $e) {
+            // 에러 로깅
+            Log::error('Error deleting post: ' . $e->getMessage());
+
             // 에러 응답 반환
             return response()->json(['message' => '리뷰 삭제 중 오류가 발생했습니다.', 'error' => $e->getMessage()], 500);
         }

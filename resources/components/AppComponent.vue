@@ -84,14 +84,14 @@
                     <h1 class="modal-title fs-5" id="registrationModalLabel">회원가입</h1>
                     <button type="button" class="btn-close" @click="closeRegistration" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body ">
                     <form @submit.prevent="register">
-                        <div class="mb-3">
+                        <div class="mb-3 register-modal">
                             <label for="name" class="form-label">이름</label>
                             <input type="text" v-model="registerForm.name" class="form-control" id="name" autocomplete="name">
                             <div v-if="validationErrors.name" class="alert alert-danger">{{ validationErrors.name }}</div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 register-modal">
                             <label for="email" class="form-label">이메일</label>
                             <input type="email" v-model="registerForm.email" class="form-control" id="email" autocomplete="email">
                                 <div v-if="emailCheckResult !== null" class="alert" :class="[emailCheckResult ? 'alert-danger' : 'alert-success']">
@@ -99,25 +99,25 @@
                                 </div>
                             <div v-if="validationErrors.email" class="alert alert-danger">{{ validationErrors.email }}</div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 register-modal">
                             <button type="button" @click="checkEmail" class="btn btn-outline-secondary" >이메일 중복 확인</button>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 register-modal">
                             <label for="nick_name" class="form-label">닉네임</label>
                             <input type="text" v-model="registerForm.nick_name" class="form-control" id="nick_name" autocomplete="nickname">
                             <div v-if="validationErrors.nick_name" class="alert alert-danger">{{ validationErrors.nick_name }}</div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 register-modal">
                             <label for="password" class="form-label">비밀번호</label>
                             <input type="password" v-model="registerForm.password" class="form-control" id="password" autocomplete="password">
                             <div v-if="validationErrors.password" class="alert alert-danger">{{ validationErrors.password }}</div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 register-modal">
                             <label for="ps_chk" class="form-label">비밀번호 확인</label>
                             <input type="password" v-model="registerForm.ps_chk" class="form-control" id="ps_chk" autocomplete="ps_chk">
                             <div v-if="validationErrors.ps_chk" class="alert alert-danger">{{ validationErrors.ps_chk }}</div>
                         </div>
-                        <div class="mb-3">
+                        <div class="mb-3 register-modal">
                             <label for="tel" class="form-label">휴대폰 번호</label>
                             <input type="text" v-model="registerForm.tel" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
                             <div v-if="validationErrors.tel" class="alert alert-danger">{{ validationErrors.tel }}</div>

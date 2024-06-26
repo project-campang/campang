@@ -131,24 +131,34 @@ class WishController extends Controller
     // }
 
 
-    public function wishGet(Request $request) {
+    public function wishGet(Request $request)
+    {
         // 현재 로그인한 사용자의 ID를 가져옴
         $userId = Auth::id();
-    
+        
         // 사용자의 위시리스트 정보를 가져옴
-        $WishData = Wish::select('wishes.created_at', 'camps.name as camp_name', 'camps.main_img', 'wishes.camp_id')
+        $WishData = Wish::select('wishes.created_at', 'camps.name as camp_name', 'camps.main_img', 'wishes.camp_id', 'camps.state', 'wishes.id')
                         ->join('users', 'users.id', '=', 'wishes.user_id')
                         ->leftJoin('camps', 'camps.id', '=', 'wishes.camp_id')
                         ->where('wishes.user_id', $userId) // 현재 사용자의 위시리스트만 필터링
                         ->orderBy('wishes.updated_at', 'DESC') // updated_at 기준 내림차순 정렬
                         ->get();
     
+        // 날짜 포맷팅: 'Y-m-d' 형식으로 변경 (시간을 제거)
+        $WishData->transform(function($wish) {
+            $wish->created_at = Carbon::parse($wish->created_at)->toDateString(); // 'Y-m-d' 형식으로 변환
+            return $wish;
+        });
+        
         $responseData = [
             'code' => '0',
             'msg' => '사용자의 위시리스트 데이터 획득 완료',
             'data' => $WishData->toArray()
         ];
-    
+        
         return response()->json($responseData, 200);
     }
+
+
+    
 }
