@@ -10,9 +10,9 @@
         <p>-정복한 캠핑장</p>
         <p>-찜목록</p>
         <p class="mypage-content" @click="showcontent">내가쓴글</p>
-        <p>-게시글</p>
-        <p>-리뷰</p>
-        <p>-댓글</p>
+        <a href="#content"><p>-게시글</p></a>
+        <a href="#review"><p>-리뷰</p></a>
+        <a href="#comment"><p>-댓글</p></a>
       </div>
     </div>
     <div v-if="isstampVisible">
@@ -29,7 +29,7 @@
         <div class="content-bottom">
           <div class="my-content-box">
             <div class="list-group">
-              <div class="content-column list-item" aria-disabled="true">
+              <div class="content-column list-item text-center" aria-disabled="true">
                 <div class="my-page-top text-center">번호</div>
                 <div class="my-page-top text-center">캠핑장 이름</div>
                 <div class="my-page-top text-center">찜한 날짜</div>
@@ -49,14 +49,14 @@
           </div>
         </div>
     </div>
-    <div v-else class="posts-section">
-        <h1>내 게시글</h1>
+    <div v-else class="posts-section" id="content">
+        <h1 >내 게시글</h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
             <div class="list-group">
-              <div class="content-column list-item" aria-disabled="true">
-                <div class="my-page-top">글 번호</div>
+              <div class="content-column list-item text-center"  aria-disabled="true">
+                <div class="my-page-top" >글 번호</div>
                 <div class="my-page-top">글 제목</div>
                 <div class="my-page-top">작성일</div>
                 <div class="my-page-top"></div>
@@ -67,18 +67,18 @@
                 <div>{{ item.created_at }}</div>
                 <div><button type="button" class="btn" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></div>
               </div>
-              <hr class="item-hr">
+              <hr class="item-hr" id="review">
             </div>
             <div class="pagination">
             </div>
           </div>
         </div>
-        <h1>내가 쓴 리뷰</h1>
+        <h1 >내가 쓴 리뷰</h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
             <div class="list-group">
-              <div class="content-column list-item" aria-disabled="true">
+              <div class="content-column list-item text-center" aria-disabled="true">
                 <div class="my-page-top">글 번호</div>
                 <div class="my-page-top">글 제목</div>
                 <div class="my-page-top">작성일</div>
@@ -90,17 +90,17 @@
                 <div>{{ item.created_at }}</div>
                 <div><button type="button" class="btn" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></div>
               </div>
-              <hr class="item-hr">
+              <hr class="item-hr" id="comment">
             </div>
             <div class="pagination"></div>
           </div>
         </div>
-        <h1>내가 쓴 댓글</h1>
+        <h1 >내가 쓴 댓글</h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
             <div class="list-group">
-              <div class="content-column list-item" aria-disabled="true">
+              <div class="content-column list-item text-center" aria-disabled="true">
                 <div class="my-page-top">글 번호</div>
                 <div class="my-page-top">댓글 내용</div>
                 <div class="my-page-top">작성일</div>
