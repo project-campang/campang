@@ -251,4 +251,19 @@ class CampController extends Controller
 
         return response()->json($responseData, 200);
     }
+
+    public function allImgGet($id){
+        $campId = Camp::find($id)->id;
+
+        $imgInfo = Camp::select('other_img_1','other_img_2','other_img_3','other_img_4','other_img_5','other_img_6','other_img_7','other_img_8','other_img_9','other_img_10')
+                        ->where('id',$campId)->get();
+
+        $responseData = [
+            'code' => '0',
+            'msg' => '',
+            'data' => $imgInfo
+        ];
+
+        return response()->json($responseData, 200);
+    }
 }

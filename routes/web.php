@@ -11,6 +11,7 @@ use App\Http\Controllers\CountyController;
 use App\Http\Controllers\StampController;
 use App\Http\Controllers\StateController;
 use App\Http\Controllers\WishController;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -27,7 +28,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '^(?!api).*$');
-
 //앱
 // 유저 컨트롤러
 Route::post('/api/login', [UserController::class, 'login']);
@@ -42,9 +42,10 @@ Route::get('/api/mypage/review', [CommunityController::class, 'reviewGet']);
 Route::get('/api/mypage/comment', [CommentController::class, 'CommentGet']);
 Route::post('/api/content/update', [CommunityController::class, 'updateContent']);
 Route::post('/api/review/update', [CommunityController::class, 'updateReview']);
-Route::post('/api/posts/delete', [CommunityController::class, 'deletePost']);
-Route::post('/api/reviews/delete', [CommunityController::class, 'deleteReview']);
-Route::post('/api/comments/delete', [CommentController::class, 'deleteComment']);
+Route::post('/api/comment/update', [CommentController::class, 'updateWish']);
+Route::delete('/api/posts/delete/{id}', [CommunityController::class, 'deletePost']);
+Route::delete('/api/reviews/delete/{id}', [CommunityController::class, 'deleteReview']);
+Route::delete('/api/comments/delete/{id}', [CommentController::class, 'deleteComment']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
@@ -67,6 +68,7 @@ Route::get('/api/camp/commentPage', [CommentController::class, 'commentPaginate'
 Route::get('/api/camp/{id}', [CampController::class, 'campDetailGet']);
 Route::get('/api/state', [StateController::class, 'stateGet']); // state
 Route::get('/api/county', [CountyController::class, 'countyGet']); // county
+Route::get('/api/camp/{id}/imgs', [CampController::class, 'allImgGet']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment/{id}', [CommentController::class, 'comment']);

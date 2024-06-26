@@ -2,11 +2,11 @@
     <main>
         <div class="background-color">
             <div class="main-head">
-                <a href="">HOME</a>
+                <router-link to="/main">HOME</router-link>
                 <p>></p>
-                <a href="">캠핑장 모아보기</a>
+                <router-link to="/search">캠핑장 모아보기</router-link>
                 <p>></p>
-                <a href="">상세정보</a>
+                <a href="#">상세정보</a>
             </div>
             <hr>
             <div class="main-body">
@@ -73,10 +73,6 @@
                                 <img :src="item.img" alt="icon">
                                 <p>{{ item.name }}</p>
                             </div>
-                            <!-- <div class="info-icon">
-                                <img src="../../public/img_nr/강아이콘.png" alt="icon">
-                                <p>강</p>
-                            </div> -->
                         </div>
                     </div>
                     <div class="detail-info-card">
@@ -103,8 +99,32 @@
                     <div class="detail-info-card">
                         <div class="info-card-name">캠핑장 전경</div>
                         <div class="info-card-main camp-img-box">
-                            <img v-for="item in 10" :key="item" src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_1" :src="$store.state.campDetail.campInfo.other_img_1" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_2" :src="$store.state.campDetail.campInfo.other_img_2" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_3" :src="$store.state.campDetail.campInfo.other_img_3" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_4" :src="$store.state.campDetail.campInfo.other_img_4" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_5" :src="$store.state.campDetail.campInfo.other_img_5" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_6" :src="$store.state.campDetail.campInfo.other_img_6" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_7" :src="$store.state.campDetail.campInfo.other_img_7" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_8" :src="$store.state.campDetail.campInfo.other_img_8" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_9" :src="$store.state.campDetail.campInfo.other_img_9" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            <img v-if="$store.state.campDetail.campInfo.other_img_10" :src="$store.state.campDetail.campInfo.other_img_10" alt="">
+                            <img v-else src="../../public/img/logo-ko3.png" alt="">
+                            
                         </div>
+                        <!-- <div class="campImg-item" v-for="i in 10" :key="i" >
+                                <img v-if="i<=item.rating" src="../../public/img_nr/별점_활성화.png" alt="">
+                                <img v-else src="../../public/img/logo-ko3.png" alt="">
+                        </div> -->
                     </div>
                     <hr>
                     <div class="comment-review-tap">
@@ -147,6 +167,7 @@ const routeParams = useRoute().params;
 // 컴포넌트가 생성될 때 액션을 호출하여 데이터를 가져옴
 onBeforeMount(() => {
   store.dispatch('campDetailGet', route.params.id);
+  store.dispatch('detailImgGet', route.params.id);
 });
 
 
@@ -189,11 +210,11 @@ const shareBtn = () => {
 
 
 //---------------------- 찜하기 -----------------------
-// const isWished = ref(false);
+const isWished = ref(false);
 
-// watchEffect(() => {
-//   isWished.value = store.state.wishes;
-// });
+watchEffect(() => {
+  isWished.value = store.state.wishes;
+});
 
 const camp_param_id = route.params.id;
 
@@ -221,5 +242,9 @@ function gotoLink() {
     alert('\n[[캠팡]]은 예약 링크만 제공하며, 서비스는 제공하지 않습니다.\n예약사이트로 이동합니다.');
 }
 // ---------------------------------------------------
+
+// ------------------- 캠핑장 전경 -------------------
+
+// --------------------------------------------------
 </script>
 

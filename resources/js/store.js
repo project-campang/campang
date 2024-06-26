@@ -44,7 +44,7 @@ const store = createStore({
             mypageContent:[],
             mypageReview:[],
             mypageComment:[],
-
+            allImgs: [],
         }
     },
     mutations: {
@@ -218,7 +218,10 @@ const store = createStore({
         },
         updateMapCenter(state, center) {
             state.mapCenter = center;
-          }
+        },
+        setAllImgs(state, data){
+            state.allImgs = data;
+        }
     },
     actions: {
         // async login(context, loginForm) {
@@ -387,6 +390,7 @@ const store = createStore({
               const response = await axios.post('/api/content/update', content);
               commit('setMypageContent', response.data);
             } catch (error) {
+                console.log(error);
               throw new Error('게시글 수정 실패');
             }
           },
@@ -406,9 +410,9 @@ const store = createStore({
               throw new Error('댓글 수정 실패');
             }
           },
-        deletePost(context, content) {
-            const url = '/api/posts/delete';
-            axios.post(url, { id: content.id }) // 컨텐츠 ID를 전송
+          deletePost(context, content) {
+            const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
+            axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음
                 .then(response => {
                     console.log(response.data);
                     context.commit('setMypageContent', response.data.data);
@@ -419,10 +423,11 @@ const store = createStore({
                 });
         },
         
+        
         deleteReview(context, content) {
-            const url = '/api/reviews/delete';
+            const url = `/api/reviews/delete/${content.id}`;
 
-            axios.post(url, content)
+            axios.delete(url, content)
             .then(response => {
                 console.log(response.data); // TODO
                 context.commit('setMypageReview', response.data.data);
@@ -433,9 +438,9 @@ const store = createStore({
             })
         },
         deleteComment(context , content) {
-            const url = '/api/comments/delete';
+            const url = `/api/comments/delete/${content.id}`;
 
-            axios.post(url, content)
+            axios.delete(url, content)
             .then(response => {
                 console.log(response.data); // TODO
                 context.commit('setMypageComment', response.data.data);
@@ -639,18 +644,7 @@ const store = createStore({
 
         detailWishToggle({context,state}, id){
             const upsertUrl = '/api/camp/'+id+'/wishBtnUpsert';
-            const deleteUrl = '/api/camp/'+id+'/wishBtnRemove';
 
-            if(state.wishes){
-                axios.post(deleteUrl)
-                .then(() => {
-                    context.commit('toggleWish');
-                })
-                .catch(error=> {
-                    alert('삭제 오류오류', error);
-                    console.log(state.wishes);
-                });
-            } else {
                 axios.post(upsertUrl)
                 .then(() => {
                     context.commit('toggleWish');
@@ -659,7 +653,7 @@ const store = createStore({
                     alert('업설트 오류오류', error);
                     console.log(state.wishes);
                 });
-            }
+            
         },
 
         // // 찜 토글
@@ -1100,6 +1094,17 @@ const store = createStore({
             updateCurrentCamp({ commit }, camp) {
                 commit('setCurrentCamp', camp);
             },
+            detailImgGet(context, id){
+                const url = 'api/camp/'+id+'/imgs';
+
+                axios.get(url)
+                .then(response => {
+                    context.commit('setAllImgs', response.data.data);
+                })
+                .catch(error => {
+                    console.log('사진획득 실패', error.response);
+                })
+            }
 
     },
 

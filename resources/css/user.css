@@ -10,7 +10,7 @@
 
 /* 사이드바 스타일 */
 .my-page-side {
-    margin-left:50px; 
+    margin-left: 50px; 
     background-color: #FFD84F;
     display: flex;
     flex-direction: column;
@@ -21,7 +21,8 @@
     padding: 1rem; /* 내쪽 여백 추가 */
     width: 240px; /* 사이드바 너비 조정 */
     height: 600px;
-    display: sticky;
+    position: sticky; /* sticky 설정 */
+    top: 100px; /* sticky의 기준이 되는 위치 */
 }
 
 /* 사이드바 내부 이미지 */
@@ -95,15 +96,11 @@
     border-top: 1px solid #ddd;
 }
 
-/* 콘텐츠 박스 스타일 */
-
-
 /* 콘텐츠 열 스타일 */
 .content-column {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr; /* 그리드 비율 설정 */
     gap: 1rem; /* 열 간의 여백 추가 */
-    /* padding: 1rem; */
     background: #f0f0f0;
     border-radius: 0.5rem; /* 모서리 둥글게 추가 */
     margin-bottom: 0.5rem; /* 하단 여백 추가 */
@@ -111,10 +108,11 @@
 
 /* 콘텐츠 행 스타일 */
 .content-row {
+    justify-items: center;
+    align-items: center;
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr;
     gap: 1rem;
-    /* padding: 1rem; */
     background: #fff;
     border: 1px solid #ddd;
     border-radius: 0.5rem;
@@ -154,6 +152,7 @@
 .content-row-num {
     text-align: center;
 }
+
 .stamp-top img {
     width: 150px;
     height: 150px;
@@ -187,12 +186,6 @@
     display: inline-block;
 }
 
-.stamp-top-item {
-    position: relative;
-    display: inline-block;
-    
-}
-
 .stamp-overlay {
     position: absolute;
     top: 50%; /* Center vertically */
@@ -213,13 +206,11 @@
     border-radius: 50%;
 }
 
-
 .stamp-top-item:hover .stamp-overlay {
     opacity: 1;
 }
 
 .content-bottom {
-    /* display: auto; */
     overflow: auto;
     height: 600px;
     margin-bottom: 5rem;
@@ -239,4 +230,24 @@
 
 .my-update-form {
     height: 300px;
+}
+
+.wish-created {
+    white-space: nowrap;        /* 한 줄로 표시 */
+    overflow: hidden;           /* 넘친 부분 숨기기 */
+    /* text-overflow: ellipsis;     */
+    width: 9.5ch;                /* 10글자 만큼의 너비로 제한 (영문 기준) */
+}
+
+.review-cam {
+    text-align: center;
+    white-space: nowrap;        /* 한 줄로 표시 */
+    overflow: hidden;           /* 넘친 부분 숨기기 */
+    text-overflow: ellipsis;    
+    width: 10ch;                /* 10글자 만큼의 너비로 제한 (영문 기준) */
+}
+
+.review-title {
+    width: 100%;
+    text-align: center;
 }

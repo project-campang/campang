@@ -5,23 +5,25 @@
             <img src="/img/logo-ko3.png" class="img-fluid" alt="Logo" loading="lazy">
         </div>
         <div class="main-search">
-            <form action="" id="searchForm" class="d-flex flex-wrap align-items-center justify-content-center">
-                <span class="me-2">어느지역?</span>
-                <div class="main-select-box me-2">
-                    <select @change="selectState" name="state" id="select1" class="select">
-                        <option>시/도 선택</option>
-                        <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
-                        {{ console.log('stateData', stateData) }}
-                    </select>
+            <form action="" id="searchForm" class="d-flex flex-column align-items-center justify-content-center">
+                <div class="d-flex justify-content-center align-items-center">
+                    <span class="me-2">어느지역?</span>
+                    <div class="main-select-box me-2">
+                        <select @change="selectState" name="state" id="select1" class="select">
+                            <option>전체 시/도</option>
+                            <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
+                            {{ console.log('stateData', stateData) }}
+                        </select>
+                    </div>
+                    <div class="main-select-box">
+                        <select @change="selectCounty" name="county" id="select2" class="select">
+                            <option>전체 구/군</option>
+                            <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
+                            {{ console.log('countyData', countyData) }}
+                        </select>
+                    </div>
                 </div>
-                <div class="main-select-box">
-                    <select @change="selectCounty" name="county" id="select2" class="select">
-                        <option>구/군 선택</option>
-                        <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
-                        {{ console.log('countyData', countyData) }}
-                    </select>
-                </div>
-                <div class="d-flex flex-wrap align-items-center justify-content-center mt-3">
+                <div class="d-flex align-items-center justify-content-center mt-3">
                     <span class="me-2">어디갈래?</span>
                     <div class="main-select-box me-2">
                         <select name="option" class="select">
@@ -69,19 +71,19 @@
         <div class="main-right" data-section="3">
             <div class="main-right-top">
                 <div>
+                    <p class="count">0</p>
                     <p>가입유저수</p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nO2Yz0pCQRSHPw1rla1a9QJlK7f1BgWFbesBglbRpl6gVZogrXuDiggifIDaqxmBT2Ch2B8CwxsDx83h3qteLceYDw7IeO45v5l7zjgjOBwOx39jGTgFysC7mPmcA1JYzDRQAL4BL8DMd3kggYXiiyHCtd3ZNonCAOK7Zt6ENTWvy6YCbACzYpvAo/JpA0tYwKmP+KSP3xxQVb5ZLKCiRJnVDiKjfEtYQEuJMiUTRFL5trCAiZ9AedJLKKdEPUrDaszYk/I9wQJSPttoVVY7KZbxEW+20UUsIR/hh8yKLbRLQo4H/Yq/te0ogQjKS2kECW9Lz1gnXvdEVnaYN7GSNKw1Ne9wOBz2MAWkgT3gTO7Gz0Ad+BKry1hRfPbkmalxiTZH5m3gCmhGOEZ0rQlcSqywY/hI77/nwOcQooPsU2KbHCNnAbgAOr8g3FPWkVwm50jYARo9ktalnA7l6GxWcR6YEZuXsS3gSHxfesRsSO6hOAhJUAOOpRljEWKbZ9ISoxaSZz+q+NWAvwnv5doYZ3TEJeaDTz6jYSVK0BsV6APYjbja/RKTHB8q93WUYK8qyBp/x7rKbfplYPSr/Gu8YfN7ltnAjFuw5ybA+FfdG2MPOhwOB735AXEPv3mzNAbBAAAAAElFTkSuQmCC">
-                    <p class="count">0</p>
                 </div>
                 <div>
+                    <p class="count">0</p>
                     <p>도장갯수</p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABRklEQVR4nO2XTUoDQRCFP7IzJ1BcewkFfyDn0JxFguJC4jF0EX/OY9zpSgXJ0sWUDGQRim6nh55MtaY+qF09eG+6qpsBx3Gcv84OcAO8AN+ANFTdMwemwLa1+QPgI8F0rN6Bfcsvn2N+NYTJSUw7MC/LurYIMFcmLoGtBN0QuFLaZwzQC1sbS2UYWOze0WPQtz6bShkYtNAOlLbCgDdlYtRCO1LaVwx4VCYWwDhBN172rmrvMeA4MEZ1TX7RXAT6K+AQIyYRQ0eB3pNI4HOMOQuMxEOg7ykwcqcUQspS5iz92km5FnOu3V5oepjMH64mPIA1fgLW+Al0yR4wC7ywFrUA7oDdNuY/CzAugZ//pBCzAsxKpG5TApQwNhKpr5QAWmSNtPXjATpGNv4EpIDllZwdKK0asTYoGx9AU/wX//cBHMdxWBs/iVR1mpOpR3EAAAAASUVORK5CYII=">
-                    <p class="count">0</p>
                 </div>
                 <div>
+                    <p class="count">0</p>
                     <p>캠핑장 수</p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADJ0lEQVR4nO2ZW4iNURTHf8Y9lyHkFrlLHsTDGEXIeEDmweWFGpdMeaAmkZTk0hgRjSRTKCOaSAh54MFtppAakonRPJBLE5P7zDBjjrbWqeP0nXP2/r5v5fb9a9WZ+dbe//U/e39rr70ORIgQIcK/jiygUD5PAfKBvgHm6wNMBFYAZcAzoEp4VLEIaAA6SQAxoE0CqAQqgL3ALmAHsBHYLn+XAieBm8BToEnGe9kcTRHtgHtCZFbC4GGaYILYBU0h+QlEp+R/m5SEfAeGawmpSiAy2yIbGCqkGmJ2aoiY7UG0XJ5dVxJSD3QOW8gND6Jr8mylkpAYsDRMEdNTkJhsNQroBnxUElIZppAraYiKxeew4qpMCkPE5Awkr4EOQK6ikLIwhFy0IJonvveVhHySDOkbE+Q9yER0VvyLFFdlbRAhZyxJWoABUjelKzuCWI1UFs4Y53jQrZdxFYqrMtOPkBOOJI/lG5ulKOS0q4iRsl1cifKUC8kWYLCLkKM+ic7J+DWKq7LFVsQQ4KtPklapWHsAH5SEvAQ62gg5GJCoROY5oLgqCzKJMCm0MSDJG6ALMNryDPJjVzMJ2RcS0TKLGi2ItQFjU4noB3y2mOSBRaV71+NGGbaVphJSYjlBkWSnTH450gmpUxLyTq4Pv8AUZO8dSpFCC99ymXuD4qqsShay1XLgZfEfZPEiNwP9gd6WW9aPVSeK6Cl9KpuBSxLGVVv4bxbfMsVVycWxnVMvaTWOYssxXYERclhqCCmPB/TKcsC2pO2YYzluteOVIOZoTfGW7SHZz+mcv8h+T8YTC6JaoL2D8JgPMwnlJ7pLT/d4ivdlt1e+lnfAhmihcv+r1is400iYIad8ndzMUnXbh1levm6L/1wlIbcIAectyUxvzDbbxSysQXZQnt8rcDKmWRJfEv+CAME3yi1xvm0p74o7FkGYA3S8BPDcIfhm6dIsllSuClOyH5ESPl1Qx8R/XQa/VinVTU+5F78BJs1OBfanOJ++yc8Qpth76/H8kfzCNZA/CFkJol4kBLsnqTKokVpvDH8B4qJKpcOSLSnddDIjRIgQ4T/ED2uQkyLQdFZFAAAAAElFTkSuQmCC">
-                    <p class="count">0</p>
                 </div>
             </div>
             <div class="main-right-middle">
@@ -130,7 +132,7 @@
                 <p>캠팡 제휴업체에서 할인받자 !</p>
                 <p class="text-end">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="carousel-inner">
-                    <div class="carousel-item" 
+                    <div class="carousel-item" data-bs-interval="5000"
                         v-for="(camp, index) in $store.state.suggestCam" 
                         :class="{'active': index === 0}" 
                         :key="index">
@@ -157,9 +159,19 @@
         </div>
     </div>
     <!-- 모바일에서만 나오는 섹션 -->
-        <div v-if="isWithinTargetArea && $store.state.authFlg" class="animate__animated animate__pulse animate__infinite mobile-float">
-            <button type="button" class="btn my-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">지금 <b>{{currentTarget.name}}</b>에 계시는군요!<br>도장찍으러 가기 >></button>
-        </div>
+  <div v-if="isWithinTargetArea && authFlg">
+    <div class="animate__animated animate__pulse animate__infinite mobile-float" :class="{ hidden: isScrolled }">
+      <button type="button" class="btn my-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        지금 <b>{{ currentTarget.name }}</b>에 계시는군요!<br>도장찍으러 가기 >>
+      </button>
+    </div>
+
+    <div class="animate__animated animate__pulse animate__infinite small-float" :class="{ hidden: !isScrolled }">
+      <button type="button" class="btn small-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        도장
+      </button>
+    </div>
+  </div>
 
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -196,7 +208,7 @@
 
 <script setup>
 import axios from 'axios';
-import { onBeforeMount,ref, onMounted, computed } from 'vue';
+import { onBeforeMount,ref, onMounted, computed, onUnmounted } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 
@@ -336,6 +348,7 @@ onBeforeMount(() => {
 const stampCnt = computed(() => store.state.stampCnt);
 const isWithinTargetArea = computed(() => store.state.isWithinTargetArea);
 const currentTarget = computed(() => store.state.currentTarget);
+const authFlg = computed(() => store.state.authFlg);
 
 let isStamped = ref(false);
 let isTrue = ref(false);
@@ -359,7 +372,12 @@ function createStamp() {
   });
 }
 
+const isScrolled = ref(false);
+const scrollThreshold = 200; // 스크롤 임계값
 
+const handleScroll = () => {
+  isScrolled.value = window.scrollY > scrollThreshold;
+};
 
 
 
@@ -376,8 +394,12 @@ onMounted(() => {
     if (!countyData.value.length) {
         store.dispatch('countyGet');
   }
+  window.addEventListener('scroll', handleScroll);
 });
 
+onUnmounted(() => {
+  window.removeEventListener('scroll', handleScroll);
+});
 
 function searchBtn(e) {
     const selectStateElement = document.querySelector('#select1');
