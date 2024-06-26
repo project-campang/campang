@@ -44,7 +44,7 @@ const store = createStore({
             mypageContent:[],
             mypageReview:[],
             mypageComment:[],
-
+            allImgs: [],
         }
     },
     mutations: {
@@ -218,7 +218,10 @@ const store = createStore({
         },
         updateMapCenter(state, center) {
             state.mapCenter = center;
-          }
+        },
+        setAllImgs(state, data){
+            state.allImgs = data;
+        }
     },
     actions: {
         // async login(context, loginForm) {
@@ -639,18 +642,7 @@ const store = createStore({
 
         detailWishToggle({context,state}, id){
             const upsertUrl = '/api/camp/'+id+'/wishBtnUpsert';
-            const deleteUrl = '/api/camp/'+id+'/wishBtnRemove';
 
-            if(state.wishes){
-                axios.post(deleteUrl)
-                .then(() => {
-                    context.commit('toggleWish');
-                })
-                .catch(error=> {
-                    alert('삭제 오류오류', error);
-                    console.log(state.wishes);
-                });
-            } else {
                 axios.post(upsertUrl)
                 .then(() => {
                     context.commit('toggleWish');
@@ -659,7 +651,7 @@ const store = createStore({
                     alert('업설트 오류오류', error);
                     console.log(state.wishes);
                 });
-            }
+            
         },
 
         // // 찜 토글
@@ -1070,6 +1062,17 @@ const store = createStore({
             updateCurrentCamp({ commit }, camp) {
                 commit('setCurrentCamp', camp);
             },
+            detailImgGet(context, id){
+                const url = 'api/camp/'+id+'/imgs';
+
+                axios.get(url)
+                .then(response => {
+                    context.commit('setAllImgs', response.data.data);
+                })
+                .catch(error => {
+                    console.log('사진획득 실패', error.response);
+                })
+            }
 
     },
 

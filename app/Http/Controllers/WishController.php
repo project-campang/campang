@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Camp;
 use App\Models\Wish;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -66,36 +67,68 @@ class WishController extends Controller
     // }
 
     public function wishBtnUpsert($id){
+    //     $camp_id = Camp::find($id)->id;
+    //     $wishInsert = Wish::upsert(
+    //                     ['user_id' => Auth::id(), 'camp_id'=> $camp_id, 'updated_at'=> now(), 'deleted_at'=>null],
+    //                     ['user_id', 'camp_id'],
+    //                     ['updated_at', 'deleted_at']
+    //                 );
+    //     $responseData = [
+    //    'code' => '0',
+    //     'msg' => '',
+    //     'data' => $wishInsert
+    //     ];
+    //     Log::debug('업설트', $responseData);
+    //    return response()->json($responseData, 200);   
+
+        // 캠프ID 획득
         $camp_id = Camp::find($id)->id;
-        $wishInsert = Wish::upsert(
-                        ['user_id' => Auth::id(), 'camp_id'=> $camp_id, 'updated_at'=> now(), 'deleted_at'=>null],
-                        ['user_id', 'camp_id'],
-                        ['updated_at', 'deleted_at']
-                    );
+        // 좋아요 레코드 획득
+        $wishData = Wish::select('*')
+                        ->where('user_id', Auth::id())
+                        ->where('camp_id', $camp_id)
+                        ->withTrashed()
+                        ->first();
+        // Log::debug('업설트', $wishData->toArray());
+        if(empty($wishData)) {
+            // 미등록일 경우 작성 데이터 생성
+            $wishData = new Wish();
+            $wishData->user_id = Auth::id();
+            $wishData->camp_id = $camp_id;
+        } else {
+            // 등록일 경우
+            // 삭제일자 셋팅
+            $wishData->deleted_at = is_null($wishData->deleted_at) ? Carbon::now()->toDateTimeString() : null;
+        }
+        // 업설트
+        $wishData->save();
         $responseData = [
-       'code' => '0',
-        'msg' => '',
-        'data' => $wishInsert
+        'code' => '0',
+            'msg' => '',
+            'data' => $wishData
         ];
         Log::debug('업설트', $responseData);
-       return response()->json($responseData, 200);   
+        return response()->json($responseData, 200);
 
     }
 
-    public function wishBtnRemove($id){
-        $camp_id = Camp::find($id)->id;
-        $wishDelete = Wish::where('user_id', '=', Auth::id())
-                            ->where('camp_id', '=', $camp_id)
-                            ->delete();
+    // public function wishBtnRemove($id){
+    //     $camp_id = Camp::find($id)->id;
+    //     $wishDelete = Wish::where('user_id', '=', Auth::id())
+    //                         ->where('camp_id', '=', $camp_id)
+    //                         ->delete();
         
-        $responseData = [
-            'code' => '0',
-            'msg' => '',
-            'data' => $wishDelete
-        ];
+    //     $responseData = [
+    //         'code' => '0',
+    //         'msg' => '',
+    //         'data' => $wishDelete
+    //     ];
                 
-        return response()->json($responseData, 200);   
-    }
+    //     return response()->json($responseData, 200);   
+
+
+
+    // }
 
 
     public function wishGet(Request $request) {

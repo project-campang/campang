@@ -67,6 +67,7 @@ Route::get('/api/camp/commentPage', [CommentController::class, 'commentPaginate'
 Route::get('/api/camp/{id}', [CampController::class, 'campDetailGet']);
 Route::get('/api/state', [StateController::class, 'stateGet']); // state
 Route::get('/api/county', [CountyController::class, 'countyGet']); // county
+Route::get('/api/camp/{id}/imgs', [CampController::class, 'allImgGet']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment/{id}', [CommentController::class, 'comment']);
