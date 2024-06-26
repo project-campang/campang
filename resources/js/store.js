@@ -387,6 +387,7 @@ const store = createStore({
               const response = await axios.post('/api/content/update', content);
               commit('setMypageContent', response.data);
             } catch (error) {
+                console.log(error);
               throw new Error('게시글 수정 실패');
             }
           },
@@ -406,9 +407,9 @@ const store = createStore({
               throw new Error('댓글 수정 실패');
             }
           },
-        deletePost(context, content) {
-            const url = '/api/posts/delete';
-            axios.post(url, { id: content.id }) // 컨텐츠 ID를 전송
+          deletePost(context, content) {
+            const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
+            axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음
                 .then(response => {
                     console.log(response.data);
                     context.commit('setMypageContent', response.data.data);
@@ -419,10 +420,11 @@ const store = createStore({
                 });
         },
         
+        
         deleteReview(context, content) {
-            const url = '/api/reviews/delete';
+            const url = `/api/reviews/delete/${content.id}`;
 
-            axios.post(url, content)
+            axios.delete(url, content)
             .then(response => {
                 console.log(response.data); // TODO
                 context.commit('setMypageReview', response.data.data);
@@ -433,9 +435,9 @@ const store = createStore({
             })
         },
         deleteComment(context , content) {
-            const url = '/api/comments/delete';
+            const url = `/api/comments/delete/${content.id}`;
 
-            axios.post(url, content)
+            axios.delete(url, content)
             .then(response => {
                 console.log(response.data); // TODO
                 context.commit('setMypageComment', response.data.data);
