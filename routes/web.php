@@ -74,7 +74,8 @@ Route::get('/api/camp/{id}/imgs', [CampController::class, 'allImgGet']);
 Route::post('/api/comment/{id}', [CommentController::class, 'comment']);
 Route::get('/api/camp/{id}/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
-
+Route::post('/api/comment/{id}/update', [CommentController::class, 'commentUpdate']);
+Route::delete('/api/comment/{id}/delete', [CommentController::class, 'commentDelete']);
 
 // 커뮤니티 컨트롤러
 // Route::get('/api/community/{id}/communityPage', [CommunityController::class, 'communityGet']);
@@ -87,5 +88,3 @@ Route::get('/api/communityTypes/{id}', [CommunityTypeController::class, 'index']
 // 위시 컨트롤러
     //위시 추가
 Route::post('/api/camp/{id}/wishBtnUpsert', [WishController::class, 'wishBtnUpsert']);
-    //위시 삭제
-Route::post('/api/camp/{id}/wishBtnRemove', [WishController::class, 'wishBtnRemove']);

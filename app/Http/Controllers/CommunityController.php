@@ -57,16 +57,16 @@ class CommunityController extends Controller
 
         // log::debug('responseData1', $responseData);
 
-        // $communityData = Community::select('communities.*', 'users.nick_name')
-        //                             ->join('users', 'users.id', '=', 'communities.user_id')
-        //                             ->orderBy('communities.id', 'DESC')
-        //                             ->limit(8)
-        //                             ->get();
-        // $responseData = [
-        //     'code' => '0',
-        //     'msg' => '게시글 획득 완료',
-        //     'data' => $communityData->toArray()
-        // ];
+        $communityData = Community::select('communities.*', 'users.nick_name')
+                                    ->join('users', 'users.id', '=', 'communities.user_id')
+                                    ->orderBy('communities.id', 'DESC')
+                                    ->limit(5)
+                                    ->get();
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득 완료',
+            'data' => $communityData->toArray()
+        ];
         // Log::debug('쿼리', $communityData->toArray());
         // Log::debug('responseData2', $responseData);
         // Log::debug('리턴');
@@ -423,103 +423,205 @@ class CommunityController extends Controller
          return response()->json($responseData, 200);
     }
     
-    public function updatePost(Request $request)
+  
+        public function updateContent(Request $request)
     {
-        // 요청에서 필요한 데이터 추출
-        $postId = $request->input('id');
-        $title = $request->input('title');
-        $content = $request->input('content');
+        $validatedData = $request->validate([
+            'id' => 'required|integer',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'main_img' => 'nullable|image',
+            'other_img2' => 'nullable|image',
+            'other_img3' => 'nullable|image',
+            'other_img4' => 'nullable|image',
+            'other_img5' => 'nullable|image',
+        ]);
 
-        // 게시글 업데이트
-        $post = Community::find($postId);
-        if (!$post) {
-            return response()->json(['error' => '게시글을 찾을 수 없습니다.'], 500);
-        }
+        $content = Community::findOrFail($validatedData['id']);
+        $content->title = $validatedData['title'];
+        $content->content = $validatedData['content'];
 
-        $post->title = $title;
-        $post->content = $content;
+        // 이미지 저장 경로 설정
+        // $imagePath = 'img';
 
-        // 메인 이미지 업데이트 처리
         if ($request->hasFile('main_img')) {
-            $mainImgPath = $request->file('main_img')->store('public/img');
-            $post->main_img = Storage::url($mainImgPath);
+            // 기존 파일 삭제 후 저장
+            if ($content->main_img) {
+                Storage::disk('public')->delete($content->main_img);
+            }
+            // 파일 이름 설정
+            $main_img = $request->file('main_img');
+            $main_img_name = uniqid() . '.' . $main_img->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $main_img->move(public_path('img'), $main_img_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->main_img = '/img/' . $main_img_name;
         }
 
-        // 부가 이미지 업데이트 처리 (필요한 만큼 추가)
         if ($request->hasFile('other_img2')) {
-            $otherImg2Path = $request->file('other_img2')->store('public/img');
-            $post->other_img2 = Storage::url($otherImg2Path);
+            // 기존 파일 삭제 후 저장
+            if ($content->other_img2) {
+                Storage::disk('public')->delete($content->other_img2);
+            }
+            // 파일 이름 설정
+            $other_img2 = $request->file('other_img2');
+            $other_img2_name = uniqid() . '.' . $other_img2->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $other_img2->move(public_path('img'), $other_img2_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->other_img2 = '/img/' . $other_img2_name;
         }
+
         if ($request->hasFile('other_img3')) {
-            $otherImg3Path = $request->file('other_img3')->store('public/img');
-            $post->other_img3 = Storage::url($otherImg3Path);
+            // 기존 파일 삭제 후 저장
+            if ($content->other_img3) {
+                Storage::disk('public')->delete($content->other_img3);
+            }
+            // 파일 이름 설정
+            $other_img3 = $request->file('other_img3');
+            $other_img3_name = uniqid() . '.' . $other_img3->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $other_img3->move(public_path('img'), $other_img3_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->other_img3 = '/img/' . $other_img3_name;
         }
+
         if ($request->hasFile('other_img4')) {
-            $otherImg4Path = $request->file('other_img4')->store('public/img');
-            $post->other_img4 = Storage::url($otherImg4Path);
+            // 기존 파일 삭제 후 저장
+            if ($content->other_img4) {
+                Storage::disk('public')->delete($content->other_img4);
+            }
+            // 파일 이름 설정
+            $other_img4 = $request->file('other_img4');
+            $other_img4_name = uniqid() . '.' . $other_img4->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $other_img4->move(public_path('img'),$other_img4_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->other_img4 = '/img/' . $other_img4_name;
         }
+
         if ($request->hasFile('other_img5')) {
-            $otherImg5Path = $request->file('other_img5')->store('public/img');
-            $post->other_img5 = Storage::url($otherImg5Path);
+            // 기존 파일 삭제 후 저장
+            if ($content->other_img5) {
+                Storage::disk('public')->delete($content->other_img5);
+            }
+            // 파일 이름 설정
+            $other_img5 = $request->file('other_img5');
+            $other_img5_name = uniqid() . '.' . $other_img5->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $other_img5->move(public_path('img'),$other_img5_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->other_img5 = '/img/' . $other_img5_name;
         }
 
-        $post->save();
+        $content->save();
 
-        return response()->json(['message' => '게시글이 성공적으로 업데이트되었습니다.']);
-    }
-
-    public function updateReview(Request $request)
-    {
-        // 요청에서 필요한 데이터 추출
-        $postId = $request->input('id');
-        $title = $request->input('title');
-        $content = $request->input('content');
-
-        // 리뷰 업데이트
-        $review = Community::find($postId);
-        if (!$review) {
-            return response()->json(['error' => '리뷰를 찾을 수 없습니다.'], 500);
-        }
-
-        $review->title = $title;
-        $review->content = $content;
-
-        // 메인 이미지 업데이트 처리
-        if ($request->hasFile('main_img')) {
-            $mainImgPath = $request->file('main_img')->store('public/img');
-            $review->main_img = Storage::url($mainImgPath);
-        }
-
-        // 부가 이미지 업데이트 처리 (필요한 만큼 추가)
-        if ($request->hasFile('other_img2')) {
-            $otherImg2Path = $request->file('other_img2')->store('public/img');
-            $review->other_img2 = Storage::url($otherImg2Path);
-        }
-        if ($request->hasFile('other_img3')) {
-            $otherImg3Path = $request->file('other_img3')->store('public/img');
-            $review->other_img3 = Storage::url($otherImg3Path);
-        }
-        if ($request->hasFile('other_img4')) {
-            $otherImg4Path = $request->file('other_img4')->store('public/img');
-            $review->other_img4 = Storage::url($otherImg4Path);
-        }
-        if ($request->hasFile('other_img5')) {
-            $otherImg5Path = $request->file('other_img5')->store('public/img');
-            $review->other_img5 = Storage::url($otherImg5Path);
-        }
-
-        $review->save();
-
-        return response()->json(['message' => '리뷰가 성공적으로 업데이트되었습니다.']);
+        return response()->json($content);
     }
     
 
-        public function deletePost(Request $request, $id)
+    public function updateReview(Request $request)
+    {
+        $validatedData = $request->validate([
+            'id' => 'required|integer',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'main_img' => 'nullable|image',
+            'other_img2' => 'nullable|image',
+            'other_img3' => 'nullable|image',
+            'other_img4' => 'nullable|image',
+            'other_img5' => 'nullable|image',
+        ]);
+        Log::debug('test', print_r($validatedData, true));
+        $content = Community::findOrFail($validatedData['id']);
+        $content->title = $validatedData['title'];
+        $content->content = $validatedData['content'];
+    
+        // 이미지 저장 경로 설정
+        // $imagePath = 'img';
+    
+        if ($request->hasFile('main_img')) {
+            // 기존 파일 삭제 후 저장
+            if ($content->main_img) {
+                Storage::disk('public')->delete($content->main_img);
+            }
+            // 파일 이름 설정
+            $main_img = $request->file('main_img');
+            $main_img_name = uniqid() . '.' . $main_img->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $main_img->move(public_path('img'), $main_img_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->main_img = '/img/' . $main_img_name;
+        }
+    
+        if ($request->hasFile('other_img2')) {
+            // 기존 파일 삭제 후 저장
+            if ($content->other_img2) {
+                Storage::disk('public')->delete($content->other_img2);
+            }
+            // 파일 이름 설정
+            $other_img2 = $request->file('other_img2');
+            $other_img2_name = uniqid() . '.' . $other_img2->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $other_img2->move(public_path('img'), $other_img2_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->other_img2 = '/img/' . $other_img2_name;
+        }
+    
+        if ($request->hasFile('other_img3')) {
+            // 기존 파일 삭제 후 저장
+            if ($content->other_img3) {
+                Storage::disk('public')->delete($content->other_img3);
+            }
+            // 파일 이름 설정
+            $other_img3 = $request->file('other_img3');
+            $other_img3_name = uniqid() . '.' . $other_img3->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $other_img3->move(public_path('img'), $other_img3_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->other_img3 = '/img/' . $other_img3_name;
+        }
+    
+        if ($request->hasFile('other_img4')) {
+            // 기존 파일 삭제 후 저장
+            if ($content->other_img4) {
+                Storage::disk('public')->delete($content->other_img4);
+            }
+            // 파일 이름 설정
+            $other_img4 = $request->file('other_img4');
+            $other_img4_name = uniqid() . '.' . $other_img4->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $other_img4->move(public_path('img'),$other_img4_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->other_img4 = '/img/' . $other_img4_name;
+        }
+    
+        if ($request->hasFile('other_img5')) {
+            // 기존 파일 삭제 후 저장
+            if ($content->other_img5) {
+                Storage::disk('public')->delete($content->other_img5);
+            }
+            // 파일 이름 설정
+            $other_img5 = $request->file('other_img5');
+            $other_img5_name = uniqid() . '.' . $other_img5->getClientOriginalExtension();
+            // 파일을 public/img 디렉터리에 저장
+            $other_img5->move(public_path('img'),$other_img5_name);
+            // 데이터베이스에 파일 경로 저장
+            $content->other_img5 = '/img/' . $other_img5_name;
+        }
+    
+        $content->save();
+    
+        return response()->json($content);
+    }
+
+
+    public function deletePost(Request $request, $id)
     {
         Log::debug('Delete request received for post ID: ' . $id);
 
         try {
-            // 리뷰 찾기
+            // 게시글 찾기
             $Post = Community::findOrFail($id);
 
             Log::debug('Post found: ' . json_encode($Post));
@@ -539,8 +641,6 @@ class CommunityController extends Controller
             return response()->json(['message' => '리뷰 삭제 중 오류가 발생했습니다.', 'error' => $e->getMessage()], 500);
         }
     }
-
-
     public function deleteReview(Request $request, $id)
     {
         Log::debug('Delete request received for post ID: ' . $id);

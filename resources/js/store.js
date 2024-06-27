@@ -385,33 +385,42 @@ const store = createStore({
                 alert(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
-        async updatePost({ commit }, content) {
+        async updatePost({ commit }, formData) {
             try {
-                const response = await axios.post('/api/content/update', content);
+                const response = await axios.post('/api/content/update', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
                 commit('setMypageContent', response.data);
             } catch (error) {
-                console.log(error);
-                throw new Error('게시글 수정 실패');
+                console.error('게시글 수정 실패:', error);
             }
         },
-        async updateReview({ commit }, content) {
+        
+        async updateReview({ commit }, formData) {
+            console.log(formData);
             try {
-                const response = await axios.post('/api/review/update', content);
+                const response = await axios.post('/api/review/update', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
                 commit('setMypageReview', response.data);
             } catch (error) {
-                throw new Error('리뷰 수정 실패');
+                console.error('리뷰 수정 실패:', error);
             }
         },
-        async updateComment({ commit }, content) {
+        async updateComment({ commit }, formData) {
             try {
-                const response = await axios.post('/api/comment/update', content);
+                const response = await axios.post('/api/comment/update', formData);
                 commit('setMypageComment', response.data);
             } catch (error) {
-                throw new Error('댓글 수정 실패');
+                console.error('댓글 수정 실패:', error);
             }
         },
-        deletePost(context, content) {
-            const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
+          deletePost(context, formData) {
+            const url = `/api/posts/delete/${formData.id}`; // content.id를 URL에 직접 포함시킴
             axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음
                 .then(response => {
                     console.log(response.data);
@@ -424,10 +433,10 @@ const store = createStore({
         },
         
         
-        deleteReview(context, content) {
-            const url = `/api/reviews/delete/${content.id}`;
+        deleteReview(context, formData) {
+            const url = `/api/reviews/delete/${formData.id}`;
 
-            axios.delete(url, content)
+            axios.delete(url)
             .then(response => {
                 console.log(response.data); // TODO
                 context.commit('setMypageReview', response.data.data);
@@ -634,16 +643,19 @@ const store = createStore({
             })
         },
 
-        detailWishToggle({context,state}, id){
+        detailWishToggle({commit,state}, id){
             const upsertUrl = '/api/camp/'+id+'/wishBtnUpsert';
 
                 axios.post(upsertUrl)
                 .then(() => {
-                    context.commit('toggleWish');
+                    commit('toggleWish');
                 })
                 .catch(error=> {
                     alert('업설트 오류오류', error);
-                    console.log(state.wishes);
+                    console.log('이게뭐지',state.wishes);
+                    console.error('Error details:', error);
+                    console.log('State:', state.wishes);
+                    console.log('URL:', upsertUrl);
                 });
             
         },
@@ -1112,12 +1124,27 @@ const store = createStore({
                 .catch(error => {
                     console.log('사진획득 실패', error.response);
                 })
-            }
+            },
+            // updateDetailComment(context,id){
+            //     const url = 'api/comment/'+id+'/update';
+            //     const data = new FormData(document.querySelector('#commentForm'));
+            
+            //     console.log(data);
+    
+            //     axios.post(url, data)
+            //         .then(response => {
+            //         context.commit('setUpdateCommentData', response.data.data); //댓글 가장 앞에 추가
+    
+            //         // location.reload();
+            //     })
+            //     .catch(error => {                
+            //         // console.log(error.response.data);
+            //         alert('댓글 수정 실패'+error.response.data);
+            //     })
+
+            // },
 
     },
-
-
-
 });
 
 // 단순 거리 계산 함수 (Pythagorean Theorem 사용)

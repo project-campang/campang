@@ -49,7 +49,7 @@
                                     <div class="shop-info-btn-item">
                                         <!-- <button @click="toggleWish" class="btn-group"> -->
                                         <button @click="toggleWish()" class="btn-group">
-                                            <img v-if="!isWished"  class="shop-info-btn" src="../../public/img_nr/찜하기.png" alt="찜전">
+                                            <img v-if="!$store.state.wishes"  class="shop-info-btn" src="../../public/img_nr/찜하기.png" alt="찜전">
                                             <img v-else class="shop-info-btn" src="../../public/img_nr/찜하기_활성화.png" alt="찜후">
                                             <div class="shop-info-btn-name">찜하기</div>
                                         </button>
@@ -210,17 +210,14 @@ const shareBtn = () => {
 
 
 //---------------------- 찜하기 -----------------------
-const isWished = ref(false);
-
-watchEffect(() => {
-  isWished.value = store.state.wishes;
-});
+// watchEffect(() => {
+//   isWished.value = store.state.wishes;
+// });
 
 const camp_param_id = route.params.id;
 
 function toggleWish(){
     store.dispatch('detailWishToggle', camp_param_id);
-    console.log(camp_param_id)
 }
 // const toggleWish = async () => {
 //   const camp_id = 1; // 예시로 고정된 캠핑장 ID
