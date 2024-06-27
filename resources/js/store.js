@@ -386,11 +386,6 @@ const store = createStore({
             })
         },
         async updatePost({ commit }, formData) {
-            console.log('메인이미지',formData.get('main_img')); // FormData 내용 확인
-            console.log('부가1',formData.get('other_img2')); // FormData 내용 확인
-            console.log('부가2',formData.get('other_img3')); // FormData 내용 확인
-            console.log('부가3',formData.get('other_img4')); // FormData 내용 확인
-            console.log('부가3',formData.get('other_img5')); // FormData 내용 확인
             try {
                 const response = await axios.post('/api/content/update', formData, {
                     headers: {
@@ -404,6 +399,7 @@ const store = createStore({
         },
         
         async updateReview({ commit }, formData) {
+            console.log(formData);
             try {
                 const response = await axios.post('/api/review/update', formData, {
                     headers: {
@@ -423,8 +419,8 @@ const store = createStore({
                 console.error('댓글 수정 실패:', error);
             }
         },
-          deletePost(context, content) {
-            const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
+          deletePost(context, formData) {
+            const url = `/api/posts/delete/${formData.id}`; // content.id를 URL에 직접 포함시킴
             axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음
                 .then(response => {
                     console.log(response.data);
@@ -437,10 +433,10 @@ const store = createStore({
         },
         
         
-        deleteReview(context, content) {
-            const url = `/api/reviews/delete/${content.id}`;
+        deleteReview(context, formData) {
+            const url = `/api/reviews/delete/${formData.id}`;
 
-            axios.delete(url, content)
+            axios.delete(url)
             .then(response => {
                 console.log(response.data); // TODO
                 context.commit('setMypageReview', response.data.data);

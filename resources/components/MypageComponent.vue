@@ -345,8 +345,12 @@ const otherImg3Preview = ref('');
 const otherImg4Preview = ref('');
 const otherImg5Preview = ref('');
 
-const handleImgUpload = (fieldName) => (event) => {
-  const file = event.target.files[0];
+const formData = new FormData();
+
+// const handleImgUpload = (fieldName) => (event) => {
+const handleImgUpload = (fieldName) => {
+const file = event.target.files[0];
+  console.log(file);
   if (file) {
     const reader = new FileReader();
     reader.onload = () => {
@@ -383,31 +387,13 @@ const handleImgUpload = (fieldName) => (event) => {
 
 // FormData에 파일을 추가하는 함수 정의
 const updateFormData = (fieldName, file) => {
-  switch (fieldName) {
-    case 'main_img':
-      formData.set('main_img', file);
-      break;
-    case 'other_img2':
-      formData.set('other_img2', file);
-      break;
-    case 'other_img3':
-      formData.set('other_img3', file);
-      break;
-    case 'other_img4':
-      formData.set('other_img4', file);
-      break;
-    case 'other_img5':
-      formData.set('other_img5', file);
-      break;
-    default:
-      break;
-  }
+  formData.set(fieldName, file); // fieldName에 따라 동적으로 설정
 };
 
 // 수정 함수
 const updateContent = async () => {
   try {
-    const formData = new FormData();
+    
     formData.append('id', selectedContent.value.id);
     formData.append('title', selectedContent.value.title);
     formData.append('content', selectedContent.value.content);
@@ -419,6 +405,7 @@ const updateContent = async () => {
         await store.dispatch('setMypageContent'); // 수정 후 다시 게시글 목록을 가져옴
         break;
       case '리뷰':
+        console.log('리뷰수정시작');
         await store.dispatch('updateReview', formData);
         await store.dispatch('setMypageReview'); // 수정 후 다시 리뷰 목록을 가져옴
         break;
@@ -628,6 +615,7 @@ function dataModal(content, type) {
 
 // 데이터 모달 열기
 function updataModal(content, type) {
+  console.log(content);
   selectedContent.value = { ...content }; // 선택된 컨텐츠 데이터 설정
   contentType.value = type; // 컨텐츠 타입 설정
   // $('#contentModal').modal('hide'); // 상세 모달 닫기
