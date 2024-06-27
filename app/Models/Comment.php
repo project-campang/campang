@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Comment extends Model
 {
     use HasFactory;
+    use SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -19,8 +21,6 @@ class Comment extends Model
         'user_id',
         'camp_id',
         'comment',
-        'created_at',
-        'updated_at',
     ];
 
     /**
@@ -39,3 +39,4 @@ class Comment extends Model
         return $date->format('Y-m-d H:i:s');
     }
 }
+
