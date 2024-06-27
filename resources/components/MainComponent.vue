@@ -1,6 +1,6 @@
 <template>
     <!-- 첫번째 -->
-    <div class="main-main" data-section="1">
+    <div class="main-main">
         <div class="main-logo">
             <img src="/img/logo-ko3.png" class="img-fluid" alt="Logo" loading="lazy">
         </div>

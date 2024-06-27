@@ -7,8 +7,18 @@
       <button @click="openModal($store.state.userInfo)" type="button" class="btn btn-primary my-page-button" data-bs-toggle="modal" data-bs-target="#userModal">내정보수정</button>
       <div class="my-page-box">
         <p class="mypage-stamp" @click="showstamp">내 도장판</p>
-        <p>-정복한 캠핑장</p>
-        <p>-찜목록</p>
+        <!-- <p>-정복한 캠핑장</p>
+        <p>-찜목록</p> -->
+        <!-- <div class="dropdown">
+          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+            내가쓴글
+          </button>
+          <ul class="dropdown-menu">
+            <li><a class="dropdown-item" href="#">Action</a></li>
+            <li><a class="dropdown-item" href="#">Another action</a></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li>
+          </ul>
+        </div> -->
         <p class="mypage-content" @click="showcontent">내가쓴글</p>
         <a href="#content"><p>-게시글</p></a>
         <a href="#review"><p>-리뷰</p></a>
@@ -60,15 +70,15 @@
               <div class="content-column list-item text-center"  aria-disabled="true">
                 <div class="my-page-top" >번호</div>
                 <div class="my-page-top">글 제목</div>
-                <div class="my-page-top">작성자</div>
                 <div class="my-page-top">작성일</div>
+                <div class="my-page-top"></div>
               </div>
               <div class="content-row text-center" v-for="(item, index) in $store.state.mypageContent" :key="index">
                 <div class="content-row-num">{{ index + 1 }}</div>
                 <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '게시글')">{{ item.title }}</div>
-                <div>{{ item.user_nick_name }}</div>
+                <!-- <div>{{ item.user_nick_name }}</div> -->
                 <div>{{ item.created_at }}</div>
-                <!-- <div><button type="button" class="btn" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></div> -->
+                <div><button type="button" class="btn" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '게시글')">삭제</button></div>
               </div>
               <hr class="item-hr" id="review">
             </div>
@@ -94,7 +104,7 @@
                 <div class="review-cam ">{{ item.name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
                 <div>{{ item.created_at }}</div>
-                <!-- <div><button type="button" class="btn" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></div> -->
+                <div><button type="button" class="btn" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '리뷰')">삭제</button></div>
               </div>
               <hr class="item-hr" id="comment">
             </div>
@@ -109,15 +119,15 @@
               <div class="content-column list-item text-center" aria-disabled="true">
                 <div class="my-page-top">글 번호</div>
                 <div class="my-page-top">댓글 내용</div>
-                <div class="my-page-top">작성자</div>
                 <div class="my-page-top">작성일</div>
+                <div class="my-page-top"></div>
               </div>
               <div class="content-row text-center" v-for="(item, index) in $store.state.mypageComment" :key="index">
                 <div class="content-row-num">{{ index + 1 }}</div>
                 <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '댓글')">{{ item.comment }}</div>
-                <div>{{ item.user_nick_name }}</div>
+                <!-- <div>{{ item.user_nick_name }}</div> -->
                 <div>{{ item.created_at }}</div>
-                <!-- <div><button type="button" class="btn" @click="updataModal(item, '댓글')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button></div> -->
+                <div><button type="button" class="btn" @click="updataModal(item, '댓글')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '댓글')">삭제</button></div>
               </div>
               <hr class="item-hr">
             </div>
@@ -208,8 +218,8 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-        <button type="button" class="btn btn-primary" @click="updataModal(selectedContent, contentType)">수정</button>
-        <button type="button" class="btn btn-danger"  @click="openDeleteModal()" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button>
+        
+        <!-- <button type="button" class="btn btn-danger"  @click="openDeleteModal()" data-bs-toggle="modal" data-bs-target="#deleteModal">삭제</button> -->
       </div>
     </div>
   </div>
@@ -236,31 +246,31 @@
             </div>
             <div class="mb-3">
               <label for="main_img" class="form-label">메인 이미지 업로드</label>
-              <input type="file" class="form-control" id="main_img" @change="handleImgUpload('main_img')">
+              <input type="file" class="form-control" id="main_img" accept="image/*" @change="handleImgUpload('main_img')">
               <img v-if="mainImgPreview" :src="mainImgPreview" alt="Main Image" style="max-width: 100%; margin-top: 10px;">
               <img v-else-if="selectedContent.main_img" :src="selectedContent.main_img" alt="Main Image" style="max-width: 100%; margin-top: 10px;">
             </div>
             <div class="mb-3">
               <label for="other_img2" class="form-label">부가 이미지 2 업로드</label>
-              <input type="file" class="form-control" id="other_img2" @change="handleImgUpload('other_img2')">
+              <input type="file" class="form-control" id="other_img2"  accept="image/*" @change="handleImgUpload('other_img2')">
               <img v-if="otherImg2Preview" :src="otherImg2Preview" alt="Other Image 2" style="max-width: 100%; margin-top: 10px;">
               <img v-else-if="selectedContent.other_img2" :src="selectedContent.other_img2" alt="Other Image 2" style="max-width: 100%; margin-top: 10px;">
             </div>
             <div class="mb-3">
               <label for="other_img3" class="form-label">부가 이미지 3 업로드</label>
-              <input type="file" class="form-control" id="other_img3" @change="handleImgUpload('other_img3')">
+              <input type="file" class="form-control" id="other_img3"  accept="image/*" @change="handleImgUpload('other_img3')">
               <img v-if="otherImg3Preview" :src="otherImg3Preview" alt="Other Image 3" style="max-width: 100%; margin-top: 10px;">
               <img v-else-if="selectedContent.other_img3" :src="selectedContent.other_img3" alt="Other Image 3" style="max-width: 100%; margin-top: 10px;">
             </div>
             <div class="mb-3">
               <label for="other_img4" class="form-label">부가 이미지 4 업로드</label>
-              <input type="file" class="form-control" id="other_img4" @change="handleImgUpload('other_img4')">
+              <input type="file" class="form-control" id="other_img4"  accept="image/*" @change="handleImgUpload('other_img4')">
               <img v-if="otherImg4Preview" :src="otherImg4Preview" alt="Other Image 4" style="max-width: 100%; margin-top: 10px;">
               <img v-else-if="selectedContent.other_img4" :src="selectedContent.other_img4" alt="Other Image 4" style="max-width: 100%; margin-top: 10px;">
             </div>
             <div class="mb-3">
               <label for="other_img5" class="form-label">부가 이미지 5 업로드</label>
-              <input type="file" class="form-control" id="other_img5" @change="handleImgUpload('other_img5')">
+              <input type="file" class="form-control" id="other_img5"  accept="image/*" @change="handleImgUpload('other_img5')">
               <img v-if="otherImg5Preview" :src="otherImg5Preview" alt="Other Image 5" style="max-width: 100%; margin-top: 10px;">
               <img v-else-if="selectedContent.other_img5" :src="selectedContent.other_img5" alt="Other Image 5" style="max-width: 100%; margin-top: 10px;">
             </div>
@@ -293,7 +303,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"  @click="closeDeleteModal">취소</button>
-          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deleteContent">완료</button>
+          <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="deleteContent(contentType)">완료</button>
         </div>
       </div>
     </div>
@@ -315,6 +325,7 @@ function getFormattedDate(dateTime) {
 // const selectedContent = ref(null);
 // const contentType = ref('');
 const store = useStore();
+const contentType = ref('');
 
 const selectedContent = ref({
   id: null,
@@ -327,8 +338,6 @@ const selectedContent = ref({
   other_img5: null,
   comment: '',
 });
-
-const contentType = ref('');
 
 const mainImgPreview = ref('');
 const otherImg2Preview = ref('');
@@ -365,8 +374,65 @@ const handleImgUpload = (fieldName) => (event) => {
         default:
           break;
       }
+      // 파일이 선택될 때마다 FormData에 직접 추가하는 코드 추가
+      updateFormData(fieldName, file);
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file); // 파일을 읽어 base64 형식으로 변환하여 미리보기에 사용
+  }
+};
+
+// FormData에 파일을 추가하는 함수 정의
+const updateFormData = (fieldName, file) => {
+  switch (fieldName) {
+    case 'main_img':
+      formData.set('main_img', file);
+      break;
+    case 'other_img2':
+      formData.set('other_img2', file);
+      break;
+    case 'other_img3':
+      formData.set('other_img3', file);
+      break;
+    case 'other_img4':
+      formData.set('other_img4', file);
+      break;
+    case 'other_img5':
+      formData.set('other_img5', file);
+      break;
+    default:
+      break;
+  }
+};
+
+// 수정 함수
+const updateContent = async () => {
+  try {
+    const formData = new FormData();
+    formData.append('id', selectedContent.value.id);
+    formData.append('title', selectedContent.value.title);
+    formData.append('content', selectedContent.value.content);
+
+
+    switch (contentType.value) {
+      case '게시글':
+        await store.dispatch('updatePost', formData);
+        await store.dispatch('setMypageContent'); // 수정 후 다시 게시글 목록을 가져옴
+        break;
+      case '리뷰':
+        await store.dispatch('updateReview', formData);
+        await store.dispatch('setMypageReview'); // 수정 후 다시 리뷰 목록을 가져옴
+        break;
+      case '댓글':
+        await store.dispatch('updateComment', selectedContent.value);
+        await store.dispatch('setMypageComment'); // 수정 후 다시 댓글 목록을 가져옴
+        break;
+      default:
+        throw new Error('유효하지 않은 컨텐츠 유형');
+    }
+    closeUpdateModal();
+    alert('수정이 완료되었습니다.');
+  } catch (error) {
+    alert(`수정 실패: ${error.message}`);
   }
 };
 
@@ -564,7 +630,7 @@ function dataModal(content, type) {
 function updataModal(content, type) {
   selectedContent.value = { ...content }; // 선택된 컨텐츠 데이터 설정
   contentType.value = type; // 컨텐츠 타입 설정
-  $('#contentModal').modal('hide'); // 상세 모달 닫기
+  // $('#contentModal').modal('hide'); // 상세 모달 닫기
   $('#updateModal').modal('show'); // 수정 모달 열기
   isUpdateModalVisible.value = true;
 }
@@ -610,56 +676,9 @@ function updataModal(content, type) {
 //   $('#deleteModal').modal('hide');
 // }
 
-// 수정/삭제 함수
-const updateContent = async () => {
-  try {
-    const formData = new FormData();
-    formData.append('id', selectedContent.value.id);
-    formData.append('title', selectedContent.value.title);
-    formData.append('content', selectedContent.value.content);
 
-    // 메인 이미지 처리
-    if (selectedContent.value.main_img) {
-      formData.append('main_img', selectedContent.value.main_img);
-    }
 
-    // 부가 이미지 처리 (필요한 만큼 추가)
-    if (selectedContent.value.other_img2) {
-      formData.append('other_img2', selectedContent.value.other_img2);
-    }
-    if (selectedContent.value.other_img3) {
-      formData.append('other_img3', selectedContent.value.other_img3);
-    }
-    if (selectedContent.value.other_img4) {
-      formData.append('other_img4', selectedContent.value.other_img4);
-    }
-    if (selectedContent.value.other_img5) {
-      formData.append('other_img5', selectedContent.value.other_img5);
-    }
-
-    switch (contentType.value) {
-      case '게시글':
-        await store.dispatch('updatePost', formData);
-        await store.dispatch('setMypageContent'); // 수정 후 다시 게시글 목록을 가져옴
-        break;
-      case '리뷰':
-        await store.dispatch('updateReview', formData);
-        await store.dispatch('setMypageReview'); // 수정 후 다시 리뷰 목록을 가져옴
-        break;
-      case '댓글':
-        await store.dispatch('updateComment', selectedContent.value);
-        await store.dispatch('setMypageComment'); // 수정 후 다시 댓글 목록을 가져옴
-        break;
-      default:
-        throw new Error('유효하지 않은 컨텐츠 유형');
-    }
-    closeUpdateModal();
-    alert('수정이 완료되었습니다.');
-  } catch (error) {
-    alert(`수정 실패: ${error.message}`);
-  }
-};
-
+// 삭제함수
 const deleteContent = async () => {
   try {
     switch (contentType.value) {

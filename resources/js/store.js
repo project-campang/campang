@@ -385,31 +385,44 @@ const store = createStore({
                 alert(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
-          async updatePost({ commit }, content) {
+        async updatePost({ commit }, formData) {
+            console.log('메인이미지',formData.get('main_img')); // FormData 내용 확인
+            console.log('부가1',formData.get('other_img2')); // FormData 내용 확인
+            console.log('부가2',formData.get('other_img3')); // FormData 내용 확인
+            console.log('부가3',formData.get('other_img4')); // FormData 내용 확인
+            console.log('부가3',formData.get('other_img5')); // FormData 내용 확인
             try {
-              const response = await axios.post('/api/content/update', content);
-              commit('setMypageContent', response.data);
+                const response = await axios.post('/api/content/update', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                commit('setMypageContent', response.data);
             } catch (error) {
-                console.log(error);
-              throw new Error('게시글 수정 실패');
+                console.error('게시글 수정 실패:', error);
             }
-          },
-          async updateReview({ commit }, content) {
+        },
+        
+        async updateReview({ commit }, formData) {
             try {
-              const response = await axios.post('/api/review/update', content);
-              commit('setMypageReview', response.data);
+                const response = await axios.post('/api/review/update', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data'
+                    }
+                });
+                commit('setMypageReview', response.data);
             } catch (error) {
-              throw new Error('리뷰 수정 실패');
+                console.error('리뷰 수정 실패:', error);
             }
-          },
-          async updateComment({ commit }, content) {
+        },
+        async updateComment({ commit }, formData) {
             try {
-              const response = await axios.post('/api/comment/update', content);
-              commit('setMypageComment', response.data);
+                const response = await axios.post('/api/comment/update', formData);
+                commit('setMypageComment', response.data);
             } catch (error) {
-              throw new Error('댓글 수정 실패');
+                console.error('댓글 수정 실패:', error);
             }
-          },
+        },
           deletePost(context, content) {
             const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
             axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음

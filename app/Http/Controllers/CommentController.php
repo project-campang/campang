@@ -66,32 +66,35 @@ class CommentController extends Controller
         return response()->json($responseData, 200);
     }
 
-    public function CommentGet(Request $request) {
+        public function CommentGet(Request $request)
+    {
         // 로그인한 사용자의 ID를 가져옵니다.
         $userId = auth()->id();
-    
-        
-         // 사용자의 nick_name을 가져옵니다.
-         $userNickName = auth()->user()->nick_name;
 
-        // 사용자가 작성한 게시글 중 communities.type이 2인 데이터만 가져옵니다.
+        // 사용자의 nick_name을 가져옵니다.
+        $userNickName = auth()->user()->nick_name;
+
+        // 사용자가 작성한 게시글 중 deleted_at이 null인 데이터만 가져옵니다.
         $RankData = Comment::select('comments.*')
                         ->where('user_id', '=', $userId) // 현재 로그인한 사용자의 게시글만 가져옴
                         ->whereNull('deleted_at')
                         ->orderBy('created_at', 'DESC')
                         ->get();
         
+        // 사용자의 닉네임을 각 게시글에 추가합니다.
         $formattedRankData = $RankData->map(function ($item) use ($userNickName) {
             $item->user_nick_name = $userNickName;
             return $item;
-        });       
+        });
 
+        // 시리얼라이즈된 날짜 형식을 지정합니다.
+        // Laravel에서는 기본적으로 Y-m-d H:i:s 형식으로 변환됩니다.
         $responseData = [
             'code' => '0',
             'msg' => '게시글 획득 완료',
             'data' => $formattedRankData->toArray()
         ];
-    
+
         return response()->json($responseData, 200);
     }
 

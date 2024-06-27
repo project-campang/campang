@@ -419,94 +419,94 @@ class CommunityController extends Controller
          return response()->json($responseData, 200);
     }
     
-    public function updatePost(Request $request)
-    {
-        // 요청에서 필요한 데이터 추출
-        $postId = $request->input('id');
-        $title = $request->input('title');
-        $content = $request->input('content');
+        public function updateContent(Request $request)
+        {
+            $validatedData = $request->validate([
+                'id' => 'required|integer',
+                'title' => 'required|string|max:255',
+                'content' => 'required|string',
+                'main_img' => 'nullable|image',
+                'other_img2' => 'nullable|image',
+                'other_img3' => 'nullable|image',
+                'other_img4' => 'nullable|image',
+                'other_img5' => 'nullable|image',
+            ]);
 
-        // 게시글 업데이트
-        $post = Community::find($postId);
-        if (!$post) {
-            return response()->json(['error' => '게시글을 찾을 수 없습니다.'], 500);
-        }
+            $content = Community::findOrFail($validatedData['id']);
+            $content->title = $validatedData['title'];
+            $content->content = $validatedData['content'];
 
-        $post->title = $title;
-        $post->content = $content;
+            // 이미지 저장 경로 설정
+            $imagePath = 'img';
 
-        // 메인 이미지 업데이트 처리
-        if ($request->hasFile('main_img')) {
-            $mainImgPath = $request->file('main_img')->store('public/img');
-            $post->main_img = Storage::url($mainImgPath);
-        }
+            if ($request->hasFile('main_img')) {
+                $content->main_img = $request->file('main_img')->store($imagePath, 'public');
+            }
 
-        // 부가 이미지 업데이트 처리 (필요한 만큼 추가)
-        if ($request->hasFile('other_img2')) {
-            $otherImg2Path = $request->file('other_img2')->store('public/img');
-            $post->other_img2 = Storage::url($otherImg2Path);
-        }
-        if ($request->hasFile('other_img3')) {
-            $otherImg3Path = $request->file('other_img3')->store('public/img');
-            $post->other_img3 = Storage::url($otherImg3Path);
-        }
-        if ($request->hasFile('other_img4')) {
-            $otherImg4Path = $request->file('other_img4')->store('public/img');
-            $post->other_img4 = Storage::url($otherImg4Path);
-        }
-        if ($request->hasFile('other_img5')) {
-            $otherImg5Path = $request->file('other_img5')->store('public/img');
-            $post->other_img5 = Storage::url($otherImg5Path);
-        }
+            if ($request->hasFile('other_img2')) {
+                $content->other_img2 = $request->file('other_img2')->store($imagePath, 'public');
+            }
 
-        $post->save();
+            if ($request->hasFile('other_img3')) {
+                $content->other_img3 = $request->file('other_img3')->store($imagePath, 'public');
+            }
 
-        return response()->json(['message' => '게시글이 성공적으로 업데이트되었습니다.']);
-    }
+            if ($request->hasFile('other_img4')) {
+                $content->other_img4 = $request->file('other_img4')->store($imagePath, 'public');
+            }
+
+            if ($request->hasFile('other_img5')) {
+                $content->other_img5 = $request->file('other_img5')->store($imagePath, 'public');
+            }
+
+            $content->save();
+
+            return response()->json($content);
+        }
 
     public function updateReview(Request $request)
     {
-        // 요청에서 필요한 데이터 추출
-        $postId = $request->input('id');
-        $title = $request->input('title');
-        $content = $request->input('content');
+        $validatedData = $request->validate([
+            'id' => 'required|integer',
+            'title' => 'required|string|max:255',
+            'content' => 'required|string',
+            'main_img' => 'nullable|image',
+            'other_img2' => 'nullable|image',
+            'other_img3' => 'nullable|image',
+            'other_img4' => 'nullable|image',
+            'other_img5' => 'nullable|image',
+        ]);
 
-        // 리뷰 업데이트
-        $review = Community::find($postId);
-        if (!$review) {
-            return response()->json(['error' => '리뷰를 찾을 수 없습니다.'], 500);
-        }
+        $content = Community::findOrFail($validatedData['id']);
+        $content->title = $validatedData['title'];
+        $content->content = $validatedData['content'];
 
-        $review->title = $title;
-        $review->content = $content;
+        // 이미지 저장 경로 설정
+        $imagePath = 'img';
 
-        // 메인 이미지 업데이트 처리
         if ($request->hasFile('main_img')) {
-            $mainImgPath = $request->file('main_img')->store('public/img');
-            $review->main_img = Storage::url($mainImgPath);
+            $content->main_img = $request->file('main_img')->store($imagePath, 'public');
         }
 
-        // 부가 이미지 업데이트 처리 (필요한 만큼 추가)
         if ($request->hasFile('other_img2')) {
-            $otherImg2Path = $request->file('other_img2')->store('public/img');
-            $review->other_img2 = Storage::url($otherImg2Path);
+            $content->other_img2 = $request->file('other_img2')->store($imagePath, 'public');
         }
+
         if ($request->hasFile('other_img3')) {
-            $otherImg3Path = $request->file('other_img3')->store('public/img');
-            $review->other_img3 = Storage::url($otherImg3Path);
+            $content->other_img3 = $request->file('other_img3')->store($imagePath, 'public');
         }
+
         if ($request->hasFile('other_img4')) {
-            $otherImg4Path = $request->file('other_img4')->store('public/img');
-            $review->other_img4 = Storage::url($otherImg4Path);
+            $content->other_img4 = $request->file('other_img4')->store($imagePath, 'public');
         }
+
         if ($request->hasFile('other_img5')) {
-            $otherImg5Path = $request->file('other_img5')->store('public/img');
-            $review->other_img5 = Storage::url($otherImg5Path);
+            $content->other_img5 = $request->file('other_img5')->store($imagePath, 'public');
         }
 
-        $review->save();
+        $content->save();
 
-        return response()->json(['message' => '리뷰가 성공적으로 업데이트되었습니다.']);
+        return response()->json($content);
     }
     
 
