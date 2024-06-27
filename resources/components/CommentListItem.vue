@@ -3,12 +3,21 @@
     <div class="co-card-box">
       <div class="co-text-box">
         <div class="co co-nick">{{ item.nick_name }}</div>
-        <div class="co co-co">{{ item.comment }}</div>
-        <div class="co-at">{{ item.created_at }}</div>
+        <div class="updateDiv" v-if="editCommentId === item.id">
+          <textarea class="updateArea" v-model="editCommentText" maxlength="200"></textarea>
+          <div>
+            <button type="button" class="btn-modify" @click="saveComment(item.id)">저장</button>
+            <button type="button" class="btn-delete" @click="cancelEdit()">취소</button>
+          </div>
+        </div>
+        <div v-else>
+          <div class="co co-co">{{ item.comment }}</div>
+          <div class="co-at">{{ item.created_at }}</div>
+        </div>
       </div>
       <div v-if="isAuthor(item.user_id)" class="co-btn-box">
-        <button type="button" class="btn-modify">수정</button>
-        <button type="button" class="btn-delete">삭제</button>
+        <button v-if="editCommentId !== item.id" type="button" class="btn-modify" @click="editComment(item)">수정</button>
+        <button v-if="editCommentId !== item.id" type="button" class="btn-delete">삭제</button>
       </div>
     </div>
     <hr>
@@ -22,7 +31,7 @@
 
 <script setup>
 // import { ref } from 'vue';
-import { onBeforeMount } from 'vue';
+import { onBeforeMount,ref } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import { computed } from 'vue';
@@ -41,6 +50,35 @@ const Author = computed(() => currentUser.value ? currentUser.value.id : null);
 const isAuthor = (userId) => {
   return Author.value === userId;
 };
+
+
+// 수정 중인 댓글의 ID와 텍스트를 저장하는 변수
+const editCommentId = ref(null);
+const editCommentText = ref('');
+
+// 댓글 수정 모드로 전환하는 함수
+const editComment = (item) => {
+  editCommentId.value = item.id;
+  editCommentText.value = item.comment;
+};
+
+// 댓글 수정 모드 취소 함수
+const cancelEdit = () => {
+  editCommentId.value = null;
+  editCommentText.value = '';
+};
+
+// 댓글 저장 함수
+const saveComment = async (id) => {
+  try {
+    await store.dispatch('updateComment', { id, comment: editCommentText.value });
+    editCommentId.value = null;
+    editCommentText.value = '';
+  } catch (error) {
+    console.error('댓글 업데이트 오류:', error);
+  }
+};
+
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {

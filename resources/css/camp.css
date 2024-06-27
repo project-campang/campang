@@ -305,6 +305,13 @@ textarea {
     background-color: #d82634;
     color: #fff;
 }
+
+.updateDiv {
+    display: flex;
+}
+.updateArea {
+    border-radius: 0;
+}
 /* 리뷰 */
 .review-container {
     margin-top: 10px;
@@ -327,6 +334,7 @@ textarea {
 }
 .review-text-box {
     height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
@@ -339,7 +347,7 @@ textarea {
     display: flex;
     align-items: center;
 }
-.review-title{
+.nr_review-title{
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 1;
@@ -348,6 +356,7 @@ textarea {
     width: 300px;
     font-size: 1.5rem;
     margin-right: 10px;
+    text-align: start;
 }
 .review-content {
     overflow: hidden;

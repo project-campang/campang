@@ -7,7 +7,7 @@
             <!-- <img src="" alt=""> -->
             <div class="review-text-box">
                 <div class="re-first-line">
-                    <div class="review-title">{{ item.title }}</div>
+                    <div class="nr_review-title">{{ item.title }}</div>
                     <div class="rating-box">
                         <div class="rating-item" v-for="i in 5" :key="i" >
                                 <img v-if="i<=item.rating" src="../../public/img_nr/별점_활성화.png" alt="">
