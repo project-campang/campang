@@ -7,11 +7,11 @@
                 </div>
                 <div class="board-name-list">
                     <div class="board-name">
-                        <div><a href="" class="list-item">가입 인사</a></div>
-                        <div><a href="" class="list-item">자유 게시판</a></div>
-                        <div><a href="" class="list-item">캠핑 꿀팁</a></div>
-                        <div><a href="" class="list-item">리뷰 게시판</a></div>
-                        <div><a href="" class="list-item">랭킹 게시판</a></div>
+                        <div><router-link to="/community/3" class="list-item">가입 인사</router-link></div>
+                        <div><router-link to="/community/1" class="list-item">자유 게시판</router-link></div>
+                        <div><router-link to="/community/4" class="list-item">캠핑 꿀팁</router-link></div>
+                        <div><router-link to="/community/2" class="list-item">리뷰 게시판</router-link></div>
+                        <div><router-link to="/community/5" class="list-item">랭킹 게시판</router-link></div>
                     </div>
                 </div>
             </div>
@@ -20,9 +20,9 @@
             <div class="content-top">
                 <nav class="content-top-2">
                     <div class="content-head">
-                        <div>자유게시판</div>
                         <div v-if="communityType">
-                            <a :href="`/board/${communityType.id}`" class="list-item">{{ communityType.name }}</a>
+                            <a :href="`/community/${communityType.id}`" class="list-item">{{ communityType.name }}</a>
+                            {{ console.log('communityType', communityType) }}
                             <button @click="openInsertModal" class="btn btn-outline-success">+</button>
                         </div>
                         <div class="board-comment">
@@ -54,10 +54,11 @@
                         </div>
                     </div>
                     <div class="pagination">
-                <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == 1" @click="prevPage()">< 이전 </button>
-                <div class="page-num">{{ $store.state.paginationCommunity.current_page+'/'+$store.state.paginationCommunity.last_page }}</div>
-                <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == $store.state.paginationCommunity.last_page" @click="nextPage()"> 다음 > </button>
-            </div>  
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == 1" @click="prevPage()">< 이전 </button>
+                        <!-- {{ console.log('paginationCommunity는 받아오나', $store.state.paginationCommunity) }} -->
+                        <div class="page-num">{{ $store.state.paginationCommunity.current_page+'/'+$store.state.paginationCommunity.last_page }}</div>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == $store.state.paginationCommunity.last_page" @click="nextPage()"> 다음 > </button>
+                    </div>  
                 </div>
             </div>
         </div>
@@ -132,27 +133,15 @@ import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
 import axios from 'axios';
 
-// Vuex 스토어 사용
-// const store = useStore();
+
+const store = useStore();
 const route = useRoute();
 
 // 커뮤니티 타입 데이터
 const communityType = ref(null);
-// const modalFlg = ref(false);
-// const communityItem = reactive({});
-// const preview = ref('');
 
-onBeforeMount(async () => {
-    const typeId = route.params.id; // 라우터에서 id를 가져옴
-    if (typeId) {
-        await store.dispatch('fetchCommunityType', typeId);
-        communityType.value = store.state.communityType;
-    }
-});
 
-const store = useStore();
 
-// 모달
 // 모달 플래그
 const modalFlg = ref(false);
 let insertModal;
@@ -166,9 +155,36 @@ const communityData = reactive({
 });
 
 
-onBeforeMount(() => {
+// 게시글 작성 처리, 모달 닫기, 새로 고침
+function communityEvent(){
+    store.dispatch('communityInsert');
+    modalFlg.value = false;
+    window.location.reload();
+}
+
+// 첨부 이미지 셋팅
+function setFile(e) {
+    // 저장
+    communityItem.main_img = e.target.files[0];
+    // console.log(communityItem.main_img);
+    // 화면 표시
+    preview.value = URL.createObjectURL(communityItem.main_img);
+}
+
+// 페이지네이션
+function prevPage() {
+ store.dispatch('setPaginationCommunity', store.state.paginationCommunity.current_page-1);
+}
+
+function nextPage() {
+ store.dispatch('setPaginationCommunity', store.state.paginationCommunity.current_page+1);
+}
+
+
+
+onBeforeMount(async () => {
     // console.log('보드 비포 마운트');
-    store.dispatch('communityGet');
+    store.dispatch('communityGet', route.params.id);
     // console.log('서버 요청 보냄');
     // communityItem = data;
 })
@@ -229,21 +245,7 @@ onMounted(async () => {
         }        
     }
 
-// 게시글 작성 처리, 모달 닫기, 새로 고침
-function communityEvent(){
-    store.dispatch('communityInsert');
-    modalFlg.value = false;
-    window.location.reload();
-}
 
-// 첨부 이미지 셋팅
-function setFile(e) {
-    // 저장
-    communityItem.main_img = e.target.files[0];
-    // console.log(communityItem.main_img);
-    // 화면 표시
-    preview.value = URL.createObjectURL(communityItem.main_img);
-}
 
 </script>
 

@@ -8,15 +8,28 @@ use Illuminate\Support\Facades\Log;
 
 class CommunityTypeController extends Controller
 {
-    public function index()
+    public function index($id)
     {
         try {
-            $communityTypes = CommunityType::all();
-            return response()->json($communityTypes);
+            $communityTypes = CommunityType::find($id)->id;
+            
+
+            $responseData = [
+                'code' => '0'
+                ,'msg' => ''
+                ,'data' => $communityTypes
+            ];
+
+    
+            // 리턴
+            return response()->json($responseData, 200);
+
         } catch (\Exception $e) {
-            Log::error('Error fetching community types: ' . $e->getMessage());
-            return response()->json(['error' => 'Failed to fetch community types'], 500);
+            Log::error('111Error fetching community types: ' . $e->getMessage());
+            return response()->json(['error' => '333Failed to fetch community types'], 500);
         }
+
+        
     }
 }
 

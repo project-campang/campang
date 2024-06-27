@@ -77,10 +77,11 @@ Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
 
 
 // 커뮤니티 컨트롤러
-Route::get('/api/community/{id}', [CommunityController::class, 'communityGet']);
+// Route::get('/api/community/{id}/communityPage', [CommunityController::class, 'communityGet']);
+Route::get('/api/community/{id}/communityPage', [CommunityController::class, 'communityGet']);
 Route::post('/api/community', [CommunityController::class, 'communityStore']);
-Route::get('/community_types/{id}', [CommunityTypeController::class, 'index']);
-Route::get('/api/community_types', [CommunityTypeController::class, 'index']);
+Route::get('/api/communityTypes/{id}', [CommunityTypeController::class, 'index']);
+// Route::get('/api/community/communityTypes', [CommunityTypeController::class, 'index']);
 
 
 // 위시 컨트롤러

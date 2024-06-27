@@ -22,6 +22,7 @@ const routes = [
         component: MainComponent,
     },
     {
+        // path: "/community/:type",
         path: "/community/:type",
         component: CommunityComponent,
     },

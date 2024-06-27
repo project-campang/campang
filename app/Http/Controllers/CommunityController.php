@@ -15,7 +15,7 @@ class CommunityController extends Controller
 {
 
     //  게시글 획득
-    public function communityGet() {
+    public function communityGet($id) {
 
         // 유효성 체크용 데이터 초기화
         // $request = [
@@ -36,33 +36,37 @@ class CommunityController extends Controller
         //     Log::debug('획득 시 유효성 검사 실패', $validator->errors()->toArray());
         //     // throw new MyValidateException('E01');
         // }
+        
+        $types = ['1', '2','3','4','5']; // 게시판 타입
 
         // 게시글 정보 획득
         $boardList = Community::join('users', 'communities.user_id', '=', 'users.id')
                                 ->select('communities.*', 'users.name')
+                                ->where('communities.type', $types)
                                 ->orderBy('communities.id', 'DESC')
-                                ->get();
+                                ->paginate(5);
         // log::debug('게시글 정보', $boardList);
+        Log::debug("boardList", $boardList->toArray());
         
         $responseData= [
             'code' => '0'
-            ,'msg' => ''
+            ,'msg' => '게시글획득'
             // ,'data' => $boardList->toArray()
             ,'data' => $boardList
         ];
 
         // log::debug('responseData1', $responseData);
 
-        $communityData = Community::select('communities.*', 'users.nick_name')
-                                    ->join('users', 'users.id', '=', 'communities.user_id')
-                                    ->orderBy('communities.id', 'DESC')
-                                    ->limit(9)
-                                    ->get();
-        $responseData = [
-            'code' => '0',
-            'msg' => '게시글 획득 완료',
-            'data' => $communityData->toArray()
-        ];
+        // $communityData = Community::select('communities.*', 'users.nick_name')
+        //                             ->join('users', 'users.id', '=', 'communities.user_id')
+        //                             ->orderBy('communities.id', 'DESC')
+        //                             ->limit(8)
+        //                             ->get();
+        // $responseData = [
+        //     'code' => '0',
+        //     'msg' => '게시글 획득 완료',
+        //     'data' => $communityData->toArray()
+        // ];
         // Log::debug('쿼리', $communityData->toArray());
         // Log::debug('responseData2', $responseData);
         // Log::debug('리턴');

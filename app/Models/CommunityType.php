@@ -8,9 +8,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class CommunityType extends Model
 {
-    public $timestamps = false; // 시간 필드를 사용하지 않음.
+    /**
+     * Indicates if the model should be timestamped.
+     * 타임스탬프 자동 관리 비활성화
+     * 
+     * @var bool
+     */
+    public $timestamps = false;
 
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'type',

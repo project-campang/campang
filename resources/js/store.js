@@ -385,32 +385,32 @@ const store = createStore({
                 alert(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
-          async updatePost({ commit }, content) {
+        async updatePost({ commit }, content) {
             try {
-              const response = await axios.post('/api/content/update', content);
-              commit('setMypageContent', response.data);
+                const response = await axios.post('/api/content/update', content);
+                commit('setMypageContent', response.data);
             } catch (error) {
                 console.log(error);
-              throw new Error('게시글 수정 실패');
+                throw new Error('게시글 수정 실패');
             }
-          },
-          async updateReview({ commit }, content) {
+        },
+        async updateReview({ commit }, content) {
             try {
-              const response = await axios.post('/api/review/update', content);
-              commit('setMypageReview', response.data);
+                const response = await axios.post('/api/review/update', content);
+                commit('setMypageReview', response.data);
             } catch (error) {
-              throw new Error('리뷰 수정 실패');
+                throw new Error('리뷰 수정 실패');
             }
-          },
-          async updateComment({ commit }, content) {
+        },
+        async updateComment({ commit }, content) {
             try {
-              const response = await axios.post('/api/comment/update', content);
-              commit('setMypageComment', response.data);
+                const response = await axios.post('/api/comment/update', content);
+                commit('setMypageComment', response.data);
             } catch (error) {
-              throw new Error('댓글 수정 실패');
+                throw new Error('댓글 수정 실패');
             }
-          },
-          deletePost(context, content) {
+        },
+        deletePost(context, content) {
             const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
             axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음
                 .then(response => {
@@ -549,18 +549,8 @@ const store = createStore({
                 }
             });
         },
-        // 게시판타입
-        async fetchCommunityTypes({ commit }, id) {
-            try {
-                const response = await axios.get(`/api/community_types/${id}`);
-                commit('setCommunityType', response.data);
-            } catch (error) {
-                commit('setError', error.response ? error.response.data : 'Error fetching community type');
-                console.error('Error fetching community type:', error);
-            }
-        },
-        
-        
+
+
 
 
 
@@ -604,6 +594,7 @@ const store = createStore({
                 //     return !(key == 0 || key == (response.data.data.links.length - 1));
                 // });
                 context.commit('setCommentList', response.data.data.data);
+                console.log('data 확인', response.data.data);
                 context.commit('setPagination', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -616,6 +607,7 @@ const store = createStore({
                     links: response.data.data.links,
                     // test: test,
                 });
+                console.log('response.data.data.current_page', response.data.data.current_page);
                 // context.commit('setCurrentPage', data);
                 // console.log(test);
                 // console.log(response.data);
@@ -685,32 +677,48 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        communityGet(context, page=1) {
-            const url = ('/api/community/communityPage?page='+page);
+        // communityGet(context, id, page=1) {
+        communityGet(context, id, page=1) {
+            // const url = ('/api/community/'+id+'/communityPage?page='+page);
+            const url = ('/api/community/' + id + '/communityPage?page=' + page);
 
             axios.get(url)
             .then(response => {
                 // const data = response.data.data;
-                context.commit('setCommunityList', response.data.data);
-                context.commit('paginationCommunity', {
-                    current_page: response.data.data.current_page, // 현재페이지
-                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
-                    last_page: response.data.data.last_page, // 마지막페이지
-                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
-                    total: response.data.data.total, // 총 페이지
-                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
-                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
-                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                context.commit('setCommunityList', response.data.data.data);
+                console.log('data 2', response.data.data);
+                console.log('data 3', response.data);
+                context.commit('setPaginationCommunity', {
+                    current_page: response.data.data.data.current_page, // 현재페이지
+                    first_page_url: response.data.data.data.first_page_url, // 첫번째페이지 url
+                    last_page: response.data.data.data.last_page, // 마지막페이지
+                    last_page_url: response.data.data.data.last_page_url, // 마지막페이지url
+                    total: response.data.data.data.total, // 총 페이지
+                    per_page: response.data.data.data.per_page, // 한페이지 당 갯수 (5)
+                    prev_page_url: response.data.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                    next_page_url: response.data.data.data.next_page_url, // 다음페이지(끝이면 null)
                     links: response.data.data.links,
-                })
-                console.log(response.data.data);
-                console.log(setCommunityList);
+                    // test: test,
+                });
+                console.log('response.data.data.current_page', response.data.data.current_page);
+                console.log('js에서 콘솔', response.data);
             })
             .catch(error => {
-                alert('communityGet 오류오류~~' + error.response.data);
+                alert('communityGet 오류오류~~' + error.response);
             })
         },
 
+
+            // 게시판타입
+            async fetchCommunityTypes({ commit }, id) {
+                try {
+                    const response = await axios.get(``);
+                    commit('setCommunityTypes', response.data);
+                } catch (error) {
+                    commit('setError', error.response ? error.response.data : '222Error fetching community type');
+                    console.error('Error fetching community type:', error);
+                }
+            },
 
 
         /**
