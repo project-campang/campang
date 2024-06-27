@@ -147,4 +147,22 @@ class CommentController extends Controller
             return response()->json(['message' => '리뷰 삭제 중 오류가 발생했습니다.', 'error' => $e->getMessage()], 500);
         }
     }
+
+    public function commentUpdate(Request $request){
+
+        $id = $request->input('id');
+        $comment = $request->input('comment');
+
+        // 댓글 업데이트
+        $post = Comment::find($id);
+        if (!$post) {
+            return response()->json(['error' => '댓글을 찾을 수 없습니다.'], 500);
+        }
+
+        $post->comment = $comment;
+        $post->save();
+
+        return response()->json(['message' => '댓글이 성공적으로 업데이트되었습니다.']);
+        
+    }
 }

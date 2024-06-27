@@ -651,16 +651,19 @@ const store = createStore({
             })
         },
 
-        detailWishToggle({context,state}, id){
+        detailWishToggle({commit,state}, id){
             const upsertUrl = '/api/camp/'+id+'/wishBtnUpsert';
 
                 axios.post(upsertUrl)
                 .then(() => {
-                    context.commit('toggleWish');
+                    commit('toggleWish');
                 })
                 .catch(error=> {
                     alert('업설트 오류오류', error);
-                    console.log(state.wishes);
+                    console.log('이게뭐지',state.wishes);
+                    console.error('Error details:', error);
+                    console.log('State:', state.wishes);
+                    console.log('URL:', upsertUrl);
                 });
             
         },
