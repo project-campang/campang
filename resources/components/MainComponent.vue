@@ -41,34 +41,54 @@
     
     <!-- 두번째 -->
     <div class="bg-white white-main main-second" data-section="2">
-        <div class="main-left">
-            <div class="main-left-img">
-                <img src="/img/logo-ko3.png" class="main-left-img" alt="" loading="lazy">
-            </div>
-            <div class="main-rank">
-                <button type="button" class="main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
-                <button type="button" class="main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
-                <div class="main-rank-box">
-            <div class="main-rank-cam1" v-if="isCampinglerVisible">
-                <div v-for="(item, index) in $store.state.mainCampingler" :key="index">
-                    <img :src="item.profile">
-                    <p>{{ index + 1 }}위: {{ item.nick_name }}</p>
+        <div class="main-top">
+            <div class="main-top-left">
+                <div class="main-top-img">
+                    <img src="/img/logo-ko3.png" class="main-top-img" alt="" loading="lazy">
+                </div>
+                <div class="main-rank">
+                    <button type="button" class="main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
+                    <button type="button" class="main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
+                    <div class="main-rank-box">
+                        <div class="main-rank-cam1" v-if="isCampinglerVisible">
+                            <div v-for="(item, index) in $store.state.mainCampingler" :key="index">
+                                <img :src="item.profile">
+                                <p>{{ index + 1 }}위: {{ item.nick_name }}</p>
+                            </div>
+                        </div>
+                        <div class="main-rank-cam2" v-else>
+                            <div v-for="(item, index) in $store.state.mainCampingzang" :key="index">
+                                <img :src="item.main_img">
+                                <p>{{ index + 1 }}위: {{ item.name }}</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="main-rank-cam2" v-else>
-                <div v-for="(item, index) in $store.state.mainCampingzang" :key="index">
-                    <img :src="item.main_img">
-                    <p>{{ index + 1 }}위: {{ item.name }}</p>
+            <div class="main-top-middle">
+                <div class="main-mini-search">
+                    <div class="align-items-center justify-content-center popularBoard">
+                        <h2>캠팡 인기글</h2>
+                        <hr>
+                        <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유게시판</span>{{ index + 1 }}위. {{ item.title }}</p>
+                    </div>
                 </div>
             </div>
-        </div>
-
+            <div class="main-top-right">
+                <div class="main-mini-search">
+                    <div class="align-items-center justify-content-center popularBoard">
+                        <h2>캠팡 꿀팁</h2>
+                        <hr>
+                        <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유게시판</span>{{ index + 1 }}위. {{ item.title }}</p>
+                    </div>
+                </div>
             </div>
-            <div class="main-pang">
+            <!-- <div class="main-pang">
                 <a href="#">나도 도장 찍으러가기 <img src="/img/stamp2.png" alt="" loading="lazy"></a>
-            </div>
+            </div> -->
         </div>
-        <div class="main-right" data-section="3">
+        <div class="main-bottom" data-section="3">
+            
             <div class="main-right-top">
                 <div>
                     <p class="count">0</p>
@@ -86,26 +106,11 @@
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADJ0lEQVR4nO2ZW4iNURTHf8Y9lyHkFrlLHsTDGEXIeEDmweWFGpdMeaAmkZTk0hgRjSRTKCOaSAh54MFtppAakonRPJBLE5P7zDBjjrbWqeP0nXP2/r5v5fb9a9WZ+dbe//U/e39rr70ORIgQIcK/jiygUD5PAfKBvgHm6wNMBFYAZcAzoEp4VLEIaAA6SQAxoE0CqAQqgL3ALmAHsBHYLn+XAieBm8BToEnGe9kcTRHtgHtCZFbC4GGaYILYBU0h+QlEp+R/m5SEfAeGawmpSiAy2yIbGCqkGmJ2aoiY7UG0XJ5dVxJSD3QOW8gND6Jr8mylkpAYsDRMEdNTkJhsNQroBnxUElIZppAraYiKxeew4qpMCkPE5Awkr4EOQK6ikLIwhFy0IJonvveVhHySDOkbE+Q9yER0VvyLFFdlbRAhZyxJWoABUjelKzuCWI1UFs4Y53jQrZdxFYqrMtOPkBOOJI/lG5ulKOS0q4iRsl1cifKUC8kWYLCLkKM+ic7J+DWKq7LFVsQQ4KtPklapWHsAH5SEvAQ62gg5GJCoROY5oLgqCzKJMCm0MSDJG6ALMNryDPJjVzMJ2RcS0TKLGi2ItQFjU4noB3y2mOSBRaV71+NGGbaVphJSYjlBkWSnTH450gmpUxLyTq4Pv8AUZO8dSpFCC99ymXuD4qqsShay1XLgZfEfZPEiNwP9gd6WW9aPVSeK6Cl9KpuBSxLGVVv4bxbfMsVVycWxnVMvaTWOYssxXYERclhqCCmPB/TKcsC2pO2YYzluteOVIOZoTfGW7SHZz+mcv8h+T8YTC6JaoL2D8JgPMwnlJ7pLT/d4ivdlt1e+lnfAhmihcv+r1is400iYIad8ndzMUnXbh1levm6L/1wlIbcIAectyUxvzDbbxSysQXZQnt8rcDKmWRJfEv+CAME3yi1xvm0p74o7FkGYA3S8BPDcIfhm6dIsllSuClOyH5ESPl1Qx8R/XQa/VinVTU+5F78BJs1OBfanOJ++yc8Qpth76/H8kfzCNZA/CFkJol4kBLsnqTKokVpvDH8B4qJKpcOSLSnddDIjRIgQ4T/ED2uQkyLQdFZFAAAAAElFTkSuQmCC">
                 </div>
             </div>
-            <div class="main-right-middle">
-                <div class="main-mini-search">
-                    <div class="align-items-center justify-content-center">
-                        <h2>캠팡 인기글</h2>
-                        <hr>
-                        <p v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유게시판</span>{{ index + 1 }}위. {{ item.title }} {{ item.name }}</p>
-                    </div>
-                </div>
-            </div>
-            <div class="main-right-bottom">
-                <!-- <div class="main-right-board">
-                    <a href="#">캠핑꿀팁 게시판</a>
-                </div>
-                <div class="right-board">
-                    <a href="#">1위 이거 안쓰면 후회합니다</a>
-                </div> -->
+            <!-- <div class="main-right-bottom">
                 <div class="right-tv">
                     <a href="#">캠팡 유튜브 <img src="/img/tv.png" alt="" loading="lazy"></a>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
 </div>

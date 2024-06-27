@@ -17,7 +17,7 @@
       </div>
       <div v-if="isAuthor(item.user_id)" class="co-btn-box">
         <button v-if="editCommentId !== item.id" type="button" class="btn-modify" @click="editComment(item)">수정</button>
-        <button v-if="editCommentId !== item.id" type="button" class="btn-delete">삭제</button>
+        <button v-if="editCommentId !== item.id" type="button" class="btn-delete" @click="deleteComment(item.id)">삭제</button>
       </div>
     </div>
     <hr>
@@ -71,14 +71,27 @@ const cancelEdit = () => {
 // 댓글 저장 함수
 const saveComment = async (id) => {
   try {
-    await store.dispatch('updateComment', { id, comment: editCommentText.value });
+    await axios.post(`/api/comment/${id}/update`, {
+      comment: editCommentText.value
+    });
     editCommentId.value = null;
     editCommentText.value = '';
+    store.dispatch('commentPageGet',route.params.id ,store.state.pagination.current_page);
   } catch (error) {
     console.error('댓글 업데이트 오류:', error);
   }
 };
-
+const deleteComment = async (id) => {
+  try {
+    if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
+      await axios.delete(`/api/comment/${id}/delete`);
+      // 댓글 삭제 후 Vuex 스토어 다시 불러오기
+      store.dispatch('commentPageGet', store.state.pagination.current_page);
+    }
+  } catch (error) {
+    console.error('댓글 삭제 오류:', error);
+  }
+};
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {

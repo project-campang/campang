@@ -308,9 +308,12 @@ textarea {
 
 .updateDiv {
     display: flex;
+    margin-bottom: 20px;
+    gap: 10px;
 }
 .updateArea {
     border-radius: 0;
+    width: 100%;
 }
 /* 리뷰 */
 .review-container {

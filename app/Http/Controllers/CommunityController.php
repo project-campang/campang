@@ -56,7 +56,7 @@ class CommunityController extends Controller
         $communityData = Community::select('communities.*', 'users.nick_name')
                                     ->join('users', 'users.id', '=', 'communities.user_id')
                                     ->orderBy('communities.id', 'DESC')
-                                    ->limit(9)
+                                    ->limit(5)
                                     ->get();
         $responseData = [
             'code' => '0',

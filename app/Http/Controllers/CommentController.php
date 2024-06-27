@@ -148,21 +148,28 @@ class CommentController extends Controller
         }
     }
 
-    public function commentUpdate(Request $request){
+    public function commentUpdate(Request $request, $id){
 
-        $id = $request->input('id');
-        $comment = $request->input('comment');
+        try {
+            $comment = Comment::findOrFail($id);
+            $comment->comment = $request->input('comment');
+            $comment->save();
 
-        // 댓글 업데이트
-        $post = Comment::find($id);
-        if (!$post) {
-            return response()->json(['error' => '댓글을 찾을 수 없습니다.'], 500);
+            return response()->json(['message' => '댓글이 성공적으로 업데이트되었습니다']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => '댓글 업데이트 중 오류 발생'], 500);
         }
-
-        $post->comment = $comment;
-        $post->save();
-
-        return response()->json(['message' => '댓글이 성공적으로 업데이트되었습니다.']);
         
+    }
+    public function commentDelete($id)
+    {
+        try {
+            $comment = Comment::findOrFail($id);
+            $comment->delete();
+
+            return response()->json(['message' => '댓글이 성공적으로 삭제되었습니다']);
+        } catch (\Exception $e) {
+            return response()->json(['error' => '댓글 삭제 중 오류 발생'], 500);
+        }
     }
 }

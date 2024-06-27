@@ -1120,12 +1120,27 @@ const store = createStore({
                 .catch(error => {
                     console.log('사진획득 실패', error.response);
                 })
-            }
+            },
+            // updateDetailComment(context,id){
+            //     const url = 'api/comment/'+id+'/update';
+            //     const data = new FormData(document.querySelector('#commentForm'));
+            
+            //     console.log(data);
+    
+            //     axios.post(url, data)
+            //         .then(response => {
+            //         context.commit('setUpdateCommentData', response.data.data); //댓글 가장 앞에 추가
+    
+            //         // location.reload();
+            //     })
+            //     .catch(error => {                
+            //         // console.log(error.response.data);
+            //         alert('댓글 수정 실패'+error.response.data);
+            //     })
+
+            // },
 
     },
-
-
-
 });
 
 // 단순 거리 계산 함수 (Pythagorean Theorem 사용)
