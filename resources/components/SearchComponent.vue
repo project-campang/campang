@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div class="search-item-con">
-                    <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
+                    <div class="search-item" @click="markerShow(item)" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
                         <div class="item-img">
                             <img class="img main-img" :src='item.main_img' alt="">
                         </div>
@@ -142,7 +142,7 @@
             <div class="resizer" id="drag" @mousedown="startResize"></div>
             <div class="map-container">
                 <div class="map">
-                    <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true" :level="7">
+                    <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true" :level="7" class="marker-parent">
                         <KakaoMapMarker
                             v-for="(item, key) in $store.state.campData"
                             :key="key"
@@ -151,16 +151,20 @@
                             :lng="item.longitude"
                             :title="item.name"
                             :clickable="true"
-                            :icon="{
-                                url: `/img/markerStar.png`,  // 사용할 마커 이미지 파일 경로
-                                size: new kakao.maps.Size(50, 50),
-                                origin: new kakao.maps.Point(0, 0),
-                                anchor: new kakao.maps.Point(25, 50)
-                                }"
                             @on-click-kakao-map-marker="openMarkerLink(`/camp/${item.id}`)"
                         ></KakaoMapMarker>
                     </KakaoMap>
                 </div>
+
+
+                <div class="parents">
+                    <div>
+                        <div>
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="float-btn">
                     <!-- <button class="result-pin" @click="adjustMarkerZIndex">검색</button>
                     <button class="wishlist-pin">찜</button>
@@ -255,10 +259,24 @@ watch(campData, (newData) => {
   }
 }, { immediate: true });
 
-function markerShow(e) {
-    console.log(e);
-    store.dispatch('markerShow')
 
+// item 선태 시 해당 좌표가 중심
+function markerShow(item) {
+    mapCenter.value = {
+    lat: item.latitude,
+    lng: item.longitude
+  };
+  console.log('중심좌표 변경됨', mapCenter.value);
+  
+  overlayText.value = item.name;
+  overlayStyle.value = {
+    position: 'absolute',
+    left: `calc(50% + ${item.longitude - mapCenter.value.lng}px)`,
+    top: `calc(50% - ${item.latitude - mapCenter.value.lat}px)`,
+    transform: 'translate(-50%, -100%)'
+  };
+  overlayVisible.value = true;
+  console.log('오버레이 업데이트:', overlayStyle.value, overlayText.value);
 }
 
 

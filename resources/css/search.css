@@ -310,6 +310,13 @@ hr {
 
 }
 
+/* img[draggable] { */
+/* .marker-parent img { */
+.parents > div > div > div > div > img {
+    src:url("/img/markerStar.png") !important;
+}
+
+
 .float-btn {
     position: absolute;
     position: fixed;
