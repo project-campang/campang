@@ -22,7 +22,7 @@ const store = createStore({
             reviewTap: [],
             suggestCam:[],
             suggestBrand:[],
-            communityType: [], // community_types 데이터를 저장할 상태
+            communityTypes: [], // community_types 데이터를 저장할 상태
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
             wishes: false,
@@ -123,8 +123,8 @@ const store = createStore({
         setPaginationSearch(state, data){
             state.paginationSearch = data;
         },
-        setPaginationCommunity(state, data){
-            state.paginationCommunity = data;
+        setPaginationCommunity(state, paginationData){
+            state.paginationCommunity = paginationData;
         },
         // addWish(state, camp_id) {
         //     state.wishes.push({ camp_id });
@@ -385,42 +385,33 @@ const store = createStore({
                 alert(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
-        async updatePost({ commit }, formData) {
+        async updatePost({ commit }, content) {
             try {
-                const response = await axios.post('/api/content/update', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                const response = await axios.post('/api/content/update', content);
                 commit('setMypageContent', response.data);
             } catch (error) {
-                console.error('게시글 수정 실패:', error);
+                console.log(error);
+                throw new Error('게시글 수정 실패');
             }
         },
-        
-        async updateReview({ commit }, formData) {
-            console.log(formData);
+        async updateReview({ commit }, content) {
             try {
-                const response = await axios.post('/api/review/update', formData, {
-                    headers: {
-                        'Content-Type': 'multipart/form-data'
-                    }
-                });
+                const response = await axios.post('/api/review/update', content);
                 commit('setMypageReview', response.data);
             } catch (error) {
-                console.error('리뷰 수정 실패:', error);
+                throw new Error('리뷰 수정 실패');
             }
         },
-        async updateComment({ commit }, formData) {
+        async updateComment({ commit }, content) {
             try {
-                const response = await axios.post('/api/comment/update', formData);
+                const response = await axios.post('/api/comment/update', content);
                 commit('setMypageComment', response.data);
             } catch (error) {
-                console.error('댓글 수정 실패:', error);
+                throw new Error('댓글 수정 실패');
             }
         },
-          deletePost(context, formData) {
-            const url = `/api/posts/delete/${formData.id}`; // content.id를 URL에 직접 포함시킴
+        deletePost(context, content) {
+            const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
             axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음
                 .then(response => {
                     console.log(response.data);
@@ -433,10 +424,10 @@ const store = createStore({
         },
         
         
-        deleteReview(context, formData) {
-            const url = `/api/reviews/delete/${formData.id}`;
+        deleteReview(context, content) {
+            const url = `/api/reviews/delete/${content.id}`;
 
-            axios.delete(url)
+            axios.delete(url, content)
             .then(response => {
                 console.log(response.data); // TODO
                 context.commit('setMypageReview', response.data.data);
@@ -643,19 +634,16 @@ const store = createStore({
             })
         },
 
-        detailWishToggle({commit,state}, id){
+        detailWishToggle({context,state}, id){
             const upsertUrl = '/api/camp/'+id+'/wishBtnUpsert';
 
                 axios.post(upsertUrl)
                 .then(() => {
-                    commit('toggleWish');
+                    context.commit('toggleWish');
                 })
                 .catch(error=> {
                     alert('업설트 오류오류', error);
-                    console.log('이게뭐지',state.wishes);
-                    console.error('Error details:', error);
-                    console.log('State:', state.wishes);
-                    console.log('URL:', upsertUrl);
+                    console.log(state.wishes);
                 });
             
         },
@@ -698,22 +686,23 @@ const store = createStore({
             .then(response => {
                 // const data = response.data.data;
                 context.commit('setCommunityList', response.data.data.data);
-                console.log('data 2', response.data.data);
-                console.log('data 3', response.data);
                 context.commit('setPaginationCommunity', {
-                    current_page: response.data.data.data.current_page, // 현재페이지
-                    first_page_url: response.data.data.data.first_page_url, // 첫번째페이지 url
-                    last_page: response.data.data.data.last_page, // 마지막페이지
-                    last_page_url: response.data.data.data.last_page_url, // 마지막페이지url
-                    total: response.data.data.data.total, // 총 페이지
-                    per_page: response.data.data.data.per_page, // 한페이지 당 갯수 (5)
-                    prev_page_url: response.data.data.data.prev_page_url, // 이전페이지(처음이면 null)
-                    next_page_url: response.data.data.data.next_page_url, // 다음페이지(끝이면 null)
-                    links: response.data.data.links,
+                    current_page: response.data.data.current_page, // 현재페이지
+                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                    last_page: response.data.data.last_page, // 마지막페이지
+                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                    total: response.data.data.total, // 총 페이지
+                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                    links: response.data.links,
                     // test: test,
                 });
+                // context,commit('setCommunityTypes', data);
+                console.log('setPaginationCommunity 실행됨');
                 console.log('response.data.data.current_page', response.data.data.current_page);
-                console.log('js에서 콘솔', response.data);
+                console.log('데이터 확인1', response.data);
+                console.log('데이터 확인2', response.data.data);
             })
             .catch(error => {
                 alert('communityGet 오류오류~~' + error.response);
@@ -721,16 +710,16 @@ const store = createStore({
         },
 
 
-            // 게시판타입
-            async fetchCommunityTypes({ commit }, id) {
-                try {
-                    const response = await axios.get(``);
-                    commit('setCommunityTypes', response.data);
-                } catch (error) {
-                    commit('setError', error.response ? error.response.data : '222Error fetching community type');
-                    console.error('Error fetching community type:', error);
-                }
-            },
+            // // 게시판타입
+            // async fetchCommunityTypes({ commit }, id) {
+            //     try {
+            //         const response = await axios.get(``);
+            //         commit('setCommunityTypes', response.data);
+            //     } catch (error) {
+            //         commit('setError', error.response ? error.response.data : 'Error fetching community type');
+            //         console.error('Error fetching community type:', error);
+            //     }
+            // },
 
 
         /**
@@ -1124,27 +1113,12 @@ const store = createStore({
                 .catch(error => {
                     console.log('사진획득 실패', error.response);
                 })
-            },
-            // updateDetailComment(context,id){
-            //     const url = 'api/comment/'+id+'/update';
-            //     const data = new FormData(document.querySelector('#commentForm'));
-            
-            //     console.log(data);
-    
-            //     axios.post(url, data)
-            //         .then(response => {
-            //         context.commit('setUpdateCommentData', response.data.data); //댓글 가장 앞에 추가
-    
-            //         // location.reload();
-            //     })
-            //     .catch(error => {                
-            //         // console.log(error.response.data);
-            //         alert('댓글 수정 실패'+error.response.data);
-            //     })
-
-            // },
+            }
 
     },
+
+
+
 });
 
 // 단순 거리 계산 함수 (Pythagorean Theorem 사용)

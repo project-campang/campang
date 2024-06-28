@@ -20,8 +20,10 @@
             <div class="content-top">
                 <nav class="content-top-2">
                     <div class="content-head">
-                        <div v-if="communityType">
-                            <a :href="`/community/${communityType.id}`" class="list-item">{{ communityType.name }}</a>
+                        <!-- <div v-if="communityType"> -->
+                        <div>
+                            <!-- <a :href="`/community/${communityType.id}`" class="list-item">{{ communityType.name }}</a> -->
+                            <a href="" class="list-item">게시판 이름</a>
                             {{ console.log('communityType', communityType) }}
                             <button @click="openInsertModal" class="btn btn-outline-success">+</button>
                         </div>
@@ -29,13 +31,13 @@
                                 <span>어쩌구 저쩌구를 남겨보세요.</span>
                         </div>
                         <div class="nav-item board-btn">
-                            <button class="">최신순</button>
-                            <button class="">인기순</button>
+                            <!-- <button class="">최신순</button>
+                            <button class="">인기순</button> -->
                         </div>
                     </div>
                     </nav>
             </div>
-            <div class="content-bottom">
+            <div class="content-btm">
                 <div class="content-box">
                     <div class="list-group">
                         <div class="content-column2">
@@ -55,7 +57,7 @@
                     </div>
                     <div class="pagination">
                         <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == 1" @click="prevPage()">< 이전 </button>
-                        <!-- {{ console.log('paginationCommunity는 받아오나', $store.state.paginationCommunity) }} -->
+                        {{ console.log('paginationCommunity 받아오나', $store.state.pagination) }}
                         <div class="page-num">{{ $store.state.paginationCommunity.current_page+'/'+$store.state.paginationCommunity.last_page }}</div>
                         <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == $store.state.paginationCommunity.last_page" @click="nextPage()"> 다음 > </button>
                     </div>  
@@ -138,8 +140,8 @@ const store = useStore();
 const route = useRoute();
 
 // 커뮤니티 타입 데이터
-const communityType = ref(null);
-
+const communityType = ref('');
+const boardType = store.state.communityTypes;
 
 
 // 모달 플래그
@@ -173,18 +175,26 @@ function setFile(e) {
 
 // 페이지네이션
 function prevPage() {
- store.dispatch('setPaginationCommunity', store.state.paginationCommunity.current_page-1);
+    store.dispatch('communityGet', store.state.paginationCommunity.current_page-1);
+    console.log('-1', store.state.paginationCommunity);
+    console.log('-1', store.state.paginationCommunity.current_page);
+    console.log('-1', store.state.paginationCommunity.current_page-1);
 }
 
 function nextPage() {
- store.dispatch('setPaginationCommunity', store.state.paginationCommunity.current_page+1);
+    store.dispatch('communityGet', store.state.paginationCommunity.current_page+1);
+    console.log('+1', store.state.paginationCommunity);
+    console.log('+1', store.state.paginationCommunity.current_page);
+    console.log('+1', store.state.paginationCommunity.current_page+1);
 }
 
 
 
 onBeforeMount(async () => {
     // console.log('보드 비포 마운트');
+    console.log('communityGet 시작');
     store.dispatch('communityGet', route.params.id);
+    console.log('communityGet 완료');
     // console.log('서버 요청 보냄');
     // communityItem = data;
 })

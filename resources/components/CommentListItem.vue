@@ -102,11 +102,14 @@ const deleteComment = async (id) => {
 
 function prevPage() {
  store.dispatch('commentPageGet', store.state.pagination.current_page-1);
+ console.log('-1', store.state.pagination.current_page);
 }
 
 function nextPage() {
  store.dispatch('commentPageGet', store.state.pagination.current_page+1);
+ console.log('+1', store.state.pagination.current_page);
 }
+
 
 </script>
 
