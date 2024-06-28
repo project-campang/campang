@@ -86,6 +86,8 @@ p {
 .camping-img {
     width:100%;
     border-radius: 40px;
+    max-height: 400px;
+    object-fit: cover;
 }
 .shop-name-card {
     margin-bottom: 15px;
