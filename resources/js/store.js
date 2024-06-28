@@ -25,6 +25,7 @@ const store = createStore({
             communityTypes: [], // community_types 데이터를 저장할 상태
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
+            searchCount: [],
             wishes: false,
             campDetail: {},
             stateData: [],
@@ -185,6 +186,9 @@ const store = createStore({
         // 캠핑장 데이터 획득
         setCampList(state, data) {
             state.campData = data;
+        },
+        setSearchCount(state, data) {
+            state.searchCount = data;
         },
         // // 캠핑장 검색 결과 획득
         // setSearchResult(state, campData) {
@@ -991,6 +995,18 @@ const store = createStore({
                     console.error('검색 결과 획득 실패', error);
                     alert('시/도와 구/군을 모두 선택해주세요');
                 });
+            },
+            
+            searchCount(context) {
+
+                const url = 'api/searchCount';
+                axios.get(url) 
+                .then(response => {
+                    context.commit('setSearchCount', response.data.data);
+                })
+                .catch(error => {
+                    console.error('카운트에러', error);
+                })
             },
 
             // 메인에서 검색값 가져오는 처리

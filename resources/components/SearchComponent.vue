@@ -97,12 +97,11 @@
                 <div class="result">
                     <div class="count">
                         <span>총</span>
-                        {{ $store.state.campData.length }} 
+                        {{ $store.state.searchCount.length }} 
                         <span>개의 캠핑장 발견!</span>
                     </div>
                 </div>
                 <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
-                    {{ console.log('ddddddddd', searchResult.length) }}
                     <div class="item-img">
                         <img class="img main-img" :src='item.main_img' alt="">
                     </div>
@@ -307,14 +306,14 @@ function searchBtn(e) {
 
 
 function prevPage() {
-    store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
+    store.dispatch('searchResult', store.state.paginationSearch.current_page-1);
     console.log('-1', store.state.paginationSearch);
     console.log('-1', store.state.paginationSearch.current_page);
     console.log('-1', store.state.paginationSearch.current_page-1);
 }
 
 function nextPage() {
-    store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
+    store.dispatch('searchResult', store.state.paginationSearch.current_page+1);
     console.log('+1', store.state.paginationSearch);
     console.log('+1', store.state.paginationSearch.current_page);
     console.log('+1', store.state.paginationSearch.current_page+1);
@@ -351,6 +350,7 @@ onBeforeMount(() => {
         store.dispatch('campListGet'); 
     }
     console.log('campListGet');
+    store.dispatch('searchCount');
 })
 
 onMounted(() => {
