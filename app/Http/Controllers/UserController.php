@@ -108,11 +108,12 @@ class UserController extends Controller
     return response()->json($responseData, 200)->cookie('auth', '1', 120, null, null, false, false);
 }
 
-    // 회원가입 처리
-    public function register(Request $request)
+        // 회원가입 처리
+        public function register(Request $request)
     {
         $requestData = $request->all();
-        // LOG::debug($requestData);
+        
+        // 유효성 검사 rules에 profile 추가
         $validator = validator::make(
             $requestData,
             [
@@ -121,7 +122,8 @@ class UserController extends Controller
                 'nick_name' => ['required', 'min:2', 'max:10', 'regex:/^[가-힣a-zA-Z]+$/u'],
                 'name' => ['required', 'min:2', 'max:20', 'regex:/^[가-힣]+$/u'],
                 'email' => ['required', 'regex:/^[-A-Za-z0-9_]+[-A-Za-z0-9_.][@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.][.]{1}[A-Za-z]{1,5}$/'],
-                'tel' => ['required', 'regex:/^(\d{2,3}-\d{3,4}-\d{4})|(\d{10,11})$/']
+                'tel' => ['required', 'regex:/^(\d{2,3}-\d{3,4}-\d{4})|(\d{10,11})$/'],
+                'profile' => ['nullable', 'string'] // profile 필드 추가 (nullable은 선택 사항)
             ]
         );
 
@@ -143,6 +145,9 @@ class UserController extends Controller
         // 비밀번호 설정
         $insertData['password'] = Hash::make($request->password);
 
+        // 기본값으로 profile 설정 (입력된 profile 값이 없으면 기본값 사용)
+        $insertData['profile'] = $request->input('profile', '/img/user.png');
+
         // 인서트 처리
         $userInfo = User::create($insertData);
 
@@ -154,6 +159,7 @@ class UserController extends Controller
 
         return response()->json($responseData, 200);
     }
+
 
       // 로그아웃 처리
       public function logout()

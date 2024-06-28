@@ -334,7 +334,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); // TODO
-                alert(`게시글 획득 실패 (${error.response.data.code})`)
+                console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
         setMypageWishes(context) {
@@ -347,7 +347,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); // TODO
-                alert(`게시글 획득 실패 (${error.response.data.code})`)
+                console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
         setMypageContent(context) {
@@ -360,7 +360,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); // TODO
-                alert(`게시글 획득 실패 (${error.response.data.code})`)
+                console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
         setMypageReview(context) {
@@ -373,7 +373,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); // TODO
-                alert(`게시글 획득 실패 (${error.response.data.code})`)
+                console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
         setMypageComment(context) {
@@ -386,7 +386,7 @@ const store = createStore({
             })
             .catch(error => {
                 console.log(error.response); // TODO
-                alert(`게시글 획득 실패 (${error.response.data.code})`)
+                console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
         async updatePost({ commit }, content) {

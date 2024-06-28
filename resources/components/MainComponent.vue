@@ -135,7 +135,7 @@
             <div id="carouselExampleSlidesOnly" class="carousel slide last-left" data-bs-ride="carousel">
                 <h2>캠팡 추천 캠핑장</h2>
                 <p>캠팡 제휴업체에서 할인받자 !</p>
-                <p class="text-end">* 본 섹션은 광고를 포함하고 있습니다.</p>
+                <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="carousel-inner">
                     <div class="carousel-item" data-bs-interval="5000"
                         v-for="(camp, index) in $store.state.suggestCam" 
@@ -151,7 +151,7 @@
             <div class="last-right">
             <h2>캠팡 추천 브랜드</h2>
             <p>믿고 보는 캠팡PICK!</p>
-            <p class="text-end">* 본 섹션은 광고를 포함하고 있습니다.</p>
+            <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="last-right-box">
                     <div class="slider">
                         <div class="slide" v-for="(item, key) in $store.state.suggestbrand" :key="key">

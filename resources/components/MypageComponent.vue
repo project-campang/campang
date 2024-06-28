@@ -2,39 +2,56 @@
   <div class="my-page-section">
     <div v-if="$store.state.userInfo" class="my-page-side">
       <img :src="$store.state.userInfo.profile" alt="Profile Image">
-      <p>{{ $store.state.userInfo.nick_name }}</p>
-      <p>{{ $store.state.userInfo.email }}</p>
+      <p class="side-nickname">{{ $store.state.userInfo.nick_name }}</p>
+      <p class="side-email">{{ $store.state.userInfo.email }}</p>
       <button @click="openModal($store.state.userInfo)" type="button" class="btn btn-primary my-page-button" data-bs-toggle="modal" data-bs-target="#userModal">내정보수정</button>
       <div class="my-page-box">
-        <p class="mypage-stamp" @click="showstamp">내 도장판</p>
-        <!-- <p>-정복한 캠핑장</p>
-        <p>-찜목록</p> -->
-        <!-- <div class="dropdown">
-          <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-            내가쓴글
-          </button>
-          <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
-            <li><a class="dropdown-item" href="#">Another action</a></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li>
-          </ul>
-        </div> -->
-        <p class="mypage-content" @click="showcontent">내가쓴글</p>
-        <a href="#content"><p>-게시글</p></a>
-        <a href="#review"><p>-리뷰</p></a>
-        <a href="#comment"><p>-댓글</p></a>
-      </div>
+    <p class="mypage-stamp" @click="showStamp()">내 도장판</p>
+    <a href="#campingzang" class="my-page-link" @click="showStamp(); markActive($event)"><p>-도장깨기</p></a>
+    <a href="#wish" class="my-page-link" @click="showStamp(); markActive($event)"><p>-찜목록</p></a>
+    <p class="mypage-content" @click="showContent()">내가쓴글</p>
+    <a href="#content" class="my-page-link" @click="showContent(); markActive($event)"><p>-게시글</p></a>
+    <a href="#review" class="my-page-link" @click="showContent(); markActive($event)"><p>-리뷰</p></a>
+    <a href="#comment" class="my-page-link" @click="showContent(); markActive($event)"><p>-댓글</p></a>
+</div>
+
     </div>
     <div v-if="isstampVisible">
-      <h1>정복한 캠핑장 _도장깨기</h1>
-      <div class="stamp-top">
+      <h1 id="campingzang">정복한 캠핑장 <span>_도장깨기</span></h1>
+      <!-- <div class="stamp-top">
         <h3 class="stamp-top-h2">총 {{ $store.state.stampCampingzang.length }}군데 정복!</h3>
         <div class="stamp-top-item" v-for="(item, key) in $store.state.stampCampingzang" :key="key">
           <router-link :to="`/camp/${item.camp_id}`"><img :src="item.main_img" alt=""></router-link>
-          <div class="stamp-overlay">{{ getFormattedDate(item.updated_at) }}<br>{{ item.camp_name }}</div>
+          <div  id="wish" class="stamp-overlay">{{ getFormattedDate(item.updated_at) }}<br>{{ item.camp_name }}</div>
+        </div >
+      </div> -->
+      <div class="stamp-top">
+        <h3 class="stamp-top-h2" v-if="$store.state.stampCampingzang.length > 0">
+            총 {{ $store.state.stampCampingzang.length }}군데 정복!
+        </h3>
+        <h3 class="stamp-top-h2" v-else>
+            캠핑장을 방문하면서 도장을 찍어보세요 !
+        </h3>
+        <div clss="mypage-stamp-list" v-if="$store.state.stampCampingzang.length > 0">
+            <div class="stamp-top-item" v-for="(item, key) in $store.state.stampCampingzang" :key="key">
+                <router-link :to="`/camp/${item.camp_id}`">
+                    <img :src="item.main_img" alt="">
+                </router-link>
+                <div id="wish" class="stamp-overlay">
+                    {{ getFormattedDate(item.updated_at) }}<br>{{ item.camp_name }}
+                </div>
+            </div>
+        </div>
+        <div clss="mypage-stamp-list" v-else>
+          <div v-for="index in 10" :key="index" class="stamp-top-item">
+            <div class="my-page-stamp-item">
+              도장
+            </div>
+          </div>
         </div>
       </div>
-      <h1>찜한 캠핑장 _찜목록</h1>
+
+      <h1 id="camping">찜한 캠핑장 <span>_찜목록</span></h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
@@ -49,7 +66,7 @@
                   <div class="content-row-num">{{ index + 1 }}</div>
                   <router-link :to="`/camp/${item.camp_id}`"><div class=" text-center">{{ item.camp_name }}</div></router-link>
                   <div class="content-row-num">{{ item.state }}</div>
-                  <div class="text-center wish-created" id="text-container">{{ item.created_at }}</div>
+                  <div class="text-center wish-created" id="text-container">{{ getFormattedDate(item.created_at) }}</div>
               </div>
               <hr class="item-hr">
             </div>
@@ -77,7 +94,7 @@
                 <div class="content-row-num">{{ index + 1 }}</div>
                 <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '게시글')">{{ item.title }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div>{{ item.created_at }}</div>
+                <div>{{ getFormattedDate(item.created_at) }}</div>
                 <div><button type="button" class="btn" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '게시글')">삭제</button></div>
               </div>
               <hr class="item-hr" id="review">
@@ -91,19 +108,19 @@
         <div class="content-bottom">
           <div class="my-content-box">
             <div class="list-group">
-              <div class="content-column list-item text-center" aria-disabled="true">
+              <div class="content-column-other list-item text-center" aria-disabled="true">
                 <div class="my-page-top">번호</div>
                 <div class="my-page-top">제목</div>
                 <div class="my-page-top">캠핑장</div>
                 <!-- <div class="my-page-top">작성자</div> -->
                 <div class="my-page-top">작성일</div>
               </div>
-              <div class="content-row text-center" v-for="(item, index) in $store.state.mypageReview" :key="index">
+              <div class="content-row-other text-center" v-for="(item, index) in $store.state.mypageReview" :key="index">
                 <div class="content-row-num">{{ index + 1 }}</div>
                 <div class="title-text-align=" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
-                <div class="review-cam ">{{ item.name }}</div>
+                <div class="review-cam ">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div>{{ item.created_at }}</div>
+                <div>{{ getFormattedDate(item.created_at) }}</div>
                 <div><button type="button" class="btn" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '리뷰')">삭제</button></div>
               </div>
               <hr class="item-hr" id="comment">
@@ -116,17 +133,20 @@
         <div class="content-bottom">
           <div class="my-content-box">
             <div class="list-group">
-              <div class="content-column list-item text-center" aria-disabled="true">
+              <div class="content-column-other list-item text-center" aria-disabled="true">
                 <div class="my-page-top">글 번호</div>
-                <div class="my-page-top">댓글 내용</div>
+                <div class="my-page-top">내용</div>
+                <div class="my-page-top">캠핑장</div>
                 <div class="my-page-top">작성일</div>
                 <div class="my-page-top"></div>
+                <div class="my-page-top"></div>
               </div>
-              <div class="content-row text-center" v-for="(item, index) in $store.state.mypageComment" :key="index">
+              <div class="content-row-other text-center" v-for="(item, index) in $store.state.mypageComment" :key="index">
                 <div class="content-row-num">{{ index + 1 }}</div>
                 <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '댓글')">{{ item.comment }}</div>
+                <div class="review-cam ">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div>{{ item.created_at }}</div>
+                <div>{{ getFormattedDate(item.created_at) }}</div>
                 <div><button type="button" class="btn" @click="updataModal(item, '댓글')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '댓글')">삭제</button></div>
               </div>
               <hr class="item-hr">
@@ -198,6 +218,7 @@
     </div>
   </div>
 </div> -->
+<!-- 상세모달 -->
 <div class="modal fade" id="contentModal" tabindex="-1" aria-labelledby="contentModalLabel" aria-hidden="true" >
   <div class="modal-dialog modal-dialog modal-dialog-centered">
     <div class="modal-content">
@@ -206,7 +227,7 @@
       </div>
       <div class="modal-body">
         <p v-if="contentType !== '댓글'"><strong>내용:</strong> {{ selectedContent?.content }}</p>
-        <p v-if="contentType !== '댓글'"><strong>캠핑장:</strong> {{ selectedContent?.name }}</p>
+        <p v-if="contentType == '리뷰'"><strong>캠핑장:</strong> {{ selectedContent?.camp_name }}</p>
         <img v-if="selectedContent?.main_img" :src="selectedContent.main_img" alt="Main Image" style="max-width: 100%; margin-bottom: 10px;">
         <img v-if="selectedContent?.other_img2" :src="selectedContent.other_img2" alt="Other Image 2" style="max-width: 100%; margin-bottom: 10px;">
         <img v-if="selectedContent?.other_img3" :src="selectedContent.other_img3" alt="Other Image 3" style="max-width: 100%; margin-bottom: 10px;">
@@ -457,9 +478,9 @@ const closeDeleteModal = () => {
 };
 
 // 삭제 모달 열기
-const openDeleteModal = () => {
-  isDeleteModalVisible.value = true;
-};
+// const openDeleteModal = () => {
+//   isDeleteModalVisible.value = true;
+// };
 
 // 모달 닫기와 backdrop 관리
 watchEffect(() => {
@@ -592,11 +613,11 @@ const isstampVisible = ref(true);
 //   profile: ''
 // });
 
-function showstamp() {
+function showStamp() {
   isstampVisible.value = true;
 }
 
-function showcontent() {
+function showContent() {
   isstampVisible.value = false;
 }
 
@@ -706,8 +727,56 @@ const deleteContent = async () => {
 //   }
 // }
 
+// document.addEventListener('DOMContentLoaded', function() {
+//     // 현재 활성화된 버튼을 추적하기 위한 변수
+//     let activeButton = null;
+
+//     // 버튼 클릭 시 활성화 상태를 표시하는 함수
+//     function markActive(event) {
+//         // 클릭된 요소를 가져옴
+//         const currentButton = event.currentTarget;
+        
+//         // 이전에 활성화된 버튼에서 active 클래스를 제거
+//         if (activeButton) {
+//             activeButton.classList.remove('active');
+//         }
+
+//         // 현재 클릭된 버튼에 active 클래스를 추가
+//         currentButton.classList.add('active');
+        
+//         // 활성화된 버튼을 업데이트
+//         activeButton = currentButton;
+//     }
+
+//     // 모든 .my-page-link 요소에 클릭 이벤트 리스너를 추가
+//     const links = document.querySelectorAll('.my-page-link');
+//     links.forEach(link => {
+//         link.addEventListener('click', markActive);
+//     });
+// });
+// 현재 활성화된 버튼을 추적하기 위한 변수
+let activeButton = ref(null);
+
+// 버튼 클릭 시 활성화 상태를 표시하는 함수
+const markActive = (event) => {
+  // 클릭된 요소를 가져옴
+  const currentButton = event.currentTarget;
+
+  // 이전에 활성화된 버튼에서 active 클래스를 제거
+  if (activeButton.value) {
+    activeButton.value.classList.remove('active');
+  }
+
+  // 현재 클릭된 버튼에 active 클래스를 추가
+  currentButton.classList.add('active');
+
+  // 활성화된 버튼을 업데이트
+  activeButton.value = currentButton;
+};
+
 </script>
 
 
 <style  scope src="../css/user.css">
+
 </style>

@@ -21,7 +21,7 @@
                         </ul> -->
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="#">FAQ</a>
+                        <router-link to="/faq" class="nav-link active" aria-current="page">FAQ</router-link>
                     </li>
                 </ul>
                 <form class="d-flex" role="search">
