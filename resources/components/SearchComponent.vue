@@ -95,44 +95,47 @@
                     </form>
                 </div>
                 <div class="result">
-                    <hr>
-                    <div>{{ $store.state.campData.length }} 
-                        <span>개의 캠핑장 발견!</span></div>
+                    <div class="count">
+                        <span>총</span>
+                        {{ $store.state.campData.length }} 
+                        <span>개의 캠핑장 발견!</span>
+                    </div>
                 </div>
                 <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
-                        <div class="item-img">
-                            <img class="img main-img" :src='item.main_img' alt="">
+                    {{ console.log('ddddddddd', searchResult.length) }}
+                    <div class="item-img">
+                        <img class="img main-img" :src='item.main_img' alt="">
+                    </div>
+                    <div class="item-info">
+                        <div>
+                            <span class="item-name">{{ item.name }}</span>
+                            <span class="item-distance sub-text">87.2km</span>
                         </div>
-                        <div class="item-info">
-                            <div>
-                                <span class="item-name">{{ item.name }}</span>
-                                <span class="item-distance sub-text">87.2km</span>
-                            </div>
-                            <div class="item-info-2">
-                                <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
-                                <span class="address-depth2">{{ item.address }}</span>
-                            </div>
-                            <div class="item-info-3">
-                                <span class="item-price">{{ item.price }}
-                                    <span class="sub-text">1박 기준</span>
-                                </span>
-                            </div>
-                            <div class="item-tel sub-text">
-                                <span>{{ item.tel }}</span>
-                            </div>
+                        <div class="item-info-2">
+                            <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
+                            <span class="address-depth2">{{ item.address }}</span>
                         </div>
-                        <div class="item-detail">
-                            <button>
-                                <a :href="`/camp/${item.id}`">
-                                    <img src="../../public/img/상세보기 화살표.png" alt="">
-                                </a>
-                            </button>
+                        <div class="item-info-3">
+                            <span class="item-price">₩{{ item.price }}
+                                <span class="sub-text">1박 기준</span>
+                            </span>
                         </div>
+                        <div class="item-tel sub-text">
+                            <span>{{ item.tel }}</span>
+                        </div>
+                    </div>
+                    <div class="item-detail">
+                        <button>
+                            <a :href="`/camp/${item.id}`">
+                                <img src="../../public/img/상세보기 화살표.png" alt="">
+                            </a>
+                        </button>
+                    </div>
                 </div> 
                 <div class="pagination">
-                    <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()">< 이전 </button>
-                    <div class="page-num">{{ $store.state.paginationSearch.current_page+'/'+$store.state.paginationSearch.last_page }}</div>
-                    <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()"> 다음 > </button>
+                    <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()"><ㅤ</button>
+                    <div class="page-num">{{ $store.state.paginationSearch.current_page+'ㅤ/ㅤ'+$store.state.paginationSearch.last_page }}</div>
+                    <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()">ㅤ> </button>
                 </div>          
             </div>
             <div class="resizer" id="drag" @mousedown="startResize"></div>
@@ -301,13 +304,21 @@ function searchBtn(e) {
 
 
 // 페이지네이션
-// function prevPage() {
-//  store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
-// }
 
-// function nextPage() {
-//  store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
-// }
+
+function prevPage() {
+    store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
+    console.log('-1', store.state.paginationSearch);
+    console.log('-1', store.state.paginationSearch.current_page);
+    console.log('-1', store.state.paginationSearch.current_page-1);
+}
+
+function nextPage() {
+    store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
+    console.log('+1', store.state.paginationSearch);
+    console.log('+1', store.state.paginationSearch.current_page);
+    console.log('+1', store.state.paginationSearch.current_page+1);
+}
 
 
 function openMarkerLink(url) {
@@ -333,23 +344,13 @@ const adjustMarkerZIndex = () => {
 // });
 
 
-// // 페이지네이션
-// function prevPage() {
-//  store.dispatch('searchResult', store.state.paginationSearch.current_page-1);
-// }
-
-// function nextPage() {
-//  store.dispatch('searchResult', store.state.paginationSearch.current_page+1);
-//  console.log(store.state.paginationSearch.current_page);
-// }
-
 
 onBeforeMount(() => {
-    // console.log('onBeforeMount');
+    console.log('onBeforeMount');
     if(store.state.campData.length <  1) {
         store.dispatch('campListGet'); 
     }
-    // console.log('campListGet');
+    console.log('campListGet');
 })
 
 onMounted(() => {

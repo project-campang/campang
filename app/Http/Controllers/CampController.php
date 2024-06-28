@@ -32,8 +32,8 @@ class CampController extends Controller
                             // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
                             // ->groupBy('camps.id' )
                             ->orderBy('camps.county')
+                            // ->limit()
                             ;
-                            // ->limit(5)
 
 
             if (!empty($state)) {
@@ -43,7 +43,7 @@ class CampController extends Controller
                 $campList->where('camps.county', $county);
             }
 
-            $result = $campList->get();
+            $result = $campList->paginate(5);
         
             $responseData = [
                 'code' => '0'
@@ -82,7 +82,7 @@ class CampController extends Controller
             $campList->where('camps.county', $request->county);
         }
                         
-        $result = $campList->get();
+        $result = $campList->paginate(5);
 
         $responseData = [
             'code' => '0'

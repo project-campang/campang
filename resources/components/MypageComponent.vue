@@ -54,9 +54,9 @@
               <hr class="item-hr">
             </div>
             <!-- <div class="pagination">
-              <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == 1" @click="prevPage()">< 이전 </button>
-              <div class="page-num">{{ $store.state.pagination.current_page+'/'+$store.state.pagination.last_page }}</div>
-              <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()"> 다음 > </button>
+              <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == 1" @click="prevPage()">< 이전ㅤ</button>
+              <div class="page-num">{{ $store.state.pagination.current_page+'ㅤ/ㅤ'+$store.state.pagination.last_page }}</div>
+              <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()">ㅤ다음 > </button>
             </div> -->
           </div>
         </div>

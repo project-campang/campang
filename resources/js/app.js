@@ -11,7 +11,8 @@ import { fab } from '@fortawesome/free-brands-svg-icons';
 import store from './store';
 import router from './router';
 
-useKakao('bd3ac557aa53da759b1a9d8a5d63dca8');
+useKakao('bd3ac557aa53da759b1a9d8a5d63dca8'); // 기본 appkey
+// useKakao('c9c4e0fd6dc8fd56d1a304d70da78238'); // 비상시 appkey
 
 createApp({
     components: {
