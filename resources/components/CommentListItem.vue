@@ -87,7 +87,7 @@ const deleteComment = async (id) => {
     if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
       await axios.delete(`/api/comment/${id}/delete`);
       // 댓글 삭제 후 Vuex 스토어 다시 불러오기
-      store.dispatch('commentPageGet', store.state.pagination.current_page);
+      store.dispatch('commentPageGet', route.params.id ,store.state.pagination.current_page);
     }
   } catch (error) {
     console.error('댓글 삭제 오류:', error);
