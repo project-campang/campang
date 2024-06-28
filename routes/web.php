@@ -54,6 +54,7 @@ Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
 Route::get('/api/main',[CampTopoController::class, 'campingler']);
 Route::get('/api/rank',[CampTopoController::class, 'campingzang']);
 Route::get('/api/main/community',[CommunityController::class, 'mainCommunity']);
+Route::get('/api/main/tip',[CommunityController::class, 'mainTip']);
 Route::get('/api/main/suggest/campingzang',[CampController::class, 'suggestCampingzang']);
 Route::get('/api/main/suggest/brand',[BrandController::class, 'suggestBrand']);
 Route::get('/api/main/stampTarget', [CampController::class, 'gpsTargetStamp']);

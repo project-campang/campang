@@ -19,6 +19,7 @@ const store = createStore({
             mainCampingler:[],
             mainCampingzang:[],
             mainCommunity:[],
+            tip:[],
             reviewTap: [],
             suggestCam:[],
             suggestBrand:[],
@@ -78,6 +79,9 @@ const store = createStore({
         },
         setMainCommunity(state,data) {
             state.mainCommunity = data;
+        },
+        setTip(state,data) {
+            state.tip = data;
         },
         setSuggestCam(state,data) {
             state.suggestCam = data;
@@ -513,6 +517,18 @@ const store = createStore({
                 alert('setMainCommunity 오류오류' + error.response.data);
             })
         },
+        setTip(context) {
+            const url = '/api/main/tip';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setTip', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('setTip 오류오류' + error.response.data);
+            })
+        },
         setSuggestCam(context) {
             const url = '/api/main/suggest/campingzang';
 
@@ -555,7 +571,7 @@ const store = createStore({
 
 
         /**
-         * 댓글작성
+         * 댓글 작성
          * 
          * @param {*} context 
          */
@@ -781,10 +797,10 @@ const store = createStore({
 
         },
 
-        /**
-        * 게시글 삭제
-        * @param {*} context
-        */
+    /**
+    * 게시글 삭제
+    * @param {*} context
+    */
     // "delete": function _delete(context, boardId) {
     //     var url = '/api/board/' + boardId;
     //     axios["delete"](url).then(function (response) {
@@ -993,6 +1009,10 @@ const store = createStore({
                 });
             },
             
+            /**
+             * 검색결과 카운트
+             * @param {*} context 
+             */
             searchCount(context) {
 
                 const url = 'api/searchCount';
@@ -1004,6 +1024,11 @@ const store = createStore({
                     console.error('카운트에러', error);
                 })
             },
+
+            // markerShow(context) {
+            //     const url = ('/api/search/searchPage?page=' + page);
+            //     console.log('Marker clicked:', url);
+            // }
 
             // 메인에서 검색값 가져오는 처리
             // setSelection(context) {

@@ -78,7 +78,8 @@ class CommunityController extends Controller
 
         // 유효성 체크용 데이터 초기화
         $requestData = [
-            'title' => $request->title
+            'type' => $request->type
+            ,'title' => $request->title
             ,'content' => $request->content
             ,'main_img' => $request->mainImg
             ,'views' => $request->views
@@ -327,6 +328,25 @@ class CommunityController extends Controller
         $RankData = Community::select('communities.title', 'users.name')
                         ->join('users', 'users.id', '=', 'communities.user_id')
                         ->where('communities.type', '<>', 2) // type이 2인 것 제외
+                        ->whereNull('communities.deleted_at')
+                        ->orderBy('communities.views', 'DESC') // views 기준 내림차순 정렬
+                        ->take(5) // 최대 5개의 결과만 가져옴
+                        ->get();
+    
+        // Log::debug('RankData', $RankData->toArray());
+    
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득 완료',
+            'data' => $RankData->toArray()
+        ];
+    
+        return response()->json($responseData, 200);
+    }
+    public function mainTip(Request $request) {
+        $RankData = Community::select('communities.title', 'users.name')
+                        ->join('users', 'users.id', '=', 'communities.user_id')
+                        ->where('communities.type', '=', 4)
                         ->whereNull('communities.deleted_at')
                         ->orderBy('communities.views', 'DESC') // views 기준 내림차순 정렬
                         ->take(5) // 최대 5개의 결과만 가져옴

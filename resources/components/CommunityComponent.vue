@@ -79,6 +79,7 @@
       </div>
       <form action="" id="insertForm" enctype="multipart/form-data">
         <input type="hidden" name="community-type" id="community-type" :value="communityItem.type">
+        {{ console.log('qqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqqq', communityItem.type) }}
           <div class="modal-body">
             <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요.">
             <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
@@ -102,12 +103,12 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">상세</h5>
+                <h5 class="modal-title">{{ communityItem.title }}</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <form action="">
                 <div class="modal-body detail-data">
-                        <div class="detail-modal-title" id="detail-modal-title">{{ communityItem.title }}</div>
+                        <!-- <div class="detail-modal-title" id="detail-modal-title">{{ communityItem.title }}</div> -->
                         <div class="detail-modal-content" id="detail-modal-content">{{ communityItem.content }}</div>
                     <div class="img-box">
                         {{ console.log('communityItem.main_img', communityItem.main_img) }}
@@ -233,6 +234,8 @@ onMounted(async () => {
             modalFlg.value = true;
             insertModal.show();
         }
+
+        
     }
     // 상세 모달 열기
     function openDetailModal(data) {

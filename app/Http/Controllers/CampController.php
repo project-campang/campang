@@ -36,14 +36,14 @@ class CampController extends Controller
                             ;
 
 
-            if (!empty($state)) {
-                $campList->where('camps.state', $state);
-            }
-            if (!empty($county)) {
-                $campList->where('camps.county', $county);
-            }
+            // if (!empty($state)) {
+            //     $campList->where('camps.state', $state);
+            // }
+            // if (!empty($county)) {
+            //     $campList->where('camps.county', $county);
+            // }
 
-            $result = $campList->paginate(5);
+            $result = $campList->paginate(6);
         
             $responseData = [
                 'code' => '0'
@@ -82,7 +82,7 @@ class CampController extends Controller
             $campList->where('camps.county', $request->county);
         }
                         
-        $result = $campList->paginate(5);
+        $result = $campList->paginate(6);
 
         $responseData = [
             'code' => '0'
@@ -99,6 +99,8 @@ class CampController extends Controller
 
         //   카운트 획득
         public function searchResultCount(Request $request) {
+        $state = $request->state;
+        $county = $request->county;
 
         $campList = Camp::select('camps.*')
                         ->orderBy('camps.state')
