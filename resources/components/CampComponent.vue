@@ -119,12 +119,7 @@
                             <img v-else src="../../public/img/logo-ko3.png" alt="">
                             <img v-if="$store.state.campDetail.campInfo.other_img_10" :src="$store.state.campDetail.campInfo.other_img_10" alt="">
                             <img v-else src="../../public/img/logo-ko3.png" alt="">
-                            
                         </div>
-                        <!-- <div class="campImg-item" v-for="i in 10" :key="i" >
-                                <img v-if="i<=item.rating" src="../../public/img_nr/별점_활성화.png" alt="">
-                                <img v-else src="../../public/img/logo-ko3.png" alt="">
-                        </div> -->
                     </div>
                     <hr>
                     <div class="comment-review-tap">
@@ -241,7 +236,24 @@ function gotoLink() {
 // ---------------------------------------------------
 
 // ------------------- 캠핑장 전경 -------------------
+const imgCarousel = reactive([
+    {img1: store.state.campDetail.campInfo.other_img_1},
+    {img2: store.state.campDetail.campInfo.other_img_2},
+    {img3: store.state.campDetail.campInfo.other_img_3},
+    {img4: store.state.campDetail.campInfo.other_img_4},
+    {img5: store.state.campDetail.campInfo.other_img_5},
+    {img6: store.state.campDetail.campInfo.other_img_6},
+    {img7: store.state.campDetail.campInfo.other_img_7},
+    {img8: store.state.campDetail.campInfo.other_img_8},
+    {img9: store.state.campDetail.campInfo.other_img_9},
+    {img10: store.state.campDetail.campInfo.other_img_10},
+])
 
+let imgModalFlg = ref(false);
+
+function myOpenModal() {
+    
+} 
 // --------------------------------------------------
 </script>
 
