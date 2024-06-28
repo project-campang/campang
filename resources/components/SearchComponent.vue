@@ -101,41 +101,43 @@
                         <span>개의 캠핑장 발견!</span>
                     </div>
                 </div>
-                <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
-                    <div class="item-img">
-                        <img class="img main-img" :src='item.main_img' alt="">
-                    </div>
-                    <div class="item-info">
-                        <div>
-                            <span class="item-name">{{ item.name }}</span>
-                            <span class="item-distance sub-text">87.2km</span>
+                <div class="search-item-con">
+                    <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
+                        <div class="item-img">
+                            <img class="img main-img" :src='item.main_img' alt="">
                         </div>
-                        <div class="item-info-2">
-                            <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
-                            <span class="address-depth2">{{ item.address }}</span>
+                        <div class="item-info">
+                            <div>
+                                <span class="item-name">{{ item.name }}</span>
+                                <span class="item-distance sub-text">87.2km</span>
+                            </div>
+                            <div class="item-info-2">
+                                <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
+                                <span class="address-depth2">{{ item.address }}</span>
+                            </div>
+                            <div class="item-info-3">
+                                <span class="item-price">₩{{ item.price }}
+                                    <span class="sub-text">1박 기준</span>
+                                </span>
+                            </div>
+                            <div class="item-tel sub-text">
+                                <span>{{ item.tel }}</span>
+                            </div>
                         </div>
-                        <div class="item-info-3">
-                            <span class="item-price">₩{{ item.price }}
-                                <span class="sub-text">1박 기준</span>
-                            </span>
+                        <div class="item-detail">
+                            <button>
+                                <a :href="`/camp/${item.id}`">
+                                    <img src="../../public/img/상세보기 화살표.png" alt="">
+                                </a>
+                            </button>
                         </div>
-                        <div class="item-tel sub-text">
-                            <span>{{ item.tel }}</span>
-                        </div>
-                    </div>
-                    <div class="item-detail">
-                        <button>
-                            <a :href="`/camp/${item.id}`">
-                                <img src="../../public/img/상세보기 화살표.png" alt="">
-                            </a>
-                        </button>
-                    </div>
-                </div> 
-                <div class="pagination">
-                    <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()"><ㅤ</button>
-                    <div class="page-num">{{ $store.state.paginationSearch.current_page+'ㅤ/ㅤ'+$store.state.paginationSearch.last_page }}</div>
-                    <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()">ㅤ> </button>
-                </div>          
+                    </div> 
+                    <div class="pagination">
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()"><ㅤ</button>
+                        <div class="page-num">{{ $store.state.paginationSearch.current_page+'ㅤ/ㅤ'+$store.state.paginationSearch.last_page }}</div>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()">ㅤ> </button>
+                    </div>          
+                </div>
             </div>
             <div class="resizer" id="drag" @mousedown="startResize"></div>
             <div class="map-container">
@@ -149,6 +151,12 @@
                             :lng="item.longitude"
                             :title="item.name"
                             :clickable="true"
+                            :icon="{
+                                url: `/img/markerStar.png`,  // 사용할 마커 이미지 파일 경로
+                                size: new kakao.maps.Size(50, 50),
+                                origin: new kakao.maps.Point(0, 0),
+                                anchor: new kakao.maps.Point(25, 50)
+                                }"
                             @on-click-kakao-map-marker="openMarkerLink(`/camp/${item.id}`)"
                         ></KakaoMapMarker>
                     </KakaoMap>
@@ -247,11 +255,11 @@ watch(campData, (newData) => {
   }
 }, { immediate: true });
 
-// function markerShow(e) {
-//     console.log(e);
-//     store.dispatch('markerShow')
+function markerShow(e) {
+    console.log(e);
+    store.dispatch('markerShow')
 
-// }
+}
 
 
 
@@ -306,14 +314,14 @@ function searchBtn(e) {
 
 
 function prevPage() {
-    store.dispatch('searchResult', store.state.paginationSearch.current_page-1);
+    store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
     console.log('-1', store.state.paginationSearch);
     console.log('-1', store.state.paginationSearch.current_page);
     console.log('-1', store.state.paginationSearch.current_page-1);
 }
 
 function nextPage() {
-    store.dispatch('searchResult', store.state.paginationSearch.current_page+1);
+    store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
     console.log('+1', store.state.paginationSearch);
     console.log('+1', store.state.paginationSearch.current_page);
     console.log('+1', store.state.paginationSearch.current_page+1);

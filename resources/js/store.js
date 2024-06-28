@@ -560,7 +560,7 @@ const store = createStore({
 
 
         /**
-         * 댓글작성
+         * 댓글 작성
          * 
          * @param {*} context 
          */
@@ -786,10 +786,10 @@ const store = createStore({
 
         },
 
-        /**
-        * 게시글 삭제
-        * @param {*} context
-        */
+    /**
+    * 게시글 삭제
+    * @param {*} context
+    */
     // "delete": function _delete(context, boardId) {
     //     var url = '/api/board/' + boardId;
     //     axios["delete"](url).then(function (response) {
@@ -997,6 +997,10 @@ const store = createStore({
                 });
             },
             
+            /**
+             * 검색결과 카운트
+             * @param {*} context 
+             */
             searchCount(context) {
 
                 const url = 'api/searchCount';
@@ -1008,6 +1012,11 @@ const store = createStore({
                     console.error('카운트에러', error);
                 })
             },
+
+            // markerShow(context) {
+            //     const url = ('/api/search/searchPage?page=' + page);
+            //     console.log('Marker clicked:', url);
+            // }
 
             // 메인에서 검색값 가져오는 처리
             // setSelection(context) {

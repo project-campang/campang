@@ -78,7 +78,8 @@ class CommunityController extends Controller
 
         // 유효성 체크용 데이터 초기화
         $requestData = [
-            'title' => $request->title
+            'type' => $request->type
+            ,'title' => $request->title
             ,'content' => $request->content
             ,'main_img' => $request->mainImg
             ,'views' => $request->views
