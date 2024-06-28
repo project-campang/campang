@@ -24,7 +24,7 @@
                         <div>
                             <!-- <a :href="`/community/${communityType.id}`" class="list-item">{{ communityType.name }}</a> -->
                             <a href="" class="list-item">게시판 이름</a>
-                            {{ console.log('communityType', communityType) }}
+                            {{ console.log('communityData', $store.state.communityData) }}
                             <button @click="openInsertModal" class="btn btn-outline-success">+</button>
                         </div>
                         <div class="board-comment">
@@ -56,10 +56,10 @@
                         </div>
                     </div>
                     <div class="pagination">
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == 1" @click="prevPage()">< 이전 </button>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == 1" @click="prevPage()">< 이전ㅤ</button>
                         {{ console.log('paginationCommunity 받아오나', $store.state.pagination) }}
-                        <div class="page-num">{{ $store.state.paginationCommunity.current_page+'/'+$store.state.paginationCommunity.last_page }}</div>
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == $store.state.paginationCommunity.last_page" @click="nextPage()"> 다음 > </button>
+                        <div class="page-num">{{ $store.state.paginationCommunity.current_page+'ㅤ/ㅤ'+$store.state.paginationCommunity.last_page }}</div>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationCommunity.current_page == $store.state.paginationCommunity.last_page" @click="nextPage()">ㅤ다음 > </button>
                     </div>  
                 </div>
             </div>
@@ -78,7 +78,7 @@
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form action="" id="insertForm" enctype="multipart/form-data">
-        <input type="hidden" name="community-type" id="community-type" value="1">
+        <input type="hidden" name="community-type" id="community-type" :value="communityItem.type">
           <div class="modal-body">
             <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요.">
             <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
@@ -110,6 +110,8 @@
                         <div class="detail-modal-title" id="detail-modal-title">{{ communityItem.title }}</div>
                         <div class="detail-modal-content" id="detail-modal-content">{{ communityItem.content }}</div>
                     <div class="img-box">
+                        {{ console.log('communityItem.main_img', communityItem.main_img) }}
+                        {{ console.log('communityItem.type', communityItem.type) }}
                         <img :src="communityItem.main_img" alt="">
                         <!-- <img src="/img/sample1.jpg" alt="">s -->
                     </div>
@@ -171,6 +173,7 @@ function setFile(e) {
     // console.log(communityItem.main_img);
     // 화면 표시
     preview.value = URL.createObjectURL(communityItem.main_img);
+    console.log('으아아아아아아아아악', communityItem);
 }
 
 // 페이지네이션
@@ -239,6 +242,9 @@ onMounted(async () => {
             communityItem.content = data.content;
             communityItem.main_img = data.main_img;
             communityItem.views = data.views;
+            communityItem.type = data.type;
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!' ,communityItem.views);
+            console.log('!!!!!!!!!!!!!!!!!!!!!!!' ,communityItem.type);
             // // views 값  1 증가
             // if (communityItem.views !== undefined) {
             //     communityItem.views = data.views + 1;

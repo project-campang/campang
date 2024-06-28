@@ -25,6 +25,7 @@ const store = createStore({
             communityTypes: [], // community_types 데이터를 저장할 상태
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
+            searchCount: [],
             wishes: false,
             campDetail: {},
             stateData: [],
@@ -120,8 +121,8 @@ const store = createStore({
         setPaginationReview(state, data){
             state.paginationReview = data;
         },
-        setPaginationSearch(state, data){
-            state.paginationSearch = data;
+        setPaginationSearch(state, paginationData){
+            state.paginationSearch = paginationData;
         },
         setPaginationCommunity(state, paginationData){
             state.paginationCommunity = paginationData;
@@ -185,6 +186,9 @@ const store = createStore({
         // 캠핑장 데이터 획득
         setCampList(state, data) {
             state.campData = data;
+        },
+        setSearchCount(state, data) {
+            state.searchCount = data;
         },
         // // 캠핑장 검색 결과 획득
         // setSearchResult(state, campData) {
@@ -730,8 +734,8 @@ const store = createStore({
          * @param {*} context
          */
         
-        communityInsert(context) {
-            const url = '/api/community/'+id;
+        communityInsert(context, id,) {
+            const url = ('/api/community/' + id);
 
             const insertForm = document.querySelector('#insertForm');
             console.log('insertForm', insertForm);
@@ -834,17 +838,18 @@ const store = createStore({
         campListGet(context, page=1) {
             // const url = ('/api/search/searchPage?page=' + page);
             // const url = ('/api/search/searchPage?page=' + page);
-            const url = '/api/search';
+            const url = ('/api/search/searchPage?page=' + page);
             console.log(url);
             axios.get(url)
             .then(response => {
 
-                const campList = response.data.data;
+                const campList = response.data.data.data;
                 context.commit('setCampList', campList);
                 // const data = response.data.data;
                 // context.commit('setCampList', response.data.data);
                 // console.log(response.data.data);
                 // console.log(setCampList);
+                console.log('campList', campList);
                 context.commit('setPaginationSearch', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -862,6 +867,8 @@ const store = createStore({
                         lat: campList[0].latitude,
                         lng: campList[0].longitude
                     }
+                    
+                    console.log('campList[0].latitude', campList[0].latitude);
                     context.commit('updateMapCenter', newCenter);
                     console.log('지도 중심 좌표 업데이트', newCenter);
                 };
@@ -880,8 +887,7 @@ const store = createStore({
          */
         stateGet(context) {
             const url = '/api/state'
-            
-            console.log('stateGet 실행됨');
+
             axios.get(url)
             .then(response => {
                 context.commit('setStateData', response.data.data);
@@ -931,14 +937,14 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        searchResult(context, local) {
+        searchResult(context, local, page=1) {
             console.log('searchResult Start');
             const selectedState = local.state;
             const selectedCounty = local.county;
             // const page = context.page;
 
             // const url = `/api/search?state=${state}&county=${county}&page=${page}`;
-            const url = '/api/search';
+            const url = ('/api/search/searchPage?page=' + page);
             
             // const selectStateElement = document.querySelector('#select1');
             // const selectCountyElement = document.querySelector('#select2');
@@ -951,30 +957,56 @@ const store = createStore({
 
             axios.post(url, data)
                 .then(response => {
-                    const campList = response.data.data;
+                    const campList = response.data.data.data;
                     context.commit('setCampList', campList);
                     console.log('searchResult 검색 결과 획득 성공', campList);
                     console.log('searchResult setCampList', context.state.campData);
                     console.log(campList[0]);
-
+                    context.commit('setPaginationSearch', {
+                        current_page: response.data.data.current_page, // 현재페이지
+                        first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                        last_page: response.data.data.last_page, // 마지막페이지
+                        last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                        total: response.data.data.total, // 총 페이지
+                        per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
+                        prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
+                        next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
+                        links: response.data.data.links,
+                        // test: test,
+                    });
                     if (campList.length > 0) {
                         const newCenter = {
                             lat: campList[0].latitude,
                             lng: campList[0].longitude
                         }
+                        
+                        console.log('links', response.data.data.links);
+                        console.log('length', response.data.data.length);
                         context.commit('updateMapCenter', newCenter);
-                        console.log('searchResult 지도 중심 좌표 업데이트', newCenter);
+                        console.log('지도 중심 좌표 업데이트', newCenter);
                     };
 
 
-                    console.log(response.data.data[0].latitude);
-                    console.log(response.data.data[0].longitude);
+                    console.log('000', campList[0].latitude);
+                    console.log('000', campList[0].longitude);
 
                 })
                 .catch(error => {
                     console.error('검색 결과 획득 실패', error);
                     alert('시/도와 구/군을 모두 선택해주세요');
                 });
+            },
+            
+            searchCount(context) {
+
+                const url = 'api/searchCount';
+                axios.get(url) 
+                .then(response => {
+                    context.commit('setSearchCount', response.data.data);
+                })
+                .catch(error => {
+                    console.error('카운트에러', error);
+                })
             },
 
             // 메인에서 검색값 가져오는 처리

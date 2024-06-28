@@ -32,8 +32,8 @@ class CampController extends Controller
                             // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
                             // ->groupBy('camps.id' )
                             ->orderBy('camps.county')
+                            // ->limit()
                             ;
-                            // ->limit(5)
 
 
             if (!empty($state)) {
@@ -43,7 +43,7 @@ class CampController extends Controller
                 $campList->where('camps.county', $county);
             }
 
-            $result = $campList->get();
+            $result = $campList->paginate(5);
         
             $responseData = [
                 'code' => '0'
@@ -82,7 +82,7 @@ class CampController extends Controller
             $campList->where('camps.county', $request->county);
         }
                         
-        $result = $campList->get();
+        $result = $campList->paginate(5);
 
         $responseData = [
             'code' => '0'
@@ -96,6 +96,36 @@ class CampController extends Controller
         return response()->json($responseData, 200);
     }
 
+
+        //   카운트 획득
+        public function searchResultCount(Request $request) {
+
+        $campList = Camp::select('camps.*')
+                        ->orderBy('camps.state')
+                        ;
+                        // ->limit(20);
+        
+        if ($request->has('state') || filled($request->state)) {
+            $campList->where('camps.state', $request->state);
+        }
+        if ($request->has('county') || filled($request->county)) {
+            $campList->where('camps.county', $request->county);
+        }
+                        
+        $result = $campList->get();
+
+        $responseData = [
+            'code' => '0'
+            ,'msg' => ''
+            ,'data' => $result->toArray()
+        ];
+
+        log::debug('****************************');
+        log::debug('responseData', $responseData);
+    
+        return response()->json($responseData, 200);
+    }
+    
     // 메인에서 검색 결과 획득
     // public function mainResult(Request $request) {
     //     $state = $request->state;
