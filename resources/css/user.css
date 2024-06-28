@@ -327,3 +327,46 @@ a {
     width: 100%;
     text-align: center;
 }
+
+.my-page-detailmodal {
+    max-width: 100%; 
+    margin-bottom: 10px;
+}
+
+.my-detail-title {
+    font-size: 1rem;
+    
+}
+
+.mypage-btn-update {
+    border: 2px solid #06AC35;
+    border-radius: 5px;
+}
+
+.mypage-btn-delete {
+    border: 2px solid #D82634;
+    border-radius: 5px;
+}
+
+.mypage-btn-update:hover {
+    background-color: #06AC35;
+    color: #fff;
+}
+
+.mypage-btn-delete:hover {
+    background-color: #D82634;
+    color: #fff;
+}
+
+
+/* 에러페이지 */
+.not-found {
+    text-align: center;
+    margin-top: 100px;
+}
+
+  .error-bg {
+    background-image: url(/img/error.png);
+    background-position: center;
+    background-size: contain;
+  }

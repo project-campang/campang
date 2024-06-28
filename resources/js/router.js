@@ -12,6 +12,7 @@ import KakaoCallback from '../components/KakaoCallback.vue';
 import ReservationComponent from '../components/ReservationComponent.vue';
 import MypageComponent from '../components/MypageComponent.vue';
 import FaqComponent from '../components/FaqComponent.vue';
+import NotFound from '../components/NotFound.vue';
 
 const routes = [
     {
@@ -52,6 +53,11 @@ const routes = [
     {
         path: "/faq",
         component:FaqComponent,
+    },
+    {
+        path: '/:pathMatch(.*)*', 
+        name: 'NotFound',
+        component: NotFound
     },
     
 ];

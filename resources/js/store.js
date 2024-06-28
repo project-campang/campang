@@ -19,6 +19,7 @@ const store = createStore({
             mainCampingler:[],
             mainCampingzang:[],
             mainCommunity:[],
+            tip:[],
             reviewTap: [],
             suggestCam:[],
             suggestBrand:[],
@@ -78,6 +79,9 @@ const store = createStore({
         },
         setMainCommunity(state,data) {
             state.mainCommunity = data;
+        },
+        setTip(state,data) {
+            state.tip = data;
         },
         setSuggestCam(state,data) {
             state.suggestCam = data;
@@ -516,6 +520,18 @@ const store = createStore({
             })
             .catch(error => {
                 alert('setMainCommunity 오류오류' + error.response.data);
+            })
+        },
+        setTip(context) {
+            const url = '/api/main/tip';
+
+            axios.get(url)
+            .then(response => {
+                context.commit('setTip', response.data.data);
+                console.log(response.data.data);
+            })
+            .catch(error => {
+                alert('setTip 오류오류' + error.response.data);
             })
         },
         setSuggestCam(context) {

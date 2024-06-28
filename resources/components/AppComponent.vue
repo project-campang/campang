@@ -10,15 +10,10 @@
                     <li class="nav-item">
                         <a @click="searchPage" class="nav-link active" aria-current="page" href="#">캠핑장 모아보기</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a @click="toggleDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <li class="nav-item">
+                        <router-link to="/community/1" class="nav-link active" aria-current="page">
                             캠핑Talk 
-                        </a>
-                        <!-- <ul v-if="showDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li v-for="communityType in communityTypes" :key="communityType.type">
-                                <a class="dropdown-item" :href="`/community/${communityType.type}`">{{ communityType.name }}</a>
-                            </li>
-                        </ul> -->
+                        </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/faq" class="nav-link active" aria-current="page">FAQ</router-link>
@@ -286,11 +281,19 @@ watch(() => registerForm.value.tel, (newTel) => {
 
 
 function register() {
+    // 데이터가 비어 있는지 검사
+    const isEmpty = Object.values(registerForm.value).some(value => value === '');
+
+    if (isEmpty) {
+        alert('내용을 입력해주세요.');
+        return;
+    }
+
     // 최종 폼 유효성 검사
     if (Object.values(validationErrors.value).some(error => error)) {
         alert('입력한 정보를 확인해주세요.');
         return;
-    } 
+    }
 
     store.dispatch('register', registerForm.value)
         .then(() => {
@@ -302,6 +305,7 @@ function register() {
             console.error('회원가입 실패:', error);
         });
 }
+
 
 function resetRegisterForm() {
     registerForm.value = {
@@ -400,20 +404,20 @@ const errorMessage = ref(null);
 
         // const loginFlg = ref(false);
 
-        async function login() {
-            try {
-                const response = await store.dispatch('login', loginForm.value);
-                resetLoginForm();
-                closeLogin();
-            } catch (error) {
-                console.error('로그인 실패:', error);
-                if (error.response && error.response.status === 401) {
-                    errorMessage.value = '아이디 혹은 비밀번호가 틀렸습니다.';
-                } else {
-                    errorMessage.value = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
-                }
-            }
+async function login() {
+    try {
+        const response = await store.dispatch('login', loginForm.value);
+        resetLoginForm();
+        closeLogin();
+    } catch (error) {
+        console.error('로그인 실패:', error);
+        if (error.response && error.response.status === 401) {
+            errorMessage.value = '아이디 혹은 비밀번호가 틀렸습니다.';
+        } else {
+            errorMessage.value = '로그인 중 오류가 발생했습니다. 다시 시도해주세요.';
         }
+    }
+}
 
 // 로그아웃 처리 함수
 function logout() {
