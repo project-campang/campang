@@ -23,7 +23,7 @@
     <hr>
   </div>
   <div class="page-btn">
-    <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == 1" @click="prevPage()">< 이전 </button>
+    <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.prev_page_url == null" @click="prevPage()">< 이전 </button>
     {{ console.log('pagination 받아오나', $store.state.pagination) }}
     <div class="page-num">{{ $store.state.pagination.current_page+'/'+$store.state.pagination.last_page }}</div>
     <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()"> 다음 > </button>
@@ -98,16 +98,16 @@ const deleteComment = async (id) => {
   onBeforeMount(() => {
     store.dispatch('commentPageGet', route.params.id);
   // console.log(store.state.pagination.current_page);
-  })
+})
 
 function prevPage() {
- store.dispatch('commentPageGet', store.state.pagination.current_page-1);
- console.log('-1', store.state.pagination.current_page);
+ store.dispatch('commentPageGet', store.state.pagination.current_page-- );
+//  console.log('-1', store.state.pagination.current_page);
 }
 
 function nextPage() {
- store.dispatch('commentPageGet', store.state.pagination.current_page+1);
- console.log('+1', store.state.pagination.current_page);
+ store.dispatch('commentPageGet', store.state.pagination.current_page++ );
+//  console.log('+1', store.state.pagination.current_page);
 }
 
 

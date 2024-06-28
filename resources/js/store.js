@@ -161,11 +161,6 @@ const store = createStore({
             state.campDetail = data;
         },
 
-
-        setCampDetail(state, data){
-            state.campDetail = data;
-        },
-
         // 시/도 데이터 획득
         setStateData(state, data) {
             state.stateData = data;
@@ -591,14 +586,14 @@ const store = createStore({
          */
          commentPageGet(context,id, page=1) {
             const url = ('/api/camp/'+id+'/commentPage?page=' + page);
-            console.log(url);
+            console.log('페이지확인',url);
             axios.get(url)
             .then(response => {
                 // const test = response.data.data.links.filter((item, key) => {
                 //     return !(key == 0 || key == (response.data.data.links.length - 1));
                 // });
                 context.commit('setCommentList', response.data.data.data);
-                console.log('data 확인', response.data.data);
+                // console.log('data 확인', response.data.data);
                 context.commit('setPagination', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -694,14 +689,14 @@ const store = createStore({
                 context.commit('setCommunityList', response.data.data.data);
                 context.commit('setPaginationCommunity', {
                     current_page: response.data.data.current_page, // 현재페이지
-                    first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
+                    // first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
                     last_page: response.data.data.last_page, // 마지막페이지
-                    last_page_url: response.data.data.last_page_url, // 마지막페이지url
+                    // last_page_url: response.data.data.last_page_url, // 마지막페이지url
                     total: response.data.data.total, // 총 페이지
                     per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
                     prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
                     next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
-                    links: response.data.links,
+                    // links: response.data.links,
                     // test: test,
                 });
                 // context,commit('setCommunityTypes', data);
@@ -801,6 +796,7 @@ const store = createStore({
     //     });
     //   }
 
+        // 캠핑장 상세페이지 get 
         campDetailGet(context, id){
             const url = '/api/camp/'+id;
             console.log(url);

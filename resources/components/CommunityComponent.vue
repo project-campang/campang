@@ -178,17 +178,17 @@ function setFile(e) {
 
 // 페이지네이션
 function prevPage() {
-    store.dispatch('communityGet', store.state.paginationCommunity.current_page-1);
-    console.log('-1', store.state.paginationCommunity);
-    console.log('-1', store.state.paginationCommunity.current_page);
-    console.log('-1', store.state.paginationCommunity.current_page-1);
+    store.dispatch('communityGet', route.params.id ,store.state.paginationCommunity.current_page-=1);
+    // console.log('-1', store.state.paginationCommunity);
+    // console.log('-1', store.state.paginationCommunity.current_page);
+    // console.log('-1', store.state.paginationCommunity.current_page-1);
 }
 
 function nextPage() {
-    store.dispatch('communityGet', store.state.paginationCommunity.current_page+1);
-    console.log('+1', store.state.paginationCommunity);
-    console.log('+1', store.state.paginationCommunity.current_page);
-    console.log('+1', store.state.paginationCommunity.current_page+1);
+    store.dispatch('communityGet', route.params.id ,store.state.paginationCommunity.current_page+=1);
+    // console.log('+1', store.state.paginationCommunity);
+    // console.log('+1', store.state.paginationCommunity.current_page);
+    // console.log('+1', store.state.paginationCommunity.current_page+1);
 }
 
 
@@ -196,7 +196,8 @@ function nextPage() {
 onBeforeMount(async () => {
     // console.log('보드 비포 마운트');
     console.log('communityGet 시작');
-    store.dispatch('communityGet', route.params.id);
+    store.dispatch('communityGet', route.params.id, store.state.paginationCommunity.current_page);
+    console.log(route.params.id , store.state.paginationCommunity);
     console.log('communityGet 완료');
     // console.log('서버 요청 보냄');
     // communityItem = data;

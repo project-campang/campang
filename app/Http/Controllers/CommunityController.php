@@ -30,7 +30,7 @@ class CommunityController extends Controller
         //     // throw new MyValidateException('E01');
         // }
         
-        $id = ['1','2','3','4','5']; // 게시판 타입
+        // $id = ['1','2','3','4','5']; // 게시판 타입
 
         // 게시글 정보 획득
         $boardList = Community::join('users', 'communities.user_id', '=', 'users.id')

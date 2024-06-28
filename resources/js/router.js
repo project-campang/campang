@@ -25,7 +25,7 @@ const routes = [
     },
     {
         // path: "/community/:type",
-        path: "/community/:type",
+        path: "/community/:id",
         component: CommunityComponent,
     },
     {
