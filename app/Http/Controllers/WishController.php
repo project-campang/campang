@@ -144,11 +144,6 @@ class WishController extends Controller
                         ->orderBy('wishes.updated_at', 'DESC') // updated_at 기준 내림차순 정렬
                         ->get();
     
-        // 날짜 포맷팅: 'Y-m-d' 형식으로 변경 (시간을 제거)
-        $WishData->transform(function($wish) {
-            $wish->created_at = Carbon::parse($wish->created_at)->toDateString(); // 'Y-m-d' 형식으로 변환
-            return $wish;
-        });
         
         $responseData = [
             'code' => '0',

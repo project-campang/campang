@@ -11,6 +11,7 @@ import SearchComponent from '../components/SearchComponent.vue';
 import KakaoCallback from '../components/KakaoCallback.vue';
 import ReservationComponent from '../components/ReservationComponent.vue';
 import MypageComponent from '../components/MypageComponent.vue';
+import FaqComponent from '../components/FaqComponent.vue';
 
 const routes = [
     {
@@ -47,6 +48,10 @@ const routes = [
         path: "/camp/reserve",
         component:ReservationComponent,
         beforeEnter: chkAuth,
+    },
+    {
+        path: "/faq",
+        component:FaqComponent,
     },
     
 ];

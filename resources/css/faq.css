@@ -1,0 +1,43 @@
+.faq-contain {
+    margin: 50px 0;
+}
+.faq-main {
+    width: 800px;
+    margin: 150px auto;
+}
+
+.content-bottom {
+    padding: 20px;
+}
+.category-buttons {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.category-buttons .btn {
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    background-color: #fff;
+}
+.category-buttons .btn.active {
+    background-color: #007bff;
+    color: #fff;
+    border-color: #007bff;
+}
+.accordion-item {
+    margin-bottom: 10px;
+}
+
+.faq-q {
+    color: blue;
+}
+
+.faq-a {
+    color: red;
+}
+
+.accordion-list {
+    margin: 40px 0;
+}

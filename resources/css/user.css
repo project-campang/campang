@@ -1,4 +1,6 @@
-
+a {
+    text-decoration-line: none;
+  }
 /* 전체 레이아웃 */
 .my-page-section {
     justify-content: center;
@@ -27,9 +29,10 @@
 
 /* 사이드바 내부 이미지 */
 .my-page-side img {
+    background-color: #fff;
     border-radius: 50%;
-    width: 80px; /* 이미지 크기 조정 */
-    height: 80px; /* 이미지 크기 조정 */
+    width: 100px; /* 이미지 크기 조정 */
+    height: 100px; /* 이미지 크기 조정 */
     margin-bottom: 1rem; /* 이미지와 텍스트 사이 여백 */
 }
 
@@ -53,27 +56,62 @@
 
 /* 사이드바 내 텍스트 스타일 */
 .my-page-side p, .my-page-side a {
-    font-size: 1.2rem; /* 텍스트 크기 확대 */
-    margin: 0.5rem 0; /* 텍스트 사이 여백 추가 */
+    /* font-size: 1.2rem; */
+    /* margin: 0.5rem 0;  */
     color: #000; /* 텍스트 색상 설정 */
 }
 
+.my-page-link p {
+    padding: 5px;
+    color: black;
+    cursor: pointer;
+}
+
+
+/* 활성화된 버튼의 스타일 */
+.my-page-link.active p {
+    
+    /* text-shadow: 3px 0px 1px #fff; */
+    border: 3px solid  #7EC636;
+    color: #000; /* 활성화된 버튼의 텍스트 색상 변경 */
+    font-weight: bold; /* 텍스트를 굵게 */
+    text-decoration: underline; /* 밑줄 추가 */
+}
 /* 콘텐츠 박스 스타일 */
 .my-page-box {
+    font-size: 1.2rem;
     width: 100%; /* 사이드바 너비에 맞춤 */
     background-color: #fff;
     border-radius: 1rem;
-    padding: 1rem;
+    /* padding: 1rem; */
     margin-top: 1rem; /* 상단 여백 추가 */
 }
-
+.mypage-stamp-list {
+    height: 300px;
+}
 /* 클릭 가능한 요소 스타일 */
 .mypage-stamp,
 .mypage-content {
+    background-color: #7EC636;
+    padding: 5px;
     cursor: pointer;
-    margin-top: 1rem; /* 요소 간 여백 추가 */
-    background-color: antiquewhite;
-    text-decoration: underline; /* 밑줄 추가 */
+    /* margin-top: 1rem; */
+    /* background-color: antiquewhite; */
+    /* text-decoration: underline; */
+}
+
+
+.mypage-stamp {
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+}
+
+.side-email {
+    font-size: 0.8rem;
+}
+
+.side-nickname {
+    font-size: 1.2rem;
 }
 
 /* 콘텐츠 영역 스타일 */
@@ -96,10 +134,21 @@
     border-top: 1px solid #ddd;
 }
 
+#campingzang span, #camping span {
+    font-size: 1.5rem;
+}
 /* 콘텐츠 열 스타일 */
 .content-column {
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr; /* 그리드 비율 설정 */
+    gap: 1rem; /* 열 간의 여백 추가 */
+    background: #f0f0f0;
+    border-radius: 0.5rem; /* 모서리 둥글게 추가 */
+    margin-bottom: 0.5rem; /* 하단 여백 추가 */
+}
+.content-column-other {
+    display: grid;
+    grid-template-columns:1fr 2fr 1fr 1fr 1fr; /* 그리드 비율 설정 */
     gap: 1rem; /* 열 간의 여백 추가 */
     background: #f0f0f0;
     border-radius: 0.5rem; /* 모서리 둥글게 추가 */
@@ -112,6 +161,17 @@
     align-items: center;
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr;
+    gap: 1rem;
+    background: #fff;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+.content-row-other {
+    justify-items: center;
+    align-items: center;
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
     gap: 1rem;
     background: #fff;
     border: 1px solid #ddd;
@@ -170,6 +230,8 @@
 }
 
 .stamp-top {
+    overflow: auto;
+    height: 450px;
     box-shadow: 5px 5px 10px -5px;
     margin-top: 20px;
     margin-bottom: 5rem;
@@ -184,6 +246,20 @@
     gap: 1rem;
     position: relative; /* Ensure relative positioning */
     display: inline-block;
+}
+
+.my-page-stamp-item {
+    width: 150px;
+    height: 150px;
+    background-color: rgb(126, 198, 54,0.3);
+    border-radius: 50%;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    font-size: 16px;
+    text-shadow: 1px 0px 1px #000;
 }
 
 .stamp-overlay {
@@ -213,7 +289,7 @@
 .content-bottom {
     overflow: auto;
     height: 600px;
-    margin-bottom: 5rem;
+    /* margin-bottom: 1rem; */
 }
 
 .title-text-align {

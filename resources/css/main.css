@@ -532,7 +532,9 @@ a {
     /* background-image: url(/img/last.jpg);
     background-position: center; */
 }
-
+.main-promotion {
+    font-size: 0.5rem;
+}
 /* last-left */
 .last-left {
     text-align: center;
@@ -544,7 +546,7 @@ a {
 
 /* last-left 이미지 스타일 */
 .last-box-img {
-    width: 650px;
+    width: 1200px;
     /* box-shadow: 5px 5px 10px -5px;
     border-radius: 2rem; */
 }

@@ -358,8 +358,8 @@ class CommunityController extends Controller
         Log::info("User ID: {$userId}, Nickname: {$userNickName}");
     
         // 사용자가 작성한 게시글 중 communities.type이 2인 데이터만 가져옵니다.
-        $RankData = Community::
-                        where('type', '=', 1) // type이 2인 데이터만 가져옴
+        $RankData = Community::select('*')
+                        ->where('type', '=', 1) // type이 2인 데이터만 가져옴
                         ->where('user_id', '=', $userId) // 현재 로그인한 사용자의 게시글만 가져옴
                         ->whereNull('communities.deleted_at')
                         ->orderBy('views', 'DESC') // views 기준 내림차순 정렬
@@ -368,19 +368,13 @@ class CommunityController extends Controller
         // 로그: 가져온 게시글 수 확인
         Log::info("Fetched {$RankData->count()} posts for user ID: {$userId}");
     
-        // 각 항목에 사용자의 닉네임을 추가하여 배열로 변환
-        $formattedRankData = $RankData->map(function ($item) use ($userNickName) {
-            $item->user_nick_name = $userNickName;
-            return $item;
-        });
-    
-        // 로그: 변환된 데이터 확인
-        Log::info("Formatted data for user ID: {$userId}: " . json_encode($formattedRankData));
+       
+
     
         $responseData = [
             'code' => '0',
             'msg' => '게시글 획득 완료',
-            'data' => $formattedRankData->toArray(),
+            'data' => $RankData->toArray(),
         ];
     
         return response()->json($responseData, 200);
@@ -389,35 +383,40 @@ class CommunityController extends Controller
     
     
     public function ReviewGet(Request $request) {
-         // 로그인한 사용자의 ID를 가져옵니다.
-         $userId = auth()->id();
-    
-         // 사용자의 nick_name을 가져옵니다.
-         $userNickName = auth()->user()->nick_name;
-     
-         // 사용자가 작성한 게시글 중 communities.type이 2인 데이터만 가져옵니다.
-         $RankData = Community::
-                leftJoin('camps', 'communities.camp_id', '=', 'camps.id') // camps와의 조인
-                ->where('communities.type', '=', 2) // type이 2인 데이터만 가져옴
-                ->where('communities.user_id', '=', $userId) // 현재 로그인한 사용자의 게시글만 가져옴
-                ->whereNull('communities.deleted_at')
-                ->orderBy('communities.views', 'DESC') // views 기준 내림차순 정렬
-                ->get();
-     
-         // 각 항목에 사용자의 닉네임을 추가하여 배열로 변환
-         $formattedRankData = $RankData->map(function ($item) use ($userNickName) {
-             $item->user_nick_name = $userNickName;
-             return $item;
-         });
-     
-         $responseData = [
-             'code' => '0',
-             'msg' => '게시글 획득 완료',
-             'data' => $formattedRankData->toArray(),
-         ];
-     
-         return response()->json($responseData, 200);
-    }
+    // 로그인한 사용자의 ID를 가져옵니다.
+    $userId = auth()->id();
+
+    // 사용자가 작성한 게시글 중 communities.type이 2인 데이터만 가져옵니다.
+    $RankData = Community::select(
+                'communities.id',
+                'communities.title',
+                'communities.content',
+                'communities.main_img',
+                'communities.other_img2',
+                'communities.other_img3',
+                'communities.other_img4',
+                'communities.other_img5',
+                'communities.views',
+                'communities.created_at',
+                'camps.name as camp_name' // camps 테이블에서 name 컬럼을 camp_name으로 가져옴
+            )
+            ->leftJoin('camps', 'communities.camp_id', '=', 'camps.id') // camps와의 조인
+            ->where('communities.type', '=', 2) // type이 2인 데이터만 가져옴
+            ->where('communities.user_id', '=', $userId) // 현재 로그인한 사용자의 게시글만 가져옴
+            ->whereNull('communities.deleted_at')
+            ->orderBy('communities.created_at', 'DESC') 
+            ->get();
+
+
+    $responseData = [
+        'code' => '0',
+        'msg' => '게시글 획득 완료',
+        'data' =>  $RankData->toArray(),
+    ];
+
+    return response()->json($responseData, 200);
+}
+
     
   
         public function updateContent(Request $request)
@@ -528,7 +527,7 @@ class CommunityController extends Controller
             'other_img4' => 'nullable|image',
             'other_img5' => 'nullable|image',
         ]);
-        Log::debug('test', print_r($validatedData, true));
+        // Log::debug('test', print_r($validatedData, true));
         $content = Community::findOrFail($validatedData['id']);
         $content->title = $validatedData['title'];
         $content->content = $validatedData['content'];
