@@ -68,7 +68,7 @@
             <div class="main-top-middle">
                 <div class="main-mini-search">
                     <div class="align-items-center justify-content-center popularBoard">
-                        <h2>캠팡 인기글</h2>
+                        <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow">캠팡 인기글</h2>
                         <hr>
                         <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유게시판</span>{{ index + 1 }}위. {{ item.title }}</p>
                     </div>
@@ -77,7 +77,7 @@
             <div class="main-top-right">
                 <div class="main-mini-search">
                     <div class="align-items-center justify-content-center popularBoard">
-                        <h2>캠팡 꿀팁</h2>
+                        <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow	">캠팡 꿀팁</h2>
                         <hr>
                         <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유게시판</span>{{ index + 1 }}위. {{ item.title }}</p>
                     </div>

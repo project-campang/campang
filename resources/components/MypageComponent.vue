@@ -95,7 +95,7 @@
                 <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '게시글')">{{ item.title }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
                 <div>{{ getFormattedDate(item.created_at) }}</div>
-                <div><button type="button" class="btn" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '게시글')">삭제</button></div>
+                <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '게시글')">삭제</button></div>
               </div>
               <hr class="item-hr" id="review">
             </div>
@@ -121,7 +121,7 @@
                 <div class="review-cam ">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
                 <div>{{ getFormattedDate(item.created_at) }}</div>
-                <div><button type="button" class="btn" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '리뷰')">삭제</button></div>
+                <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '리뷰')">삭제</button></div>
               </div>
               <hr class="item-hr" id="comment">
             </div>
@@ -147,7 +147,7 @@
                 <div class="review-cam ">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
                 <div>{{ getFormattedDate(item.created_at) }}</div>
-                <div><button type="button" class="btn" @click="updataModal(item, '댓글')">수정</button><button type="button" class="btn" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '댓글')">삭제</button></div>
+                <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '댓글')">수정</button><button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '댓글')">삭제</button></div>
               </div>
               <hr class="item-hr">
             </div>
@@ -226,13 +226,18 @@
         <h1 class="modal-title fs-5" id="contentModalLabel">{{ contentType }}: {{ selectedContent?.title || selectedContent?.comment }}</h1>
       </div>
       <div class="modal-body">
-        <p v-if="contentType !== '댓글'"><strong>내용:</strong> {{ selectedContent?.content }}</p>
-        <p v-if="contentType == '리뷰'"><strong>캠핑장:</strong> {{ selectedContent?.camp_name }}</p>
-        <img v-if="selectedContent?.main_img" :src="selectedContent.main_img" alt="Main Image" style="max-width: 100%; margin-bottom: 10px;">
-        <img v-if="selectedContent?.other_img2" :src="selectedContent.other_img2" alt="Other Image 2" style="max-width: 100%; margin-bottom: 10px;">
-        <img v-if="selectedContent?.other_img3" :src="selectedContent.other_img3" alt="Other Image 3" style="max-width: 100%; margin-bottom: 10px;">
-        <img v-if="selectedContent?.other_img4" :src="selectedContent.other_img4" alt="Other Image 4" style="max-width: 100%; margin-bottom: 10px;">
-        <img v-if="selectedContent?.other_img5" :src="selectedContent.other_img5" alt="Other Image 5" style="max-width: 100%; margin-bottom: 10px;">
+        <p v-if="contentType !== '댓글'"><span class="my-detail-title">- 내용</span> <br>{{ selectedContent?.content }}</p>
+        <p v-if="contentType == '리뷰'"><span class="my-detail-title">- 캠핑장</span> <br>{{ selectedContent?.camp_name }}</p>
+        <p v-if="selectedContent?.main_img" class="my-detail-title"><hr>- 메인이미지</p>
+        <img v-if="selectedContent?.main_img" :src="selectedContent.main_img" alt="Main Image" class="my-page-detailmodal">
+        <p v-if="selectedContent?.other_img2" class="my-detail-title">- 부가이미지1</p>
+        <img v-if="selectedContent?.other_img2" :src="selectedContent.other_img2" alt="Other Image 2" class="my-page-detailmodal">
+        <p v-if="selectedContent?.other_img3" class="my-detail-title">- 부가이미지2</p>
+        <img v-if="selectedContent?.other_img3" :src="selectedContent.other_img3" alt="Other Image 3" class="my-page-detailmodal">
+        <p v-if="selectedContent?.other_img4" class="my-detail-title">- 부가이미지3</p>
+        <img v-if="selectedContent?.other_img4" :src="selectedContent.other_img4" alt="Other Image 4" class="my-page-detailmodal">
+        <p v-if="selectedContent?.other_img5" class="my-detail-title">- 부가이미지4</p>
+        <img v-if="selectedContent?.other_img5" :src="selectedContent.other_img5" alt="Other Image 5" class="my-page-detailmodal">
         <hr>
         <p><strong>작성일자:</strong> {{ selectedContent?.created_at }}</p>
         <p v-if="contentType !== '댓글'"><strong>조회수:</strong> {{ selectedContent?.views }}</p>

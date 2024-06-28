@@ -10,15 +10,10 @@
                     <li class="nav-item">
                         <a @click="searchPage" class="nav-link active" aria-current="page" href="#">캠핑장 모아보기</a>
                     </li>
-                    <li class="nav-item dropdown">
-                        <a @click="toggleDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <li class="nav-item">
+                        <router-link to="/community/1" class="nav-link active" aria-current="page">
                             캠핑Talk 
-                        </a>
-                        <!-- <ul v-if="showDropdown" class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                            <li v-for="communityType in communityTypes" :key="communityType.type">
-                                <a class="dropdown-item" :href="`/community/${communityType.type}`">{{ communityType.name }}</a>
-                            </li>
-                        </ul> -->
+                        </router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/faq" class="nav-link active" aria-current="page">FAQ</router-link>

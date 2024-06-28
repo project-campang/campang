@@ -547,8 +547,10 @@ a {
 /* last-left 이미지 스타일 */
 .last-box-img {
     width: 1200px;
-    /* box-shadow: 5px 5px 10px -5px;
-    border-radius: 2rem; */
+    height: 700px;
+    /* box-shadow: 5px 5px 10px -5px; */
+    border-radius: 2rem;
+    background-size: cover;
 }
 
 
