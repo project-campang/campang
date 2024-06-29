@@ -101,46 +101,48 @@
                         <span>개의 캠핑장 발견!</span>
                     </div>
                 </div>
-                <div class="search-item" @click="markerShow" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
-                    <div class="item-img">
-                        <img class="img main-img" :src='item.main_img' alt="">
-                    </div>
-                    <div class="item-info">
-                        <div>
-                            <span class="item-name">{{ item.name }}</span>
-                            <span class="item-distance sub-text">87.2km</span>
+                <div class="search-item-con">
+                    <div class="search-item" @click="markerShow(item)" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
+                        <div class="item-img">
+                            <img class="img main-img" :src='item.main_img' alt="">
                         </div>
-                        <div class="item-info-2">
-                            <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
-                            <span class="address-depth2">{{ item.address }}</span>
+                        <div class="item-info">
+                            <div>
+                                <span class="item-name">{{ item.name }}</span>
+                                <span class="item-distance sub-text">87.2km</span>
+                            </div>
+                            <div class="item-info-2">
+                                <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
+                                <span class="address-depth2">{{ item.address }}</span>
+                            </div>
+                            <div class="item-info-3">
+                                <span class="item-price">₩{{ item.price }}
+                                    <span class="sub-text">1박 기준</span>
+                                </span>
+                            </div>
+                            <div class="item-tel sub-text">
+                                <span>{{ item.tel }}</span>
+                            </div>
                         </div>
-                        <div class="item-info-3">
-                            <span class="item-price">₩{{ item.price }}
-                                <span class="sub-text">1박 기준</span>
-                            </span>
+                        <div class="item-detail">
+                            <button>
+                                <a :href="`/camp/${item.id}`">
+                                    <img src="../../public/img/상세보기 화살표.png" alt="">
+                                </a>
+                            </button>
                         </div>
-                        <div class="item-tel sub-text">
-                            <span>{{ item.tel }}</span>
-                        </div>
-                    </div>
-                    <div class="item-detail">
-                        <button>
-                            <a :href="`/camp/${item.id}`">
-                                <img src="../../public/img/상세보기 화살표.png" alt="">
-                            </a>
-                        </button>
-                    </div>
-                </div> 
-                <div class="pagination">
-                    <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()"><ㅤ</button>
-                    <div class="page-num">{{ $store.state.paginationSearch.current_page+'ㅤ/ㅤ'+$store.state.paginationSearch.last_page }}</div>
-                    <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()">ㅤ> </button>
-                </div>          
+                    </div> 
+                    <div class="pagination">
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()"><ㅤ</button>
+                        <div class="page-num">{{ $store.state.paginationSearch.current_page+'ㅤ/ㅤ'+$store.state.paginationSearch.last_page }}</div>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()">ㅤ> </button>
+                    </div>          
+                </div>
             </div>
             <div class="resizer" id="drag" @mousedown="startResize"></div>
             <div class="map-container">
                 <div class="map">
-                    <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true" :level="7">
+                    <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true" :level="7" class="marker-parent">
                         <KakaoMapMarker
                             v-for="(item, key) in $store.state.campData"
                             :key="key"
@@ -153,6 +155,16 @@
                         ></KakaoMapMarker>
                     </KakaoMap>
                 </div>
+
+
+                <div class="parents">
+                    <div>
+                        <div>
+                            <img src="" alt="">
+                        </div>
+                    </div>
+                </div>
+
                 <div class="float-btn">
                     <!-- <button class="result-pin" @click="adjustMarkerZIndex">검색</button>
                     <button class="wishlist-pin">찜</button>
@@ -247,11 +259,25 @@ watch(campData, (newData) => {
   }
 }, { immediate: true });
 
-// function markerShow(e) {
-//     console.log(e);
-//     store.dispatch('markerShow')
 
-// }
+// item 선태 시 해당 좌표가 중심
+function markerShow(item) {
+    mapCenter.value = {
+    lat: item.latitude,
+    lng: item.longitude
+  };
+  console.log('중심좌표 변경됨', mapCenter.value);
+  
+  overlayText.value = item.name;
+  overlayStyle.value = {
+    position: 'absolute',
+    left: `calc(50% + ${item.longitude - mapCenter.value.lng}px)`,
+    top: `calc(50% - ${item.latitude - mapCenter.value.lat}px)`,
+    transform: 'translate(-50%, -100%)'
+  };
+  overlayVisible.value = true;
+  console.log('오버레이 업데이트:', overlayStyle.value, overlayText.value);
+}
 
 
 
@@ -306,14 +332,14 @@ function searchBtn(e) {
 
 
 function prevPage() {
-    store.dispatch('searchResult', store.state.paginationSearch.current_page-1);
+    store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
     console.log('-1', store.state.paginationSearch);
     console.log('-1', store.state.paginationSearch.current_page);
     console.log('-1', store.state.paginationSearch.current_page-1);
 }
 
 function nextPage() {
-    store.dispatch('searchResult', store.state.paginationSearch.current_page+1);
+    store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
     console.log('+1', store.state.paginationSearch);
     console.log('+1', store.state.paginationSearch.current_page);
     console.log('+1', store.state.paginationSearch.current_page+1);

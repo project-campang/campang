@@ -236,24 +236,24 @@ function gotoLink() {
 // ---------------------------------------------------
 
 // ------------------- 캠핑장 전경 -------------------
-const imgCarousel = reactive([
-    {img1: store.state.campDetail.campInfo.other_img_1},
-    {img2: store.state.campDetail.campInfo.other_img_2},
-    {img3: store.state.campDetail.campInfo.other_img_3},
-    {img4: store.state.campDetail.campInfo.other_img_4},
-    {img5: store.state.campDetail.campInfo.other_img_5},
-    {img6: store.state.campDetail.campInfo.other_img_6},
-    {img7: store.state.campDetail.campInfo.other_img_7},
-    {img8: store.state.campDetail.campInfo.other_img_8},
-    {img9: store.state.campDetail.campInfo.other_img_9},
-    {img10: store.state.campDetail.campInfo.other_img_10},
-])
+// const imgCarousel = reactive([
+//     {img1: store.state.campDetail.campInfo.other_img_1},
+//     {img2: store.state.campDetail.campInfo.other_img_2},
+//     {img3: store.state.campDetail.campInfo.other_img_3},
+//     {img4: store.state.campDetail.campInfo.other_img_4},
+//     {img5: store.state.campDetail.campInfo.other_img_5},
+//     {img6: store.state.campDetail.campInfo.other_img_6},
+//     {img7: store.state.campDetail.campInfo.other_img_7},
+//     {img8: store.state.campDetail.campInfo.other_img_8},
+//     {img9: store.state.campDetail.campInfo.other_img_9},
+//     {img10: store.state.campDetail.campInfo.other_img_10},
+// ])
 
-let imgModalFlg = ref(false);
+// let imgModalFlg = ref(false);
 
-function myOpenModal() {
+// function myOpenModal() {
     
-} 
+// } 
 // --------------------------------------------------
 </script>
 

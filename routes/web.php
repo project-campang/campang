@@ -65,11 +65,11 @@ Route::post('/api/stampStore/{id}', [StampController::class, 'stampStore']);
 Route::get('/api/search/searchPage', [CampController::class, 'campListGet']);
 Route::post('/api/search/searchPage', [CampController::class, 'searchResult']);
 Route::get('/api/searchCount', [CampController::class, 'searchResultCount']);
-Route::get('/api/camp/commentPage', [CommentController::class, 'commentPaginate']);
+// Route::get('/api/camp/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/camp/{id}', [CampController::class, 'campDetailGet']);
 Route::get('/api/state', [StateController::class, 'stateGet']); // state
 Route::get('/api/county', [CountyController::class, 'countyGet']); // county
-Route::get('/api/camp/{id}/imgs', [CampController::class, 'allImgGet']);
+// Route::get('/api/camp/{id}/imgs', [CampController::class, 'allImgGet']);
 
 // 댓글 컨트롤러
 Route::post('/api/comment/{id}', [CommentController::class, 'comment']);

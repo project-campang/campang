@@ -583,7 +583,7 @@ const store = createStore({
 
 
         /**
-         * 댓글작성
+         * 댓글 작성
          * 
          * @param {*} context 
          */
@@ -614,14 +614,14 @@ const store = createStore({
          */
          commentPageGet(context,id, page=1) {
             const url = ('/api/camp/'+id+'/commentPage?page=' + page);
-            console.log(url);
+            console.log('페이지확인',url);
             axios.get(url)
             .then(response => {
                 // const test = response.data.data.links.filter((item, key) => {
                 //     return !(key == 0 || key == (response.data.data.links.length - 1));
                 // });
                 context.commit('setCommentList', response.data.data.data);
-                console.log('data 확인', response.data.data);
+                // console.log('data 확인', response.data.data);
                 context.commit('setPagination', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -804,10 +804,10 @@ const store = createStore({
 
         },
 
-        /**
-        * 게시글 삭제
-        * @param {*} context
-        */
+    /**
+    * 게시글 삭제
+    * @param {*} context
+    */
     // "delete": function _delete(context, boardId) {
     //     var url = '/api/board/' + boardId;
     //     axios["delete"](url).then(function (response) {
@@ -819,6 +819,7 @@ const store = createStore({
     //     });
     //   }
 
+        // 캠핑장 상세페이지 get 
         campDetailGet(context, id){
             const url = '/api/camp/'+id;
             console.log(url);
@@ -1015,6 +1016,10 @@ const store = createStore({
                 });
             },
             
+            /**
+             * 검색결과 카운트
+             * @param {*} context 
+             */
             searchCount(context) {
 
                 const url = 'api/searchCount';
@@ -1026,6 +1031,11 @@ const store = createStore({
                     console.error('카운트에러', error);
                 })
             },
+
+            // markerShow(context) {
+            //     const url = ('/api/search/searchPage?page=' + page);
+            //     console.log('Marker clicked:', url);
+            // }
 
             // 메인에서 검색값 가져오는 처리
             // setSelection(context) {

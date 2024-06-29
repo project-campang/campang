@@ -147,6 +147,8 @@ hr {
     height: 2px;
 }
 
+
+
 .search-item {
     margin: 10px;
     padding: 10px;
@@ -307,6 +309,13 @@ hr {
     /* background-color: blue; */
 
 }
+
+/* img[draggable] { */
+/* .marker-parent img { */
+.parents > div > div > div > div > img {
+    src:url("/img/markerStar.png") !important;
+}
+
 
 .float-btn {
     position: absolute;
