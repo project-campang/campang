@@ -24,10 +24,10 @@ const routes = [
         component: MainComponent,
     },
     {
-        // path: "/community/:type",
-        path: "/community/:type",
+        path: '/community/:id',
         component: CommunityComponent,
-    },
+        name: 'Community'
+    },    
     {
         path: "/mypage",
         component: MypageComponent,
