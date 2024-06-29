@@ -11,7 +11,7 @@
                     <div class="main-select-box me-2">
                         <select @change="selectState" name="state" id="select1" class="select">
                             <option>전체 시/도</option>
-                            <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
+                            <option :value="key+1"  v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
                             {{ console.log('stateData', stateData) }}
                         </select>
                     </div>
@@ -405,6 +405,13 @@ onMounted(() => {
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
+
+const selectState = (e) => {
+    const selectedStateId = e.target.value;
+
+    store.dispatch('countyGet', selectedStateId);
+};
+
 
 function searchBtn(e) {
     const selectStateElement = document.querySelector('#select1');

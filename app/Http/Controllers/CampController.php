@@ -43,7 +43,7 @@ class CampController extends Controller
             //     $campList->where('camps.county', $county);
             // }
 
-            $result = $campList->paginate(6);
+            $result = $campList->paginate(5);
         
             $responseData = [
                 'code' => '0'
@@ -82,7 +82,7 @@ class CampController extends Controller
             $campList->where('camps.county', $request->county);
         }
                         
-        $result = $campList->paginate(6);
+        $result = $campList->paginate(5);
 
         $responseData = [
             'code' => '0'

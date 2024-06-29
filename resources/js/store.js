@@ -33,7 +33,7 @@ const store = createStore({
             countyData: [],
             selectedState: '', // 선택된 시/도
             selectedCounty: '', // 선택된 구/군
-            mapCenter: { lat: 37.566826, lng: 126.9786567 }, // 임시 기본 좌표
+            mapCenter: { lat: 35.868312, lng: 128.593964 }, // 임시 기본 좌표
             stampCampingzang: [],
             mypageWishes:[],
             targetCamp: [],
@@ -903,7 +903,6 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('setStateData', response.data.data);
-                // console.log(response.data.data);
             })
             .catch(error => {
                 alert('state 획득 실패' + error.response.data);
@@ -914,34 +913,35 @@ const store = createStore({
          * 군/구 데이터 획득
          * @param {*} context 
          */
-        // countyGet(context) {
-        //     const url = '/api/county';
+        countyGet(context ,id) {
+            const url = `/api/county/${id}`;
 
-        //     axios.get(url)
-        //     .then(response => {
-        //         context.commit('setCountyData', response.data.data);
-        //         // console.log(response.data.data);
-        //     })
-        //     .catch(error => {
-        //         alert('county 획득 실패' + error.response.data);
-        //     })
-        // },
-    // Vuex 액션
-        countyGet({ commit }, selectedStateId) {
-            const url = '/api/county';
-        
-            axios.get(url, {
-            params: {
-                state_id: selectedStateId
-            }
-            })
+            axios.get(url)
             .then(response => {
-            commit('setCountyData', response.data.data);
+                context.commit('setCountyData', response.data.data);
+                console.log('군구store',response.data.data);
             })
             .catch(error => {
-            alert('군/구 데이터 획득 실패: ' + error.response.data);
-            });
+                alert('county 획득 실패' + error.response.data);
+            })
         },
+
+    // Vuex 액션
+        // countyGet({ commit }, selectedStateId) {
+        //     const url = '/api/county';
+        
+        //     axios.get(url, {
+        //     params: {
+        //         state_id: selectedStateId
+        //     }
+        //     })
+        //     .then(response => {
+        //     commit('setCountyData', response.data.data);
+        //     })
+        //     .catch(error => {
+        //     alert('군/구 데이터 획득 실패: ' + error.response.data);
+        //     });
+        // },
 
 
         /**
@@ -970,6 +970,7 @@ const store = createStore({
             axios.post(url, data)
                 .then(response => {
                     const campList = response.data.data.data;
+                    console.log('srghsg', campList);
                     context.commit('setCampList', campList);
                     console.log('searchResult 검색 결과 획득 성공', campList);
                     console.log('searchResult setCampList', context.state.campData);
@@ -1004,8 +1005,8 @@ const store = createStore({
 
                 })
                 .catch(error => {
-                    console.error('검색 결과 획득 실패', error);
-                    alert('시/도와 구/군을 모두 선택해주세요');
+                    console.error('검색 결과 획득 실패', error.response);
+                    alert('검색 오류');
                 });
             },
             
