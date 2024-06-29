@@ -23,7 +23,14 @@ const store = createStore({
             reviewTap: [],
             suggestCam:[],
             suggestBrand:[],
-            communityTypes: [], // community_types 데이터를 저장할 상태
+            // communityTypes: [], // community_types 데이터를 저장할 상태
+            communityTypes: {
+                1: { name: '자유 게시판' },
+                2: { name: '리뷰 게시판' },
+                3: { name: '가입 인사' },
+                4: { name: '캠핑 꿀팁' },
+                5: { name: '랭킹 게시판' },
+              },
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
             searchCount: [],
@@ -161,6 +168,11 @@ const store = createStore({
             state.communityTypes = communityTypes; // 상태 업데이트
         },
         
+        setCampDetail(state, data){
+            state.campDetail = data;
+        },
+
+
         setCampDetail(state, data){
             state.campDetail = data;
         },
@@ -694,37 +706,40 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        // communityGet(context, id, page=1) {
-        communityGet(context, id, page=1) {
-            // const url = ('/api/community/'+id+'/communityPage?page='+page);
-            const url = ('/api/community/' + id + '/communityPage?page=' + page);
-
+        
+        communityGet(context, { id, page = 1 }) {
+            if (!id) {
+              console.error('API 호출 오류: id가 정의되지 않았습니다.'); // 오류 로그 추가
+              return;
+            }
+          
+            const url = `/api/community/${id}/communityPage?page=${page}`;
+            console.log('API 요청 URL:', url); // 디버깅 로그 추가
+          
             axios.get(url)
-            .then(response => {
-                // const data = response.data.data;
-                context.commit('setCommunityList', response.data.data.data);
+              .then(response => {
+                const data = response.data.data;
+                console.log('API 응답 데이터:', data); // 디버깅 로그 추가
+                context.commit('setCommunityList', data.data);
                 context.commit('setPaginationCommunity', {
-                    current_page: response.data.data.current_page, // 현재페이지
-                    // first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
-                    last_page: response.data.data.last_page, // 마지막페이지
-                    // last_page_url: response.data.data.last_page_url, // 마지막페이지url
-                    total: response.data.data.total, // 총 페이지
-                    per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
-                    prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
-                    next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
-                    // links: response.data.links,
-                    // test: test,
+                  current_page: data.current_page,
+                  first_page_url: data.first_page_url,
+                  last_page: data.last_page,
+                  last_page_url: data.last_page_url,
+                  total: data.total,
+                  per_page: data.per_page,
+                  prev_page_url: data.prev_page_url,
+                  next_page_url: data.next_page_url,
+                  links: response.data.links
                 });
-                // context,commit('setCommunityTypes', data);
-                console.log('setPaginationCommunity 실행됨');
-                console.log('response.data.data.current_page', response.data.data.current_page);
-                console.log('데이터 확인1', response.data);
-                console.log('데이터 확인2', response.data.data);
-            })
-            .catch(error => {
-                alert('communityGet 오류오류~~' + error.response);
-            })
-        },
+              })
+              .catch(error => {
+                console.error('API 호출 오류:', error.response); // 오류 로그 추가
+                alert(`communityGet 오류: ${error.response}`);
+              });
+          },
+          
+        
 
 
             // // 게시판타입
@@ -745,29 +760,21 @@ const store = createStore({
          * @param {*} context
          */
         
-        communityInsert(context, id,) {
-            const url = ('/api/community/' + id);
-
+        communityInsert(context, id) {
+            const url = `/api/community/${id}`;
             const insertForm = document.querySelector('#insertForm');
-            console.log('insertForm', insertForm);
-
-            const formData = new FormData(document.querySelector('#insertForm'));
-            console.log('formData', formData);
-
+            const formData = new FormData(insertForm);
+          
             axios.post(url, formData)
-            .then(response => {
+              .then(response => {
                 context.commit('setUnshiftCommunityData', response.data.data);
-                // router.replace('/community');
-                // router.go('/community');
-                // location.reload('/community');
-                console.error('게시글 작성 완료');
-
-            })
-            .catch(error => {
+                console.log('게시글 작성 완료');
+              })
+              .catch(error => {
                 console.error('게시글 작성 실패:', error.response.data);
-                alert('게시글 작성 실패'+error.response.data);
-            });
-        },
+                alert('게시글 작성 실패: ' + error.response.data);
+              });
+          },
 
         /**
          * 조회수 증가

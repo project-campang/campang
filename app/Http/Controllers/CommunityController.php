@@ -10,62 +10,23 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 class CommunityController extends Controller
 {
-    //  게시글 획득
+   // 게시글 획득
     public function communityGet($id) {
-        // 유효성 체크용 데이터 초기화
-        // $request = [
-        //     'id' => $id
-        // ];
-        // 유효성 체크
-        // $validator = Validator::make(
-        //     $request->only('id'),
-        //     [
-        //         'id' => ['regex:/^[0-9]+$/'],
-        //     ]
-        // );
-        // 유효성 체크 실패 시 처리
-        // if($validator->fails()) { // 실패하면 true 반환
-        //     throw new Exception('유효성 검사 실패');
-        //     Log::debug('획득 시 유효성 검사 실패', $validator->errors()->toArray());
-        //     // throw new MyValidateException('E01');
-        // }
-        
-        // $id = ['1','2','3','4','5']; // 게시판 타입
-
-        // 게시글 정보 획득
         $boardList = Community::join('users', 'communities.user_id', '=', 'users.id')
-                                ->select('communities.*', 'users.name')
-                                ->where('communities.type', $id)
-                                ->orderBy('communities.id', 'DESC')
-                                ->paginate(5);
-        // log::debug('게시글 정보', $boardList);
-        Log::debug("boardList", $boardList->toArray());
+                              ->select('communities.*', 'users.name')
+                              ->where('communities.type', $id)
+                              ->orderBy('communities.id', 'DESC')
+                              ->paginate(5);
         
         $responseData= [
-            'code' => '0'
-            ,'msg' => '게시글획득'
-            // ,'data' => $boardList->toArray()
-            ,'data' => $boardList
+            'code' => '0',
+            'msg' => '게시글 획득',
+            'data' => $boardList
         ];
-
-        // log::debug('responseData1', $responseData);
-
-        // $communityData = Community::select('communities.*', 'users.nick_name')
-        //                             ->join('users', 'users.id', '=', 'communities.user_id')
-        //                             ->orderBy('communities.id', 'DESC')
-        //                             ->limit(8)
-        //                             ->get();
-        // $responseData = [
-        //     'code' => '0',
-        //     'msg' => '게시글 획득 완료',
-        //     'data' => $communityData->toArray()
-        // ];
-        // Log::debug('쿼리', $communityData->toArray());
-        // Log::debug('responseData2', $responseData);
-        // Log::debug('리턴');
-        
+    
         return response()->json($responseData, 200);
     }
+    
     // 게시글 조회순으로 획득 
 
 
@@ -74,98 +35,57 @@ class CommunityController extends Controller
 
 
     // 게시글 작성
-    public function communityStore(Request $request) {
-
-        // 유효성 체크용 데이터 초기화
-        $requestData = [
-            'type' => $request->type
-            ,'title' => $request->title
-            ,'content' => $request->content
-            ,'main_img' => $request->mainImg
-            ,'views' => $request->views
-        ];
-
+    public function communityStore(Request $request, $id) {
         // 유효성 체크
         $validator = Validator::make(
-            $request->only('title', 'content', 'main_img')
-            // $request->all()
-            ,[
-                'type' => ['required']
-                ,'title' => ['required', 'min:1', 'max:50']
-                ,'content' => ['required', 'min:1', 'max:500']
-                ,'main_img' => ['image']
-                // ,'views' => ['required']
+            $request->all(),
+            [
+                'title' => 'required|min:1|max:50',
+                'content' => 'required|min:1|max:500',
+                'main_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
             ]
         );
-
-        // 유효성 검사 실패 시 처리
-        if($validator->fails()) {
-            Log::debug('---', $validator->errors()->toArray());
+    
+        if ($validator->fails()) {
             Log::debug('커뮤니티 페이지 유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
-
-        Log::debug('유효성 검사 통과', $validator->errors()->toArray());
-
-        // 파일 저장
-        // if($request->hasFile('main_img')) {
-        //     $mainImgPath = $request->file('main_img')->store('main_img');
-        // }
-
+    
+        // 파일 저장 경로
         $mainImgPath = null;
-        if($request->hasFile('main_img')) {
-            $mainImgPath = $request->file('main_img')->store('main_img');
+        if ($request->hasFile('main_img')) {
+            $image = $request->file('main_img');
+            $fileName = time() . '_' . $image->getClientOriginalName();
+            $filePath = $image->move(public_path('img'), $fileName);
+    
+            // 경로를 '/img/파일이름' 형식으로 변경
+            $mainImgPath = '/img/' . $fileName;
             Log::debug('main_img 저장 경로', ['path' => $mainImgPath]);
-        }
-        else {
+        } else {
             Log::debug('main_img 파일이 존재하지 않음');
         }
-        // Log::('유효성 검사 패스', $mainImgPath);
-
-        // insert 데이터 생성
-        // $communityRequest = Community::select('communities.*', 'users.id')
-        //                             ->join('users','users.id','=','communities.user_id')
-        //                             ->where('users.id', Auth::id())
-        //                             ->first();
-
-        $communityRequest = Community::select('communities.*', 'users.nick_name')
-                                    ->join('users', 'communities.user_id', '=', 'users.id')
-                                    ->first();
-
-        if ($communityRequest === null) {
-            return response()->json([
-                'code' => 'E99',
-                'msg' => '해당 사용자의 게시글을 찾을 수 없습니다.',
-            ], 404);
-        }
-                  
-        // 인스턴스
-        $communityRequest = new Community;
-        $communityRequest->title = $request->title;
-        $communityRequest->content = $request->content;
-        $communityRequest->main_img = $mainImgPath;
-        $communityRequest->user_id = 1;
-        $communityRequest->views = 0;
-        $communityRequest->save();
-
-        // $insertData = $request->only('comment');
-        // $insertData['user_id'] = 1;
-        // $insertData['camp_id'] = 1;
-        
-        // response 처리
+    
+        // 게시글 저장
+        $community = new Community;
+        $community->type = $id; // 보드 ID 설정
+        $community->title = $request->title;
+        $community->content = $request->content;
+        $community->main_img = $mainImgPath;
+        $community->user_id = auth()->id(); // 현재 로그인된 사용자의 ID를 설정합니다.
+        $community->views = 0;
+        $community->save();
+    
+        // 응답 데이터 생성
         $responseData = [
-            'code' => '0'
-            ,'msg' => '게시글 작성 완료'
-            ,'data' => $communityRequest->toArray()
+            'code' => '0',
+            'msg' => '게시글 작성 완료',
+            'data' => $community->toArray()
         ];
-
-        Log::debug('쿼리', $communityRequest->toArray());
-        Log::debug('responseData2', $responseData);
-        Log::debug('리턴');
-
-        // 리턴
+    
+        Log::debug('쿼리', $community->toArray());
         return response()->json($responseData, 200);
     }
+    
 
     // // 게시글 조회수 증가
     // public function incrementViews(Request $request, $id) {
