@@ -9,12 +9,13 @@ use Illuminate\Support\Facades\Log;
 class CountyController extends Controller
 {
         // 군/구 데이터 획득
-        public function countyGet() {
+        public function countyGet($id) {
         
             $countyList = County::select('counties.*')
                             ->orderBy('counties.id')
+                            ->where('state_id', $id)
                             ->get();
-    
+
             // log::debug('군/구', $countyList->toArray());
     
             $responseData = [

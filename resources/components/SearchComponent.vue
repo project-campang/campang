@@ -8,7 +8,7 @@
                         <label for="address"></label>
                         <select @change="selectState" name="state" id="select1" class="address">
                             <option>시/도 선택</option>
-                            <option v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
+                            <option :value="key+1" v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
                         </select>
                         <select @change="selectCounty" name="county" id="select2" class="address">
                             <option>구/군 선택</option>
@@ -96,6 +96,7 @@
                 </div>
                 <div class="result">
                     <div class="count">
+                        <img src="" draggable="false" alt="">
                         <span>총</span>
                         {{ $store.state.searchCount.length }} 
                         <span>개의 캠핑장 발견!</span>
@@ -141,7 +142,7 @@
             </div>
             <div class="resizer" id="drag" @mousedown="startResize"></div>
             <div class="map-container">
-                <div class="map">
+                <div class="map" id="map">
                     <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true" :level="7" class="marker-parent">
                         <KakaoMapMarker
                             v-for="(item, key) in $store.state.campData"
@@ -151,6 +152,8 @@
                             :lng="item.longitude"
                             :title="item.name"
                             :clickable="true"
+                            :imageUrl="'/image/map-pin.png'"
+                            @mouseenter="markerMouseEnter(item)"
                             @on-click-kakao-map-marker="openMarkerLink(`/camp/${item.id}`)"
                         ></KakaoMapMarker>
                     </KakaoMap>
@@ -177,7 +180,7 @@
 
 <script setup>
 import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-import { onBeforeMount, onMounted, ref, watch, computed } from 'vue';
+import { onBeforeMount, onMounted, ref, watch, computed, nextTick, onUpdated } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -231,6 +234,7 @@ const selectState = (e) => {
     const selectedStateId = e.target.value;
 
     store.dispatch('countyGet', selectedStateId);
+    console.log('실행?', selectedStateId);
 };
 
 // // // 두 번째 셀렉트 박스에서 county 선택 시 실행되는 함수
@@ -260,25 +264,51 @@ watch(campData, (newData) => {
 }, { immediate: true });
 
 
-// item 선태 시 해당 좌표가 중심
+// item 클릭시 이벤트
 function markerShow(item) {
+    // 중심 좌표 업데이트
     mapCenter.value = {
-    lat: item.latitude,
-    lng: item.longitude
-  };
-  console.log('중심좌표 변경됨', mapCenter.value);
-  
-  overlayText.value = item.name;
-  overlayStyle.value = {
-    position: 'absolute',
-    left: `calc(50% + ${item.longitude - mapCenter.value.lng}px)`,
-    top: `calc(50% - ${item.latitude - mapCenter.value.lat}px)`,
-    transform: 'translate(-50%, -100%)'
-  };
-  overlayVisible.value = true;
-  console.log('오버레이 업데이트:', overlayStyle.value, overlayText.value);
-}
+        lat: item.latitude,
+        lng: item.longitude,
+    };
+    console.log('중심좌표 변경됨', mapCenter.value);
 
+    // 이미지 URL 가져오기
+    const parentElement = document.querySelector('#map');
+    const childElements = parentElement.querySelectorAll('img');
+    let imageUrl = '/image/select-pin';
+
+    childElements.forEach(img => {
+        if (img.getAttribute('title') === item.name) {
+            imageUrl = img.src;
+        }
+    });
+
+    // mapCenter에 이미지 URL 추가
+    mapCenter.value = {
+        ...mapCenter.value, // 기존 mapCenter의 값 복사
+        imageUrl: imageUrl // imageUrl 속성 추가
+    };
+
+    console.log('새 중심좌표', mapCenter.value);
+
+    // // 마커 이미지 업데이트
+    // const map = ref(null); // 지도 객체를 담을 변수
+    // const markers = ref([]); // 마커 객체들을 담을 배열
+    // // 모든 마커 초기화
+    // markers.value.forEach(marker => {
+    //     marker.setImage(new kakao.maps.MarkerImage('', new kakao.maps.Size(64, 69)));
+    //     console.log('마커 초기화됨', markers.value);
+    // });
+
+    // // 클릭한 핀의 마커만 변경
+    // const targetMarker = markers.value.find(marker => marker.getTitle() === item.name);
+    // if (targetMarker) {
+    //     targetMarker.setImage(new kakao.maps.MarkerImage('/img/markerStar.png', new kakao.maps.Size(64, 69)));
+    //     console.log('클릭된 마커 변경함', targetMarker);
+    // }
+    
+}
 
 
 // 검색 화면 리사이즈
@@ -329,20 +359,11 @@ function searchBtn(e) {
 
 
 // 페이지네이션
-
-
 function prevPage() {
     store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
-    console.log('-1', store.state.paginationSearch);
-    console.log('-1', store.state.paginationSearch.current_page);
-    console.log('-1', store.state.paginationSearch.current_page-1);
 }
-
 function nextPage() {
     store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
-    console.log('+1', store.state.paginationSearch);
-    console.log('+1', store.state.paginationSearch.current_page);
-    console.log('+1', store.state.paginationSearch.current_page+1);
 }
 
 
@@ -379,7 +400,9 @@ onBeforeMount(() => {
     store.dispatch('searchCount');
 })
 
-onMounted(() => {
+onMounted(async () => {
+    await nextTick();
+
     store.dispatch('stateGet');
     // store.dispatch('countyGet' );
     const resizer = document.querySelector('.resizer');
@@ -387,6 +410,17 @@ onMounted(() => {
     window.addEventListener('mouseup', stopResize);
 });
 
+onUpdated(() => {
+    const parentElement = document.querySelector('#map');
+    console.log('부모', parentElement);
+    const childElements = parentElement.querySelectorAll('img[title]');
+    console.log('자식', childElements);
+    childElements.forEach(img => {
+    img.src = '/images/map-pin.png'; // 이미지 경로를 실제 경로로 변경하세요
+    img.style.width = '35px'; // 원하는 너비로 설정
+    img.style.height = '37px'; // 원하는 높이로 설정
+    });
+})
 
 </script>
 

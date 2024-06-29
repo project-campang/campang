@@ -649,46 +649,6 @@ function updataModal(content, type) {
   isUpdateModalVisible.value = true;
 }
 
-// 수정 모달 닫기
-// function closeUpdateModal() {
-//   $('#updateModal').modal('hide'); // 수정 모달 닫기
-// }
-
-// 컨텐츠 업데이트 함수
-// function updateContent() {
-//   switch (contentType.value) {
-//     case '게시글':
-//       store.dispatch('updatePost', selectedContent.value);
-//       break;
-//     case '리뷰':
-//       store.dispatch('updateReview', selectedContent.value);
-//       break;
-//     case '댓글':
-//       store.dispatch('updateComment', selectedContent.value);
-//       break;
-//     default:
-//       console.error('유효하지 않은 컨텐츠 유형');
-//   }
-//   closeUpdateModal(); // 수정 완료 후 모달 닫기
-// }
-
-// function deleteContent() {
-//   switch (contentType.value) {
-//     case '게시글':
-//       store.dispatch('deletePost', selectedContent.value);
-//       break;
-//     case '리뷰':
-//       store.dispatch('deleteReview', selectedContent.value);
-//       break;
-//     case '댓글':
-//       store.dispatch('deleteComment', selectedContent.value);
-//       break;
-//     default:
-//       console.error('유효하지 않은 컨텐츠 유형');
-//   }
-//   // 모달 닫기
-//   $('#deleteModal').modal('hide');
-// }
 
 
 
@@ -721,44 +681,6 @@ const deleteContent = async () => {
   }
 };
 
-// function onProfileChange(event) {
-//   const file = event.target.files[0];
-//   if (file) {
-//     const reader = new FileReader();
-//     reader.onload = () => {
-//       userInfo.value.profile = reader.result;
-//     };
-//     reader.readAsDataURL(file);
-//   }
-// }
-
-// document.addEventListener('DOMContentLoaded', function() {
-//     // 현재 활성화된 버튼을 추적하기 위한 변수
-//     let activeButton = null;
-
-//     // 버튼 클릭 시 활성화 상태를 표시하는 함수
-//     function markActive(event) {
-//         // 클릭된 요소를 가져옴
-//         const currentButton = event.currentTarget;
-        
-//         // 이전에 활성화된 버튼에서 active 클래스를 제거
-//         if (activeButton) {
-//             activeButton.classList.remove('active');
-//         }
-
-//         // 현재 클릭된 버튼에 active 클래스를 추가
-//         currentButton.classList.add('active');
-        
-//         // 활성화된 버튼을 업데이트
-//         activeButton = currentButton;
-//     }
-
-//     // 모든 .my-page-link 요소에 클릭 이벤트 리스너를 추가
-//     const links = document.querySelectorAll('.my-page-link');
-//     links.forEach(link => {
-//         link.addEventListener('click', markActive);
-//     });
-// });
 // 현재 활성화된 버튼을 추적하기 위한 변수
 let activeButton = ref(null);
 

@@ -310,10 +310,12 @@ hr {
 
 }
 
-/* img[draggable] { */
+img [draggable] {
 /* .marker-parent img { */
-.parents > div > div > div > div > img {
-    src:url("/img/markerStar.png") !important;
+/* .parents > div > div > div > div > img { */
+    /* content: url("/img/markerStar.png") !important; */
+    /* content: url("../../public/img/markerStar.png") !important; */
+    /* src: url("/img/markerStar.png") !important; */
 }
 
 
