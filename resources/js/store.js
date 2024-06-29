@@ -600,14 +600,15 @@ const store = createStore({
          * @param {*} context 
          * @param {*} page 
          */
-         commentPageGet(context,id, page=1) {
-            const url = ('/api/camp/'+id+'/commentPage?page=' + page);
+         commentPageGet(context, { id, page }) {
+            const url = `/api/camp/${id}/commentPage?page=${page}`;
             console.log('페이지확인',url);
             axios.get(url)
             .then(response => {
                 // const test = response.data.data.links.filter((item, key) => {
                 //     return !(key == 0 || key == (response.data.data.links.length - 1));
                 // });
+                console.log('store then start');
                 context.commit('setCommentList', response.data.data.data);
                 // console.log('data 확인', response.data.data);
                 context.commit('setPagination', {
@@ -1015,7 +1016,7 @@ const store = createStore({
              */
             searchCount(context) {
 
-                const url = 'api/searchCount';
+                const url = '/api/searchCount';
                 axios.get(url) 
                 .then(response => {
                     context.commit('setSearchCount', response.data.data);

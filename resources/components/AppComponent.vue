@@ -160,6 +160,8 @@
             />
         </svg>
     </button>
+   <a href="http://pf.kakao.com/_wIPpG" id="csButton" ><img src="../../public/img/CS.png" alt=""></a>
+
 </template>
 
 

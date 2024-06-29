@@ -10,7 +10,7 @@
     <a href="#campingzang" class="my-page-link" @click="showStamp(); markActive($event)"><p>-도장깨기</p></a>
     <a href="#wish" class="my-page-link" @click="showStamp(); markActive($event)"><p>-찜목록</p></a>
     <p class="mypage-content" @click="showContent()">내가쓴글</p>
-    <a href="#content" class="my-page-link" @click="showContent(); markActive($event)"><p>-게시글</p></a>
+    <a href="#" class="my-page-link" @click="showContent(); markActive($event)"><p>-게시글</p></a>
     <a href="#review" class="my-page-link" @click="showContent(); markActive($event)"><p>-리뷰</p></a>
     <a href="#comment" class="my-page-link" @click="showContent(); markActive($event)"><p>-댓글</p></a>
 </div>
@@ -103,7 +103,7 @@
             </div>
           </div>
         </div>
-        <h1 >내가 쓴 리뷰</h1>
+        <h1 class="my-m-top">내가 쓴 리뷰</h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
@@ -117,7 +117,7 @@
               </div>
               <div class="content-row-other text-center" v-for="(item, index) in $store.state.mypageReview" :key="index">
                 <div class="content-row-num">{{ index + 1 }}</div>
-                <div class="title-text-align=" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
+                <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
                 <div class="review-cam ">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
                 <div>{{ getFormattedDate(item.created_at) }}</div>
@@ -128,7 +128,7 @@
             <div class="pagination"></div>
           </div>
         </div>
-        <h1 >내가 쓴 댓글</h1>
+        <h1 class="my-m-top">내가 쓴 댓글</h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
