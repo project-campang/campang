@@ -409,6 +409,15 @@ const store = createStore({
                 throw new Error('게시글 수정 실패');
             }
         },
+        async updateCommunity({ commit }, content) {
+            try {
+                const response = await axios.post('/api/content/update', content);
+                commit('setMypageContent', response.data.data);
+            } catch (error) {
+                console.log(error);
+                throw new Error('게시글 수정 실패');
+            }
+        },
         async updateReview({ commit }, content) {
             try {
                 const response = await axios.post('/api/review/update', content);
@@ -437,6 +446,21 @@ const store = createStore({
                     alert(`게시글 삭제 실패 (${error.response.data.code})`);
                 });
         },
+        async communityDelete(context, postId) {
+            try {
+              const response = await axios.delete(`/api/posts/delete/${postId}`);
+              console.log(response.data);
+              context.commit('setMypageContent', response.data.data); // 게시글 삭제 후 필요한 상태 업데이트
+              alert('게시글이 삭제되었습니다.');
+
+            const currentPage = context.state.paginationCommunity.current_page;
+            const communityId = context.state.communityTypes[currentPage].id;
+            await context.dispatch('communityGet', { id: communityId, page: currentPage });
+            } catch (error) {
+              console.error(error.response);
+              alert(`게시글 삭제 실패 (${error.response.data.code})`);
+            }
+          },
         
         
         deleteReview(context, content) {

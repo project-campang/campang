@@ -82,8 +82,8 @@ Route::delete('/api/comment/{id}/delete', [CommentController::class, 'commentDel
 // Route::get('/api/community/{id}/communityPage', [CommunityController::class, 'communityGet']);
 Route::get('/api/community/{id}/communityPage', [CommunityController::class, 'communityGet']);
 Route::post('/api/community/{id}', [CommunityController::class, 'communityStore']);
-Route::get('/api/communityTypes/{id}', [CommunityTypeController::class, 'index']);
-// Route::get('/api/community/communityTypes', [CommunityTypeController::class, 'index']);
+// Route::get('/api/communityTypes/{id}', [CommunityTypeController::class, 'index']);
+Route::delete(`/api/posts/delete/{postId}`, [CommunityController::class, 'communityDelete']);
 
 
 // 위시 컨트롤러

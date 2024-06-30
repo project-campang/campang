@@ -210,7 +210,28 @@ class CommunityController extends Controller
 
 
     // 게시글 삭제
+    public function communityDelete() {
+        // try {
+        //     // 게시글 찾기
+        //     $Post = Community::findOrFail($id);
 
+        //     Log::debug('Post found: ' . json_encode($Post));
+
+        //     // 리뷰 삭제
+        //     $Post->delete();
+
+        //     Log::info('Post deleted successfully: ' . json_encode($Post));
+
+        //     // 성공 응답 반환
+        //     return response()->json(['message' => '리뷰가 성공적으로 삭제되었습니다.'], 200);
+        // } catch (\Exception $e) {
+        //     // 에러 로깅
+        //     Log::error('Error deleting post: ' . $e->getMessage());
+
+        //     // 에러 응답 반환
+        //     return response()->json(['message' => '리뷰 삭제 중 오류가 발생했습니다.', 'error' => $e->getMessage()], 500);
+        // }
+    }
 
 
 
@@ -573,6 +594,8 @@ class CommunityController extends Controller
             return response()->json(['message' => '리뷰 삭제 중 오류가 발생했습니다.', 'error' => $e->getMessage()], 500);
         }
     }
+
+
     public function deleteReview(Request $request, $id)
     {
         Log::debug('Delete request received for post ID: ' . $id);
