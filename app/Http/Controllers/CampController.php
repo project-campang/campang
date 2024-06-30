@@ -21,84 +21,76 @@ class CampController extends Controller
 
 
     // 캠핑장 데이터 획득 + 페이지네이션
-    public function campListGet() {
-        // log::debug('campListGet');
+    public function campListGet(Request $request) {
+        log::debug('campListGet', $request->all());
 
         
-            $campList = Camp::select('camps.*')
-                            // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
-                            // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
-                            // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
-                            // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
-                            // ->groupBy('camps.id' )
-                            ->orderBy('camps.county')
-                            // ->limit()
-                            ;
-
-
-            // if (!empty($state)) {
-            //     $campList->where('camps.state', $state);
-            // }
-            // if (!empty($county)) {
-            //     $campList->where('camps.county', $county);
-            // }
-
-            $result = $campList->paginate(5);
-        
-            $responseData = [
-                'code' => '0'
-                ,'msg' => ''
-                ,'data' => $result->toArray()
-            ];
-    
-            log::debug('responseData', $responseData);
-    
-            return response()->json($responseData, 200);
-
-        
-        
-
-        }
-
-
-
-
-
-
-    // 검색 결과 획득
-    public function searchResult(Request $request) {
-        $state = $request->state;
-        $county = $request->county;
-
         $campList = Camp::select('camps.*')
-                        ->orderBy('camps.state')
-                        ;
-                        // ->limit(20);
+                        ->join('states', 'camps.state', '=', 'states.name')
+                        ->join('counties', 'camps.county', '=', 'counties.name')
+                        // ->groupBy('camps.id' )
+                        ->orderBy('camps.county');
+                        // ->limit()
         
-        if ($request->has('state') || filled($request->state)) {
-            $campList->where('camps.state', $request->state);
+        if($request->has('state') && $request->state != '0') {
+            $campList->where('states.id', $request->state);
         }
-        if ($request->has('county') || filled($request->county)) {
-            $campList->where('camps.county', $request->county);
+        if($request->has('county') && $request->county != '0') {
+            $campList->where('counties.id', $request->county);
         }
-                        
-        $result = $campList->paginate(5);
 
+        $result = $campList->paginate(5);
+        
         $responseData = [
             'code' => '0'
             ,'msg' => ''
             ,'data' => $result->toArray()
         ];
 
-        log::debug('****************************');
         log::debug('responseData', $responseData);
     
         return response()->json($responseData, 200);
     }
 
 
-        //   카운트 획득
-        public function searchResultCount(Request $request) {
+
+
+
+
+    // // 검색 결과 획득
+    // public function searchResult(Request $request) {
+    //     $state = $request->state;
+    //     $county = $request->county;
+
+    //     $campList = Camp::select('camps.*')
+    //                     ->orderBy('camps.state')
+    //                     ;
+    //                     // ->limit(20);
+        
+    //     if ($request->has('state') || filled($request->state)) {
+    //         $campList->where('camps.state', $request->state);
+    //     }
+    //     if ($request->has('county') || filled($request->county)) {
+    //         $campList->where('camps.county', $request->county);
+    //     }
+                        
+    //     $result = $campList->paginate(5);
+
+    //     $responseData = [
+    //         'code' => '0'
+    //         ,'msg' => ''
+    //         ,'data' => $result->toArray()
+    //     ];
+
+    //     log::debug('****************************');
+    //     log::debug('responseData', $responseData);
+    
+    //     return response()->json($responseData, 200);
+    // }
+
+
+    //   카운트 획득
+    public function searchResultCount(Request $request) {
         $state = $request->state;
         $county = $request->county;
 

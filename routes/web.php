@@ -63,7 +63,7 @@ Route::post('/api/stampStore/{id}', [StampController::class, 'stampStore']);
 
 // 캠프 컨트롤러
 Route::get('/api/search/searchPage', [CampController::class, 'campListGet']);
-Route::post('/api/search/searchPage', [CampController::class, 'searchResult']);
+// Route::post('/api/search/searchPage', [CampController::class, 'searchResult']); // 같은 처리이므로 불필요
 Route::get('/api/searchCount', [CampController::class, 'searchResultCount']);
 // Route::get('/api/camp/commentPage', [CommentController::class, 'commentPaginate']);
 Route::get('/api/camp/{id}', [CampController::class, 'campDetailGet']);
@@ -82,8 +82,8 @@ Route::delete('/api/comment/{id}/delete', [CommentController::class, 'commentDel
 // Route::get('/api/community/{id}/communityPage', [CommunityController::class, 'communityGet']);
 Route::get('/api/community/{id}/communityPage', [CommunityController::class, 'communityGet']);
 Route::post('/api/community/{id}', [CommunityController::class, 'communityStore']);
-// Route::get('/api/communityTypes/{id}', [CommunityTypeController::class, 'index']);
-Route::delete(`/api/posts/delete/{postId}`, [CommunityController::class, 'communityDelete']);
+Route::get('/api/communityTypes/{id}', [CommunityTypeController::class, 'index']);
+// Route::get('/api/community/communityTypes', [CommunityTypeController::class, 'index']);
 
 
 // 위시 컨트롤러
