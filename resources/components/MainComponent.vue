@@ -31,7 +31,6 @@
                             <option value='3'>카라반</option>
                         </select>
                     </div>
-                    <!-- <button @click="searchBtn" class="main-search-button">검색</button> -->
                     <button type="button" @click="searchBtn" class="main-search-button">검색</button>
                 </div>
             </form>
@@ -66,42 +65,45 @@
             <div class="main-top-middle">
                 <div class="main-mini-search">
                     <div class="align-items-center justify-content-center popularBoard">
+                        <div class="d-flex justify-content-between align-items-center">
                         <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow">캠팡 인기글</h2>
+                        <router-link to="/community/1"><span class="btn btn-outline-success">더보기</span></router-link>
+                        </div>
                         <hr>
-                        <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유게시판</span>{{ index + 1 }}위. {{ item.title }}</p>
+                        <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span class="main-community-span">자유</span>{{ index + 1 }}위. {{ item.title }}</p>
                     </div>
                 </div>
             </div>
             <div class="main-top-right">
                 <div class="main-mini-search">
                     <div class="align-items-center justify-content-center popularBoard">
+                        <div class="d-flex justify-content-between align-items-center">
                         <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow	">캠팡 꿀팁</h2>
+                        <router-link to="/community/4"><span class="btn btn-outline-success">더보기</span></router-link>
+                    </div>
                         <hr>
-                        <p class="freeBoardList" v-for="(item, index) in $store.state.tip" :key="index"><span>꿀팁 게시판</span>{{ index + 1 }}위. {{ item.title }}</p>
+                        <p class="freeBoardList" v-for="(item, index) in $store.state.tip" :key="index"><span class="main-span-tip">꿀팁</span>{{ index + 1 }}위. {{ item.title }}</p>
                     </div>
                 </div>
             </div>
-            <!-- <div class="main-pang">
-                <a href="#">나도 도장 찍으러가기 <img src="/img/stamp2.png" alt="" loading="lazy"></a>
-            </div> -->
         </div>
         <div class="main-bottom" data-section="3">
             
-            <div class="main-right-top">
+            <div class="main-right-top" data-counter>
                 <div>
                     <span class="count">0</span>
                     <p>가입유저수</p>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAAB3UlEQVR4nO2Yz0pCQRSHPw1rla1a9QJlK7f1BgWFbesBglbRpl6gVZogrXuDiggifIDaqxmBT2Ch2B8CwxsDx83h3qteLceYDw7IeO45v5l7zjgjOBwOx39jGTgFysC7mPmcA1JYzDRQAL4BL8DMd3kggYXiiyHCtd3ZNonCAOK7Zt6ENTWvy6YCbACzYpvAo/JpA0tYwKmP+KSP3xxQVb5ZLKCiRJnVDiKjfEtYQEuJMiUTRFL5trCAiZ9AedJLKKdEPUrDaszYk/I9wQJSPttoVVY7KZbxEW+20UUsIR/hh8yKLbRLQo4H/Yq/te0ogQjKS2kECW9Lz1gnXvdEVnaYN7GSNKw1Ne9wOBz2MAWkgT3gTO7Gz0Ad+BKry1hRfPbkmalxiTZH5m3gCmhGOEZ0rQlcSqywY/hI77/nwOcQooPsU2KbHCNnAbgAOr8g3FPWkVwm50jYARo9ktalnA7l6GxWcR6YEZuXsS3gSHxfesRsSO6hOAhJUAOOpRljEWKbZ9ISoxaSZz+q+NWAvwnv5doYZ3TEJeaDTz6jYSVK0BsV6APYjbja/RKTHB8q93WUYK8qyBp/x7rKbfplYPSr/Gu8YfN7ltnAjFuw5ybA+FfdG2MPOhwOB735AXEPv3mzNAbBAAAAAElFTkSuQmCC">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAADNklEQVR4nO2dTUtVURSGnwZlgTUriqJBkVGQEEEG9jOylH5ANG0aCU4KxHFf5rBJRP6CpBpkSEQfQxsVBSlSlt997Ni4LtlNypv3nrXuve8D7+R6de/1rnP22eesfbYghBBCCCGEEEIIIUQ8tgE9wCAwBkwAS6YJ++wm0A1s9e5sI9EGDAGzQFqj8ndvAQe8O1/PbAEGgK8VGF+ufHb0A5u9g6k3DgCv1mF8uUaBXd5B1QtHbUxPVdZboN07uHo48idqYP7KJOz0DjIqm4HnNTS/pKd2fRFlDBRgfkl95Y03O23rnO1Uqi8ain5nqEDzS7rqdLCFvMOddUjAjO6Yl+lxML+kM9aHpmbQMQE3vIOPwJhjAvIdctMz6ZiAD03vPrDomIAFJQAlwJtJDUG+jOki7MtNxwRcd449BN2OCejyDj4CrfZYoGjzZ6xtwXIBvegE5KFPrKiELRVofr732FdqXCzTX2ACrliboqwkOVqA+Y+BlpUNi1/kgvmbGpr/Dti9oj2xCu22eqHa5ufEHlmtQfEn24GHVR52tBylQlps9cLMOmc7lzXmr4+dVkCvJBEzVu3SVLOKtFoNNz+/eWLFlEXTB/vsGnBad7hCCCGEEEIIIYQQQlT+5swxWzfUC9wGRuwtx9f2OuuCacI+yz+7b9/ttd/Nf0N7R/yDjUAHcAEYttJhLcqRw9ZGh7XZtGwAjlvBZcTpHbFZa7vP+pL71NDkAE/aM/v3DoanNZwhuW+djZaMHcBFYDyAyWmNGrc+59p03XLY3v+dD2Bo+k/N27LJQ9QRe60e+y2AgalK+g7cAfYTmE029VsIYFiqkXJslyLOoNqrvMFSCq6XkRZ5dTmt70/Oyht+nPI2/zzwI4AZyUk59nNe5p+1i1Nqcn23Rx6F7+8zFyD4FERzRW+R+ShA0CmYHhRlfmeAYFNQnWj07WVScBWy/c2LAIGmoHpWRAI+BQg0BdXHIhLgHWQKLiUAJcD9KEw6A/yNSBqC/M1IDtI1gAZPwOcAR1kKqjxFrzn3AgSagupuEQk4CEwFCDYF01SRT0T3WJF6OkDgyVnTduTrPzYJIYQQQgghhBBCCP7GT8suwKXYQNvyAAAAAElFTkSuQmCC">
                 </div>
                 <div>
                     <span class="count">0</span>
                     <p>도장갯수</p>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAABRklEQVR4nO2XTUoDQRCFP7IzJ1BcewkFfyDn0JxFguJC4jF0EX/OY9zpSgXJ0sWUDGQRim6nh55MtaY+qF09eG+6qpsBx3Gcv84OcAO8AN+ANFTdMwemwLa1+QPgI8F0rN6Bfcsvn2N+NYTJSUw7MC/LurYIMFcmLoGtBN0QuFLaZwzQC1sbS2UYWOze0WPQtz6bShkYtNAOlLbCgDdlYtRCO1LaVwx4VCYWwDhBN172rmrvMeA4MEZ1TX7RXAT6K+AQIyYRQ0eB3pNI4HOMOQuMxEOg7ykwcqcUQspS5iz92km5FnOu3V5oepjMH64mPIA1fgLW+Al0yR4wC7ywFrUA7oDdNuY/CzAugZ//pBCzAsxKpG5TApQwNhKpr5QAWmSNtPXjATpGNv4EpIDllZwdKK0asTYoGx9AU/wX//cBHMdxWBs/iVR1mpOpR3EAAAAASUVORK5CYII=">
+                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAADeklEQVR4nO2dTYhOURjHf4zvjwVm5SNlyVL5KGsZHxtFbKxkQZqlsLHRNBulwexRikhYWSkS5aPkIxthRBNGGgmlRydnUu/MO2be9973PPc9/1/9N/Nx75znN+fce+49970ghBBC5MFUYB1wBLgMPAWGgF8xQ/Fr4XuH48+G3xEFsxToAd4BNskMxN8N2xBNsgjoB342IKI2P4AzcZuiAXYBnwoQUZuPwE4ZmTjTYq+wknM67kuMw2zgegtkjORa3KcYgw7gSgtljOSGesrY9CeQMZJT6iKjD+CWODsk5S8L45mPJU44o+uUlLRDldWkL3chSwua9FlBCZPHJWRMjwMJVpPjZEq46PfWgQCrybt4Cp4d6xwU3+pkDRly1EHhrU4OkSEpZuU2wVwiQ546KLzVyRMy5LODwludhIlqdniaf9gY85HskBBnlHE30ArKIBny0kHhrU5ekCGtvDNok8xVMsTjdSzL+XrWZgeFtzrZSIbMjaeX5izfc174cNGBAKvJBTJmkwMBpuHqH1OA+w4kWMyD+DdlTZcDEZbzwXwsbjmQcTt1ETyxHvidUEbY99rURfBGX0IhJ1M33uu85FUCGW+A+akb75UtCYSEfYpxON9CGedk4v90xvsRZcsI+9DjbRNkXwuE7FXvmDgdJa9Kea6HdCbP9hKFhG2LBnrJm5KW+EyXjcY4UYIQPb7WBFtLEBLuVIoGWV6CkGWy0ThzShAyS0KawwqOkJD2wtRDfGES4guTEF+YhPjCJMQXJiFCCCFEdW9MrQR2A73AzYIWPQzGbfXGba/M9UNmxmMGsArYE1cP3gG+lXBmVS/h48mfAWeBbmADMI9MWBAb3B0L8Czxel4bJ+/jQ6nHgG3ACipMR2zAttig0LAPDopsTeZL7MEnY49eHXu4K1IPOZY4SYe8Kg051s5DXlgU8NpBI63ieR2fFmuaRt7ZoVD3XSZNo+JSaA0kBF//VBJCegkSQvrCSwjpiy0hpC+whJC+qBJC+kJKCOmLJyGkL5iEOCiSSUj6wpiEpC+GOYgundBmQgYcNMLaJOEVT03T5fRdUVaxvC3qBpUQQgjRLMMODoxW0XylBO45aJhVNHfLEHLQQcOsotlfhpCZwGMHjbOK5WGZa4DDq60fOWikVUjGYkom2D4Qx0Ud6BklYTjWZr/H1fFCCCFoW/4AQvL8SIqQ7nwAAAAASUVORK5CYII=">
                 </div>
                 <div>
                     <span class="count">0</span>
                     <p>캠핑장 수</p>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAADJ0lEQVR4nO2ZW4iNURTHf8Y9lyHkFrlLHsTDGEXIeEDmweWFGpdMeaAmkZTk0hgRjSRTKCOaSAh54MFtppAakonRPJBLE5P7zDBjjrbWqeP0nXP2/r5v5fb9a9WZ+dbe//U/e39rr70ORIgQIcK/jiygUD5PAfKBvgHm6wNMBFYAZcAzoEp4VLEIaAA6SQAxoE0CqAQqgL3ALmAHsBHYLn+XAieBm8BToEnGe9kcTRHtgHtCZFbC4GGaYILYBU0h+QlEp+R/m5SEfAeGawmpSiAy2yIbGCqkGmJ2aoiY7UG0XJ5dVxJSD3QOW8gND6Jr8mylkpAYsDRMEdNTkJhsNQroBnxUElIZppAraYiKxeew4qpMCkPE5Awkr4EOQK6ikLIwhFy0IJonvveVhHySDOkbE+Q9yER0VvyLFFdlbRAhZyxJWoABUjelKzuCWI1UFs4Y53jQrZdxFYqrMtOPkBOOJI/lG5ulKOS0q4iRsl1cifKUC8kWYLCLkKM+ic7J+DWKq7LFVsQQ4KtPklapWHsAH5SEvAQ62gg5GJCoROY5oLgqCzKJMCm0MSDJG6ALMNryDPJjVzMJ2RcS0TKLGi2ItQFjU4noB3y2mOSBRaV71+NGGbaVphJSYjlBkWSnTH450gmpUxLyTq4Pv8AUZO8dSpFCC99ymXuD4qqsShay1XLgZfEfZPEiNwP9gd6WW9aPVSeK6Cl9KpuBSxLGVVv4bxbfMsVVycWxnVMvaTWOYssxXYERclhqCCmPB/TKcsC2pO2YYzluteOVIOZoTfGW7SHZz+mcv8h+T8YTC6JaoL2D8JgPMwnlJ7pLT/d4ivdlt1e+lnfAhmihcv+r1is400iYIad8ndzMUnXbh1levm6L/1wlIbcIAectyUxvzDbbxSysQXZQnt8rcDKmWRJfEv+CAME3yi1xvm0p74o7FkGYA3S8BPDcIfhm6dIsllSuClOyH5ESPl1Qx8R/XQa/VinVTU+5F78BJs1OBfanOJ++yc8Qpth76/H8kfzCNZA/CFkJol4kBLsnqTKokVpvDH8B4qJKpcOSLSnddDIjRIgQ4T/ED2uQkyLQdFZFAAAAAElFTkSuQmCC">
+                   <img src="data:image/png;base64,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">
                 </div>
             </div>
             <!-- <div class="main-right-bottom">
@@ -134,14 +136,16 @@
                 <h2>캠팡 추천 캠핑장</h2>
                 <p>캠팡 제휴업체에서 할인받자 !</p>
                 <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
-                <div class="carousel-inner">
-                    <div class="carousel-item" data-bs-interval="5000"
-                        v-for="(camp, index) in $store.state.suggestCam" 
-                        :class="{'active': index === 0}" 
-                        :key="index">
-                        <img :src="camp.main_img" class="d-block last-box-img" alt="추천 캠핑장 이미지">
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>{{ camp.name }}</h5>
+                <div class="carousel-container">
+                    <div class="carousel-inner h-100">
+                        <div class="carousel-item h-100" data-bs-interval="5000"
+                            v-for="(camp, index) in $store.state.suggestCam"
+                            :class="{'active': index === 0}"
+                            :key="index">
+                            <img :src="camp.main_img" class="d-block last-box-img h-100" alt="추천 캠핑장 이미지">
+                            <div class="carousel-caption d-none d-md-block">
+                                <h1>{{ camp.name }}</h1>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -217,7 +221,28 @@ import { useRouter } from 'vue-router';
 
 const store = useStore();
 const router = useRouter();
-const campData = ref(store.state.campData);
+// const campData = ref(store.state.campData);
+
+function addScrollEvent() {
+  window.addEventListener('scroll', handleScroll);
+}
+
+function removeScrollEvent() {
+  window.removeEventListener('scroll', handleScroll);
+}
+
+onBeforeMount(() => {
+  // 메인 페이지가 활성화될 때 스크롤 이벤트 추가
+  if (router.currentRoute.value.name === '/main') {
+    addScrollEvent();
+  }
+});
+
+onUnmounted(() => {
+  // 메인 페이지가 비활성화될 때 스크롤 이벤트 제거
+  removeScrollEvent();
+});
+
 
 
 // 스크롤 이벤트
@@ -390,9 +415,9 @@ const handleScroll = () => {
 
 
 
-onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll);
-});
+// onUnmounted(() => {
+//   window.removeEventListener('scroll', handleScroll);
+// });
 
 
 // 시군구 선택

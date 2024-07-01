@@ -159,6 +159,7 @@ a {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .main-mini-search {
+    height: 360px;
     margin: 1rem auto;
     background-color: #FFD649;
     max-width: 800px;
@@ -167,8 +168,18 @@ a {
 
     box-shadow: 5px 5px 10px -5px;
 }
+.main-span-tip {
+    background-color: #fc9f6d;
+    text-shadow: 2px 1px 1px #000;
+    color: #fff;
+    padding: 0.3rem;
+    border-radius: 5px;
+    margin-right: 0.5rem;
+}
 
-.main-mini-search span {
+.main-community-span {
+    text-shadow: 2px 1px 1px #000;
+    color: #fff;
     padding: 0.3rem;
     background-color: #06AC35;
     border-radius: 5px;
@@ -298,7 +309,7 @@ a {
 .white-main {
     padding: 5rem;
     width: 95%;
-    height: 770px;
+    height: 840px;
     display: grid;
     align-content: center;
     grid-template-rows: 1fr 1fr;
@@ -325,9 +336,10 @@ a {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     height: 410px;
-    margin: 0 30px;
+    margin: 20px 30px;
     gap: 20px;
     align-items: baseline;
+    
 }
 /* .main-top > * {
     height: 100%;
@@ -341,7 +353,7 @@ a {
     display: flex;
 } */
 .main-right-top img {
-    width: 90px;
+    width: 130px;
     padding: 15px;
     margin: 25px;
     background-color: #fff;
@@ -572,22 +584,11 @@ a {
 }
 
 /* last-left 이미지 스타일 */
-/* 
 
 
 
 
 
-
-
-
-
-
-
-
-
-
-*/
 .last-box-img {
     width: 1200px;
     height: 700px;
@@ -836,7 +837,10 @@ a {
 
 /* 메인 */
 .last-right {
-    background-color: #ABE188;
+    /* background-color: #ABE188; */
     padding: 20px;
     border-radius: 15px;
+    background-image: url(/img/error.png);
+    background-position: center;
+    background-size: contain;
 }

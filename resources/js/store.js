@@ -5,7 +5,9 @@ import { floor } from 'lodash';
 const store = createStore({
     state() {
         return{
+            // 쿠키 
             authFlg: document.cookie.indexOf('auth=') >= 0 ? true : false,
+            // 유저 정보
             userInfo: localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null,
             commentData: [],
             commentList: [],
@@ -13,6 +15,7 @@ const store = createStore({
             paginationReview: {},
             paginationSearch: {},
             paginationCommunity: {},
+            // 커뮤니티 게시글
             communityData: [],
             boardData: [],
             rankData: [],
@@ -23,7 +26,7 @@ const store = createStore({
             reviewTap: [],
             suggestCam:[],
             suggestBrand:[],
-            // communityTypes: [], // community_types 데이터를 저장할 상태
+            // 커뮤니티페이지 사이드바
             communityTypes: {
                 1: { name: '자유 게시판' },
                 2: { name: '리뷰 게시판' },
@@ -62,60 +65,77 @@ const store = createStore({
         }
     },
     mutations: {
+        // 카카오
         setAuth(state, payload) {
             state.authFlg = payload.authFlg;
             state.userInfo = payload.userInfo;
         },
+        // 유저 쿠키
         setAuthFlg(state, value) {
             state.authFlg = value;
         },
+        // 유저정보
         setUserInfo(state, userInfo) {
             state.userInfo = userInfo;
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
+        // 유저정보 수정
         updateUserInfo(state, userInfo) {
             state.userInfo = userInfo;
             localStorage.setItem('userInfo', JSON.stringify(userInfo));
         },
-        setBoardData(state, data) {
-            state.boardData = data;
-        },
-        setrankData(state, data) {
-            state.boardData = data;
-        },
+        // 메인 게시글
+        // setBoardData(state, data) {
+        //     state.boardData = data;
+        // },
+        // 메인 랭킹
+        // setrankData(state, data) {
+        //     state.boardData = data;
+        // },
+        // 메인 캠핑러
         setMainCampingler(state,data) {
             state.mainCampingler = data;
         },
+        // 메인 캠핑장
         setMainCampingzang(state,data) {
             state.mainCampingzang = data;
         },
+        // 메인 커뮤글
         setMainCommunity(state,data) {
             state.mainCommunity = data;
         },
+        // 메인 꿀팁
         setTip(state,data) {
             state.tip = data;
         },
+        // 메인 추천캠핑장
         setSuggestCam(state,data) {
             state.suggestCam = data;
         },
+        // 메인 추천 캠핑브랜드
         setSuggestBrand(state,data) {
             state.suggestbrand = data;
         },
-        setCommunityTypes(state, data) {
-            state.communityTypes = data; // 상태 업데이트
-        },
+        // setCommunityTypes(state, data) {
+        //     state.communityTypes = data; // 상태 업데이트
+        // },
+        // 마이페이지 캠핑도장
         setStampCampingzang(state, data) {
             state.stampCampingzang = data; // 상태 업데이트
         },
+        // 마이페이지 찜목록
         setMypageWishes(state, data) {
             state.mypageWishes = data; // 상태 업데이트
         },
+        // 마이페이지 게시글 목록
         setMypageContent(state, data) {
             state.mypageContent = data; // 상태 업데이트
         },
+        // 마이페이지 리뷰 목록
         setMypageReview(state, data) {
             state.mypageReview = data; // 상태 업데이트
         },
+        // 마이페이지 댓글 목록
         setMypageComment(state, data) {
             state.mypageComment = data; // 상태 업데이트
         },
@@ -169,9 +189,9 @@ const store = createStore({
                 communityItem.views++;
             }
         },
-        setCommunityTypes(state, communityTypes) {
-            state.communityTypes = communityTypes; // 상태 업데이트
-        },
+        // setCommunityTypes(state, communityTypes) {
+        //     state.communityTypes = communityTypes; // 상태 업데이트
+        // },
         
         setCampDetail(state, data){
             state.campDetail = data;
@@ -275,6 +295,7 @@ const store = createStore({
         //     }
         // },
 
+        // 로그인 
         async login({ commit }, loginForm) {
             try {
                 const response = await axios.post('/api/login', loginForm);
@@ -285,7 +306,7 @@ const store = createStore({
                 throw error;
             }
         },
-
+        // 회원가입
         async register({ commit }, registerForm) {
             try {
                 const response = await axios.post('/api/register', registerForm);
@@ -297,6 +318,7 @@ const store = createStore({
                 console.error('회원가입 실패:', error);
             }
         },
+        // 이메일 중복확인
         async checkEmailDuplicate(email) {
             try {
                 const response = await axios.post('/api/check-email-duplicate', { email });
@@ -306,6 +328,7 @@ const store = createStore({
                 return false; // 실패 시 기본적으로 중복되지 않은 것으로 간주합니다.
             }
         },
+        // 내정보수정
         async  updateUserInfo() {
             const formData = new FormData(document.querySelector('#updateUserInfoForm'));
             try {
@@ -316,7 +339,7 @@ const store = createStore({
             }
         },
         
-
+        // 로그아웃
         async logout({ commit }) {
             try {
                 await axios.post('/api/logout');
@@ -328,6 +351,7 @@ const store = createStore({
                 console.error('로그아웃 실패:', error.response.data.message);
             }
         },
+        // 카카오로그인
         async kakao_login({ commit }, code) {
             try {
                 const response = await axios.get('/kakao/callback', {
@@ -343,7 +367,7 @@ const store = createStore({
                 console.error('Kakao callback failed:', error);
             }
         },
-        
+        // 마이페이지 도장깨기
         setStampCampingzang(context) {
             const url = '/api/mypage/stamp';
 
@@ -357,6 +381,7 @@ const store = createStore({
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
+        // 마이페이지 찜목록
         setMypageWishes(context) {
             const url = '/api/mypage/wishes';
 
@@ -370,6 +395,7 @@ const store = createStore({
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
+        // 마이페이지 게시글
         setMypageContent(context) {
             const url = '/api/mypage/content';
 
@@ -383,6 +409,7 @@ const store = createStore({
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
+        // 마이페이지 리뷰
         setMypageReview(context) {
             const url = '/api/mypage/review';
 
@@ -396,6 +423,7 @@ const store = createStore({
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
+        // 마이페이지 댓글
         setMypageComment(context) {
             const url = '/api/mypage/comment';
 
@@ -409,6 +437,7 @@ const store = createStore({
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
+        // 게시글수정
         async updatePost({ commit }, content) {
             try {
                 const response = await axios.post('/api/content/update', content);
@@ -418,6 +447,7 @@ const store = createStore({
                 throw new Error('게시글 수정 실패');
             }
         },
+        // 리뷰수정
         async updateReview({ commit }, content) {
             try {
                 const response = await axios.post('/api/review/update', content);
@@ -426,6 +456,7 @@ const store = createStore({
                 throw new Error('리뷰 수정 실패');
             }
         },
+        // 댓글수정
         async updateComment({ commit }, content) {
             try {
                 const response = await axios.post('/api/comment/update', content);
@@ -434,6 +465,7 @@ const store = createStore({
                 throw new Error('댓글 수정 실패');
             }
         },
+        // 게시글 삭제
         deletePost(context, content) {
             const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
             axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음
@@ -447,7 +479,7 @@ const store = createStore({
                 });
         },
         
-        
+        // 리뷰삭제
         deleteReview(context, content) {
             const url = `/api/reviews/delete/${content.id}`;
 
@@ -461,6 +493,7 @@ const store = createStore({
                 alert(`리뷰 삭제 실패 (${error.response.data.code})`)
             })
         },
+        // 댓글삭제
         deleteComment(context , content) {
             const url = `/api/comments/delete/${content.id}`;
 
@@ -476,32 +509,33 @@ const store = createStore({
         },
 
 
-        getBoardData(context) {
-            const url = '/api/main';
+        // getBoardData(context) {
+        //     const url = '/api/main';
 
-            axios.get(url)
-            .then(response => {
-                console.log(response.data); // TODO
-                context.commit('setBoardData', response.data.data);
-            })
-            .catch(error => {
-                console.log(error.response); // TODO
-                alert(`게시글 획득 실패 (${error.response.data.code})`)
-            })
-        },
-        getrankData(context) {
-            const url = '/api/rank';
+        //     axios.get(url)
+        //     .then(response => {
+        //         console.log(response.data); // TODO
+        //         context.commit('setBoardData', response.data.data);
+        //     })
+        //     .catch(error => {
+        //         console.log(error.response); // TODO
+        //         alert(`게시글 획득 실패 (${error.response.data.code})`)
+        //     })
+        // },
+        // getrankData(context) {
+        //     const url = '/api/rank';
 
-            axios.get(url)
-            .then(response => {
-                console.log(response.data); // TODO
-                context.commit('setrankdData', response.data.data);
-            })
-            .catch(error => {
-                console.log(error.response); // TODO
-                alert(`게시글 획득 실패 (${error.response.data.code})`)
-            })
-        },
+        //     axios.get(url)
+        //     .then(response => {
+        //         console.log(response.data); // TODO
+        //         context.commit('setrankdData', response.data.data);
+        //     })
+        //     .catch(error => {
+        //         console.log(error.response); // TODO
+        //         alert(`게시글 획득 실패 (${error.response.data.code})`)
+        //     })
+        // },
+        // 메인캠핑러
         setMainCampingler(context) {
             const url = '/api/main';
 
@@ -514,6 +548,7 @@ const store = createStore({
                 alert('setMainCampingler 오류오류' + error.response.data);
             })
         },
+        // 메인캠핑장
         setMainCampingzang(context) {
             const url = '/api/rank';
 
@@ -526,6 +561,7 @@ const store = createStore({
                 alert('setMainCampingzang 오류오류' + error.response.data);
             })
         },
+        // 메인커뮤니티게시글
         setMainCommunity(context) {
             const url = '/api/main/community';
 
@@ -538,6 +574,7 @@ const store = createStore({
                 alert('setMainCommunity 오류오류' + error.response.data);
             })
         },
+        // 메인 꿀팁
         setTip(context) {
             const url = '/api/main/tip';
 
@@ -550,6 +587,7 @@ const store = createStore({
                 alert('setTip 오류오류' + error.response.data);
             })
         },
+        // 메인 추천 캠핑장
         setSuggestCam(context) {
             const url = '/api/main/suggest/campingzang';
 
@@ -564,6 +602,7 @@ const store = createStore({
                 console.log(response.data.data);
             })
         },
+        // 메인추천 브랜드
         setSuggestBrand(context) {
         const url = '/api/main/suggest/brand';
 
@@ -621,8 +660,8 @@ const store = createStore({
          * @param {*} context 
          * @param {*} page 
          */
-         commentPageGet(context,id, page=1) {
-            const url = ('/api/camp/'+id+'/commentPage?page=' + page);
+         commentPageGet(context, { id, page }) {
+            const url = `/api/camp/${id}/commentPage?page=${page}`;
             console.log('페이지확인',url);
             axios.get(url)
             .then(response => {
@@ -652,8 +691,8 @@ const store = createStore({
                     console.log(e);
                 })
         },
-        detailReviewTap(context, page=1) {
-            const url = ('/api/reviewTap?page=' + page);
+        detailReviewTap(context,{ id, page }) {
+            const url = (`/api/camp/${id}/reviewTap?page=${page}`);
             // const url = '/api/reviewTap';
 
             axios.get(url)
@@ -748,19 +787,6 @@ const store = createStore({
               });
           },
           
-        
-
-
-            // // 게시판타입
-            // async fetchCommunityTypes({ commit }, id) {
-            //     try {
-            //         const response = await axios.get(``);
-            //         commit('setCommunityTypes', response.data);
-            //     } catch (error) {
-            //         commit('setError', error.response ? error.response.data : 'Error fetching community type');
-            //         console.error('Error fetching community type:', error);
-            //     }
-            // },
 
 
         /**
@@ -784,6 +810,18 @@ const store = createStore({
                 alert('게시글 작성 실패: ' + error.response.data);
               });
           },
+        // 커뮤니티 게시글 삭제
+        async communityDelete({ commit }, id) {
+            try {
+                const response = await axios.delete(`/api/posts/delete/${id}`);
+                console.log('삭제 성공:', response.data);
+                commit('setCommunityList', response.data.data);
+            } catch (error) {
+                console.error('삭제 실패:', error.response.data);
+                throw error;
+            }
+        },
+
 
         /**
          * 조회수 증가
@@ -806,27 +844,13 @@ const store = createStore({
          * 게시글 수정 처리
          * @param {*} context 
          */
-        communityUpdate(context) {
-            const url = '/api/community';
-            const updateTitle = document.querySelector('#detail-modal-title');
-            const updateContent = document.querySelector('#detail-modal-content');
+        // communityUpdate(context) {
+        //     const url = '/api/community';
+        //     const updateTitle = document.querySelector('#detail-modal-title');
+        //     const updateContent = document.querySelector('#detail-modal-content');
 
-        },
+        // },
 
-    /**
-    * 게시글 삭제
-    * @param {*} context
-    */
-    // "delete": function _delete(context, boardId) {
-    //     var url = '/api/board/' + boardId;
-    //     axios["delete"](url).then(function (response) {
-    //       console.log(response.data, '삭제 완료');
-    //       // context.commit('closeModal');
-    //       _router__WEBPACK_IMPORTED_MODULE_0__["default"].replace('/board');
-    //     })["catch"](function (error) {
-    //       console.log(error.response.data, '삭제 실패');
-    //     });
-    //   }
 
         // 캠핑장 상세페이지 get 
         campDetailGet(context, id){
@@ -843,21 +867,6 @@ const store = createStore({
             })
 
         },
-        // async campDetailGet({ commit }, id) {
-        //     try {
-        //       const response = await axios.get(`/api/camp/${id}`);
-        //       commit('setCampDetail', {
-        //             campInfo: response.data.data.campInfo,
-        //             amenityInfo: response.data.data.amenityInfo,
-        //             amusementInfo: response.data.data.amusementInfo,
-        //             siteTypeInfo: response.data.data.siteTypeInfo,
-        //             topoInfo: response.data.data.topoInfo,
-        //         });
-        //     } catch (error) {
-        //       console.error('Error fetching detailed info:', error);
-        //     }
-        //   },
-
         /**
          * 캠핑장 데이터 획득
          * 
@@ -941,23 +950,6 @@ const store = createStore({
                 alert('county 획득 실패' + error.response.data);
             })
         },
-
-    // Vuex 액션
-        // countyGet({ commit }, selectedStateId) {
-        //     const url = '/api/county';
-        
-        //     axios.get(url, {
-        //     params: {
-        //         state_id: selectedStateId
-        //     }
-        //     })
-        //     .then(response => {
-        //     commit('setCountyData', response.data.data);
-        //     })
-        //     .catch(error => {
-        //     alert('군/구 데이터 획득 실패: ' + error.response.data);
-        //     });
-        // },
 
 
         /**

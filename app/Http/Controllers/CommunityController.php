@@ -16,7 +16,7 @@ class CommunityController extends Controller
                               ->select('communities.*', 'users.name', 'users.nick_name')
                               ->where('communities.type', $id)
                               ->orderBy('communities.id', 'DESC')
-                              ->paginate(5);
+                              ->paginate(10);
         
         $responseData= [
             'code' => '0',
@@ -223,10 +223,11 @@ class CommunityController extends Controller
 
 
     // 상세페이지 리뷰 목록 가져오기
-    public function detailReviewGet() {
+    public function detailReviewGet($id) {
         $data = Community::select('communities.*', 'users.nick_name')
                             ->join('users', 'users.id', '=', 'communities.user_id')
                             ->where('type', '=', 2)
+                            ->where('camp_id', $id)
                             ->orderBy('communities.rating', 'DESC')
                             ->paginate(3);
 

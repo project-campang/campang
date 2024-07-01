@@ -45,7 +45,7 @@
               <h1>{{ getCommunityTypeName(route.params.id) }}</h1>
             </div>
             <div class="board-comment">
-              <button @click="openInsertModal" class="btn btn-outline-success">글작성</button>
+              <button @click="openInsertModal" class="btn btn-outline-success add-community">작성하기</button>
             </div>
           </div>
         </nav>
@@ -54,11 +54,11 @@
         <div class="content-box">
           <div class="list-group">
             <div class="content-column2">
-              <div>글 번호</div>
-              <div class="title-text-align">글 제목</div>
-              <div>작성자</div>
-              <div>작성일</div>
-              <div>기타</div>
+              <div class="item-title-box">글 번호</div>
+              <div class="title-text-align item-title-box">글 제목</div>
+              <div class="item-title-box">작성자</div>
+              <div class="item-title-box">작성일</div>
+              <div class="item-title-box">기타</div>
             </div>
             <div
               @click="openDetailModal(item)"
@@ -66,11 +66,13 @@
               v-for="(item, index) in $store.state.communityData"
               :key="index"
             >
-              <div>{{ index + 1 }}</div>
-              <div class="title-text-align">{{ item.title }}</div>
-              <div>{{ item.nick_name }}</div>
-              <div>{{ item.created_at }}</div>
-              <div>
+              <div class="item-box">
+                {{ index + 1 }}
+              </div>
+              <div class="title-text-align item-box">{{ item.title }}<span v-if="isNewPost(item.created_at)" class="new-post-badge">N</span></div>
+              <div class="item-box">{{ item.nick_name }}</div>
+              <div class="item-box">{{ getFormattedDate(item.created_at) }}</div>
+              <div class="d-flex flex-end align-items-center justify-content-center">
                 <div class="btn-container" v-if="isAuthor(item.user_id)">
                   <button type="button" class="btn btn-outline-warning" @click.stop="updatePost(item)">수정</button>
                   <button type="button" class="btn btn-outline-danger" @click.stop="deletePost(item.id)">삭제</button>
@@ -191,6 +193,7 @@
 import { onBeforeMount, onMounted, ref, reactive, watch } from 'vue';
 import { useStore } from 'vuex';
 import { useRoute } from 'vue-router';
+import dayjs from 'dayjs'; // 날짜 비교를 위해 dayjs 라이브러리를 사용
 
 const store = useStore();
 const route = useRoute();
@@ -210,7 +213,7 @@ const selectedContent = reactive({
 });
 
 // 로그인된 사용자의 ID를 가져옴
-const userId = store.state.userInfo.id;
+const userId = store.state.userInfo ? store.state.userInfo.id : null;
 
 watch(() => route.params.id, async (newId) => {
   console.log('라우트가 변경되었습니다. 새로운 id:', newId);
@@ -221,6 +224,18 @@ watch(() => route.params.id, async (newId) => {
   }
 });
 
+// 날짜를 가공하는 함수 정의
+// function getFormattedDate(dateTime) {
+//   return dateTime.split(' ')[0];
+// }
+
+// 3일 이내 작성된 글인지 확인하는 함수
+function isNewPost(dateTime) {
+  const postDate = dayjs(dateTime);
+  const currentDate = dayjs();
+  return currentDate.diff(postDate, 'day') <= 1;
+}
+
 const boardType = store.state.communityTypes;
 const modalFlg = ref(false);
 let insertModal;
@@ -228,10 +243,14 @@ let detailModal;
 let communityItem = reactive({});
 const preview = ref('');
 
-const communityData = reactive({
-  content: '',
-  img: null,
-});
+// 날짜를 가공하는 함수 정의
+function getFormattedDate(dateTime) {
+  return dateTime.split(' ')[0]; // 공백을 기준으로 나눠서 첫 번째 부분만 반환
+}
+// const communityData = reactive({
+//   content: '',
+//   img: null,
+// });
 
 function checkLoginStatus() {
   isLoggedIn.value = Boolean(store.state.authFlg);
@@ -362,6 +381,7 @@ function updatePost(item) {
 // 게시글 삭제 함수
 function deletePost(id) {
   if (confirm('정말 삭제하시겠습니까?')) {
+    console.log('삭제할 게시글 ID:', id); // id 값 확인용 로그
     store.dispatch('communityDelete', id);
     store.dispatch('communityGet', { id: route.params.id });
   //   const id = route.params.id;
