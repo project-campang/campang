@@ -397,6 +397,7 @@ a {
 
 .main-rank-box p {
     margin-bottom: 0;
+    font-family: 'SBAggroL';
 }
 
 .main-pang {
@@ -428,9 +429,21 @@ a {
     padding: 16px;
     box-shadow: 5px 5px 10px -5px;
 }
-.count {
-    font-size: 3.5rem;
+
+.main-right-top p {
+    font-family: 'SBAggroM';
+    
 }
+
+.main-right-top span {
+    color: white;
+}
+
+.count {
+    font-size: 4rem;
+    text-shadow: -3px 0px black, 0px 3px black, 3px 0px black, 0px -3px black;
+}
+
 /* .main-right-board {
     
     box-shadow: 5px 5px 10px -5px;
@@ -446,9 +459,18 @@ a {
 }
 .freeBoardList {
     margin-bottom: 10px;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    text-overflow: ellipsis;
+    -webkit-box-orient: vertical;
+    font-family: 'SBAggroL';
 }
 
-
+.freeBoardList > * {
+    color: white;
+    font-family: 'SBAggroL';
+}
 
 /* .right-board {
     background-color: #999;
@@ -500,6 +522,11 @@ a {
 .third-main-p h1 {
     font-size: 3rem;
     color: #000;
+    font-family: 'SBAggroM';
+    text-shadow: -1px 0px white, 0px 1px white, 1px 0px white, 0px -1px white;
+}
+.third-main-p p {
+    font-family: 'SBAggroL';
 }
 
 .third-main-p a {

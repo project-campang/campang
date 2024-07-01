@@ -110,7 +110,7 @@
                         <div class="item-info">
                             <div>
                                 <span class="item-name">{{ item.name }}</span>
-                                <span class="item-distance sub-text">87.2km</span>
+                                <!-- <span class="item-distance sub-text">87.2km</span> -->
                             </div>
                             <div class="item-info-2">
                                 <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
@@ -152,7 +152,7 @@
                             :lng="item.longitude"
                             :title="item.name"
                             :clickable="true"
-                            :imageUrl="'/image/map-pin.png'"
+                            :imageUrl="'/images/map-pin.png'"
                             @mouseenter="markerMouseEnter(item)"
                             @on-click-kakao-map-marker="openMarkerLink(`/camp/${item.id}`)"
                         ></KakaoMapMarker>
@@ -281,11 +281,16 @@ function markerShow(item) {
     // 이미지 URL 가져오기
     const parentElement = document.querySelector('#map');
     const childElements = parentElement.querySelectorAll('img');
-    let imageUrl = '/image/select-pin';
+
+    console.log('imageUrl1', imageUrl);
 
     childElements.forEach(img => {
         if (img.getAttribute('title') === item.name) {
+            let imageUrl = '/images/center-pin.png';
+            console.log('이름 똑같다');
             imageUrl = img.src;
+            console.log('src', img.src);
+            console.log('imageUrl11111111111111111111111111111111111', imageUrl);
         }
     });
 
@@ -293,8 +298,9 @@ function markerShow(item) {
     store.commit('updateMapCenter', {
         lat: item.latitude,
         lng: item.longitude,
-        imageUrl: imageUrl // imageUrl 속성 추가
+        imageUrl: imageUrl,
     });
+    console.log('imageUrl3', imageUrl);
 
     console.log('새 중심좌표', store.state.mapCenter);
 
@@ -405,9 +411,9 @@ onUpdated(() => {
     const childElements = parentElement.querySelectorAll('img[title]');
     console.log('자식', childElements);
     childElements.forEach(img => {
-        img.src = '/images/map-pin.png'; // 이미지 경로를 실제 경로로 변경하세요
-        img.style.width = '35px'; // 원하는 너비로 설정
-        img.style.height = '37px'; // 원하는 높이로 설정
+        img.src = '/images/center-pin.png';
+        img.style.width = '35px'; 
+        img.style.height = '37px';
     });
 })
 

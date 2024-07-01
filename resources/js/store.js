@@ -1123,6 +1123,7 @@ const store = createStore({
                     console.log('stampCnt then');
                     context.commit('setStampCnt', response.data.data[0]);
                 // console.log(response.data.data);
+                console.log('스탬프정보',response.data.data[0]);
                 })
                 .catch(error => {
                     console.log('stamp 갯수 획득 실패' + error.response);
