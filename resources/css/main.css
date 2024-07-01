@@ -198,9 +198,21 @@ a {
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 5px;
-    font-family: 'SUITE-Light';
-    font-size: 1rem;
+    font-family: 'SUITE';
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding-left: 12px;
+    color: #737070;
 }
+
+.main-select-box > .select > option{
+    font-family: 'SUITE';
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding-left: 12px;
+    color: #737070;
+}
+
 
 .main-search-button {
     background-color: #006400;

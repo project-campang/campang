@@ -14,6 +14,25 @@
     font-weight: normal;
     font-style: normal;
 }
+@font-face {
+    font-family: 'SBAggroL';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroL.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SBAggroM';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2108@1.1/SBAggroM.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'SUITE';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
 
 /* main {
     height: 100vh;
@@ -89,6 +108,7 @@
     border-bottom: 2px solid #97D270;
     color: black;
     text-decoration: none;
+    font-family: 'SBAggroM';
 }
 
 .content-container {
@@ -213,6 +233,10 @@ hr {
     border: solid 2px grey;
 }
 
+.modal-content {
+    height: 700px;
+}
+
 .content-item {
     display: grid;
     grid-template-columns: 100px auto 100px 200px 100px;
@@ -275,37 +299,77 @@ input::placeholder, textarea::placeholder {
   }
 
   .img-box {
+    margin-top: 10px;
     width: 100%;
     height: 100%;
-    padding: 20px;
-    border: solid 1px #dfdfdf;
     outline: none;
     border-radius: 20px;
   }
 
   .img-box > img {
-    margin: 0 auto 20px auto;
+    margin: auto;
     width: 100%;
 
   }
+
+.modal-title {
+    font-size: 0.8rem;
+    font-family: 'SUITE';
+    font-weight: 700;
+    color: rgb(157, 157, 157);
+}
+
+.modal-title span {
+    font-family: 'SUITE';
+    font-weight: 700;
+    font-size: 1.3rem;
+    font-family: 'SUITE';
+    font-weight: 900;
+    color: black;
+}
 
   .detail-modal-title {
     padding: 0 20px;
     width: 100%;
     height: 100%;
-    border: solid 1px #dfdfdf;
     outline: none;
     border-radius: 20px;
     resize: none;
     margin-bottom: 20px;
     line-height: 25px;
+    color: rgb(144, 144, 144);
+    display: grid;
+    justify-content: end
+  } 
+
+  .detail-modal-title div {
     font-size: 0.8rem;
+    font-family: 'SUITE';
+    font-weight: 700;
+  }
+
+  .detail-modal-title span {
+    font-size: 1.3rem;
+    font-family: 'SUITE';
+    font-weight: 900;
+    color: black;
+    padding-right: 10px;
+  }
+
+  .detail-modal-title-update {
+    height: 40px;
+    font-size: 1.3rem;
+    font-family: 'SUITE';
+    font-weight: 900;
+    border-radius: 10px;
+    border: 2px solid #dfdfdf;
+    outline: none;
   }
 
   .detail-modal-content {
     padding: 0 20px;
     width: 100%;
-    height: 100%;
+    height: 450px;
     border: solid 1px #dfdfdf;
     outline: none;
     border-radius: 20px;
@@ -313,7 +377,16 @@ input::placeholder, textarea::placeholder {
     margin-bottom: 20px;
     letter-spacing: 0px;
     line-height: 40px;
-    font-size: 0.7rem;
+    font-size: 1rem;
+    font-family: 'SUITE';
+    font-weight: 600;
+    overflow: auto;
+  }
+
+  .todo {
+    font-family: 'SUITE';
+    font-weight: 400;
+    color: rgb(144, 144, 144)
   }
 
   /* 이서린 커뮤 */
@@ -350,9 +423,11 @@ input::placeholder, textarea::placeholder {
   }
 
   .sidebar-container .board-name .list-item.active {
-    background-color: #97D270; /* 활성화된 경우 배경색 */
+    width: 200px;
+    background-color: #b0d09b; /* 활성화된 경우 배경색 */
     /* font-weight: bold; 활성화된 경우 굵은 글꼴 */
     /* color: #fff; */
+    font-family: 'SBAggroB';
     
   }
 
@@ -362,10 +437,13 @@ input::placeholder, textarea::placeholder {
 
   .item-box {
     font-size: 1rem;
+    font-family: 'SUITE';
+    font-weight: 600;
   }
 
   .item-title-box {
     font-size: 1.5rem;
+    font-family: 'SBAggroM';
   }
 
   .add-community {
@@ -377,4 +455,8 @@ input::placeholder, textarea::placeholder {
     color: yellow;
     margin-left: 10px;
     text-shadow: 2px 1px 5px #000;
+  }
+
+  .pagination > *{
+    font-family: 'SBAggroM';
   }

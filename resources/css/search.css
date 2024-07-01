@@ -17,6 +17,13 @@
     font-style: normal;
 }
 
+@font-face {
+    font-family: 'SUITE';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
 * {
     padding: 0;
     margin: 0;
@@ -82,10 +89,17 @@ form .address {
     border-radius: 10px;
     border: solid 1px rgb(171, 171, 171);
     color: #737070;
+    font-family: 'SUITE';
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding-left: 12px;
 }
 
-.accordion {
-    /* width: 400px !important; */
+.address option {
+    font-family: 'SUITE';
+    font-weight: 600;
+    font-size: 0.9rem;
+    padding-left: 12px;
 }
 
 .search-btn {
@@ -99,6 +113,10 @@ form .address {
 
 .btn-bg-yellow {
     background-color: #FFD84F;
+    font-family: 'SUITE';
+    font-weight: 900;
+    font-size: 1.1rem;
+    color: black;
 }
 
 .btn-bg-grey {
@@ -137,7 +155,10 @@ label > span {
 
 .count > span {
     color: #737070;
+    font-family: 'SUITE';
+    font-weight: 900;
     font-size: 0.9rem;
+    word-spacing: 0.2rem;
 }
 
 hr {
@@ -194,6 +215,8 @@ hr {
     padding: 5px;
     /* border-right: solid 2px #D9D9D9; */
     font-size: 1.1rem;
+    font-family: 'SBAggroM';
+    
 }
 
 
@@ -202,8 +225,10 @@ hr {
 }
 
 .sub-text {
-    font-size: 0.7rem;
     color: #737070;
+    font-size: 0.7rem;
+    font-family: 'SUITE';
+    font-weight: 900;
 }
 
 .item-distance {
@@ -211,8 +236,19 @@ hr {
     color: #155627;
 }
 
+.address-depth2 {
+    font-size: 0.9rem;
+    font-family: 'SUITE';
+    font-weight: 900;
+}
+
 .item-price {
     font-size: 0.9em;
+}
+
+.item-tel > span{
+    font-family: 'SUITE';
+    font-weight: 900;
 }
 
 .item-detail {

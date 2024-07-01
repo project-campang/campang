@@ -140,15 +140,23 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">상세</h5>
+          <h5 class="modal-title">
+            <span>{{ communityItem.title }}</span>
+          </h5>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form action="">
           <div class="modal-body detail-data">
-            <div class="detail-modal-title" id="detail-modal-title">{{ communityItem.title }}</div>
-            <div class="detail-modal-content" id="detail-modal-content">{{ communityItem.content }}</div>
-            <div class="img-box">
+            <div class="detail-modal-title" id="detail-modal-title">
+              <div>
+                작성자ㅤ
+                <span>{{ communityItem.nick_name }}</span>
+              </div>
+            </div>
+            <div class="detail-modal-content" id="detail-modal-content">{{ communityItem.content }}
+              <div class="img-box">
               <img :src="communityItem.main_img" alt="" />
+            </div>
             </div>
           </div>
           <div class="modal-footer">
@@ -165,15 +173,16 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">글 수정</h5>
+        <h5 class="modal-title">
+          <input class="detail-modal-title-update" id="detail-modal-title" v-model="selectedContent.title">
+        </h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <form @submit.prevent="submitUpdate">
         <input type="hidden" id="id" v-model="selectedContent.id">
         <div class="modal-body detail-data">
-          <input class="detail-modal-title" id="detail-modal-title" v-model="selectedContent.title">
           <textarea class="detail-modal-content" id="detail-modal-content" v-model="selectedContent.content"></textarea>
-          <h3>사진은 마이페이지 -> 내글목록에서 수정해주세요!</h3>
+          <span class="todo">사진은 마이페이지 -> 내글목록에서 수정해주세요!</span>
         </div>
         <div class="modal-footer">
             <div>
@@ -344,6 +353,7 @@ function openDetailModal(data) {
   if (detailModal) {
     modalFlg.value = true;
     detailModal.show();
+    communityItem.nick_name = data.nick_name;
     communityItem.title = data.title;
     communityItem.content = data.content;
     communityItem.main_img = data.main_img;
