@@ -8,7 +8,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a @click="searchPage" class="nav-link active" aria-current="page" href="#">캠핑장 모아보기</a>
+                        <router-link to="/search"class="nav-link active" aria-current="page">캠핑장 모아보기</router-link>
                     </li>
                     <li class="nav-item">
                         <router-link to="/community/1" class="nav-link active" aria-current="page">
@@ -502,11 +502,6 @@ function goToRegistration() {
     openRegistration();
 }
 
-// 검색 페이지로 이동
-function searchPage() {
-    window.location.href = './search';
-    store.dispatch('campListGet');
-}
 
 
 // 게시판 이름
