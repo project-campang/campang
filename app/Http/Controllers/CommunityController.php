@@ -16,7 +16,7 @@ class CommunityController extends Controller
                               ->select('communities.*', 'users.name', 'users.nick_name')
                               ->where('communities.type', $id)
                               ->orderBy('communities.id', 'DESC')
-                              ->paginate(5);
+                              ->paginate(10);
         
         $responseData= [
             'code' => '0',

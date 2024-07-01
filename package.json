@@ -25,6 +25,7 @@
         "@fortawesome/vue-fontawesome": "^3.0.8",
         "@popperjs/core": "^2.11.8",
         "bootstrap": "^5.3.3",
+        "dayjs": "^1.11.11",
         "vue-router": "^4.3.2",
         "vue3-kakao-maps": "^2.3.9",
         "vuex": "^4.0.2"
