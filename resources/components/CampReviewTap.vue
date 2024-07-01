@@ -55,15 +55,9 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <div>
-                    <button type="button" class="btn btn-outline-warning start-0">수정</button>
-                    <button type="button" class="btn btn-outline-danger">삭제</button>
-                </div>
-                <div>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
                 </div>
-            </div>
-        </form>
+            </form>
         </div>
     </div>
 </div>
