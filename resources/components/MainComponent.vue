@@ -31,7 +31,6 @@
                             <option value='3'>카라반</option>
                         </select>
                     </div>
-                    <!-- <button @click="searchBtn" class="main-search-button">검색</button> -->
                     <button type="button" @click="searchBtn" class="main-search-button">검색</button>
                 </div>
             </form>
@@ -66,24 +65,27 @@
             <div class="main-top-middle">
                 <div class="main-mini-search">
                     <div class="align-items-center justify-content-center popularBoard">
+                        <div class="d-flex justify-content-between">
                         <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow">캠팡 인기글</h2>
+                        <router-link to="/community/1"><span>글 더보기</span></router-link>
+                        </div>
                         <hr>
-                        <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유게시판</span>{{ index + 1 }}위. {{ item.title }}</p>
+                        <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span>자유</span>{{ index + 1 }}위. {{ item.title }}</p>
                     </div>
                 </div>
             </div>
             <div class="main-top-right">
                 <div class="main-mini-search">
                     <div class="align-items-center justify-content-center popularBoard">
+                        <div class="d-flex justify-content-between">
                         <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow	">캠팡 꿀팁</h2>
+                        <router-link to="/community/1"><span>글 더보기</span></router-link>
+                    </div>
                         <hr>
-                        <p class="freeBoardList" v-for="(item, index) in $store.state.tip" :key="index"><span>꿀팁 게시판</span>{{ index + 1 }}위. {{ item.title }}</p>
+                        <p class="freeBoardList" v-for="(item, index) in $store.state.tip" :key="index"><span>꿀팁</span>{{ index + 1 }}위. {{ item.title }}</p>
                     </div>
                 </div>
             </div>
-            <!-- <div class="main-pang">
-                <a href="#">나도 도장 찍으러가기 <img src="/img/stamp2.png" alt="" loading="lazy"></a>
-            </div> -->
         </div>
         <div class="main-bottom" data-section="3">
             

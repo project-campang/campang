@@ -60,7 +60,7 @@
                         <a href="#" @click.prevent="goToRegistration">회원가입하러가기</a>
                     </div>
                     <div class="modal-footer">
-                        <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
+                        <!-- <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button> -->
                         <button @click="closeLogin" type="button" class="btn btn-secondary">취소</button>
                         <button type="submit" class="btn btn-primary">로그인</button>
                     </div>
@@ -330,9 +330,7 @@ function resetRegisterForm() {
     emailCheckResult.value = null;
 }
 
-// function closeRegistration() {
-//     registrationFlg.value = false;
-// }
+
 
 // 스크롤 탑 함수 사용
 const { btnBackToTop, backToTop } = useBackToTop();
@@ -404,13 +402,13 @@ function closeRegistration() {
 // 로그인 처리 함수
 const errorMessage = ref(null);
 
-        // const loginFlg = ref(false);
 
 async function login() {
     try {
         const response = await store.dispatch('login', loginForm.value);
         resetLoginForm();
         closeLogin();
+        location.reload(); // 페이지 새로고침
     } catch (error) {
         console.error('로그인 실패:', error);
         if (error.response && error.response.status === 401) {
@@ -427,6 +425,7 @@ function logout() {
         .then(() => {
             resetLoginForm();
             closeLogin();
+            location.reload(); // 페이지 새로고침
         })
         .catch(error => {
             console.error('로그아웃 실패:', error);
@@ -508,9 +507,7 @@ function goToRegistration() {
 const communityTypes = computed(() => store.state.communityTypes);
 
 // 게시판 데이터 가져오기
-onMounted(() => {
-    // store.dispatch('fetchCommunityTypes'); // community_types 데이터 가져오기
-});
+
 
 </script>
 
