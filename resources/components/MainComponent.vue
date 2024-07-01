@@ -9,17 +9,15 @@
                 <div class="d-flex justify-content-center align-items-center">
                     <span class="me-2">어느지역?</span>
                     <div class="main-select-box me-2">
-                        <select @change="selectState" name="state" id="select1" class="select">
-                            <option>전체 시/도</option>
-                            <option :value="key+1"  v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
-                            {{ console.log('stateData', stateData) }}
+                        <select @change="changeState" name="state" id="select1" class="select" v-model="stateSelete">
+                            <option :value="0">전체 시/도</option>
+                            <option :value="item.id"  v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
                         </select>
                     </div>
                     <div class="main-select-box">
-                        <select @change="selectCounty" name="county" id="select2" class="select">
-                            <option>전체 구/군</option>
-                            <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
-                            {{ console.log('countyData', countyData) }}
+                        <select @change="changeCounty" name="county" id="select2" class="select" v-model="countySelete">
+                            <option :value="0">전체 구/군</option>
+                            <option :value="item.id" v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
                         </select>
                     </div>
                 </div>
@@ -34,7 +32,7 @@
                         </select>
                     </div>
                     <!-- <button @click="searchBtn" class="main-search-button">검색</button> -->
-                    <router-link to="/search" @click="searchBtn" class="main-search-button">검색</router-link>
+                    <button type="button" @click="searchBtn" class="main-search-button">검색</button>
                 </div>
             </form>
         </div>
@@ -213,15 +211,12 @@
 
 <script setup>
 import axios from 'axios';
-import { onBeforeMount,ref, onMounted, computed, onUnmounted } from 'vue';
+import { onBeforeMount,ref, computed, onUnmounted, watch } from 'vue';
 import { useStore } from 'vuex';
-import { useRoute } from 'vue-router';
-
+import { useRouter } from 'vue-router';
 
 const store = useStore();
-const route = useRoute();
-const stateData = ref(store.state.stateData);
-const countyData = ref(store.state.countyData);
+const router = useRouter();
 const campData = ref(store.state.campData);
 
 
@@ -327,18 +322,18 @@ function showCampingzang() {
 }
 
 onBeforeMount(() => {
-  if(store.state.boardData.length < 1 ) {
-    store.dispatch('setMainCampingler');
-  }
-  if(store.state.mainCampingzang.length < 1 ) {
-    store.dispatch('setMainCampingzang');
-  }
-  if(store.state.mainCommunity.length < 1 ) {
-    store.dispatch('setMainCommunity');
-  }
-  if(store.state.suggestCam.length < 1 ) {
-    store.dispatch('setSuggestCam');
-  }
+    if(store.state.boardData.length < 1 ) {
+        store.dispatch('setMainCampingler');
+    }
+    if(store.state.mainCampingzang.length < 1 ) {
+        store.dispatch('setMainCampingzang');
+    }
+    if(store.state.mainCommunity.length < 1 ) {
+        store.dispatch('setMainCommunity');
+    }
+    if(store.state.suggestCam.length < 1 ) {
+        store.dispatch('setSuggestCam');
+    }
 
     if(store.state.suggestBrand.length < 1 ) {
     store.dispatch('setSuggestBrand');
@@ -349,6 +344,15 @@ onBeforeMount(() => {
     store.dispatch('fetchCamps');
     store.dispatch('updateUserPosition');
     store.dispatch('stampCnt');
+
+    // 시군구 정보
+    if (store.state.stateData.length < 1) {
+        store.dispatch('stateGet');
+    }
+    if (store.state.countyData.length < 1) {
+        store.dispatch('countyGet');
+    }
+    window.addEventListener('scroll', handleScroll);
 })
 const stampCnt = computed(() => store.state.stampCnt);
 const isWithinTargetArea = computed(() => store.state.isWithinTargetArea);
@@ -386,51 +390,33 @@ const handleScroll = () => {
 
 
 
-
-
-onMounted(() => {
-    const stateData = ref(store.state.stateData);
-    const countyData = ref(store.state.countyData);
-    // store.dispatch('stateGet');
-    // store.dispatch('countyGet');
-    if (!stateData.value.length) {
-        store.dispatch('stateGet');
-    }
-    if (!countyData.value.length) {
-        store.dispatch('countyGet');
-  }
-  window.addEventListener('scroll', handleScroll);
-});
-
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll);
 });
 
-const selectState = (e) => {
-    const selectedStateId = e.target.value;
 
-    store.dispatch('countyGet', selectedStateId);
-};
+// 시군구 선택
+const stateSelete = ref('0');
+const countySelete = ref('0');
 
-
-function searchBtn(e) {
-    const selectStateElement = document.querySelector('#select1');
-    const selectCountyElement = document.querySelector('#select2');
-    const selectedState = selectStateElement.value;
-    const selectedCounty = selectCountyElement.value;
-
-    console.log('선택된 값:', selectedState);
-    console.log('선택된 값:', selectedCounty);
-
-    store.dispatch('searchResult', {
-        state: selectedState, // 선택된 시/도 값
-        county: selectedCounty, // 선택된 구/군 값
-        // 추가
-    });
+function changeState() {
+    console.log('메인 시군구 선택', stateSelete.value);
+    store.dispatch('countyGet', stateSelete.value);
 }
 
 
+function searchBtn() {
+    console.log('선택된 값:', stateSelete.value, countySelete.value);
 
+    store.commit('setLocalInfo',{
+        state: stateSelete.value, // 선택된 시/도 값
+        county: countySelete.value, // 선택된 구/군 값
+        page: 1,
+    })
+    store.dispatch('searchResult');
+
+    router.push('/search');
+}
 
 </script>
 

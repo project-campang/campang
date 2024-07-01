@@ -6,15 +6,16 @@
                 <div class="search-box">
                     <form action="" id="searchForm">
                         <label for="address"></label>
-                        <select @change="selectState" name="state" id="select1" class="address">
-                            <option>시/도 선택</option>
-                            <option :value="key+1" v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
+                        <select @change="selectState" name="state" id="select1" class="address" v-model="stateSelete">
+                            <option :value="0">시/도 선택</option>
+                            <option :value="item.id" v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
                         </select>
-                        <select @change="selectCounty" name="county" id="select2" class="address">
-                            <option>구/군 선택</option>
-                            <option v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
+                        <select @change="selectCounty" name="county" id="select2" class="address" v-model="countySelete">
+                            <option :value="0">구/군 선택</option>
+                            <option :value="item.id" v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
                             <!-- <option v-for="(item, key) in filteredCounties" :key="key" :value="item.id">{{ item.name }}</option> -->
                         </select>
+                        {{ countySelete }}
                         <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">검색</button>
                         <!-- <div class="accordion" id="accordionPanelsStayOpenExample">
                             <div class="accordion-item" style="background-color: white;">
@@ -98,12 +99,12 @@
                     <div class="count">
                         <img src="" draggable="false" alt="">
                         <span>총</span>
-                        {{ $store.state.searchCount.length }} 
+                        {{ $store.state.campData.total }} 
                         <span>개의 캠핑장 발견!</span>
                     </div>
                 </div>
                 <div class="search-item-con">
-                    <div class="search-item" @click="markerShow(item)" v-if="searchResult.length === 0" v-for="(item, key) in $store.state.campData" :key="key" >
+                    <div class="search-item" @click="markerShow(item)" v-for="(item, key) in $store.state.campData.data" :key="key" >
                         <div class="item-img">
                             <img class="img main-img" :src='item.main_img' alt="">
                         </div>
@@ -134,18 +135,18 @@
                         </div>
                     </div> 
                     <div class="pagination">
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()"><ㅤ</button>
-                        <div class="page-num">{{ $store.state.paginationSearch.current_page+'ㅤ/ㅤ'+$store.state.paginationSearch.last_page }}</div>
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()">ㅤ> </button>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == 1" @click="prevPage()"><ㅤ</button>
+                        <div class="page-num">{{ $store.state.campData.current_page+'ㅤ/ㅤ'+$store.state.campData.last_page }}</div>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == $store.state.campData.last_page" @click="nextPage()">ㅤ> </button>
                     </div>          
                 </div>
             </div>
             <div class="resizer" id="drag" @mousedown="startResize"></div>
             <div class="map-container">
                 <div class="map" id="map">
-                    <KakaoMap :lat="mapCenter.lat" :lng="mapCenter.lng" :draggable="true" :level="7" class="marker-parent">
+                    <KakaoMap :lat="$store.state.mapCenter.lat" :lng="$store.state.mapCenter.lng" :draggable="true" :level="7" class="marker-parent">
                         <KakaoMapMarker
-                            v-for="(item, key) in $store.state.campData"
+                            v-for="(item, key) in $store.state.campData.data"
                             :key="key"
                             :id="item.id"
                             :lat="item.latitude"
@@ -190,7 +191,6 @@ const store = useStore();
 const searchResult = ref([]); // 검색 결과
 // const stateData = ref(store.state.stateData);
 // const countyData = ref(store.state.countyData);
-const campData = ref(store.state.campData);
 
 // const stateData = ref([]);
 // const countyData = ref([]);
@@ -244,35 +244,29 @@ const selectState = (e) => {
 
 
 // 지도 중심 좌표 초기화
-const mapCenter = ref(store.state.mapCenter);
+// const mapCenter = ref(store.state.mapCenter);
 
 // Vuex의 `mapCenter` 상태를 반응형으로 감시하여 자동 업데이트
-watch(() => store.state.mapCenter, (newCenter) => {
-  mapCenter.value = newCenter;
-}, { immediate: true });
+// watch(() => store.state.mapCenter, (newCenter) => {
+//   mapCenter.value = newCenter;
+// }, { immediate: true });
 
 // 검색시 쳣 번 째 캠핑장 좌표로 바꿈
-watch(campData, (newData) => {
-  if (newData.length > 0) {
-    const firstItem = newData[0];
-    mapCenter.value = {
-      lat: firstItem.latitude,
-      lng: firstItem.longitude
-    };
-    console.log('중심좌표 변경됨', mapCenter.value);
-  }
-}, { immediate: true });
+// watch(campData, (newData) => {
+//   if (newData.length > 0) {
+//     const firstItem = newData[0];
+//     mapCenter.value = {
+//       lat: firstItem.latitude,
+//       lng: firstItem.longitude
+//     };
+//     console.log('중심좌표 변경됨', mapCenter.value);
+//   }
+// }, { immediate: true });
 
 
 // item 클릭시 이벤트
 function markerShow(item) {
-    // 중심 좌표 업데이트
-    mapCenter.value = {
-        lat: item.latitude,
-        lng: item.longitude,
-    };
-    console.log('중심좌표 변경됨', mapCenter.value);
-
+    console.log('기존 중심좌표', store.state.mapCenter);
     // 이미지 URL 가져오기
     const parentElement = document.querySelector('#map');
     const childElements = parentElement.querySelectorAll('img');
@@ -284,13 +278,14 @@ function markerShow(item) {
         }
     });
 
-    // mapCenter에 이미지 URL 추가
-    mapCenter.value = {
-        ...mapCenter.value, // 기존 mapCenter의 값 복사
+    // 중심 좌표 업데이트
+    store.commit('updateMapCenter', {
+        lat: item.latitude,
+        lng: item.longitude,
         imageUrl: imageUrl // imageUrl 속성 추가
-    };
+    });
 
-    console.log('새 중심좌표', mapCenter.value);
+    console.log('새 중심좌표', store.state.mapCenter);
 
     // // 마커 이미지 업데이트
     // const map = ref(null); // 지도 객체를 담을 변수
@@ -329,24 +324,6 @@ const stopResize = () => {
     window.removeEventListener('mouseup', stopResize);
 }
 
-// 검색 버튼
-
-function searchBtn(e) {
-    const selectStateElement = document.querySelector('#select1');
-    const selectCountyElement = document.querySelector('#select2');
-    const selectedState = selectStateElement.value;
-    const selectedCounty = selectCountyElement.value;
-
-    console.log('선택된 값:', selectedState);
-    console.log('선택된 값:', selectedCounty);
-    
-    store.dispatch('searchResult', {
-        state: selectedState, // 선택된 시/도 값
-        county: selectedCounty, // 선택된 구/군 값
-        // 추가
-    });
-    
-}
 
 
 // // 검색 셀렉트박스 연결
@@ -394,17 +371,18 @@ const adjustMarkerZIndex = () => {
 onBeforeMount(() => {
     console.log('onBeforeMount');
     if(store.state.campData.length <  1) {
-        store.dispatch('campListGet'); 
+        store.dispatch('searchResult'); 
+    }
+    if(store.state.stateData.length <  1) {
+        store.dispatch('stateGet');
     }
     console.log('campListGet');
-    store.dispatch('searchCount');
+    // store.dispatch('searchCount');
 })
 
 onMounted(async () => {
     await nextTick();
 
-    store.dispatch('stateGet');
-    // store.dispatch('countyGet' );
     const resizer = document.querySelector('.resizer');
     resizer.addEventListener('mousedown', startResize);
     window.addEventListener('mouseup', stopResize);
@@ -416,11 +394,47 @@ onUpdated(() => {
     const childElements = parentElement.querySelectorAll('img[title]');
     console.log('자식', childElements);
     childElements.forEach(img => {
-    img.src = '/images/map-pin.png'; // 이미지 경로를 실제 경로로 변경하세요
-    img.style.width = '35px'; // 원하는 너비로 설정
-    img.style.height = '37px'; // 원하는 높이로 설정
+        img.src = '/images/map-pin.png'; // 이미지 경로를 실제 경로로 변경하세요
+        img.style.width = '35px'; // 원하는 너비로 설정
+        img.style.height = '37px'; // 원하는 높이로 설정
     });
 })
+
+
+
+// 시군구 선택
+const stateSelete = ref(store.state.localInfo.state);
+const countySelete = ref(store.state.localInfo.county);
+
+
+// 검색 버튼
+function searchBtn() {
+    console.log('선택된 값:', stateSelete.value, countySelete.value);
+
+    store.commit('setLocalInfo',{
+        state: stateSelete.value, // 선택된 시/도 값
+        county: countySelete.value, // 선택된 구/군 값
+        page: 1,
+    })
+    store.dispatch('searchResult');
+}
+// function searchBtn(e) {
+//     const selectStateElement = document.querySelector('#select1');
+//     const selectCountyElement = document.querySelector('#select2');
+//     const selectedState = selectStateElement.value;
+//     const selectedCounty = selectCountyElement.value;
+
+//     console.log('선택된 값:', selectedState);
+//     console.log('선택된 값:', selectedCounty);
+    
+//     store.dispatch('searchResult', {
+//         state: selectedState, // 선택된 시/도 값
+//         county: selectedCounty, // 선택된 구/군 값
+//         // 추가
+//     });
+    
+// }
+
 
 </script>
 
