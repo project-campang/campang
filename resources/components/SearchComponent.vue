@@ -110,7 +110,7 @@
                         <div class="item-info">
                             <div>
                                 <span class="item-name">{{ item.name }}</span>
-                                <!-- <span class="item-distance sub-text">87.2km</span> -->
+                                <span class="item-distance sub-text">87.2km</span>
                             </div>
                             <div class="item-info-2">
                                 <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
@@ -152,7 +152,7 @@
                             :lng="item.longitude"
                             :title="item.name"
                             :clickable="true"
-                            :imageUrl="'/images/map-pin.png'"
+                            :imageUrl="'/image/map-pin.png'"
                             @mouseenter="markerMouseEnter(item)"
                             @on-click-kakao-map-marker="openMarkerLink(`/camp/${item.id}`)"
                         ></KakaoMapMarker>
@@ -281,16 +281,11 @@ function markerShow(item) {
     // 이미지 URL 가져오기
     const parentElement = document.querySelector('#map');
     const childElements = parentElement.querySelectorAll('img');
-
-    console.log('imageUrl1', imageUrl);
+    let imageUrl = '/image/center-pin';
 
     childElements.forEach(img => {
         if (img.getAttribute('title') === item.name) {
-            let imageUrl = '/images/center-pin.png';
-            console.log('이름 똑같다');
             imageUrl = img.src;
-            console.log('src', img.src);
-            console.log('imageUrl11111111111111111111111111111111111', imageUrl);
         }
     });
 
@@ -298,9 +293,8 @@ function markerShow(item) {
     store.commit('updateMapCenter', {
         lat: item.latitude,
         lng: item.longitude,
-        imageUrl: imageUrl,
+        imageUrl: imageUrl // imageUrl 속성 추가
     });
-    console.log('imageUrl3', imageUrl);
 
     console.log('새 중심좌표', store.state.mapCenter);
 

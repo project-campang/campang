@@ -374,9 +374,9 @@ onBeforeMount(() => {
     if (store.state.stateData.length < 1) {
         store.dispatch('stateGet');
     }
-    if (store.state.countyData.length < 1) {
-        store.dispatch('countyGet');
-    }
+    // if (store.state.countyData.length < 1) {
+    //     store.dispatch('countyGet');
+    // }
     window.addEventListener('scroll', handleScroll);
 })
 const stampCnt = computed(() => store.state.stampCnt);
