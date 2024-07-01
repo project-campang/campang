@@ -15,7 +15,6 @@
                             <option :value="item.id" v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
                             <!-- <option v-for="(item, key) in filteredCounties" :key="key" :value="item.id">{{ item.name }}</option> -->
                         </select>
-                        {{ countySelete }}
                         <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">검색</button>
                         <!-- <div class="accordion" id="accordionPanelsStayOpenExample">
                             <div class="accordion-item" style="background-color: white;">
@@ -135,9 +134,9 @@
                         </div>
                     </div> 
                     <div class="pagination">
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()"><ㅤ</button>
-                        <div class="page-num">{{ $store.state.paginationSearch.current_page+'ㅤ/ㅤ'+$store.state.paginationSearch.last_page }}</div>
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()">ㅤ> </button>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == 1" @click="prevPage()"><ㅤ</button>
+                        <div class="page-num">{{ $store.state.campData.current_page+'ㅤ/ㅤ'+$store.state.campData.last_page }}</div>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == $store.state.campData.last_page" @click="nextPage()">ㅤ> </button>
                     </div>          
                 </div>
             </div>
@@ -262,6 +261,18 @@ const selectState = (e) => {
 //     console.log('중심좌표 변경됨', mapCenter.value);
 //   }
 // }, { immediate: true });
+
+
+// `campData`가 변경될 때 첫 번째 항목의 좌표로 지도 중심을 업데이트하는 watcher
+watch(() => store.state.campData, (newData) => {
+    if (newData.data && newData.data.length > 0) {
+        const firstItem = newData.data[0];
+        store.commit('updateMapCenter', {
+            lat: firstItem.latitude,
+            lng: firstItem.longitude
+        });
+    }
+}, { immediate: true });
 
 
 // item 클릭시 이벤트
