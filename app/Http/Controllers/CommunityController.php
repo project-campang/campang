@@ -13,7 +13,7 @@ class CommunityController extends Controller
    // 게시글 획득
     public function communityGet($id) {
         $boardList = Community::join('users', 'communities.user_id', '=', 'users.id')
-                              ->select('communities.*', 'users.name')
+                              ->select('communities.*', 'users.name', 'users.nick_name')
                               ->where('communities.type', $id)
                               ->orderBy('communities.id', 'DESC')
                               ->paginate(5);

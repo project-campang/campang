@@ -68,7 +68,7 @@
             >
               <div>{{ index + 1 }}</div>
               <div class="title-text-align">{{ item.title }}</div>
-              <div>{{ item.user_id }}</div>
+              <div>{{ item.nick_name }}</div>
               <div>{{ item.created_at }}</div>
               <div>
                 <div class="btn-container" v-if="isAuthor(item.user_id)">
