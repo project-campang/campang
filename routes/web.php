@@ -74,7 +74,7 @@ Route::get('/api/county/{id}', [CountyController::class, 'countyGet']); // count
 // 댓글 컨트롤러
 Route::post('/api/comment/{id}', [CommentController::class, 'comment']);
 Route::get('/api/camp/{id}/commentPage', [CommentController::class, 'commentPaginate']);
-Route::get('/api/reviewTap', [CommunityController::class, 'detailReviewGet']);
+Route::get('/api/camp/{id}/reviewTap', [CommunityController::class, 'detailReviewGet']);
 Route::post('/api/comment/{id}/update', [CommentController::class, 'commentUpdate']);
 Route::delete('/api/comment/{id}/delete', [CommentController::class, 'commentDelete']);
 

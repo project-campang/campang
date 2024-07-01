@@ -66,8 +66,10 @@
 
 <script setup>
 import { onBeforeMount, onMounted, ref, reactive } from 'vue';
+import { useRoute } from 'vue-router';
 import { useStore } from 'vuex';
 const store = useStore();
+const route = useRoute();
 
 // 모달
 // 모달 플래그
@@ -78,7 +80,7 @@ let detailReviewItem = reactive({});
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {
-    store.dispatch('detailReviewTap');
+    store.dispatch('detailReviewTap', { id:route.params.id, page: 1});
   })
 
   onMounted(async () => {
