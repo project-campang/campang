@@ -844,3 +844,34 @@ a {
     background-position: center;
     background-size: contain;
 }
+
+/* 버튼 스타일 */
+.btn-btn {
+    display: inline-flex; /* Flexbox를 사용하여 내부 요소를 정렬하기 쉽게 설정 */
+    align-items: center; /* 내부 요소를 수직 가운데 정렬 */
+    padding: 10px 20px;
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 16px;
+    border-radius: 5px;
+    overflow: hidden;
+    position: relative;
+    border: 1px solid;
+  }
+  
+  /* 텍스트 스타일 */
+  .btn span {
+    margin-right: 10px; /* 텍스트와 이미지 사이 간격을 조정 */
+  }
+  
+  /* 이미지 스타일 */
+  #btn-img {
+    max-width: 100%; /* 이미지가 버튼의 크기에 맞게 자동으로 조정되도록 설정 */
+    transition: transform 0.3s ease; /* 호버 시에 이미지에 효과를 주기 위한 transition 설정 */
+  }
+  
+  /* 버튼 호버 시 이미지 크기 변화 */
+  #btn-wrapper:hover #btn-img {
+    transform: scale(1.2); /* 이미지를 1.2배로 확대 */
+  }
+  
