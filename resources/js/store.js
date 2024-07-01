@@ -660,8 +660,8 @@ const store = createStore({
          * @param {*} context 
          * @param {*} page 
          */
-         commentPageGet(context,id, page=1) {
-            const url = ('/api/camp/'+id+'/commentPage?page=' + page);
+         commentPageGet(context, { id, page }) {
+            const url = `/api/camp/${id}/commentPage?page=${page}`;
             console.log('페이지확인',url);
             axios.get(url)
             .then(response => {
@@ -691,8 +691,8 @@ const store = createStore({
                     console.log(e);
                 })
         },
-        detailReviewTap(context, page=1) {
-            const url = ('/api/reviewTap?page=' + page);
+        detailReviewTap(context,{ id, page }) {
+            const url = (`/api/camp/${id}/reviewTap?page=${page}`);
             // const url = '/api/reviewTap';
 
             axios.get(url)
@@ -1114,7 +1114,6 @@ const store = createStore({
                 .then(response => {
                     console.log('stampCnt then');
                     context.commit('setStampCnt', response.data.data[0]);
-                // console.log(response.data.data);
                 })
                 .catch(error => {
                     console.log('stamp 갯수 획득 실패' + error.response);

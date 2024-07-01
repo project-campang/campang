@@ -7,7 +7,7 @@
       <button @click="openModal($store.state.userInfo)" type="button" class="btn btn-primary my-page-button" data-bs-toggle="modal" data-bs-target="#userModal">내정보수정</button>
       <div class="my-page-box">
     <p class="mypage-stamp" @click="showStamp()">내 도장판</p>
-    <a href="#campingzang" class="my-page-link" @click="showStamp(); markActive($event)"><p>-도장깨기</p></a>
+    <a href="#" class="my-page-link" @click="showStamp(); markActive($event)"><p>-도장깨기</p></a>
     <a href="#wish" class="my-page-link" @click="showStamp(); markActive($event)"><p>-찜목록</p></a>
     <p class="mypage-content" @click="showContent()">내가쓴글</p>
     <a href="#" class="my-page-link" @click="showContent(); markActive($event)"><p>-게시글</p></a>
@@ -32,7 +32,7 @@
         <h3 class="stamp-top-h2" v-else>
             캠핑장을 방문하면서 도장을 찍어보세요 !
         </h3>
-        <div clss="mypage-stamp-list" v-if="$store.state.stampCampingzang.length > 0">
+        <div class="mypage-stamp-list" v-if="$store.state.stampCampingzang.length > 0">
             <div class="stamp-top-item" v-for="(item, key) in $store.state.stampCampingzang" :key="key">
                 <router-link :to="`/camp/${item.camp_id}`">
                     <img :src="item.main_img" alt="">
