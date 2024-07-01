@@ -157,7 +157,7 @@ a {
 
 /* 콘텐츠 행 스타일 */
 .content-row {
-    justify-items: center;
+    /* justify-items: center; */
     align-items: center;
     display: grid;
     grid-template-columns: 1fr 3fr 1fr 1fr;

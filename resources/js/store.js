@@ -40,7 +40,7 @@ const store = createStore({
             countyData: [],
             selectedState: '', // 선택된 시/도
             selectedCounty: '', // 선택된 구/군
-            mapCenter: { lat: 35.868312, lng: 128.593964 }, // 임시 기본 좌표
+            mapCenter: { lat: 35.868312, lng: 128.593964, imageUrl: ''}, // 임시 기본 좌표
             stampCampingzang: [],
             mypageWishes:[],
             targetCamp: [],
@@ -54,6 +54,11 @@ const store = createStore({
             mypageReview:[],
             mypageComment:[],
             allImgs: [],
+            localInfo: {
+                state: '0'
+                ,county: '0'
+                ,page: '1'
+            },
         }
     },
     mutations: {
@@ -236,7 +241,11 @@ const store = createStore({
         },
         setAllImgs(state, data){
             state.allImgs = data;
-        }
+        },
+        // 로컬 정보 셋
+        setLocalInfo(state, data) {
+            state.localInfo = data;
+        },
     },
     actions: {
         // async login(context, loginForm) {
@@ -956,66 +965,36 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        searchResult(context, local, page=1) {
+        searchResult(context) {
             console.log('searchResult Start');
-            const selectedState = local.state;
-            const selectedCounty = local.county;
-            // const page = context.page;
 
-            // const url = `/api/search?state=${state}&county=${county}&page=${page}`;
-            const url = ('/api/search/searchPage?page=' + page);
-            
-            // const selectStateElement = document.querySelector('#select1');
-            // const selectCountyElement = document.querySelector('#select2');
-            // const selectedState = selectStateElement.value;
-            // const selectedCounty = selectCountyElement.value;
-            // console.log(selectedState);
-            // console.log(selectedCounty);
+            const url = ('/api/search/searchPage');
 
-            const data = new FormData(document.querySelector('#searchForm'));
+            console.log(url);
 
-            axios.post(url, data)
-                .then(response => {
-                    const campList = response.data.data.data;
-                    console.log('srghsg', campList);
-                    context.commit('setCampList', campList);
-                    console.log('searchResult 검색 결과 획득 성공', campList);
-                    console.log('searchResult setCampList', context.state.campData);
-                    console.log(campList[0]);
-                    context.commit('setPaginationSearch', {
-                        current_page: response.data.data.current_page, // 현재페이지
-                        first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
-                        last_page: response.data.data.last_page, // 마지막페이지
-                        last_page_url: response.data.data.last_page_url, // 마지막페이지url
-                        total: response.data.data.total, // 총 페이지
-                        per_page: response.data.data.per_page, // 한페이지 당 갯수 (5)
-                        prev_page_url: response.data.data.prev_page_url, // 이전페이지(처음이면 null)
-                        next_page_url: response.data.data.next_page_url, // 다음페이지(끝이면 null)
-                        links: response.data.data.links,
-                        // test: test,
-                    });
-                    if (campList.length > 0) {
-                        const newCenter = {
-                            lat: campList[0].latitude,
-                            lng: campList[0].longitude
-                        }
-                        
-                        console.log('links', response.data.data.links);
-                        console.log('length', response.data.data.length);
-                        context.commit('updateMapCenter', newCenter);
-                        console.log('지도 중심 좌표 업데이트', newCenter);
-                    };
+            const reqData = {
+                params: context.state.localInfo
+            };
 
-
-                    console.log('000', campList[0].latitude);
-                    console.log('000', campList[0].longitude);
-
-                })
-                .catch(error => {
-                    console.error('검색 결과 획득 실패', error.response);
-                    alert('검색 오류');
-                });
-            },
+            axios.get(url, reqData)
+            .then(response => {
+                console.log('searchResult 검색 결과 획득 성공', response.data);
+                context.commit('setCampList', response.data.data);
+                console.log('스토어 캠프데이터', context.state.campData);
+                if (context.state.campData.length > 0) {
+                    const newCenter = {
+                        lat: context.campData[0].latitude,
+                        lng: context.campData[0].longitude
+                    }
+                    context.commit('updateMapCenter', newCenter);
+                    console.log('지도 중심 좌표 업데이트', newCenter);
+                }
+            })
+            .catch(error => {
+                console.error('검색 결과 획득 실패', error.response);
+                alert('검색 오류');
+            });
+        },
             
             /**
              * 검색결과 카운트

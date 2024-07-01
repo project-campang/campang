@@ -23,11 +23,10 @@
     <hr>
   </div>
   <div class="page-btn">
-    <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.prev_page_url == null" @click="prevPage()">< 이전 </button>
-    {{ console.log('pagination 받아오나', $store.state.pagination) }}
-    <div class="page-num">{{ $store.state.pagination.current_page+'/'+$store.state.pagination.last_page }}</div>
-    <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()"> 다음 > </button>
-  </div>  
+    <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.prev_page_url == null" @click="prevPage()"> 이전 </button>
+    <div class="page-num">{{ $store.state.pagination.current_page + '/' + $store.state.pagination.last_page }}</div>
+    <button class="pre-next-btn" type="button" :disabled="$store.state.pagination.current_page == $store.state.pagination.last_page" @click="nextPage()"> 다음 </button>
+  </div>
 </template>
 
 <script setup>
@@ -96,18 +95,23 @@ const deleteComment = async (id) => {
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {
-    store.dispatch('commentPageGet', route.params.id);
+    store.dispatch('commentPageGet', { id: route.params.id, page: 1 });
   // console.log(store.state.pagination.current_page);
 })
 
 function prevPage() {
- store.dispatch('commentPageGet', store.state.pagination.current_page-- );
-//  console.log('-1', store.state.pagination.current_page);
+    const currentPage = store.state.pagination.current_page;
+    if (currentPage > 1) {
+        store.dispatch('commentPageGet', { id: route.params.id, page: currentPage - 1 });
+    }
 }
 
 function nextPage() {
- store.dispatch('commentPageGet', store.state.pagination.current_page++ );
-//  console.log('+1', store.state.pagination.current_page);
+    const currentPage = store.state.pagination.current_page;
+    const lastPage = store.state.pagination.last_page;
+    if (currentPage < lastPage) {
+        store.dispatch('commentPageGet', { id: route.params.id, page: currentPage + 1 });
+    }
 }
 
 

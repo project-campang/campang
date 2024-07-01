@@ -135,9 +135,9 @@
                         </div>
                     </div> 
                     <div class="pagination">
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == 1" @click="prevPage()"><ㅤ</button>
-                        <div class="page-num">{{ $store.state.campData.current_page+'ㅤ/ㅤ'+$store.state.campData.last_page }}</div>
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == $store.state.campData.last_page" @click="nextPage()">ㅤ> </button>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == 1" @click="prevPage()"><ㅤ</button>
+                        <div class="page-num">{{ $store.state.paginationSearch.current_page+'ㅤ/ㅤ'+$store.state.paginationSearch.last_page }}</div>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.paginationSearch.current_page == $store.state.paginationSearch.last_page" @click="nextPage()">ㅤ> </button>
                     </div>          
                 </div>
             </div>

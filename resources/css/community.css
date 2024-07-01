@@ -107,6 +107,7 @@
     width: auto;
     height: 120px;
     line-height: 50px;
+    font-size: 5rem;
 }
 
 .content-top-2 {
@@ -311,3 +312,45 @@ input::placeholder, textarea::placeholder {
     line-height: 40px;
     font-size: 0.7rem;
   }
+
+  /* 이서린 커뮤 */
+  .content-column2 {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+  }
+  
+  .content-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .title-text-align {
+    flex: 1;
+    text-align: left;
+    padding: 0 10px;
+  }
+  
+  .btn-container {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .btn-outline-warning,
+  .btn-outline-danger {
+    padding: 5px 10px;
+    margin-left: 5px;
+  }
+
+  .sidebar-container .board-name .list-item.active {
+    background-color: #97D270; /* 활성화된 경우 배경색 */
+    /* font-weight: bold; 활성화된 경우 굵은 글꼴 */
+    /* color: #fff; */
+    
+  }
+
+  /* .community-list {
+    font-size: 5rem;
+  } */
