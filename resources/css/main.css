@@ -159,6 +159,7 @@ a {
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 .main-mini-search {
+    height: 360px;
     margin: 1rem auto;
     background-color: #FFD649;
     max-width: 800px;
@@ -325,9 +326,10 @@ a {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     height: 410px;
-    margin: 0 30px;
+    margin: 20px 30px;
     gap: 20px;
     align-items: baseline;
+    
 }
 /* .main-top > * {
     height: 100%;

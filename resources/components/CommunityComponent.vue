@@ -210,7 +210,7 @@ const selectedContent = reactive({
 });
 
 // 로그인된 사용자의 ID를 가져옴
-const userId = store.state.userInfo.id;
+const userId = store.state.userInfo ? store.state.userInfo.id : null;
 
 watch(() => route.params.id, async (newId) => {
   console.log('라우트가 변경되었습니다. 새로운 id:', newId);
@@ -362,6 +362,7 @@ function updatePost(item) {
 // 게시글 삭제 함수
 function deletePost(id) {
   if (confirm('정말 삭제하시겠습니까?')) {
+    console.log('삭제할 게시글 ID:', id); // id 값 확인용 로그
     store.dispatch('communityDelete', id);
     store.dispatch('communityGet', { id: route.params.id });
   //   const id = route.params.id;
