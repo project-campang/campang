@@ -262,6 +262,7 @@ const selectState = (e) => {
 //   }
 // }, { immediate: true });
 
+
 // `campData`가 변경될 때 첫 번째 항목의 좌표로 지도 중심을 업데이트하는 watcher
 watch(() => store.state.campData, (newData) => {
     if (newData.data && newData.data.length > 0) {
