@@ -463,7 +463,7 @@ a {
     color: white;
 }
 
-.count {
+.main-count {
     font-size: 4rem;
     text-shadow: -3px 0px black, 0px 3px black, 3px 0px black, 0px -3px black;
 }
