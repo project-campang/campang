@@ -892,3 +892,8 @@ a {
     transform: scale(1.2); /* 이미지를 1.2배로 확대 */
   }
   
+  /* 404 */
+.content-error {
+    height: 800px;
+    padding-top: 3rem;
+}
