@@ -173,6 +173,8 @@ import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
 
 
+// 이메일 중복 체크 상태 추가
+const emailChecked = ref(false);
 
 // 유효성 검사 함수들
 const validateEmail = (email) => {
@@ -223,6 +225,7 @@ const validationErrors = ref({
 
 // 이메일 유효성 검사
 watch(() => registerForm.value.email, (newEmail) => {
+    emailChecked.value = false; // 이메일이 변경될 때마다 중복 체크 상태 초기화
     if (!validateEmail(newEmail)) {
         validationErrors.value.email = '유효한 이메일을 입력해주세요.';
     } else {
@@ -282,7 +285,14 @@ watch(() => registerForm.value.tel, (newTel) => {
 });
 
 
+// 회원가입 처리 함수
 function register() {
+    // 이메일 중복 체크를 하지 않았거나 중복된 이메일일 경우 경고 메시지 표시
+    if (!emailChecked.value) {
+        alert('이메일 중복 체크를 해주세요.');
+        return;
+    }
+
     // 데이터가 비어 있는지 검사
     const isEmpty = Object.values(registerForm.value).some(value => value === '');
 
@@ -464,10 +474,11 @@ async function checkEmail() {
     try {
         const response = await axios.post('/api/check-email', { email });
         emailCheckResult.value = response.data.duplicate;
+        emailChecked.value = true; // 이메일 중복 체크 완료로 설정
         console.log('Checking email:', email);
     } catch (error) {
         console.error('이메일 중복 확인 실패:', error);
-        emailCheckResult.value = true; 
+        emailCheckResult.value = true;
     }
 }
 
