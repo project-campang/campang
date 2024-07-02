@@ -11,8 +11,8 @@
           </div>
         </div>
         <div v-else>
-          <div class="co co-co">{{ item.comment }}</div>
-          <div class="co-at">{{ item.created_at }}</div>
+          <div class="co co-co content-font">{{ item.comment }}</div>
+          <div class="co-at content-font">{{ item.created_at }}</div>
         </div>
       </div>
       <div v-if="isAuthor(item.user_id)" class="co-btn-box">

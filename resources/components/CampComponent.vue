@@ -24,7 +24,7 @@
                                 <div class="shop-info-text">
                                     <div class="shop-info-line">
                                         <div class="info-name">캠핑장 주소</div>
-                                        <div class="info-text">
+                                        <div class="info-text content-font">
                                             {{$store.state.campDetail.campInfo.state}}
                                             {{$store.state.campDetail.campInfo.county}}
                                             {{$store.state.campDetail.campInfo.address}}
@@ -32,11 +32,11 @@
                                     </div>
                                     <div class="shop-info-line">
                                         <div class="info-name">문의처</div>
-                                        <div class="info-text">{{$store.state.campDetail.campInfo.tel}}</div>
+                                        <div class="info-text content-font">{{$store.state.campDetail.campInfo.tel}}</div>
                                     </div>
                                     <div class="shop-info-line">
                                         <div class="info-name">유형</div>
-                                        <div class="info-text">글램핑 / 오토캠핑 / 차박</div>
+                                        <div class="info-text content-font">글램핑 / 오토캠핑 / 차박</div>
                                     </div>
                                 </div>
                                 <div class="shop-info-btn-container">

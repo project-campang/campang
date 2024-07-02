@@ -189,7 +189,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(Request $request)
+        public function update(Request $request)
     {
         $requestData = $request->all();
 
@@ -204,13 +204,13 @@ class UserController extends Controller
         );
 
         if ($validator->fails()) {
-            Log::debug('유효성 검사 실패 이메일 중복', $validator->errors()->toArray());
+            Log::debug('유효성 검사 실패', $validator->errors()->toArray());
             return response()->json([
                 'status' => 'error',
                 'errors' => $validator->errors()
             ], 422);
         }
-        Log::debug('유저정보 업데이트 리퀘스트', $requestData);
+        Log::debug('유저 정보 업데이트 리퀘스트', $requestData);
         $user = User::find(Auth::id());
 
         // 필드 업데이트
@@ -225,25 +225,29 @@ class UserController extends Controller
             if ($user->profile) {
                 Storage::disk('public')->delete($user->profile);
             }
-    
+
             // 고유한 파일 이름 생성
             $file = $request->file('profile');
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-    
+
             // 파일을 public/img 디렉터리에 저장
             $path = $file->move(public_path('img'), $filename);
-    
+
             if ($path) {
                 $user->profile = '/img/' . $filename;  // '/img/파일명.확장자'로 경로 설정
             } else {
                 return response()->json(['message' => '파일 저장 실패'], 500);
             }
+        } else {
+            // 프로필 사진이 없는 경우 기존 사진을 유지
+            Log::debug('프로필 사진이 없으므로 기존 사진 유지');
         }
 
         $user->save();
 
         return response()->json(['message' => '성공', 'user' => $user], 200);
     }
+
 
     
     // public function getKakaoLoginUrl() {

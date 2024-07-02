@@ -58,7 +58,7 @@
               <div class="title-text-align item-title-box">글 제목</div>
               <div class="item-title-box">작성자</div>
               <div class="item-title-box">작성일</div>
-              <div class="item-title-box">기타</div>
+              <div class="item-title-box"></div>
             </div>
             <div
               @click="openDetailModal(item)"

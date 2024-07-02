@@ -17,12 +17,12 @@
                     <div class="rating-cnt">({{ item.rating }}.0)</div>
                 </div>
                 <div class="re-second-line">
-                    <p class="review-content">{{ item.content }}</p>
+                    <p class="review-content content-font">{{ item.content }}</p>
                 </div>
                 <div class="re-third-line">
                     <div class="flex-left">
                         <div class="review-nick">{{item.nick_name}}</div>
-                        <div class="review-at">{{item.created_at}}</div>
+                        <div class="review-at content-font">{{item.created_at}}</div>
                     </div>
                     <button @click="openDetailModal(item)" type="button"><img src="../../public/img/상세보기 화살표.png" alt=""></button>
                 </div>
@@ -47,8 +47,8 @@
             </div>
             <form action="">
                 <div class="modal-body detail-data">
-                        <div class="detail-modal-title" id="detail-modal-title">{{ detailReviewItem.title }}</div>
-                        <div class="detail-modal-content" id="detail-modal-content">{{ detailReviewItem.content }}
+                        <div class="detail-modal-title content-font" id="detail-modal-title">{{ detailReviewItem.title }}</div>
+                        <div class="detail-modal-content content-font" id="detail-modal-content">{{ detailReviewItem.content }}
                             <div class="img-box">
                                 <img :src="detailReviewItem.main_img" alt="">
                                 <!-- <img src="/img/sample1.jpg" alt="">s -->
