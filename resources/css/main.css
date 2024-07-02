@@ -751,6 +751,11 @@ a {
     flex-direction: column;
     align-items: center;
 }
+
+.modal-content {
+    height: 100%;
+}
+
 .stampArea {
     background-color: #ffd8d8;
     padding: 94px 50px;
