@@ -29,7 +29,7 @@ class CommunityFactory extends Factory
         return [
             'user_id' =>$this->faker->numberBetween(31, 42),
             // 'camp_id' =>$this->faker->numberBetween(1, 2250),
-            'type' => 1,
+            'type' => 2,
             'title' => $this->faker->realText(rand(10,50)),
             'content' => $this->faker->realText(rand(10, 50)),
             'main_img' => '/img/sample1.jpg',
