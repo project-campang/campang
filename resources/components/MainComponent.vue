@@ -91,17 +91,17 @@
             
             <div class="main-right-top" data-counter>
                 <div>
-                    <span class="count">0</span>
+                    <span class=" main-count">0</span>
                     <p>가입유저수</p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAADNklEQVR4nO2dTUtVURSGnwZlgTUriqJBkVGQEEEG9jOylH5ANG0aCU4KxHFf5rBJRP6CpBpkSEQfQxsVBSlSlt997Ni4LtlNypv3nrXuve8D7+R6de/1rnP22eesfbYghBBCCCGEEEIIIUQ8tgE9wCAwBkwAS6YJ++wm0A1s9e5sI9EGDAGzQFqj8ndvAQe8O1/PbAEGgK8VGF+ufHb0A5u9g6k3DgCv1mF8uUaBXd5B1QtHbUxPVdZboN07uHo48idqYP7KJOz0DjIqm4HnNTS/pKd2fRFlDBRgfkl95Y03O23rnO1Uqi8ain5nqEDzS7rqdLCFvMOddUjAjO6Yl+lxML+kM9aHpmbQMQE3vIOPwJhjAvIdctMz6ZiAD03vPrDomIAFJQAlwJtJDUG+jOki7MtNxwRcd449BN2OCejyDj4CrfZYoGjzZ6xtwXIBvegE5KFPrKiELRVofr732FdqXCzTX2ACrliboqwkOVqA+Y+BlpUNi1/kgvmbGpr/Dti9oj2xCu22eqHa5ufEHlmtQfEn24GHVR52tBylQlps9cLMOmc7lzXmr4+dVkCvJBEzVu3SVLOKtFoNNz+/eWLFlEXTB/vsGnBad7hCCCGEEEIIIYQQQlT+5swxWzfUC9wGRuwtx9f2OuuCacI+yz+7b9/ttd/Nf0N7R/yDjUAHcAEYttJhLcqRw9ZGh7XZtGwAjlvBZcTpHbFZa7vP+pL71NDkAE/aM/v3DoanNZwhuW+djZaMHcBFYDyAyWmNGrc+59p03XLY3v+dD2Bo+k/N27LJQ9QRe60e+y2AgalK+g7cAfYTmE029VsIYFiqkXJslyLOoNqrvMFSCq6XkRZ5dTmt70/Oyht+nPI2/zzwI4AZyUk59nNe5p+1i1Nqcn23Rx6F7+8zFyD4FERzRW+R+ShA0CmYHhRlfmeAYFNQnWj07WVScBWy/c2LAIGmoHpWRAI+BQg0BdXHIhLgHWQKLiUAJcD9KEw6A/yNSBqC/M1IDtI1gAZPwOcAR1kKqjxFrzn3AgSagupuEQk4CEwFCDYF01SRT0T3WJF6OkDgyVnTduTrPzYJIYQQQgghhBBCCP7GT8suwKXYQNvyAAAAAElFTkSuQmCC">
                 </div>
                 <div>
-                    <span class="count">0</span>
+                    <span class=" main-count">0</span>
                     <p>도장갯수</p>
                     <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAADeklEQVR4nO2dTYhOURjHf4zvjwVm5SNlyVL5KGsZHxtFbKxkQZqlsLHRNBulwexRikhYWSkS5aPkIxthRBNGGgmlRydnUu/MO2be9973PPc9/1/9N/Nx75znN+fce+49970ghBBC5MFUYB1wBLgMPAWGgF8xQ/Fr4XuH48+G3xEFsxToAd4BNskMxN8N2xBNsgjoB342IKI2P4AzcZuiAXYBnwoQUZuPwE4ZmTjTYq+wknM67kuMw2zgegtkjORa3KcYgw7gSgtljOSGesrY9CeQMZJT6iKjD+CWODsk5S8L45mPJU44o+uUlLRDldWkL3chSwua9FlBCZPHJWRMjwMJVpPjZEq46PfWgQCrybt4Cp4d6xwU3+pkDRly1EHhrU4OkSEpZuU2wVwiQ546KLzVyRMy5LODwludhIlqdniaf9gY85HskBBnlHE30ArKIBny0kHhrU5ekCGtvDNok8xVMsTjdSzL+XrWZgeFtzrZSIbMjaeX5izfc174cNGBAKvJBTJmkwMBpuHqH1OA+w4kWMyD+DdlTZcDEZbzwXwsbjmQcTt1ETyxHvidUEbY99rURfBGX0IhJ1M33uu85FUCGW+A+akb75UtCYSEfYpxON9CGedk4v90xvsRZcsI+9DjbRNkXwuE7FXvmDgdJa9Kea6HdCbP9hKFhG2LBnrJm5KW+EyXjcY4UYIQPb7WBFtLEBLuVIoGWV6CkGWy0ThzShAyS0KawwqOkJD2wtRDfGES4guTEF+YhPjCJMQXJiFCCCFEdW9MrQR2A73AzYIWPQzGbfXGba/M9UNmxmMGsArYE1cP3gG+lXBmVS/h48mfAWeBbmADMI9MWBAb3B0L8Czxel4bJ+/jQ6nHgG3ACipMR2zAttig0LAPDopsTeZL7MEnY49eHXu4K1IPOZY4SYe8Kg051s5DXlgU8NpBI63ieR2fFmuaRt7ZoVD3XSZNo+JSaA0kBF//VBJCegkSQvrCSwjpiy0hpC+whJC+qBJC+kJKCOmLJyGkL5iEOCiSSUj6wpiEpC+GOYgundBmQgYcNMLaJOEVT03T5fRdUVaxvC3qBpUQQgjRLMMODoxW0XylBO45aJhVNHfLEHLQQcOsotlfhpCZwGMHjbOK5WGZa4DDq60fOWikVUjGYkom2D4Qx0Ud6BklYTjWZr/H1fFCCCFoW/4AQvL8SIqQ7nwAAAAASUVORK5CYII=">
                 </div>
                 <div>
-                    <span class="count">0</span>
+                    <span class=" main-count">0</span>
                     <p>캠핑장 수</p>
                    <img src="data:image/png;base64,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">
                 </div>
@@ -303,7 +303,7 @@ const counter = ($counter, max) => {
 
 window.onload = () => {
   // 카운트를 적용시킬 모든 요소
-  const counters = document.querySelectorAll(".count");
+  const counters = document.querySelectorAll(".main-count");
   
   counters.forEach(($counter, index) => {
     // 목표 수치 설정
@@ -311,8 +311,10 @@ window.onload = () => {
 
     if (index === 0) {
       max = 124; // 첫 번째 항목의 목표 수치 설정
-    } else if (index === 1 || index === 2) {
-      max = 365; // 두 번째와 세 번째 항목의 목표 수치 설정
+    } else if (index === 1) {
+      max = 322; 
+    } else if (index === 2) {
+      max = 467; // 세 번째 항목의 목표 수치 설정
     }
 
     setTimeout(() => counter($counter, max), 2000 * index);
