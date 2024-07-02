@@ -1,6 +1,19 @@
 a {
     text-decoration-line: none;
   }
+
+  @font-face {
+    font-family: 'SUITE-Regular';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'SUITE-Light';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2304-2@1.0/SUITE-Light.woff2') format('woff2');
+    font-weight: 300;
+    font-style: normal;
+}  
 /* 전체 레이아웃 */
 .my-page-section {
     justify-content: center;
@@ -296,7 +309,7 @@ a {
     margin-bottom: 5rem;
 }
 
-.title-text-align {
+.title-text-my {
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -374,3 +387,7 @@ a {
     background-position: center;
     background-size: contain;
   }
+
+.content-font {
+    font-family: 'SBAggroL';
+}  

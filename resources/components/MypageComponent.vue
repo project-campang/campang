@@ -62,11 +62,11 @@
                 <div class="my-page-top text-center">시/도</div>
                 <div class="my-page-top text-center">찜한 날짜</div>
               </div>
-              <div class="content-row text-center" v-for="(item, index) in $store.state.mypageWishes" :key="index">
-                  <div class="content-row-num">{{ index + 1 }}</div>
-                  <router-link :to="`/camp/${item.camp_id}`"><div class=" text-center">{{ item.camp_name }}</div></router-link>
-                  <div class="content-row-num">{{ item.state }}</div>
-                  <div class="text-center wish-created" id="text-container">{{ getFormattedDate(item.created_at) }}</div>
+              <div class="content-row text-center content-font" v-for="(item, index) in $store.state.mypageWishes" :key="index">
+                  <div class="content-row-num content-font">{{ index + 1 }}</div>
+                  <router-link :to="`/camp/${item.camp_id}`"><div class=" text-center content-font">{{ item.camp_name }}</div></router-link>
+                  <div class="content-row-num content-font">{{ item.state }}</div>
+                  <div class="text-center wish-created content-font" id="text-container">{{ getFormattedDate(item.created_at) }}</div>
               </div>
               <hr class="item-hr">
             </div>
@@ -90,11 +90,11 @@
                 <div class="my-page-top">작성일</div>
                 <div class="my-page-top"></div>
               </div>
-              <div class="content-row text-center" v-for="(item, index) in $store.state.mypageContent" :key="index">
-                <div class="content-row-num">{{ index + 1 }}</div>
-                <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '게시글')">{{ item.title }}</div>
+              <div class="content-row text-center content-font" v-for="(item, index) in $store.state.mypageContent" :key="index">
+                <div class="content-row-num content-font">{{ index + 1 }}</div>
+                <div class="title-text-my content-font" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '게시글')">{{ item.title }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div>{{ getFormattedDate(item.created_at) }}</div>
+                <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
                 <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '게시글')">삭제</button></div>
               </div>
               <hr class="item-hr" id="review">
@@ -116,11 +116,11 @@
                 <div class="my-page-top">작성일</div>
               </div>
               <div class="content-row-other text-center" v-for="(item, index) in $store.state.mypageReview" :key="index">
-                <div class="content-row-num">{{ index + 1 }}</div>
-                <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
-                <div class="review-cam ">{{ item.camp_name }}</div>
+                <div class="content-row-num content-font">{{ index + 1 }}</div>
+                <div class="title-text-my content-font" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
+                <div class="review-cam content-font">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div>{{ getFormattedDate(item.created_at) }}</div>
+                <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
                 <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '리뷰')">삭제</button></div>
               </div>
               <hr class="item-hr" id="comment">
@@ -142,11 +142,11 @@
                 <div class="my-page-top"></div>
               </div>
               <div class="content-row-other text-center" v-for="(item, index) in $store.state.mypageComment" :key="index">
-                <div class="content-row-num">{{ index + 1 }}</div>
-                <div class="title-text-align" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '댓글')">{{ item.comment }}</div>
-                <div class="review-cam ">{{ item.camp_name }}</div>
+                <div class="content-row-num content-font">{{ index + 1 }}</div>
+                <div class="title-text-my content-font" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '댓글')">{{ item.comment }}</div>
+                <div class="review-cam content-font">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div>{{ getFormattedDate(item.created_at) }}</div>
+                <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
                 <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '댓글')">수정</button><button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '댓글')">삭제</button></div>
               </div>
               <hr class="item-hr">
@@ -175,18 +175,18 @@
             </div>
             <div class="mb-3">
               <label for="name" class="form-label">이름</label>
-              <input type="text" class="form-control" id="name" name="name" v-model="userInfo.name">
-              <div v-if="validationErrors.name" class="alert alert-danger">{{ validationErrors.name }}</div>
+              <input type="text" class="form-control content-font" id="name" name="name" v-model="userInfo.name">
+              <div v-if="validationErrors.name" class="alert alert-danger content-font">{{ validationErrors.name }}</div>
             </div>
             <div class="mb-3">
               <label for="nick_name" class="form-label">닉네임</label>
-              <input type="text" class="form-control" id="nick_name" name="nick_name" v-model="userInfo.nick_name">
-              <div v-if="validationErrors.nick_name" class="alert alert-danger">{{ validationErrors.nick_name }}</div>
+              <input type="text" class="form-control content-font" id="nick_name" name="nick_name" v-model="userInfo.nick_name">
+              <div v-if="validationErrors.nick_name" class="alert alert-danger content-font">{{ validationErrors.nick_name }}</div>
             </div>
             <div class="mb-3">
               <label for="tel" class="form-label">휴대폰 번호</label>
-              <input type="text" class="form-control" id="tel" name="tel" v-model="userInfo.tel" @input="oninputPhone" maxlength="14">
-              <div v-if="validationErrors.tel" class="alert alert-danger">{{ validationErrors.tel }}</div>
+              <input type="text" class="form-control content-font" id="tel" name="tel" v-model="userInfo.tel" @input="oninputPhone" maxlength="14">
+              <div v-if="validationErrors.tel" class="alert alert-danger content-font">{{ validationErrors.tel }}</div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -226,8 +226,8 @@
         <h1 class="modal-title fs-5" id="contentModalLabel">{{ contentType }}: {{ selectedContent?.title || selectedContent?.comment }}</h1>
       </div>
       <div class="modal-body">
-        <p v-if="contentType !== '댓글'"><span class="my-detail-title">- 내용</span> <br>{{ selectedContent?.content }}</p>
-        <p v-if="contentType == '리뷰'"><span class="my-detail-title">- 캠핑장</span> <br>{{ selectedContent?.camp_name }}</p>
+        <p v-if="contentType !== '댓글'" class="content-font"><span class="my-detail-title">- 내용</span> <br>{{ selectedContent?.content }}</p>
+        <p v-if="contentType == '리뷰'" class="content-font"><span class="my-detail-title">- 캠핑장</span> <br>{{ selectedContent?.camp_name }}</p>
         <p v-if="selectedContent?.main_img" class="my-detail-title"><hr>- 메인이미지</p>
         <img v-if="selectedContent?.main_img" :src="selectedContent.main_img" alt="Main Image" class="my-page-detailmodal">
         <p v-if="selectedContent?.other_img2" class="my-detail-title">- 부가이미지1</p>
@@ -264,11 +264,11 @@
             <div class="mb-3">
               <input type="hidden" id="id" v-model="selectedContent.id">
               <label for="title" class="form-label">제목</label>
-              <input type="text" class="form-control" id="title" v-model="selectedContent.title">
+              <input type="text" class="form-control content-font" id="title" v-model="selectedContent.title">
             </div>
             <div class="mb-3">
               <label for="content" class="form-label">내용</label>
-              <textarea class="form-control my-update-form" id="content" v-model="selectedContent.content" rows="5"></textarea>
+              <textarea class="form-control my-update-form content-font" id="content" v-model="selectedContent.content" rows="5"></textarea>
             </div>
             <div class="mb-3">
               <label for="main_img" class="form-label">메인 이미지 업로드</label>
