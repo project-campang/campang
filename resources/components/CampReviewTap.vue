@@ -48,11 +48,13 @@
             <form action="">
                 <div class="modal-body detail-data">
                         <div class="detail-modal-title" id="detail-modal-title">{{ detailReviewItem.title }}</div>
-                        <div class="detail-modal-content" id="detail-modal-content">{{ detailReviewItem.content }}</div>
-                    <div class="img-box">
-                        <img :src="detailReviewItem.main_img" alt="">
-                        <!-- <img src="/img/sample1.jpg" alt="">s -->
-                    </div>
+                        <div class="detail-modal-content" id="detail-modal-content">{{ detailReviewItem.content }}
+                            <div class="img-box">
+                                <img :src="detailReviewItem.main_img" alt="">
+                                <!-- <img src="/img/sample1.jpg" alt="">s -->
+                            </div>
+                        </div>
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
