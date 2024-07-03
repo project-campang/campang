@@ -201,6 +201,42 @@ const shareBtn = () => {
     console.error('클립보드에 복사 실패:', err);
   });
 };
+// const shareBtn = () => {
+//   const url = `http://112.222.157.156:6435/camp/${route.params.id}`;
+//   console.log(url);
+
+// //   // 클립보드 API 지원 여부 확인
+// //   if (navigator.clipboard && navigator.clipboard.writeText) {
+// //     navigator.clipboard.writeText(url).then(() => {
+// //       alert('링크 복사 완료 ! \n 지금 공유 해보세요!');
+// //     }).catch(err => {
+// //       console.error('클립보드에 복사 실패:', err);
+// //     });
+// //   } else {
+//     // 클립보드 API가 지원되지 않는 경우
+//     alert('클립보드 API를 지원하지 않는 브라우저입니다. 수동으로 복사해 주세요.');
+
+//     // 임시 텍스트 영역을 생성하여 복사
+//     const textArea = document.createElement("textarea");
+//     textArea.value = url;
+//     document.body.appendChild(textArea);
+//     textArea.style.position = 'fixed';  // 화면에서 스크롤 되지 않도록 고정
+
+//     // 텍스트 영역을 선택하고 복사
+//     textArea.focus();
+//     textArea.select();
+
+//     // try {
+//     //   document.execCommand('copy');
+//     //   alert('링크 복사 완료 ! \n 지금 공유 해보세요!');
+//     // } catch (err) {
+//     //   console.error('클립보드에 복사 실패:', err);
+//     // }
+
+//     // 임시 텍스트 영역을 제거
+//     document.body.removeChild(textArea);
+//   }
+// };
 // ---------------------------------------------------
 
 

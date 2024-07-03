@@ -482,7 +482,7 @@ a {
     align-items: center;
 }
 .freeBoardList {
-    margin-bottom: 10px;
+    margin-bottom: 25px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 1;
