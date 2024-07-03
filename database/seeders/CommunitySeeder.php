@@ -16,7 +16,7 @@ class CommunitySeeder extends Seeder
      */
     public function run()
     {
-        Community::factory(50)->create();
+        Community::factory(3)->create();
         //  // 이미 들어있는 데이터의 범위를 지정합니다.
         //  $startId = 78;
         //  $endId = 577;

@@ -463,7 +463,7 @@ a {
     color: white;
 }
 
-.count {
+.main-count {
     font-size: 4rem;
     text-shadow: -3px 0px black, 0px 3px black, 3px 0px black, 0px -3px black;
 }
@@ -892,3 +892,8 @@ a {
     transform: scale(1.2); /* 이미지를 1.2배로 확대 */
   }
   
+  /* 404 */
+.content-error {
+    height: 800px;
+    padding-top: 3rem;
+}
