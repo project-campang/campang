@@ -26,6 +26,40 @@ class CommunityController extends Controller
     
         return response()->json($responseData, 200);
     }
+
+    /**
+     * 특정 게시글 ID에 맞는 데이터를 가져옵니다.
+     *
+     * @param int $id 게시글 ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPostById($id)
+    {
+        // communities 테이블과 users 테이블을 조인하여 게시글과 작성자의 nick_name을 조회
+        $boardList = Community::join('users', 'communities.user_id', '=', 'users.id')
+                            ->where('communities.id', $id)
+                            ->whereNull('communities.deleted_at')
+                            ->select('communities.*', 'users.nick_name as user_nick_name')
+                            ->first();
+
+        if (!$boardList) {
+            return response()->json([
+                'code' => '1',
+                'msg' => '게시글을 찾을 수 없습니다.',
+                'data' => null
+            ], 404);
+        }
+
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득',
+            'data' => $boardList
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+
     
     // 게시글 조회순으로 획득 
 

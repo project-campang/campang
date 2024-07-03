@@ -17,7 +17,9 @@ class CommunityCommentFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'community_id' => 1211
+            ,'user_id' => $this->faker->numberBetween($min = 1, $max = 3)
+            ,'comment' => $this->faker->realText(rand(10,200))
         ];
     }
 }

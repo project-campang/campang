@@ -27,6 +27,8 @@ const store = createStore({
             suggestCam:[],
             suggestBrand:[],
             // 커뮤니티페이지 사이드바
+            communityComment:[],
+            communityCommentInsert:[],
             communityTypes: {
                 1: { name: '자유 게시판' },
                 2: { name: '리뷰 게시판' },
@@ -62,6 +64,7 @@ const store = createStore({
                 ,county: '0'
                 ,page: '1'
             },
+            communityDetail:{},
         }
     },
     mutations: {
@@ -178,6 +181,17 @@ const store = createStore({
         setCommunityList(state, data) {
             state.communityData = data;
         },
+        // 상세게시글 획득
+        setCommunityDetail(state, detail) {
+            state.communityDetail = detail;
+        },
+
+        setCommentPageGet(state, data) {
+            state.communityComment = data;
+          },
+        setCommentPost(state, data) {
+            state.communityCommentInsert = data;
+          },
         // 게시글 작성
         setUnshiftCommunityData(state, data) {
             state.communityData.unshift(data);
@@ -786,7 +800,75 @@ const store = createStore({
                 alert(`communityGet 오류: ${error.response}`);
               });
           },
-          
+        
+          async communityDetailGet({ commit }, id) {
+            try {
+                // console.log(`Fetching data for post ID: ${id}`);
+                const response = await fetch(`/api/community/post/${id}`);
+                const data = await response.json();
+                // console.log('Response JSON:', data);
+        
+                if (response.ok) {
+                    console.log('Response OK. Data:', data.data);
+                    commit('setCommunityDetail', data.data); // API 응답 데이터가 `data` 속성에 들어있다면 사용
+                    return data.data;
+                } else {
+                    console.error('서버에서 오류가 발생했습니다:', data.message);
+                    return null;
+                }
+            } catch (error) {
+                console.error('데이터를 가져오는 중 오류가 발생했습니다.', error);
+                return null;
+            }
+        },
+          async commentCommunity({ commit }, id) {
+            try {
+                console.log(`Fetching data for post ID: ${id}`);
+                const response = await fetch(`/api/community/comment/post/${id}`);
+                const data = await response.json();
+                console.log('Response JSON:', data);
+        
+                if (response.ok) {
+                    console.log('Response OK. Data:', data.data);
+                    commit('setCommentPageGet', data.data); // API 응답 데이터가 `data` 속성에 들어있다면 사용
+                    return data.data;
+                } else {
+                    console.error('서버에서 오류가 발생했습니다:', data.message);
+                    return null;
+                }
+            } catch (error) {
+                console.error('댓글을 가져오는 중 오류가 발생했습니다.', error);
+                return null;
+            }
+        },
+        async commentPost({ commit }, id) {
+            try {
+                console.log(`Fetching data for post ID: ${id}`);
+                const response = await fetch(`/api/community/comment/insert/${id}`, {
+                    method: 'GET', // 필요한 경우 POST로 수정
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
+                console.log('Response JSON:', data);
+        
+                if (response.ok) {
+                    console.log('Response OK. Data:', data.data);
+                    commit('setCommentPost', data.data); // API 응답 데이터가 `data` 속성에 들어있다면 사용
+                    return data.data;
+                } else {
+                    console.error('서버에서 오류가 발생했습니다:', data.message);
+                    return null;
+                }
+            } catch (error) {
+                console.error('댓글을 작성중 오류가 발생했습니다.', error);
+                return null;
+            }
+        },
+
+
+        
 
 
         /**
