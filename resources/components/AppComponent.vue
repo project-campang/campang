@@ -125,6 +125,44 @@
         </div>
     </div>
 
+    <!-- campRegisterModal -->
+    <div v-show="campRegisterFlg" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        <!-- advertiseModal -->
+        <div v-show="advertiseFlg" class="modal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Modal title</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Modal body text goes here.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="router-view-container">
         <router-view></router-view>
     </div>
@@ -133,14 +171,15 @@
     <div class="main-footer">
         <div class="main-footer-content">
             <h2>CAMPANG <img src="/img/logo-ko3.png" alt=""></h2>
+            <div class="footer-btn-con">
+                <button class="footer-btn" @click.prevent="openCampRegister">캠핑장 등록 신청하기</button>
+                <button class="footer-btn" @click.prevent="openAdvertise">광고 게시 신청하기</button>
+            </div>
             <p>개인정보처리방침 | 전자우편무단수집거부 | 캠핑장 | 등록안내 | 미등록야영장불법영업신고</p>
             <p>
                 대구시 달서구 남일동 109-2 그린컴퓨터아트학원 
                 <hr>
-                캠핑장 및 브랜드 광고에 관심 있으신가요? 아래 연락처로 문의해 주세요.
-                <br>
                 대구캠퍼스 TEL : 0507-1414-1018 (상담시간 : 평일 10:00~18:00)EMAIL : green@gampang.or.kr
-                <hr>
                 <br>
                 Copyrights(c) 2024 GREEN COMPUTER ACADEMY DAEGU BRANCH 2ND PROJECT TEAM 3.
             </p>
@@ -206,6 +245,8 @@ const validateTel = (tel) => {
 // const store = useStore();
 const loginFlg = ref(false);
 const registrationFlg = ref(false);
+const campRegisterFlg = ref(false);
+const advertiseFlg = ref(false);
 const registerForm = ref({
     email: '',
     password: '',
@@ -359,6 +400,8 @@ const store = useStore();
 // 모달 초기화
 let loginModal;
 let registrationModal;
+let campRegisterModal;
+let advertiseModal;
 
 onMounted(() => {
     const loginModalElement = document.getElementById('loginModal');
@@ -372,6 +415,20 @@ onMounted(() => {
     if (registrationModalElement) {
         import('bootstrap').then(({ Modal }) => {
             registrationModal = new Modal(registrationModalElement);
+        });
+    }
+
+    const campRegisterModalElement = document.getElementById('campRegisterModal');
+    if (campRegisterModalElement) {
+        import('bootstrap').then(({ Modal }) => {
+            campRegisterModal = new Modal(campRegisterModalElement);
+        });
+    }
+
+    const advertiseModalElement = document.getElementById('advertiseModal');
+    if (advertiseModalElement) {
+        import('bootstrap').then(({ Modal }) => {
+            advertiseModal = new Modal(advertiseModalElement);
         });
     }
 });
@@ -408,6 +465,32 @@ function closeRegistration() {
     resetRegisterForm(); // 폼 초기화
     registrationModal.hide();
 }
+
+// ------푸터 모달
+
+function openCampRegister() {
+    campRegisterFlg.value = true;
+    resetRegisterForm();
+    campRegisterModal.show();
+}
+
+function closeCampRegister() {
+    campRegisterFlg.value = false;
+    campRegisterModal.hide();
+}
+
+function openAdvertise() {
+    advertiseFlg.value = true;
+    resetRegisterForm();
+    advertiseModal.show();
+}
+
+function closeAdvertise() {
+    advertiseFlg.value = false;
+    advertiseModal.hide();
+}
+
+// --------
 
 // 로그인 처리 함수
 const errorMessage = ref(null);

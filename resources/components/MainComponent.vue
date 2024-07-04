@@ -1,48 +1,88 @@
 <template>
     <!-- 첫번째 -->
     <div class="main-main">
-        <div class="main-logo">
-            <img src="/img/logo-ko3.png" class="img-fluid" alt="Logo" loading="lazy">
-        </div>
-        <div class="main-search">
-            <form action="" id="searchForm" class="d-flex flex-column align-items-center justify-content-center">
-                <div class="d-flex justify-content-center align-items-center">
-                    <span class="me-2">어느지역?</span>
-                    <div class="main-select-box me-2">
-                        <select @change="changeState" name="state" id="select1" class="select" v-model="stateSelete">
-                            <option :value="0">전체 시/도</option>
-                            <option :value="item.id"  v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
-                        </select>
+        <div class="main-first">
+            <div class="main-default">
+                <div class="main-logo">
+                    <img src="/img/logo-ko3.png" class="img-logo" loading="lazy">
+                </div>
+                <div class="main-search">
+
+                        <div class="search1">
+                            <span class="span1">어느 지역?</span>
+                            <div class="main-select-box">
+                                <select @change="changeState" name="state" id="select1" class="select" v-model="stateSelete">
+                                    <option :value="0">전체 시/도</option>
+                                    <option :value="item.id"  v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
+                                </select>
+                            </div>
+                            <div class="main-select-box">
+                                <select @change="changeCounty" name="county" id="select2" class="select" v-model="countySelete">
+                                    <option :value="0">전체 구/군</option>
+                                    <option :value="item.id" v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="search1">
+                            <span class="span2">어떤 캠핑?</span>
+                            <div class="main-select-box">
+                                <select name="option" class="select">
+                                    <option>선택</option>
+                                    <option value='1'>글램핑</option>
+                                    <option value='2'>오지/노지캠핑</option>
+                                    <option value='3'>카라반</option>
+                                </select>
+                            </div>
+                            <button type="button" @click="searchBtn" class="main-search-button">검색</button>
+                        </div>
+
+                </div>
+            </div>
+            <div class="main-ad">
+                <div class="ad-con">
+                    <div class="campang-pick">
+                        <span>캠팡 Pick! 둘러보기</span>
                     </div>
-                    <div class="main-select-box">
-                        <select @change="changeCounty" name="county" id="select2" class="select" v-model="countySelete">
-                            <option :value="0">전체 구/군</option>
-                            <option :value="item.id" v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
-                        </select>
+                    <div class="ad-box-con">
+                        <div class="ad-box" style="background-image: url('/camp_img/2/2-1.png'); background-repeat: no-repeat; background-size: cover;">
+                            <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;">
+                                <div class="ad-title">
+                                    그린야영장
+                                </div>
+                                <div class="ad-content">
+                                    당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ad-box" style="background-image: url('/camp_img/11/11-2.png'); background-repeat: no-repeat; background-size: cover;">
+                            <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;">
+                                <div class="ad-title">
+                                    그린야영장
+                                </div>
+                                <div class="ad-content">
+                                    당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ad-box" style="background-image: url('/camp_img/16/16-5.png'); background-repeat: no-repeat; background-size: cover;">
+                            <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;">
+                                <div class="ad-title">
+                                    그린야영장
+                                </div>
+                                <div class="ad-content">
+                                    당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-                <div class="d-flex align-items-center justify-content-center mt-3">
-                    <span class="me-2">어디갈래?</span>
-                    <div class="main-select-box me-2">
-                        <select name="option" class="select">
-                            <option>선택</option>
-                            <option value='1'>글램핑</option>
-                            <option value='2'>오지/노지캠핑</option>
-                            <option value='3'>카라반</option>
-                        </select>
-                    </div>
-                    <button type="button" @click="searchBtn" class="main-search-button">검색</button>
-                </div>
-            </form>
+            </div>
         </div>
     
     <!-- 두번째 -->
     <div class="bg-white white-main main-second" data-section="2">
         <div class="main-top">
             <div class="main-top-left">
-                <div class="main-top-img">
-                    <img src="/img/logo-ko3.png" class="main-top-img" alt="" loading="lazy">
-                </div>
                 <div class="main-rank">
                     <button type="button" class="main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
                     <button type="button" class="main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
@@ -132,7 +172,7 @@
     <!-- 네번째 -->
     <div class="bg-white">
         <div class="last-main">
-            <div id="carouselExampleSlidesOnly" class="carousel slide last-left" data-bs-ride="carousel">
+            <!-- <div id="carouselExampleSlidesOnly" class="carousel slide last-left" data-bs-ride="carousel">
                 <h2>캠팡 추천 캠핑장</h2>
                 <p>캠팡 제휴업체에서 할인받자 !</p>
                 <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
@@ -149,11 +189,11 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <div class="last-right">
-            <h2>캠팡 추천 브랜드</h2>
-            <p>믿고 보는 캠팡PICK!</p>
-            <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
+                <h2>캠팡 추천 브랜드</h2>
+                <p>믿고 보는 캠팡PICK!</p>
+                <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="last-right-box">
                     <div class="slider">
                         <div class="slide" v-for="(item, key) in $store.state.suggestbrand" :key="key">
@@ -444,6 +484,11 @@ function searchBtn() {
 
     router.push('/search');
 }
+
+
+
+
+
 
 </script>
 
