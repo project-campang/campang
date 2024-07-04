@@ -15,6 +15,7 @@ const store = createStore({
             paginationReview: {},
             paginationSearch: {},
             paginationCommunity: {},
+            paginationComment:{},
             // 커뮤니티 게시글
             communityData: [],
             boardData: [],
@@ -165,6 +166,9 @@ const store = createStore({
         },
         setPaginationCommunity(state, paginationData){
             state.paginationCommunity = paginationData;
+        },
+        setPaginationComment(state, paginationData){
+            state.paginationComment = paginationData;
         },
         // addWish(state, camp_id) {
         //     state.wishes.push({ camp_id });
@@ -821,16 +825,28 @@ const store = createStore({
                 return null;
             }
         },
-          async commentCommunity({ commit }, id) {
+        async commentCommunity({ commit }, pageInfo) {
             try {
-                console.log(`Fetching data for post ID: ${id}`);
-                const response = await fetch(`/api/community/comment/post/${id}`);
+                // console.log(`post ID: ${pageInfo.id}`);
+                const response = await fetch(`/api/community/comment/post/${pageInfo.id}/communityPage?page=${pageInfo.page}`);
+                // console.log('response',response);
                 const data = await response.json();
-                console.log('Response JSON:', data);
+                // console.log('Response JSON:', data);
         
                 if (response.ok) {
                     console.log('Response OK. Data:', data.data);
-                    commit('setCommentPageGet', data.data); // API 응답 데이터가 `data` 속성에 들어있다면 사용
+                    commit('setCommentPageGet', data.data);
+                    commit('setPaginationComment', {
+                        current_page: data.pagination.current_page,
+                        first_page_url: data.pagination.first_page_url,
+                        last_page: data.pagination.last_page,
+                        last_page_url: data.pagination.last_page_url,
+                        total: data.pagination.total,
+                        per_page: data.pagination.per_page,
+                        prev_page_url: data.pagination.prev_page_url,
+                        next_page_url: data.pagination.next_page_url,
+                        links: data.pagination.links
+                    });
                     return data.data;
                 } else {
                     console.error('서버에서 오류가 발생했습니다:', data.message);
@@ -841,31 +857,77 @@ const store = createStore({
                 return null;
             }
         },
-        async commentPost({ commit }, id) {
+        async updateCommunityComment({ commit }, content) {
             try {
-                console.log(`Fetching data for post ID: ${id}`);
-                const response = await fetch(`/api/community/comment/insert/${id}`, {
-                    method: 'GET', // 필요한 경우 POST로 수정
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-                const data = await response.json();
-                console.log('Response JSON:', data);
-        
-                if (response.ok) {
-                    console.log('Response OK. Data:', data.data);
-                    commit('setCommentPost', data.data); // API 응답 데이터가 `data` 속성에 들어있다면 사용
-                    return data.data;
-                } else {
-                    console.error('서버에서 오류가 발생했습니다:', data.message);
-                    return null;
-                }
+                const response = await axios.post(`/api/community/comment/${id}/update`, content);
+                commit('setCommentPost', response.data);
             } catch (error) {
-                console.error('댓글을 작성중 오류가 발생했습니다.', error);
-                return null;
+                throw new Error('댓글 수정 실패');
             }
         },
+        deleteComment(context , content) {
+            const url = `/api/community/comment/${id}/delete`;
+
+            axios.delete(url, content)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setCommentPost', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                alert(`리뷰 삭제 실패 (${error.response.data.code})`)
+            })
+        },
+        // async commentPost({ commit }, id) {
+        //     try {
+        //         const response = await fetch(`/api/community/comment/list/${id}`, { // URL 및 메서드 확인 필요
+        //             method: 'GET',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //             },
+        //         });
+        //         const data = await response.json();
+        
+        //         if (response.ok) {
+        //             commit('setCommentPost', data.data);
+        //             return data.data;
+        //         } else {
+        //             console.error('서버에서 오류가 발생했습니다:', data.message);
+        //             return null;
+        //         }
+        //     } catch (error) {
+        //         console.error('댓글을 작성 중 오류가 발생했습니다.', error);
+        //         return null;
+        //     }
+        // },
+        commentPost(context, payload) {
+            const { id, comment } = payload; // payload에서 데이터 추출
+            const url = `/api/community/comment/insert/${id}`;
+          
+            // 데이터 객체를 JSON으로 생성
+            const data = {
+              community_id: id,
+              comment: comment, // 전달받은 comment 값을 사용
+            };
+          
+            console.log('보낼 데이터:', data);
+          
+            // 서버에 POST 요청 보내기
+            axios.post(url, data, {
+              headers: {
+                'Content-Type': 'application/json', // JSON 형식으로 전송
+              },
+            })
+              .then(response => {
+                context.commit('setCommentPost', response.data.data); // 댓글 가장 앞에 추가
+              })
+              .catch(error => {
+                console.error('댓글 작성 실패:', error.response.data);
+                alert('댓글 작성 실패: ' + error.response.data.message);
+              });
+          },
+        
+        
 
 
         
@@ -911,16 +973,16 @@ const store = createStore({
          * @param {*} context 
          * @param {*} communityId 
          */
-        async communityViews(context, communityId) {
+        async communityViews({ commit }, id) {
             try {
-                const response = await axios.post('/api/community', {id: communityId});
-
-                commit('setCommunityViews', communityId)
+              const response = await axios.post(`/api/community/increase-view/${id}`);
+              console.log('조회수+1 성공:', response.data);
+              commit('setCommunityList', response.data.data);
+            } catch (error) {
+              console.error('조회수 증가 실패:', error.response.data);
+              throw error;
             }
-            catch {
-                console.log('조회수 증가 실패 : ', error);
-            } 
-        },
+          },
 
         /**
          * 게시글 수정 처리

@@ -50,6 +50,7 @@
               <div class="title-text-align item-title-box">글 제목</div>
               <div class="item-title-box">작성자</div>
               <div class="item-title-box">작성일</div>
+              <div class="item-title-box">조회수</div>
               <div class="item-title-box"></div>
             </div>
             <div @click="goToDetail(item.id)" class="content-item" v-for="(item, index) in $store.state.communityData" :key="index">
@@ -57,6 +58,7 @@
               <div class="title-text-align item-box">{{ item.title }}<span v-if="isNewPost(item.created_at)" class="new-post-badge">N</span></div>
               <div class="item-box">{{ item.nick_name }}</div>
               <div class="item-box">{{ getFormattedDate(item.created_at) }}</div>
+              <div class="item-box">{{ item.views }}</div>
               <div class="d-flex flex-end align-items-center justify-content-center">
                 <div class="btn-container" v-if="isAuthor(item.user_id)">
                   <button type="button" class="btn btn-outline-warning" @click.stop="updatePost(item)">수정</button>
@@ -90,9 +92,38 @@
             <textarea name="content" placeholder="내용을 적어주세요." max="200"></textarea>
           </div>
           <div class="modal-body">
-            <input @change="setFile" class="" type="file" name="main_img" accept="image/*" multiple />
-            <div class="img-box">
-              <img :src="preview" alt="" />
+              <!-- Main Image -->
+              <!-- Additional Images -->
+              <div class="mb-3">
+              <label for="main_img" class="form-label">메인 이미지 업로드</label>
+              <input type="file" class="form-control" id="main_img" accept="image/*" @change="handleImgUpload('main_img')">
+              <img v-if="mainImgPreview" :src="mainImgPreview" alt="Main Image" style="max-width: 100%; margin-top: 10px;">
+              
+
+            </div>
+            <div class="mb-3">
+              <label for="other_img2" class="form-label">부가 이미지 2 업로드</label>
+              <input type="file" class="form-control" name="other_img2" id="other_img2"  accept="image/*" @change="handleImgUpload('other_img2')">
+              <img v-if="otherImg2Preview" :src="otherImg2Preview" alt="Other Image 2" style="max-width: 100%; margin-top: 10px;">
+              
+            </div>
+            <div class="mb-3">
+              <label for="other_img3" class="form-label">부가 이미지 3 업로드</label>
+              <input type="file" class="form-control"  name="other_img3" id="other_img3"  accept="image/*" @change="handleImgUpload('other_img3')">
+              <img v-if="otherImg3Preview" :src="otherImg3Preview" alt="Other Image 3" style="max-width: 100%; margin-top: 10px;">
+              
+            </div>
+            <div class="mb-3">
+              <label for="other_img4" class="form-label">부가 이미지 4 업로드</label>
+              <input type="file" class="form-control" id="other_img4"  name="other_img4" accept="image/*" @change="handleImgUpload('other_img4')">
+              <img v-if="otherImg4Preview" :src="otherImg4Preview" alt="Other Image 4" style="max-width: 100%; margin-top: 10px;">
+              
+            </div>
+            <div class="mb-3">
+              <label for="other_img5" class="form-label">부가 이미지 5 업로드</label>
+              <input type="file" class="form-control" id="other_img5"  name="other_img5" accept="image/*" @change="handleImgUpload('other_img5')">
+              <img v-if="otherImg5Preview" :src="otherImg5Preview" alt="Other Image 5" style="max-width: 100%; margin-top: 10px;">
+              
             </div>
           </div>
           <div class="modal-footer">
@@ -109,24 +140,56 @@
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">
+          <!-- <h5 class="modal-title">
             <input class="detail-modal-title-update" id="detail-modal-title" v-model="selectedContent.title" />
-          </h5>
+          </h5> -->
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form @submit.prevent="submitUpdate">
-          <input type="hidden" id="id" v-model="selectedContent.id" />
-          <div class="modal-body detail-data">
-            <textarea class="detail-modal-content" id="detail-modal-content" v-model="selectedContent.content"></textarea>
-            <span class="todo">사진은 마이페이지 -> 내글목록에서 수정해주세요!</span>
-          </div>
-          <div class="modal-footer">
-            <div>
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-              <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">수정완료</button>
+          <div class="mb-3">
+              <input type="hidden" id="id" v-model="selectedContent.id">
+              <label for="title" class="form-label">제목</label>
+              <input type="text" class="form-control content-font" id="title" v-model="selectedContent.title">
             </div>
-          </div>
-        </form>
+            <div class="mb-3">
+              <label for="content" class="form-label">내용</label>
+              <textarea class="form-control my-update-form content-font" id="content" v-model="selectedContent.content" rows="5"></textarea>
+            </div>
+            <div class="mb-3">
+              <label for="main_img" class="form-label">메인 이미지 업로드</label>
+              <input type="file" class="form-control" id="main_img" accept="image/*" @change="handleImgUpload('main_img')">
+              <img v-if="mainImgPreview" :src="mainImgPreview" alt="Main Image" style="max-width: 100%; margin-top: 10px;">
+              <img v-else-if="selectedContent.main_img" :src="selectedContent.main_img" alt="Main Image" style="max-width: 100%; margin-top: 10px;">
+            </div>
+            <div class="mb-3">
+              <label for="other_img2" class="form-label">부가 이미지 2 업로드</label>
+              <input type="file" class="form-control" id="other_img2"  accept="image/*" @change="handleImgUpload('other_img2')">
+              <img v-if="otherImg2Preview" :src="otherImg2Preview" alt="Other Image 2" style="max-width: 100%; margin-top: 10px;">
+              <img v-else-if="selectedContent.other_img2" :src="selectedContent.other_img2" alt="Other Image 2" style="max-width: 100%; margin-top: 10px;">
+            </div>
+            <div class="mb-3">
+              <label for="other_img3" class="form-label">부가 이미지 3 업로드</label>
+              <input type="file" class="form-control" id="other_img3"  accept="image/*" @change="handleImgUpload('other_img3')">
+              <img v-if="otherImg3Preview" :src="otherImg3Preview" alt="Other Image 3" style="max-width: 100%; margin-top: 10px;">
+              <img v-else-if="selectedContent.other_img3" :src="selectedContent.other_img3" alt="Other Image 3" style="max-width: 100%; margin-top: 10px;">
+            </div>
+            <div class="mb-3">
+              <label for="other_img4" class="form-label">부가 이미지 4 업로드</label>
+              <input type="file" class="form-control" id="other_img4"  accept="image/*" @change="handleImgUpload('other_img4')">
+              <img v-if="otherImg4Preview" :src="otherImg4Preview" alt="Other Image 4" style="max-width: 100%; margin-top: 10px;">
+              <img v-else-if="selectedContent.other_img4" :src="selectedContent.other_img4" alt="Other Image 4" style="max-width: 100%; margin-top: 10px;">
+            </div>
+            <div class="mb-3">
+              <label for="other_img5" class="form-label">부가 이미지 5 업로드</label>
+              <input type="file" class="form-control" id="other_img5"  accept="image/*" @change="handleImgUpload('other_img5')">
+              <img v-if="otherImg5Preview" :src="otherImg5Preview" alt="Other Image 5" style="max-width: 100%; margin-top: 10px;">
+              <img v-else-if="selectedContent.other_img5" :src="selectedContent.other_img5" alt="Other Image 5" style="max-width: 100%; margin-top: 10px;">
+            </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">수정완료</button>
+        </div>
+      </form>
       </div>
     </div>
   </div>
@@ -146,12 +209,73 @@ function isActive(path) {
   return route.path === path;
 }
 
-let updateModal;
 const selectedContent = reactive({
-  id: '',
+  id: null,
   title: '',
   content: '',
+  main_img: null,
+  other_img2: null,
+  other_img3: null,
+  other_img4: null,
+  other_img5: null,
 });
+
+
+const mainImgPreview = ref('');
+const otherImg2Preview = ref('');
+const otherImg3Preview = ref('');
+const otherImg4Preview = ref('');
+const otherImg5Preview = ref('');
+
+
+const handleImgUpload = (fieldName) => {
+  const file = event.target.files[0];
+  if (file) {
+    const reader = new FileReader();
+    reader.onload = () => {
+      switch (fieldName) {
+        case 'main_img':
+          mainImgPreview.value = reader.result;
+          selectedContent.main_img = file;
+          break;
+        case 'other_img2':
+          otherImg2Preview.value = reader.result;
+          selectedContent.other_img2 = file;
+          break;
+        case 'other_img3':
+          otherImg3Preview.value = reader.result;
+          selectedContent.other_img3 = file;
+          break;
+        case 'other_img4':
+          otherImg4Preview.value = reader.result;
+          selectedContent.other_img4 = file;
+          break;
+        case 'other_img5':
+          otherImg5Preview.value = reader.result;
+          selectedContent.other_img5 = file;
+          break;
+        default:
+          break;
+      }
+      updateFormData(fieldName, file);
+    };
+    reader.readAsDataURL(file);
+  }
+};
+
+
+// FormData에 파일을 추가하는 함수 정의
+const updateFormData = (fieldName, file) => {
+  formData.set(fieldName, file); // fieldName에 따라 동적으로 설정
+};
+
+
+let updateModal;
+// const selectedContent = reactive({
+//   id: '',
+//   title: '',
+//   content: '',
+// });
 
 // 로그인된 사용자의 ID를 가져옴
 const userId = store.state.userInfo ? store.state.userInfo.id : null;
@@ -195,10 +319,10 @@ function communityEvent() {
   window.location.reload();
 }
 
-function setFile(e) {
-  communityItem.main_img = e.target.files[0];
-  preview.value = URL.createObjectURL(communityItem.main_img);
-}
+// function setFile(e) {
+//   communityItem.main_img = e.target.files[0];
+//   preview.value = URL.createObjectURL(communityItem.main_img);
+// }
 
 function prevPage() {
   const currentPage = store.state.paginationCommunity.current_page;
@@ -295,12 +419,112 @@ function updatePost(item) {
   selectedContent.id = item.id;
   selectedContent.title = item.title;
   selectedContent.content = item.content;
+  selectedContent.main_img = item.main_img;
+  selectedContent.other_img2 = item.other_img2;
+  selectedContent.other_img3 = item.other_img3;
+  selectedContent.other_img4 = item.other_img4;
+  selectedContent.other_img5 = item.other_img5;
 
-  const updateModalElement = document.getElementById('updateModal');
-  if (updateModalElement) {
-    modalFlg.value = true;
-    updateModal.show();
+  // 기존 미리보기 이미지를 초기화
+  mainImgPreview.value = '';
+  otherImg2Preview.value = '';
+  otherImg3Preview.value = '';
+  otherImg4Preview.value = '';
+  otherImg5Preview.value = '';
+
+  // 새로운 이미지가 설정되었을 경우 미리보기 이미지 업데이트
+  if (item.main_img) mainImgPreview.value = item.main_img;
+  if (item.other_img2) otherImg2Preview.value = item.other_img2;
+  if (item.other_img3) otherImg3Preview.value = item.other_img3;
+  if (item.other_img4) otherImg4Preview.value = item.other_img4;
+  if (item.other_img5) otherImg5Preview.value = item.other_img5;
+
+  modalFlg.value = true;
+  updateModal.show();
+}
+
+const formData = new FormData();
+
+function submitUpdate() {
+  // const formData = new FormData();
+  formData.append('id', selectedContent.id);
+  formData.append('title', selectedContent.title);
+  formData.append('content', selectedContent.content);
+
+  // 파일이 있는 경우에만 FormData에 추가
+  if (selectedContent.main_img && selectedContent.main_img instanceof File) {
+    formData.append('main_img', selectedContent.main_img);
   }
+  if (selectedContent.other_img2 && selectedContent.other_img2 instanceof File) {
+    formData.append('other_img2', selectedContent.other_img2);
+  }
+  if (selectedContent.other_img3 && selectedContent.other_img3 instanceof File) {
+    formData.append('other_img3', selectedContent.other_img3);
+  }
+  if (selectedContent.other_img4 && selectedContent.other_img4 instanceof File) {
+    formData.append('other_img4', selectedContent.other_img4);
+  }
+  if (selectedContent.other_img5 && selectedContent.other_img5 instanceof File) {
+    formData.append('other_img5', selectedContent.other_img5);
+  }
+
+  store.dispatch('updatePost', formData)
+    .then(() => {
+      store.dispatch('communityGet', { id: route.params.id });
+      alert('수정이 완료되었습니다.');
+      closeUpdateModal();
+    })
+    .catch(error => {
+      alert(`수정 실패: ${error.message}`);
+    });
+}
+
+
+const closeUpdateModal = () => {
+  mainImgPreview.value = '';
+  otherImg2Preview.value = '';
+  otherImg3Preview.value = '';
+  otherImg4Preview.value = '';
+  otherImg5Preview.value = '';
+  selectedContent.id = null;
+  selectedContent.title = '';
+  selectedContent.content = '';
+  selectedContent.main_img = null;
+  selectedContent.other_img2 = null;
+  selectedContent.other_img3 = null;
+  selectedContent.other_img4 = null;
+  selectedContent.other_img5 = null;
+};
+
+// function goToDetail(id) {
+//   router.push({ path: `/community/detail/${id}` });
+// }
+async function goToDetail(id) {
+  try {
+    // 현재 사용자 ID 가져오기
+    const currentUserId = store.state.userInfo ? store.state.userInfo.id : null;
+
+    // 게시글 정보 가져오기
+    const post = store.state.communityData.find(item => item.id === id);
+
+    // 조회수 증가 조건: 사용자가 로그인 상태이고 게시글 작성자와 다를 때
+    if (currentUserId && post && currentUserId !== post.user_id) {
+      await increaseViewCount(id);
+    }
+
+    // 상세 페이지로 이동
+    router.push({ path: `/community/detail/${id}` });
+  } catch (error) {
+    console.error("조회수 증가 실패:", error);
+    // 실패하더라도 상세 페이지로 이동
+    router.push({ path: `/community/detail/${id}` });
+  }
+}
+
+// 조회수 증가 메서드
+function increaseViewCount(id) {
+  // Vuex 액션 호출
+  return store.dispatch('communityViews', id);
 }
 
 function deletePost(id) {
@@ -308,25 +532,6 @@ function deletePost(id) {
     store.dispatch('communityDelete', id);
     store.dispatch('communityGet', { id: route.params.id });
   }
-}
-
-function submitUpdate() {
-  const formData = new FormData();
-  formData.append('id', selectedContent.id);
-  formData.append('title', selectedContent.title);
-  formData.append('content', selectedContent.content);
-
-  store.dispatch('updatePost', formData);
-  store.dispatch('communityGet', { id: route.params.id });
-
-  const updateModalElement = document.getElementById('updateModal');
-  if (updateModalElement) {
-    updateModal.hide();
-  }
-}
-
-function goToDetail(id) {
-  router.push({ path: `/community/detail/${id}` });
 }
 
 </script>

@@ -84,9 +84,12 @@ Route::get('/api/community/{id}/communityPage', [CommunityController::class, 'co
 Route::post('/api/community/{id}', [CommunityController::class, 'communityStore']);
 Route::get('/api/communityTypes/{id}', [CommunityTypeController::class, 'index']);
 Route::get('/api/community/post/{id}', [CommunityController::class, 'getPostById']);
-Route::get('/api/community/comment/post/{id}', [CommunityCommentController::class, 'communityComment']);
+Route::get('/api/community/comment/post/{id}/communityPage', [CommunityCommentController::class, 'communityComment']);
+Route::post('/api/community/increase-view/{id}', [CommunityController::class, 'communityViews']);
 // 댓글 작성 라우트
 Route::post('/api/community/comment/insert/{id}', [CommunityCommentController::class, 'commentInsert']);
+Route::post('/api/community/comment/{id}/update', [CommunityCommentController::class, 'commentUpdate']);
+Route::delete('/api/community/comment/{id}/delete', [CommunityCommentController::class, 'commentDelete']);
 
 
 

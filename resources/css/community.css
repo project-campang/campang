@@ -1,11 +1,11 @@
 
-* {
+/* * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
     font-family: 'SBAggroB';
     background: none;
-}
+} */
 
     
 @font-face {
@@ -40,7 +40,7 @@
         
 .main-container-community {
     width: 100%;
-    height: 100vh;
+    /* height: 100vh; */
     /* background-color: #E6F7DC; */
     display: grid;
     grid-template-columns: 350px auto;
@@ -236,7 +236,7 @@ hr {
 }
 
 .modal-content {
-    height: 700px;
+    /* height: 700px; */
 }
 
 .content-item {
@@ -406,7 +406,7 @@ input::placeholder, textarea::placeholder {
   }
   
   .title-text-align {
-    flex: 1;
+    /* flex: 1; */
     text-align: left;
     padding: 0 10px;
   }
@@ -420,7 +420,7 @@ input::placeholder, textarea::placeholder {
   
   .btn-outline-warning,
   .btn-outline-danger {
-    padding: 5px 10px;
+    padding: 5px 5px;
     margin-left: 5px;
   }
 
@@ -446,6 +446,7 @@ input::placeholder, textarea::placeholder {
   .item-title-box {
     font-size: 1.5rem;
     font-family: 'SBAggroM';
+    text-align: center;
   }
 
   .add-community {
@@ -510,22 +511,37 @@ input::placeholder, textarea::placeholder {
 }
 
 .detail-content-bot {
-  display: flex;
-  align-items: center;
-  margin-top: 20px;
+  
 }
 
-.community-comment {
-  flex: 1;
-  padding: 10px;
-  margin-right: 10px;
+form.community-comment {
+  display: flex;
+  flex-direction: column; /* 수직 정렬 */
+  width: 100%; /* 부모 컨테이너에 맞춤 */
+  margin-top: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 15px;
+  background-color: #f9f9f9;
+}
+
+/* 텍스트 에어리어 스타일링 */
+textarea.community-comment {
+  width: 100%;
+  padding: 15px;
   border: 1px solid #ccc;
   border-radius: 4px;
+  font-size: 16px;
+  margin-bottom: 15px; /* 버튼과의 간격 */
+  resize: vertical; /* 수직 크기 조정 가능 */
   transition: border-color 0.3s;
+  background-color: #fff;
 }
 
-.community-comment:focus {
+/* 텍스트 에어리어 포커스 시 스타일 */
+textarea.community-comment:focus {
   border-color: #4caf50;
+  outline: none;
 }
 
 .commu-btn {
@@ -556,6 +572,9 @@ input::placeholder, textarea::placeholder {
 }
 
 .commu-detail-page {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
   text-align: center;
   margin-top: 20px;
   color: #4caf50;

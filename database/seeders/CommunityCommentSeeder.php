@@ -15,6 +15,6 @@ class CommunityCommentSeeder extends Seeder
      */
     public function run()
     {
-        CommunityComment::factory(50)->create();
+        CommunityComment::factory(1000)->create();
     }
 }
