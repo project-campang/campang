@@ -71,12 +71,14 @@ const cancelEdit = () => {
 // 댓글 저장 함수
 const saveComment = async (id) => {
   try {
+    // console.log('saveComment',id);
     await axios.post(`/api/comment/${id}/update`, {
       comment: editCommentText.value
     });
     editCommentId.value = null;
     editCommentText.value = '';
-    store.dispatch('commentPageGet',route.params.id ,store.state.pagination.current_page);
+    // console.log('saveComment-url', route.params.id, store.state.pagination.current_page);
+    store.dispatch('commentPageGet',{ id: route.params.id, page: 1 });
   } catch (error) {
     console.error('댓글 업데이트 오류:', error);
   }
@@ -86,7 +88,7 @@ const deleteComment = async (id) => {
     if (confirm('정말로 이 댓글을 삭제하시겠습니까?')) {
       await axios.delete(`/api/comment/${id}/delete`);
       // 댓글 삭제 후 Vuex 스토어 다시 불러오기
-      store.dispatch('commentPageGet', route.params.id ,store.state.pagination.current_page);
+      store.dispatch('commentPageGet',{ id: route.params.id, page: 1 });
     }
   } catch (error) {
     console.error('댓글 삭제 오류:', error);
@@ -95,6 +97,7 @@ const deleteComment = async (id) => {
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {
+    console.log('여기서 실행되면 안되는데', route.params.id, store.state.pagination.current_page);
     store.dispatch('commentPageGet', { id: route.params.id, page: 1 });
   // console.log(store.state.pagination.current_page);
 })
