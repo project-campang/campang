@@ -55,10 +55,11 @@
                                         </button>
                                     </div>
                                     <div class="shop-info-btn-item">
-                                        <a @click="gotoLink()" :href="$store.state.campDetail.campInfo.link" class="btn-group">
+                                        <!-- <a @click="gotoLink()" :href="$store.state.campDetail.campInfo.link" class="btn-group"> -->
+                                        <button type="button" @click="openReserveModal" class="btn-group">
                                             <img class="shop-info-btn" src="../../public/img_nr/예약하기.png" alt="예약">
                                             <div class="shop-info-btn-name">예약하기</div>
-                                        </a>
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -144,6 +145,42 @@
         </div>
     </main>
 
+    <!-- 예약하기 모달 -->
+    <transition name="fade">
+        <div class="reserve-modal-bg">
+            <div class="reserve-modal-area">
+                <div class="reserve-modal-top">
+                    <div class="reserve-modal-title">예약하기</div>
+                    <button type="button" class="reserve-modal-top-x">x</button>
+                </div>
+                <hr class="reserve-modal-hr">
+                <div class="reserve-modal-main">
+                    <div class="reserve-modal-main-left">
+                        <form>
+                            <div class="reserve-name">
+                                <label for="reserve-name">예약자 성함</label>
+                                <input type="text" name="reserve-name" id="reserve-name" value="TODO" readonly>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="reserve-modal-main-right">
+                        <div class="reserve-camp-info">
+                            <div class="reserve-camp-warning">* 예약한 캠핑장 정보를 확인 해 주세요</div>
+                            <div class="reserve-camp-img">
+                                <img src="../../public/camp_img/10/10-2.png" alt="TODO">
+                            </div>
+                            <div class="reserve-camp-text">
+                                <div class="reserve-camp-title">TODO</div>
+                                <div class="reserve-camp-address">TODO TODO</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reserve-modal-bottom"></div>
+            </div>
+        </div>
+    </transition>
+
 </template>
     
     
@@ -193,7 +230,7 @@ function showReviewTap() {
 
 // ------------------ 공유하기 ------------------------
 const shareBtn = () => {
-  const url = `http://127.0.0.1:8000/camp/${route.params.id}`;
+  const url = `https://127.0.0.1:8000/camp/${route.params.id}`;
   console.log(url);
   window.navigator.clipboard.writeText(url).then(() => {
     alert('링크 복사 완료 ! \n 지금 공유 해보세요!');
@@ -201,42 +238,6 @@ const shareBtn = () => {
     console.error('클립보드에 복사 실패:', err);
   });
 };
-// const shareBtn = () => {
-//   const url = `http://112.222.157.156:6435/camp/${route.params.id}`;
-//   console.log(url);
-
-// //   // 클립보드 API 지원 여부 확인
-// //   if (navigator.clipboard && navigator.clipboard.writeText) {
-// //     navigator.clipboard.writeText(url).then(() => {
-// //       alert('링크 복사 완료 ! \n 지금 공유 해보세요!');
-// //     }).catch(err => {
-// //       console.error('클립보드에 복사 실패:', err);
-// //     });
-// //   } else {
-//     // 클립보드 API가 지원되지 않는 경우
-//     alert('클립보드 API를 지원하지 않는 브라우저입니다. 수동으로 복사해 주세요.');
-
-//     // 임시 텍스트 영역을 생성하여 복사
-//     const textArea = document.createElement("textarea");
-//     textArea.value = url;
-//     document.body.appendChild(textArea);
-//     textArea.style.position = 'fixed';  // 화면에서 스크롤 되지 않도록 고정
-
-//     // 텍스트 영역을 선택하고 복사
-//     textArea.focus();
-//     textArea.select();
-
-//     // try {
-//     //   document.execCommand('copy');
-//     //   alert('링크 복사 완료 ! \n 지금 공유 해보세요!');
-//     // } catch (err) {
-//     //   console.error('클립보드에 복사 실패:', err);
-//     // }
-
-//     // 임시 텍스트 영역을 제거
-//     document.body.removeChild(textArea);
-//   }
-// };
 // ---------------------------------------------------
 
 
@@ -293,3 +294,21 @@ function gotoLink() {
 // --------------------------------------------------
 </script>
 
+<style>
+@import url(../css/camp.css);
+/* 모달 페이드 */
+.fade-enter-from {
+  /* 시작시 효과 */
+  opacity: 0;
+}
+
+.fade-enter-active {
+  /* 전체 단계에서 적용될 부분*/
+  transition: all 1s;
+}
+
+.fade-enter-to {
+  /* 끝나는 효과 */
+  opacity: 1;
+}
+</style>

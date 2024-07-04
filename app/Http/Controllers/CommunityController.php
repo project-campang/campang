@@ -15,7 +15,7 @@ class CommunityController extends Controller
         $boardList = Community::join('users', 'communities.user_id', '=', 'users.id')
                               ->select('communities.*', 'users.name', 'users.nick_name')
                               ->where('communities.type', $id)
-                              ->orderBy('communities.id', 'DESC')
+                              ->orderBy('communities.created_at', 'DESC')
                               ->paginate(10);
         
         $responseData= [
@@ -26,6 +26,40 @@ class CommunityController extends Controller
     
         return response()->json($responseData, 200);
     }
+
+    /**
+     * 특정 게시글 ID에 맞는 데이터를 가져옵니다.
+     *
+     * @param int $id 게시글 ID
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function getPostById($id)
+    {
+        // communities 테이블과 users 테이블을 조인하여 게시글과 작성자의 nick_name을 조회
+        $boardList = Community::join('users', 'communities.user_id', '=', 'users.id')
+                            ->where('communities.id', $id)
+                            ->whereNull('communities.deleted_at')
+                            ->select('communities.*', 'users.nick_name as user_nick_name')
+                            ->first();
+
+        if (!$boardList) {
+            return response()->json([
+                'code' => '1',
+                'msg' => '게시글을 찾을 수 없습니다.',
+                'data' => null
+            ], 404);
+        }
+
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득',
+            'data' => $boardList
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+
     
     // 게시글 조회순으로 획득 
 
@@ -33,93 +67,120 @@ class CommunityController extends Controller
 
 
 
-
-    // 게시글 작성
-    public function communityStore(Request $request, $id) {
-        // 유효성 체크
+    public function communityStore(Request $request, $id)
+    {
+        // 유효성 검사 규칙 정의
         $validator = Validator::make(
             $request->all(),
             [
                 'title' => 'required|min:1|max:50',
                 'content' => 'required|min:1|max:500',
-                'main_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048'
+                'main_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // 2MB 제한
+                'other_img2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'other_img3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'other_img4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+                'other_img5' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             ]
         );
-    
+
         if ($validator->fails()) {
             Log::debug('커뮤니티 페이지 유효성 검사 실패', $validator->errors()->toArray());
             throw new MyValidateException('E01');
         }
-    
-        // 파일 저장 경로
-        $mainImgPath = null;
-        if ($request->hasFile('main_img')) {
-            $image = $request->file('main_img');
-            $fileName = time() . '_' . $image->getClientOriginalName();
-            $filePath = $image->move(public_path('img'), $fileName);
-    
-            // 경로를 '/img/파일이름' 형식으로 변경
-            $mainImgPath = '/img/' . $fileName;
-            Log::debug('main_img 저장 경로', ['path' => $mainImgPath]);
-        } else {
-            Log::debug('main_img 파일이 존재하지 않음');
-        }
-    
+
+        // 이미지 파일 저장 및 경로 설정
+        $mainImgPath = $this->handleImageUpload($request, 'main_img');
+        $otherImg2Path = $this->handleImageUpload($request, 'other_img2');
+        $otherImg3Path = $this->handleImageUpload($request, 'other_img3');
+        $otherImg4Path = $this->handleImageUpload($request, 'other_img4');
+        $otherImg5Path = $this->handleImageUpload($request, 'other_img5');
+
         // 게시글 저장
-        $community = new Community;
+        $community = new Community();
         $community->type = $id; // 보드 ID 설정
         $community->title = $request->title;
         $community->content = $request->content;
         $community->main_img = $mainImgPath;
-        $community->user_id = auth()->id(); // 현재 로그인된 사용자의 ID를 설정합니다.
+        $community->other_img2 = $otherImg2Path;
+        $community->other_img3 = $otherImg3Path;
+        $community->other_img4 = $otherImg4Path;
+        $community->other_img5 = $otherImg5Path;
+        $community->user_id = auth()->id();
         $community->views = 0;
         $community->save();
-    
+
         // 응답 데이터 생성
         $responseData = [
             'code' => '0',
             'msg' => '게시글 작성 완료',
-            'data' => $community->toArray()
+            'data' => $community->toArray(),
         ];
-    
-        Log::debug('쿼리', $community->toArray());
+
+        Log::debug('게시글 저장 성공', $community->toArray());
         return response()->json($responseData, 200);
+    }
+
+    /**
+     * 이미지 파일을 업로드하고 저장 경로를 반환하는 함수
+     *
+     * @param Request $request
+     * @param string $fieldName
+     * @return string|null
+     */
+    private function handleImageUpload(Request $request, string $fieldName)
+    {
+        if ($request->hasFile($fieldName)) {
+            try {
+                $image = $request->file($fieldName);
+                $fileName = uniqid() . '_' . time() . '.' . $image->getClientOriginalExtension();
+                $image->move(public_path('img'), $fileName);
+                $filePath = '/img/' . $fileName;
+                Log::debug("$fieldName 저장 경로", ['path' => $filePath]);
+                return $filePath;
+            } catch (Exception $e) {
+                Log::error("$fieldName 파일 업로드 실패", ['error' => $e->getMessage()]);
+            }
+        } else {
+            Log::debug("$fieldName 파일이 존재하지 않음");
+        }
+
+        return null;
     }
     
 
-    // // 게시글 조회수 증가
-    // public function incrementViews(Request $request, $id) {
-    //     try {
-    //         // 게시글을 ID로 찾기
-    //         $community = Community::find($id);
+    // 게시글 조회수 증가
+    public function communityViews(Request $request, $id) {
+        try {
+            // 게시글을 ID로 찾기
+            $community = Community::find($id);
     
-    //         // 게시글이 존재하는지 확인
-    //         if (!$community) {
-    //             return response()->json([
-    //                 'code' => 'E99',
-    //                 'msg' => '게시글을 찾을 수 없습니다.'
-    //             ], 404);
-    //         }
-
-    //         // 조회수 증가
-    //         $community->views += 1;
-    //         $community->save();
-
-    //         return response()->json([
-    //             'code' => '0',
-    //             'msg' => '조회수가 증가했습니다.',
-    //             'data' => $community->toArray()
-    //         ], 200);
-
-    //     } catch (Exception $e) {
-    //         return response()->json([
-    //             'code' => 'E01',
-    //             'msg' => '조회수 증가 중 오류가 발생했습니다.',
-    //             'error' => $e->getMessage()
-    //         ], 500);
-    //     }
-    // }
-
+            // 게시글이 존재하는지 확인
+            if (!$community) {
+                return response()->json([
+                    'code' => 'E99',
+                    'msg' => '게시글을 찾을 수 없습니다.'
+                ], 404);
+            }
+    
+            // 조회수 증가
+            $community->views += 1;
+            $community->save();
+    
+            return response()->json([
+                'code' => '0',
+                'msg' => '조회수가 증가했습니다.',
+                'data' => $community->toArray()
+            ], 200);
+    
+        } catch (Exception $e) {
+            return response()->json([
+                'code' => 'E01',
+                'msg' => '조회수 증가 중 오류가 발생했습니다.',
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
+    
     // 게시글 수정
     // public function communityStore(Request $request) {
 

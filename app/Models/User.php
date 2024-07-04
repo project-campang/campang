@@ -48,4 +48,10 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+     // Community 모델과의 관계 설정
+     public function communities()
+     {
+         return $this->hasMany(Community::class, 'user_id');
+     }
 }

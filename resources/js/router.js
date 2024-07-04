@@ -4,6 +4,7 @@ import store from './store';
 // 컴포넌트 임포트
 import MainComponent from '../components/MainComponent.vue';
 import CommunityComponent from '../components/CommunityComponent.vue';
+import CommunityDetail from '../components/CommunityDetail.vue';
 import CampComponent from '../components/CampComponent.vue';
 import SearchComponent from '../components/SearchComponent.vue';
 import KakaoCallback from '../components/KakaoCallback.vue';
@@ -26,6 +27,11 @@ const routes = [
         component: CommunityComponent,
         name: 'Community'
     },    
+    {
+        path: '/community/detail/:id',
+        name: 'CommunityDetail',
+        component: CommunityDetail,
+    },  
     {
         path: "/mypage",
         component: MypageComponent,
