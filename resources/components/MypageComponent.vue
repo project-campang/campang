@@ -171,7 +171,7 @@
             <div class="mb-3">
               <label for="profile" class="form-label">프로필 사진</label>
               <input type="file" class="form-control" id="profile" name="profile" @change="onProfileChange">
-              <img :src="userInfo.profile" alt="Profile Image" v-if="userInfo.profile" class="mt-3" style="width: 100px; height: 100px;">
+              <img :src="$store.state.userInfo.profile" alt="Profile Image" v-if="userInfo.profile" class="mt-3" style="width: 100px; height: 100px;">
             </div>
             <div class="mb-3">
               <label for="name" class="form-label">이름</label>

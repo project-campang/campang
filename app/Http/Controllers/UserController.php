@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Storage;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserController extends Controller
 {
@@ -250,51 +251,103 @@ class UserController extends Controller
 
 
     
-    // public function getKakaoLoginUrl() {
-    //     $clientId = config('services.kakao.client_id');
-    //     $redirectUri = config('services.kakao.redirect_uri');
+    public function getKakaoLoginUrl() {
+        $clientId = config('services.kakao.client_id');
+        $redirectUri = config('services.kakao.redirect_uri');
 
-    //     $loginUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={$clientId}&redirect_uri={$redirectUri}";
+        $loginUrl = "https://kauth.kakao.com/oauth/authorize?response_type=code&client_id={$clientId}&redirect_uri={$redirectUri}";
 
-    //     return response()->json($loginUrl);
-    // }
+        return response()->json($loginUrl);
+    }
 
     // 카카오 콜백
-    public function kakaoCallback(Request $request) {
-        $code = $request->query('code');
+    // public function kakaoCallback(Request $request) {
+    //     Log::debug('callback start');
 
-        $client = new Client();
-        $response = $client->post('https://kauth.kakao.com/oauth/token', [
-            'form_params' => [
-                'grant_type' => 'authorization_code',
-                'client_id' => 'd7c42425629cbc0e91436aca75ca6fcc',  
-                'redirect_uri' => 'http://127.0.0.1:8000/oauth/kakao', 
-                'code' => $code,
-            ],
-        ]);
+    //     $code = $request->query('code');
 
-        $accessTokenData = json_decode($response->getBody(), true);
+    //     $client = new Client();
+    //     $response = $client->post('https://kauth.kakao.com/oauth/token', [
+    //         'form_params' => [
+    //             'grant_type' => 'authorization_code',
+    //             'client_id' => '09af3813f086f8f0ffe5ab2ea7fb36a7',  
+    //             'redirect_uri' => 'http://127.0.0.1:8000/oauth/kakao', 
+    //             'code' => $code,
+    //         ],
+    //     ]);
 
-        $accessToken = $accessTokenData['access_token'];
+    //     Log::debug('client response done');
 
-        // Access token을 사용하여 사용자 정보를 요청하는 예제
-        $userResponse = $client->get('https://kapi.kakao.com/v2/user/me', [
-            'headers' => [
-                'Authorization' => "Bearer {$accessToken}",
-            ],
-        ]);
+    //     $accessTokenData = json_decode($response->getBody(), true);
 
-        $userData = json_decode($userResponse->getBody(), true);
+    //     Log::debug('accessTokenData', $accessTokenData->toArray());
 
+    //     $accessToken = $accessTokenData['access_token'];
 
-        return response()->json([
-            'profile_image' => $userData['profile'],
-            'profile_nickname' => $userData['properties']['nickname'],
-        ]);
+    //     // Access token을 사용하여 사용자 정보를 요청하는 예제
+    //     $userResponse = $client->get('https://kapi.kakao.com/v2/user/me', [
+    //         'headers' => [
+    //             'Authorization' => "Bearer {$accessToken}",
+    //         ],
+    //     ]);
+
+    //     $userData = json_decode($userResponse->getBody(), true);
+
+    //     Log::debug('userData', $userData->toArray());
+
+    //     return response()->json([
+    //         'profile_image' => $userData['profile'],
+    //         'profile_nickname' => $userData['properties']['nickname'],
+    //     ]);
 
         
+    // }    
+    public function redirectToProvider()
+    {
+        return Socialite::driver('kakao')->redirect();
+    }
+    
+    public function handleProviderCallback()
+    {
+        $user = Socialite::driver('kakao')->stateless()->user();
+    
+        // 사용자의 이메일이나 고유 ID를 이용해 사용자 찾기 또는 생성
+        // $authUser = User::firstOrCreate([
+        //     'email' => $user->getEmail(),
+        //     // 'password' => User::where('email', $user->getEmail())->value('password') ?? '0asdf0asdf',
+        //     // 'name' => User::where('email', $user->getEmail())->value('name') ?? $user->getName() ?? '캠팡',
+        //     // 'tel' => User::where('email', $user->getEmail())->value('tel') ?? '010-0000-0000',
+        //     // 'nick_name' => User::where('email', $user->getEmail())->value('nick_name') ?? $user->getName() ?? '캠팡',
+        // ]);
+
+        $authUser = User::where('email', $user->getEmail())->first();
+
+        if(!$authUser) {
+            $authUser = new User();
+            $authUser->email = $user->getEmail();
+            $authUser->password = Hash::make('qwe123!@');
+            $authUser->name = $user->getNickname();
+            $authUser->tel = '010-0000-1111';
+            $authUser->nick_name = $user->getNickname();
+            $authUser->save();
+        }
+    
+        Auth::login($authUser, true);
+        Session::put('user_id', $authUser->id);
+    
+        return redirect('/kakao/callback')->with('status', 'Kakao login successful');
+    }
+    
+    public function getKakaoUserInfo() {
+        $userInfo = User::find(Session::get('user_id'));
+
+        $responseData = [
+            'code' => '0'
+            ,'msg' => '카카오 로그인 유저정보 획득 성공'
+            ,'data' => $userInfo->toArray()
+        ];
+        return response()->json($responseData, 200);
     }
 }
-
-      
+// ------------------------- 나라 카카오 로그인 -------------------------------
 

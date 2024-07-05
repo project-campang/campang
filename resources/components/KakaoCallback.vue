@@ -5,18 +5,15 @@
   </template>
   
   <script setup>
-  import { onMounted } from 'vue';
+  import { onBeforeMount, onMounted } from 'vue';
   import { useRoute } from 'vue-router';
   import { useStore } from 'vuex';
   
   const route = useRoute();
   const store = useStore();
   
-  onMounted(async () => {
-    const code = route.query.code;
-    if (code) {
-      await store.dispatch('kakao_login', code);
-    }
+  onBeforeMount(() => {
+      store.dispatch('kakaoUser');
   });
   </script>
   

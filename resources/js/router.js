@@ -46,7 +46,7 @@ const routes = [
         component: SearchComponent,
     },
     {
-        path: "/oauth/kakao",
+        path: '/kakao/callback',
         component:KakaoCallback,
     },
     {

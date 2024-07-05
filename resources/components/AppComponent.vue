@@ -60,7 +60,7 @@
                         <a href="#" @click.prevent="goToRegistration">회원가입하러가기</a>
                     </div>
                     <div class="modal-footer">
-                        <!-- <button @click="kakao_login" class="btn"><img src="/img/kakao-login.png" alt="카카오 로그인"></button> -->
+                        <button @click="kakao_login" class="btn" type="button"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
                         <button @click="closeLogin" type="button" class="btn btn-secondary">취소</button>
                         <button type="submit" class="btn btn-primary">로그인</button>
                     </div>
@@ -201,6 +201,42 @@
     </button>
    <a href="http://pf.kakao.com/_wIPpG" id="csButton" ><img src="../../public/img/CS.png" alt=""></a>
 
+
+<!-- 광고 신청하기 모달 만들어야됌 지우지 마세용요용용요요요요요용용 -->
+    <!-- <transition name="fade">
+        <div class="ad-req-modal-bg">
+            <div class="ad-req-modal-area">
+                <div class="ad-req-modal-top">
+                    <div class="ad-req-modal-title">예약하기</div>
+                    <button type="button" class="ad-req-modal-top-x">x</button>
+                </div>
+                <hr class="ad-req-modal-hr">
+                <div class="ad-req-modal-main">
+                    <div class="ad-req-modal-main-left">
+                        <form>
+                            <div class="ad-req-name">
+                                <label for="ad-req-name">예약자 성함</label>
+                                <input type="text" name="ad-req-name" id="ad-req-name" value="TODO" readonly>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="reserve-modal-main-right">
+                        <div class="reserve-camp-info">
+                            <div class="reserve-camp-warning">* 예약한 캠핑장 정보를 확인 해 주세요</div>
+                            <div class="reserve-camp-img">
+                                <img src="../../public/camp_img/10/10-2.png" alt="TODO">
+                            </div>
+                            <div class="reserve-camp-text">
+                                <div class="reserve-camp-title">TODO</div>
+                                <div class="reserve-camp-address">TODO TODO</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="reserve-modal-bottom"></div>
+            </div>
+        </div>
+    </transition> -->
 </template>
 
 
@@ -583,10 +619,11 @@ function oninputPhone() {
 
 // 카카오 로그인 함수
 function kakao_login() {
-    const client_id = 'd7c42425629cbc0e91436aca75ca6fcc';
-    const redirect_uri = 'http://127.0.0.1:8000/oauth/kakao';
-    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code`;
-    window.location.href = KAKAO_AUTH_URL;
+    // const client_id = '09af3813f086f8f0ffe5ab2ea7fb36a7';
+    // const redirect_uri = 'http://127.0.0.1:8000/oauth/kakao';
+    // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${client_id}&redirect_uri=${encodeURIComponent(redirect_uri)}&response_type=code`;
+    // window.location.href = KAKAO_AUTH_URL;
+    window.location.href = '/auth/kakao';
 }
 
 // 회원가입 이동 함수
