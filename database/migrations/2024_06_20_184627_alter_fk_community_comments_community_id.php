@@ -13,9 +13,9 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('community_comments', function(Blueprint $table) {
-            $table->foreign('community_id')->references('id')->on('communities');
-        }); 
+        // Schema::table('community_comments', function(Blueprint $table) {
+        //     $table->foreign('community_id')->references('id')->on('communities');
+        // }); 
     }
 
     /**
@@ -25,8 +25,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('community_comments', function(Blueprint $table) {
-            $table->dropForeign(['community_id']);
-        }); 
+        // Schema::table('community_comments', function(Blueprint $table) {
+        //     $table->dropForeign(['community_id']);
+        // }); 
     }
 };

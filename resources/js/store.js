@@ -36,7 +36,7 @@ const store = createStore({
                 3: { name: '가입 인사' },
                 4: { name: '캠핑 꿀팁' },
                 5: { name: '랭킹 게시판' },
-              },
+            },
             campData: [],
             searchResult : [], // 캠핑장 검색 결과
             searchCount: [],
@@ -46,7 +46,11 @@ const store = createStore({
             countyData: [],
             selectedState: '', // 선택된 시/도
             selectedCounty: '', // 선택된 구/군
-            mapCenter: { lat: 35.868312, lng: 128.593964, imageUrl: ''}, // 임시 기본 좌표
+            mapCenter: { 
+                lat: 35.868312,
+                lng: 128.593964, // 임시 기본 좌표
+                imageUrl: '/images/map-pin.png'
+            }, 
             stampCampingzang: [],
             mypageWishes:[],
             targetCamp: [],
@@ -275,7 +279,11 @@ const store = createStore({
             state.currentCamp.id = camp.id;
         },
         updateMapCenter(state, center) {
-            state.mapCenter = center;
+            state.mapCenter = {
+                lat: center.lat,
+                lng: center.lng,
+                imageUrl: '/images/map-pin.png' // 기본 이미지 URL 설정
+            };
         },
         setAllImgs(state, data){
             state.allImgs = data;
@@ -688,7 +696,6 @@ const store = createStore({
                 // });
                 context.commit('setCommentList', response.data.data.data);
                 // console.log('data 확인', response.data.data);
-                console.log('페이지네이션 전',response.data.data);
                 context.commit('setPagination', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -1017,22 +1024,21 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        campListGet(context, page=1) {
+        campListGet(context, {page=1, state=0, county=0}) {
             // const url = ('/api/search/searchPage?page=' + page);
-            const url = '/api/search/searchPage?page=' + page;
-            console.log('스토어 page', page);
-            console.log('스토어 url', url);
+            // const url = ('/api/search/searchPage?page=' + page);
+            const url = ('/api/search/searchPage?page=' + page + '&state=' + state + '&county=' + county);
+            console.log(url);
             axios.get(url)
             .then(response => {
 
                 const campList = response.data.data;
-                console.log('전', campList);
                 context.commit('setCampList', campList);
                 // const data = response.data.data;
                 // context.commit('setCampList', response.data.data);
                 // console.log(response.data.data);
                 // console.log(setCampList);
-                console.log('스토어 캠프리스트 campListGet', response.data.data);
+                console.log('스토어 캠프리스트', campList);
                 context.commit('setPaginationSearch', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -1045,13 +1051,14 @@ const store = createStore({
                     links: response.data.data.links,
                     // test: test,
                 });
-                if (campList.length > 0) {
+                if (campList.data.length > 0) {
+                    // console.log('titletitle', campList.data.name);
                     const newCenter = {
-                        lat: campList[0].latitude,
-                        lng: campList[0].longitude
+                        lat: campList.data[0].latitude,
+                        lng: campList.data[0].longitude,
                     }
                     
-                    console.log('campList[0].latitude', campList[0].latitude);
+                    // console.log('campList[0].name', campList.data[0].name);
                     context.commit('updateMapCenter', newCenter);
                     console.log('지도 중심 좌표 업데이트', newCenter);
                 };
@@ -1118,7 +1125,7 @@ const store = createStore({
             .then(response => {
                 console.log('searchResult 검색 결과 획득 성공', response.data);
                 context.commit('setCampList', response.data.data);
-                console.log('스토어 캠프데이터 searchResult', context.state.campData);
+                console.log('스토어 캠프데이터', context.state.campData);
                 if (context.state.campData.length > 0) {
                     const newCenter = {
                         lat: context.campData[0].latitude,

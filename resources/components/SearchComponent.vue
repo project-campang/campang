@@ -134,7 +134,7 @@
                         </div>
                     </div> 
                     <div class="pagination">
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == 1" @click="prevPage()"><ㅤ</button>
+                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == null" @click="prevPage()"><ㅤ</button>
                         <div class="page-num">{{ $store.state.campData.current_page+'ㅤ/ㅤ'+$store.state.campData.last_page }}</div>
                         <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == $store.state.campData.last_page" @click="nextPage()">ㅤ> </button>
                     </div>          
@@ -143,7 +143,7 @@
             <div class="resizer" id="drag" @mousedown="startResize"></div>
             <div class="map-container">
                 <div class="map" id="map">
-                    <KakaoMap :lat="$store.state.mapCenter.lat" :lng="$store.state.mapCenter.lng" :draggable="true" :level="7" class="marker-parent">
+                    <KakaoMap :lat="$store.state.mapCenter.lat" :lng="$store.state.mapCenter.lng" :draggable="true" :level="9" class="marker-parent">
                         <KakaoMapMarker
                             v-for="(item, key) in $store.state.campData.data"
                             :key="key"
@@ -152,7 +152,6 @@
                             :lng="item.longitude"
                             :title="item.name"
                             :clickable="true"
-                            :imageUrl="'/image/map-pin.png'"
                             @mouseenter="markerMouseEnter(item)"
                             @on-click-kakao-map-marker="openMarkerLink(`/camp/${item.id}`)"
                         ></KakaoMapMarker>
@@ -242,27 +241,6 @@ const selectState = (e) => {
 // };
 
 
-// 지도 중심 좌표 초기화
-// const mapCenter = ref(store.state.mapCenter);
-
-// Vuex의 `mapCenter` 상태를 반응형으로 감시하여 자동 업데이트
-// watch(() => store.state.mapCenter, (newCenter) => {
-//   mapCenter.value = newCenter;
-// }, { immediate: true });
-
-// 검색시 쳣 번 째 캠핑장 좌표로 바꿈
-// watch(campData, (newData) => {
-//   if (newData.length > 0) {
-//     const firstItem = newData[0];
-//     mapCenter.value = {
-//       lat: firstItem.latitude,
-//       lng: firstItem.longitude
-//     };
-//     console.log('중심좌표 변경됨', mapCenter.value);
-//   }
-// }, { immediate: true });
-
-
 // `campData`가 변경될 때 첫 번째 항목의 좌표로 지도 중심을 업데이트하는 watcher
 watch(() => store.state.campData, (newData) => {
     if (newData.data && newData.data.length > 0) {
@@ -275,45 +253,44 @@ watch(() => store.state.campData, (newData) => {
 }, { immediate: true });
 
 
+const imageUrls = {};
+
 // item 클릭시 이벤트
 function markerShow(item) {
     console.log('기존 중심좌표', store.state.mapCenter);
-    // 이미지 URL 가져오기
-    const parentElement = document.querySelector('#map');
-    const childElements = parentElement.querySelectorAll('img');
-    let imageUrl = '/image/center-pin';
 
-    childElements.forEach(img => {
-        if (img.getAttribute('title') === item.name) {
-            imageUrl = img.src;
+// 중심 좌표 업데이트
+store.commit('updateMapCenter', {
+    lat: item.latitude,
+    lng: item.longitude
+});
+
+console.log('새 중심좌표', store.state.mapCenter);
+
+const parentElement = document.querySelector('#map');
+    const childElements = parentElement.querySelectorAll('img[title]');
+
+    childElements.forEach(function(img) {
+        const imgTitle = img.getAttribute('title');
+        console.log('imgTitle', imgTitle);
+        console.log('item.name', item.name);
+        if (imgTitle === item.name) {
+            console.log('똑같다');
+            img.src = imageUrls[item.name] || '/images/center-pin.png';
+            img.style.zIndex = '4';
+        } else {
+            img.src = '/images/map-pin.png';
+            img.style.zIndex = '1';
         }
+
+        img.style.width = '35px';
+        img.style.height = '37px';
     });
 
-    // 중심 좌표 업데이트
-    store.commit('updateMapCenter', {
-        lat: item.latitude,
-        lng: item.longitude,
-        imageUrl: imageUrl // imageUrl 속성 추가
-    });
+    // 이미지 URL 관리 객체 업데이트
+    imageUrls[item.name] = '/images/center-pin.png';
 
-    console.log('새 중심좌표', store.state.mapCenter);
-
-    // // 마커 이미지 업데이트
-    // const map = ref(null); // 지도 객체를 담을 변수
-    // const markers = ref([]); // 마커 객체들을 담을 배열
-    // // 모든 마커 초기화
-    // markers.value.forEach(marker => {
-    //     marker.setImage(new kakao.maps.MarkerImage('', new kakao.maps.Size(64, 69)));
-    //     console.log('마커 초기화됨', markers.value);
-    // });
-
-    // // 클릭한 핀의 마커만 변경
-    // const targetMarker = markers.value.find(marker => marker.getTitle() === item.name);
-    // if (targetMarker) {
-    //     targetMarker.setImage(new kakao.maps.MarkerImage('/img/markerStar.png', new kakao.maps.Size(64, 69)));
-    //     console.log('클릭된 마커 변경함', targetMarker);
-    // }
-    
+    console.log('클릭이벤트 끝');
 }
 
 
@@ -336,27 +313,34 @@ const stopResize = () => {
 }
 
 
-
-// // 검색 셀렉트박스 연결
-// function selectChange() {
-//   // Ref to hold state list
-//   const stateList = ref([]);
-// }
+// 시군구 선택
+const stateSelete = ref(store.state.localInfo.state);
+const countySelete = ref(store.state.localInfo.county);
 
 
+// 검색 버튼
+function searchBtn() {
+    console.log('선택된 값:', stateSelete.value, countySelete.value);
+
+    store.commit('setLocalInfo',{
+        state: stateSelete.value, // 선택된 시/도 값
+        county: countySelete.value, // 선택된 구/군 값
+        page: 1,
+    })
+    store.dispatch('searchResult');
+}
 
 
 // 페이지네이션
 function prevPage() {
-    store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
-    console.log('-1', store.state.paginationSearch.current_page-1);
-    console.log('paginationSearch', store.state.paginationSearch);
+    store.dispatch('campListGet', {page: store.state.campData.current_page-1, state: stateSelete.value, county: countySelete.value});
+    console.log('-1', store.state.campData.current_page-1);
 }
 function nextPage() {
-    store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
-    console.log('+1', store.state.paginationSearch.current_page+1);
-    console.log('paginationSearch', store.state.paginationSearch);
+    store.dispatch('campListGet', {page: store.state.campData.current_page+1, state: stateSelete.value, county: countySelete.value});
+    console.log('+1', store.state.campData.current_page+1);
 }
+
 
 
 
@@ -374,13 +358,6 @@ const adjustMarkerZIndex = () => {
     });
 };
 
-// const campData = ref([]);
-// watch(() => store.state.campData, (newCampData) => {
-//     campData.value = newCampData.map((item, index) => ({
-//         ...item,
-//         markerZIndex: 1 // 초기 z-index 설정
-//     }));
-// });
 
 
 
@@ -397,6 +374,7 @@ onBeforeMount(() => {
     }
     console.log('store.state.campData', store.state.campData);
     // store.dispatch('searchCount');
+    console.log('store.state.mapCenter', store.state.mapCenter);
 })
 
 onMounted(async () => {
@@ -408,51 +386,16 @@ onMounted(async () => {
 });
 
 onUpdated(() => {
-    const parentElement = document.querySelector('#map');
-    // console.log('부모', parentElement);
-    const childElements = parentElement.querySelectorAll('img[title]');
-    // console.log('자식', childElements);
-    childElements.forEach(img => {
-        img.src = '/images/center-pin.png';
-        img.style.width = '35px'; 
-        img.style.height = '37px';
-    });
+    // const parentElement = document.querySelector('#map');
+    // const childElements = parentElement.querySelectorAll('img[title]');
+
+    // childElements.forEach(img => {
+    //     img.src = '/images/map-pin.png';
+    //     img.style.width = '35px';
+    //     img.style.height = '37px';
+    // });
 })
 
-
-
-// 시군구 선택
-const stateSelete = ref(store.state.localInfo.state);
-const countySelete = ref(store.state.localInfo.county);
-
-
-// 검색 버튼
-function searchBtn() {
-    console.log('선택된 값:', stateSelete.value, countySelete.value);
-
-    store.commit('setLocalInfo',{
-        state: stateSelete.value, // 선택된 시/도 값
-        county: countySelete.value, // 선택된 구/군 값
-        page: 1,
-    })
-    store.dispatch('searchResult');
-}
-// function searchBtn(e) {
-//     const selectStateElement = document.querySelector('#select1');
-//     const selectCountyElement = document.querySelector('#select2');
-//     const selectedState = selectStateElement.value;
-//     const selectedCounty = selectCountyElement.value;
-
-//     console.log('선택된 값:', selectedState);
-//     console.log('선택된 값:', selectedCounty);
-    
-//     store.dispatch('searchResult', {
-//         state: selectedState, // 선택된 시/도 값
-//         county: selectedCounty, // 선택된 구/군 값
-//         // 추가
-//     });
-    
-// }
 
 
 </script>

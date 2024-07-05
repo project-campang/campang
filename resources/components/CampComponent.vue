@@ -146,7 +146,7 @@
     </main>
 
     <!-- 예약하기 모달 -->
-    <transition name="fade">
+    <!-- <transition name="fade">
         <div class="reserve-modal-bg">
             <div class="reserve-modal-area">
                 <div class="reserve-modal-top">
@@ -179,7 +179,7 @@
                 <div class="reserve-modal-bottom"></div>
             </div>
         </div>
-    </transition>
+    </transition> -->
 
 </template>
     
