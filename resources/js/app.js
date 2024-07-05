@@ -26,19 +26,3 @@ createApp({
 library.add(
     fas, far, fab,
 )
-
-// const app = createApp({
-//     components: {
-//         AppComponent,
-//     }
-// })
-
-// app.component('font-awesome-icon', FontAwesomeIcon);
-// app.use(store);
-// app.use(router);
-
-// library.add(
-//     fas, far, fab,
-// )
-
-// app.mount('#app');
