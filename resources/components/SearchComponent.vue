@@ -143,6 +143,7 @@
             <div class="resizer" id="drag" @mousedown="startResize"></div>
             <div class="map-container">
                 <div class="map" id="map">
+                    {{ console.log('지도불러왔다') }}
                     <KakaoMap :lat="$store.state.mapCenter.lat" :lng="$store.state.mapCenter.lng" :draggable="true" :level="9" class="marker-parent">
                         <KakaoMapMarker
                             v-for="(item, key) in $store.state.campData.data"
@@ -152,10 +153,19 @@
                             :lng="item.longitude"
                             :title="item.name"
                             :clickable="true"
+                            :imageUrl="'/images/center-pin.png'"
+                            @onLoadKakaoMapMarker="markerLoad()"
                             @mouseenter="markerMouseEnter(item)"
-                            @on-click-kakao-map-marker="openMarkerLink(`/camp/${item.id}`)"
+                            @onClickKakaoMapMarker="openMarkerLink(`/camp/${item.id}`)"
+                            :image="{
+                                imageSrc: '/images/map-pin.png',
+                                imageWidth: 35,
+                                imageHeight: 37,
+                                imageOption: {}
+                            }"
                         ></KakaoMapMarker>
                     </KakaoMap>
+                    {{ console.log('지도불러왔다') }}
                 </div>
 
 
@@ -179,7 +189,7 @@
 
 <script setup>
 import { KakaoMap, KakaoMapMarker } from 'vue3-kakao-maps';
-import { onBeforeMount, onMounted, ref, watch, computed, nextTick, onUpdated } from 'vue';
+import { onBeforeMount, onMounted, ref, watch, computed, nextTick, onUpdated, onBeforeUpdate } from 'vue';
 import { useStore } from 'vuex';
 
 
@@ -255,6 +265,10 @@ watch(() => store.state.campData, (newData) => {
 
 const imageUrls = {};
 
+function markerLoad() {
+    console.log('처음 로드되는 이벤트');
+}
+
 // item 클릭시 이벤트
 function markerShow(item) {
     console.log('기존 중심좌표', store.state.mapCenter);
@@ -268,7 +282,7 @@ store.commit('updateMapCenter', {
 console.log('새 중심좌표', store.state.mapCenter);
 
 const parentElement = document.querySelector('#map');
-    const childElements = parentElement.querySelectorAll('img[title]');
+const childElements = parentElement.querySelectorAll('img[title]');
 
     childElements.forEach(function(img) {
         const imgTitle = img.getAttribute('title');
@@ -362,7 +376,7 @@ const adjustMarkerZIndex = () => {
 
 
 onBeforeMount(() => {
-    console.log('onBeforeMount');
+    console.log('onBeforeMount 시작');
     if(store.state.campData.length <  1) {
         store.dispatch('searchResult'); 
         console.log('searchResult 실행');
@@ -374,16 +388,31 @@ onBeforeMount(() => {
     }
     console.log('store.state.campData', store.state.campData);
     // store.dispatch('searchCount');
-    console.log('store.state.mapCenter', store.state.mapCenter);
+    console.log('onBeforeMount 끝');
 })
 
 onMounted(async () => {
     await nextTick();
-
+    console.log('onMounted 시작');
     const resizer = document.querySelector('.resizer');
     resizer.addEventListener('mousedown', startResize);
     window.addEventListener('mouseup', stopResize);
+    console.log('onMounted 끝');
 });
+
+onBeforeUpdate(() => {
+    console.log('onBeforeUpdate 시작');
+    // const parentElement = document.querySelector('#map');
+    // const childElements = parentElement.querySelectorAll('img[title]');
+    
+    // childElements.forEach(img => {
+    //     img.src = '/images/map-pin.png';
+    //     img.style.width = '35px';
+    //     img.style.height = '37px';
+    // });
+    console.log('onBeforeUpdate 끝');
+})
+
 
 onUpdated(() => {
     // const parentElement = document.querySelector('#map');
