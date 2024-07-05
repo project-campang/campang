@@ -1,0 +1,140 @@
+.admin-form {
+    width: 300px;
+    margin:  auto;
+    border: 3px solid #ccc;
+    padding: 20px;
+}
+/* dashboard */
+.admin-header {
+    background-color: #D9D9D9;
+  }
+  .admin-container {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .sidebar {
+    width: 200px;
+    background-color: #f8f9fa;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  
+  .nav-link {
+    display: block;
+    margin-bottom: 1rem;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .nav-link:hover {
+    text-decoration: underline;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 1rem;
+  }
+
+
+/* Homepage */
+.request-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .request-box {
+    width: 30%;
+    padding: 20px;
+    border: 1px solid #ccc;
+    text-align: center;
+  }
+  
+  /* 헤더 스타일 */
+  .user-list-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+  }
+  
+  .user-list-header span {
+    width: 10%;
+    text-align: center;
+    font-weight: bold;
+  }
+  
+  /* 리스트 스타일 */
+  .user-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .user-item {
+    border: 1px solid #ccc;
+    padding: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .user-item span {
+    width: 10%;
+    text-align: center;
+  }
+  
+  .actions {
+    display: flex;
+    gap: 5px;
+  }
+
+  /* reservation */
+  .admin-page {
+    display: flex;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+  }
+  
+  
+  .search-section {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .search-bar {
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-bar label {
+    margin-right: 10px;
+  }
+  
+  .search-bar select, .search-bar input {
+    margin-right: 10px;
+  }
+  
+  .summary {
+    text-align: right;
+  }
+  
+  .table-section {
+    margin-top: 20px;
+  }
+  
+  .table th, .table td {
+    text-align: center;
+  }
+
+/* Homepage 유저정보모달 */
+.home-user-modal, .home-user-modal2, .home-user-modal3  {
+    display: flex;
+    flex-direction: column;
+}

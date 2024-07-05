@@ -1,5 +1,5 @@
 <template>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary my-nav-header">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary my-nav-header" v-if="!isAdminRoute">
         <div class="container-fluid main-header">
             <router-link to="/main" class="navbar-brand my-logo-img"></router-link>
             <button @click="toggleMenu" class="navbar-toggler" type="button" data-bs-toggle="collapse" aria-label="Toggle navigation">
@@ -168,7 +168,7 @@
     </div>
 
     <!-- 푸터 -->
-    <div class="main-footer">
+    <div class="main-footer" v-if="!isAdminRoute">
         <div class="main-footer-content">
             <h2>CAMPANG <img src="/img/logo-ko3.png" alt=""></h2>
             <div class="footer-btn-con">
@@ -199,7 +199,7 @@
             />
         </svg>
     </button>
-   <a href="http://pf.kakao.com/_wIPpG" id="csButton" ><img src="../../public/img/CS.png" alt=""></a>
+   <a href="http://pf.kakao.com/_wIPpG" id="csButton" ><img src="../../public/img/CS.png" alt="" v-if="!isAdminRoute"></a>
 
 </template>
 
@@ -210,6 +210,7 @@ import { ref, onMounted, watch, computed } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
+import { useRoute } from 'vue-router';
 
 
 // 이메일 중복 체크 상태 추가
@@ -602,6 +603,24 @@ const communityTypes = computed(() => store.state.communityTypes);
 
 // 게시판 데이터 가져오기
 
+
+
+// 관리자페이지에서 헤더랑 푸터빼기
+// 경로 확인을 위한 배열
+const adminPaths = ['/admin', '/manager', '/dashboard', '/settings'];
+
+// 현재 경로 확인
+const route = useRoute();
+
+// 현재 경로가 특정 경로로 시작하는지 확인
+const isAdminRoute = computed(() => 
+  adminPaths.some(path => route.path.startsWith(path))
+);
+
+// 경로 변경 시 확인
+watch(route, () => {
+  isAdminRoute.value = adminPaths.some(path => route.path.startsWith(path));
+}, { immediate: true });
 
 </script>
 
