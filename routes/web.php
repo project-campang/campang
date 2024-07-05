@@ -28,7 +28,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/{any}', function () {
     return view('welcome');
-})->where('any', '^(?!api).*$');
+})->where('any', '^(?!api)(?!auth).*$');
 //앱
 // 유저 컨트롤러
 Route::post('/api/login', [UserController::class, 'login']);
@@ -49,7 +49,10 @@ Route::delete('/api/reviews/delete/{id}', [CommunityController::class, 'deleteRe
 Route::delete('/api/comments/delete/{id}', [CommentController::class, 'deleteComment']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
-Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
+// Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
+Route::get('/auth/kakao', [UserController::class, 'redirectToProvider']);
+Route::get('/auth/kakao/callback', [UserController::class, 'handleProviderCallback']);
+Route::get('/auth/kakao/user', [UserController::class, 'getKakaoUserInfo']);
 
 // main
 Route::get('/api/main',[CampTopoController::class, 'campingler']);

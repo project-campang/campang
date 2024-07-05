@@ -378,19 +378,17 @@ const store = createStore({
             }
         },
         // 카카오로그인
-        async kakao_login({ commit }, code) {
+        async kakaoUser({ commit }) {
             try {
-                const response = await axios.get('/kakao/callback', {
-                params: { code }
-            });
-            console.log(code);
-            localStorage.setItem('userInfo', JSON.stringify(response.data.data));
-            commit('setAuthFlg', true);
-            commit('setUserInfo', response.data.data);
-            commit('setAuth', { authFlg: true, userInfo: response.data });
-            router.replace('/main');
+                const response = await axios.get('/auth/kakao/user');
+                localStorage.setItem('userInfo', JSON.stringify(response.data.data));
+                console.log(response);
+                commit('setAuthFlg', true);
+                commit('setUserInfo', response.data.data);
+                commit('setAuth', { authFlg: true, userInfo: response.data });
+                router.replace('/main');
             } catch (error) {
-                console.error('Kakao callback failed:', error);
+                console.error('kakaoUser failed:', error);
             }
         },
         // 마이페이지 도장깨기
