@@ -144,25 +144,6 @@
         </div>
     </div>
 
-        <!-- advertiseModal -->
-        <div v-show="advertiseFlg" class="modal" tabindex="-1">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Modal title</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Modal body text goes here.</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
     <div class="router-view-container">
         <router-view></router-view>
     </div>
@@ -173,7 +154,7 @@
             <h2>CAMPANG <img src="/img/logo-ko3.png" alt=""></h2>
             <div class="footer-btn-con">
                 <button class="footer-btn" @click.prevent="openCampRegister">캠핑장 등록 신청하기</button>
-                <button class="footer-btn" @click.prevent="openAdvertise">광고 게시 신청하기</button>
+                <button type="button" class="footer-btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">광고 게시 신청하기</button>
             </div>
             <p>개인정보처리방침 | 전자우편무단수집거부 | 캠핑장 | 등록안내 | 미등록야영장불법영업신고</p>
             <p>
@@ -185,6 +166,93 @@
             </p>
         </div>
    </div>
+    <!-- advertiseModal -->
+    <!-- Vue의 조건부 렌더링 사용 -->
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">광고 신청하기</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="adForm">
+                        <div class="mb-3 row">
+                            <label for="businessNumber" class="col-sm-3 col-form-label">사업자 번호 *</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="businessNumber" placeholder="사업자 번호를 입력하세요">
+                                <div class="valid-feedback">유효한 번호입니다.</div>
+                                <div class="invalid-feedback">사용할 수 없는 번호입니다.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="businessName" class="col-sm-3 col-form-label">상호명 *</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="businessName" placeholder="상호명을 입력하세요">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">광고 유형 *</label>
+                            <div class="col-sm-9">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-primary" id="type1">캠핑장</button>
+                                    <button type="button" class="btn btn-outline-primary" id="type2">캠핑용품</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="adPeriod" class="col-sm-3 col-form-label">광고 기간 *</label>
+                            <div class="col-sm-9 d-flex align-items-center">
+                                <input type="date" class="form-control me-2" id="adStart" value="2024-07-06">
+                                <span>~</span>
+                                <input type="date" class="form-control ms-2" id="adEnd" value="2024-07-14">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label"></label>
+                            <div class="col-sm-9 text-end">
+                                <span id="adPeriodTotal">총 9일</span>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="adAmount" class="col-sm-3 col-form-label">금액</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="adAmount" value="₩ 5,000,000" readonly>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="adSentence" class="col-sm-3 col-form-label">희망 문구</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="adSentence" placeholder="최대 몇몇몇몇글자">
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="adImage" class="col-sm-3 col-form-label">희망 이미지</label>
+                            <div class="col-sm-9">
+                                <input type="file" class="form-control" id="adImage">
+                                <div class="form-text">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다.</div>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">채널플러스 수신 동의 *</label>
+                            <div class="col-sm-9">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn btn-outline-primary me-2" id="agree">동의함</button>
+                                    <button type="button" class="btn btn-outline-primary" id="disagree">동의 안함</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                    <button type="button" class="btn btn-primary">신청</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
    <button @click="backToTop" ref="btnBackToTop" id="btn-back-to-top" title="위로 가기">
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -320,7 +388,7 @@ watch(() => registerForm.value.name, (newName) => {
 // 전화번호 유효성 검사
 watch(() => registerForm.value.tel, (newTel) => {
     if (!validateTel(newTel)) {
-        validationErrors.value.tel = '유효한 전화번호 형식이 아닙니다.';
+        validationErrors.value.tel = '유효한 전화번호 형식이 아닙니다.'; 
     } else {
         validationErrors.value.tel = '';
     }
@@ -432,6 +500,13 @@ onMounted(() => {
             advertiseModal = new Modal(advertiseModalElement);
         });
     }
+
+    // const modalElement = document.getElementById('advertiseModal');
+    // if (modalElement) {
+    //     const myModal = new bootstrap.Modal(modalElement);
+    //     myModal.show();
+    // }
+
 });
 
 // 메뉴 토글 함수
@@ -621,6 +696,46 @@ const isAdminRoute = computed(() =>
 watch(route, () => {
   isAdminRoute.value = adminPaths.some(path => route.path.startsWith(path));
 }, { immediate: true });
+
+// 광고신청모달
+document.addEventListener('DOMContentLoaded', function() {
+    const adStart = document.getElementById('adStart');
+    const adEnd = document.getElementById('adEnd');
+    const adAmount = document.getElementById('adAmount');
+    const adPeriodTotal = document.getElementById('adPeriodTotal');
+
+    function updateAmount() {
+        const startDate = new Date(adStart.value);
+        const endDate = new Date(adEnd.value);
+        const diffTime = Math.abs(endDate - startDate);
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+        const amount = diffDays * 500000;  // 1일 광고비: 500,000원
+        adAmount.value = `₩ ${amount.toLocaleString()}`;
+        adPeriodTotal.innerText = `총 ${diffDays}일`;
+    }
+
+    adStart.addEventListener('change', updateAmount);
+    adEnd.addEventListener('change', updateAmount);
+
+    const businessNumber = document.getElementById('businessNumber');
+    businessNumber.addEventListener('input', function() {
+        if (businessNumber.value.match(/^\d+$/)) {
+            businessNumber.classList.remove('is-invalid');
+            businessNumber.classList.add('is-valid');
+        } else {
+            businessNumber.classList.remove('is-valid');
+            businessNumber.classList.add('is-invalid');
+        }
+    });
+
+    const btnGroup = document.querySelectorAll('.btn-group button');
+    btnGroup.forEach(btn => {
+        btn.addEventListener('click', function() {
+            btnGroup.forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+});
 
 </script>
 
