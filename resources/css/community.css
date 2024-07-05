@@ -510,9 +510,6 @@ input::placeholder, textarea::placeholder {
   margin-top: 20px;
 }
 
-.detail-content-bot {
-  
-}
 
 form.community-comment {
   display: flex;

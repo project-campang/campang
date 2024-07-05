@@ -12,6 +12,11 @@ import ReservationComponent from '../components/ReservationComponent.vue';
 import MypageComponent from '../components/MypageComponent.vue';
 import FaqComponent from '../components/FaqComponent.vue';
 import NotFound from '../components/NotFound.vue';
+import AdminComponent from '../components/AdminComponent.vue';
+import DashboardComponent from '../components/DashboardComponent.vue';
+import Homepage from '../components/Homepage.vue';
+import ReservationManagement from '../components/ReservationManagement.vue';
+import AdvertisementManagement from '../components/AdvertisementManagement.vue';
 
 const routes = [
     {
@@ -62,6 +67,27 @@ const routes = [
         path: '/:pathMatch(.*)*', 
         name: 'NotFound',
         component: NotFound
+    },
+    // 관리자 라우터
+    {
+        path: "/admin",
+        component:AdminComponent,
+    },
+    {
+        path: "/dashboard",
+        component:DashboardComponent,
+    },
+    {
+        path: "/Homepage",
+        component:Homepage,
+    },
+    {
+        path: "/ReservationManagement",
+        component:ReservationManagement,
+    },
+    {
+        path: "/AdvertisementManagement",
+        component:AdvertisementManagement,
     },
 ];
 
