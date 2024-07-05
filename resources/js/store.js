@@ -688,6 +688,7 @@ const store = createStore({
                 // });
                 context.commit('setCommentList', response.data.data.data);
                 // console.log('data 확인', response.data.data);
+                console.log('페이지네이션 전',response.data.data);
                 context.commit('setPagination', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -1018,19 +1019,20 @@ const store = createStore({
          */
         campListGet(context, page=1) {
             // const url = ('/api/search/searchPage?page=' + page);
-            // const url = ('/api/search/searchPage?page=' + page);
-            const url = ('/api/search/searchPage?page=' + page);
-            console.log(url);
+            const url = '/api/search/searchPage?page=' + page;
+            console.log('스토어 page', page);
+            console.log('스토어 url', url);
             axios.get(url)
             .then(response => {
 
-                const campList = response.data.data.data;
+                const campList = response.data.data;
+                console.log('전', campList);
                 context.commit('setCampList', campList);
                 // const data = response.data.data;
                 // context.commit('setCampList', response.data.data);
                 // console.log(response.data.data);
                 // console.log(setCampList);
-                console.log('campList', campList);
+                console.log('스토어 캠프리스트 campListGet', response.data.data);
                 context.commit('setPaginationSearch', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -1116,7 +1118,7 @@ const store = createStore({
             .then(response => {
                 console.log('searchResult 검색 결과 획득 성공', response.data);
                 context.commit('setCampList', response.data.data);
-                console.log('스토어 캠프데이터', context.state.campData);
+                console.log('스토어 캠프데이터 searchResult', context.state.campData);
                 if (context.state.campData.length > 0) {
                     const newCenter = {
                         lat: context.campData[0].latitude,

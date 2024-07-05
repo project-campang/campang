@@ -349,10 +349,15 @@ const stopResize = () => {
 // 페이지네이션
 function prevPage() {
     store.dispatch('campListGet', store.state.paginationSearch.current_page-1);
+    console.log('-1', store.state.paginationSearch.current_page-1);
+    console.log('paginationSearch', store.state.paginationSearch);
 }
 function nextPage() {
     store.dispatch('campListGet', store.state.paginationSearch.current_page+1);
+    console.log('+1', store.state.paginationSearch.current_page+1);
+    console.log('paginationSearch', store.state.paginationSearch);
 }
+
 
 
 function openMarkerLink(url) {
@@ -383,11 +388,14 @@ onBeforeMount(() => {
     console.log('onBeforeMount');
     if(store.state.campData.length <  1) {
         store.dispatch('searchResult'); 
+        console.log('searchResult 실행');
+        
     }
     if(store.state.stateData.length <  1) {
         store.dispatch('stateGet');
+        console.log('stateGet 실행');
     }
-    console.log('campListGet');
+    console.log('store.state.campData', store.state.campData);
     // store.dispatch('searchCount');
 })
 
@@ -401,9 +409,9 @@ onMounted(async () => {
 
 onUpdated(() => {
     const parentElement = document.querySelector('#map');
-    console.log('부모', parentElement);
+    // console.log('부모', parentElement);
     const childElements = parentElement.querySelectorAll('img[title]');
-    console.log('자식', childElements);
+    // console.log('자식', childElements);
     childElements.forEach(img => {
         img.src = '/images/center-pin.png';
         img.style.width = '35px'; 
