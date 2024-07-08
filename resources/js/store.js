@@ -336,7 +336,17 @@ const store = createStore({
         async register({ commit }, registerForm) {
             try {
                 const response = await axios.post('/api/register', registerForm);
-                console.log(response);
+                commit('setAuthFlg', true);
+                commit('setUserInfo', response.data.data);
+                // router.replace('/main');
+            } catch (error) {
+                console.error('회원가입 실패:', error);
+            }
+        },
+        // 사업자 회원가입
+        async bizRegister({ commit }, bizRegisterForm) {
+            try {
+                const response = await axios.post('/api/bizRegister', bizRegisterForm);
                 commit('setAuthFlg', true);
                 commit('setUserInfo', response.data.data);
                 // router.replace('/main');
@@ -385,7 +395,7 @@ const store = createStore({
                 console.log(response);
                 commit('setAuthFlg', true);
                 commit('setUserInfo', response.data.data);
-                commit('setAuth', { authFlg: true, userInfo: response.data });
+                commit('setAuth', { authFlg: true, userInfo: response.data.data });
                 router.replace('/main');
             } catch (error) {
                 console.error('kakaoUser failed:', error);

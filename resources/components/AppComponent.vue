@@ -80,7 +80,13 @@
                     <button type="button" class="btn-close" @click="closeRegistration" aria-label="Close"></button>
                 </div>
                 <div class="modal-body ">
-                    <form @submit.prevent="register">
+                    <div class="mb-3 register-modal" id="register-radio-group">
+                        <label for="registerRadio-0" class="me-1">일반</label>
+                        <input type="radio" name="registerRadio" id="registerRadio-0" value="0" class="me-3" v-model="registerForm.business" @click="updateOption('1')" checked="checked">
+                        <label for="registerRadio-1" class="me-1">사업자</label>
+                        <input type="radio" name="registerRadio" id="registerRadio-1" value="1" v-modal="bizRegisterForm.business" @click="updateOption('2')">
+                    </div>
+                    <form @submit.prevent="register" v-show="selectedOption === '1'">
                         <div class="mb-3 register-modal">
                             <label for="name" class="form-label">이름</label>
                             <input type="text" v-model="registerForm.name" class="form-control" id="name" autocomplete="name">
@@ -115,6 +121,57 @@
                         <div class="mb-3 register-modal">
                             <label for="tel" class="form-label">휴대폰 번호</label>
                             <input type="text" v-model="registerForm.tel" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
+                            <div v-if="validationErrors.tel" class="alert alert-danger">{{ validationErrors.tel }}</div>
+                        </div>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary" >가입하기</button>
+                    </form>
+                    <!-- 사업자 회원가입 폼 -->
+                    <form @submit.prevent="bizRegister" id="bizRegisterForm" v-show="selectedOption === '2'">
+                        <div class="mb-3 register-modal">
+                            <label for="business_code" class="form-label">사업자번호(하이픈 으로 구분 '-')</label>
+                            <input type="text" v-model="bizRegisterForm.business_code" class="form-control" id="business_code" autocomplete="off">
+                            <div v-if="validationErrors.business_code" class="alert alert-danger">{{ validationErrors.business_code }}</div>
+                        </div>
+                        <div class="mb-3 register-modal">
+                            <label for="business_name" class="form-label">사업장명 (캠핑장 이름)</label>
+                            <input type="text" v-model="bizRegisterForm.business_name" class="form-control" id="business_name" autocomplete="off">
+                            <div v-if="validationErrors.business_name" class="alert alert-danger">{{ validationErrors.business_name }}</div>
+                        </div>
+                        <div class="mb-3 register-modal">
+                            <label for="bizName" class="form-label">이름</label>
+                            <input type="text" v-model="bizRegisterForm.name" class="form-control" id="bizName" autocomplete="name">
+                            <div v-if="validationErrors.name" class="alert alert-danger">{{ validationErrors.name }}</div>
+                        </div>
+                        <div class="mb-3 register-modal">
+                            <label for="bizEmail" class="form-label">이메일</label>
+                            <input type="email" v-model="bizRegisterForm.email" class="form-control" id="bizEmail" autocomplete="email">
+                                <div v-if="emailCheckResult !== null" class="alert" :class="[emailCheckResult ? 'alert-danger' : 'alert-success']">
+                                    {{ emailCheckResult ? '중복된 이메일입니다.' : '사용 가능한 이메일입니다.' }}
+                                </div>
+                            <div v-if="validationErrors.email" class="alert alert-danger">{{ validationErrors.email }}</div>
+                        </div>
+                        <div class="mb-3 register-modal">
+                            <button type="button" @click="BizCheckEmail" class="btn btn-outline-secondary" >이메일 중복 확인</button>
+                        </div>
+                        <div class="mb-3 register-modal">
+                            <label for="biz_nick_name" class="form-label">닉네임</label>
+                            <input type="text" v-model="bizRegisterForm.nick_name" class="form-control" id="biz_nick_name" autocomplete="nickname">
+                            <div v-if="validationErrors.nick_name" class="alert alert-danger">{{ validationErrors.nick_name }}</div>
+                        </div>
+                        <div class="mb-3 register-modal">
+                            <label for="bizPassword" class="form-label">비밀번호</label>
+                            <input type="password" v-model="bizRegisterForm.password" class="form-control" id="bizPassword" autocomplete="off">
+                            <div v-if="validationErrors.password" class="alert alert-danger">{{ validationErrors.password }}</div>
+                        </div>
+                        <div class="mb-3 register-modal">
+                            <label for="biz_ps_chk" class="form-label">비밀번호 확인</label>
+                            <input type="password" v-model="bizRegisterForm.ps_chk" class="form-control" id="biz_ps_chk" autocomplete="off">
+                            <div v-if="validationErrors.ps_chk" class="alert alert-danger">{{ validationErrors.ps_chk }}</div>
+                        </div>
+                        <div class="mb-3 register-modal">
+                            <label for="bizTel" class="form-label">휴대폰 번호</label>
+                            <input type="text" v-model="bizRegisterForm.tel" class="form-control" id="bizTel" @input="bizOninputPhone" maxlength="14" autocomplete="tel"/>
                             <div v-if="validationErrors.tel" class="alert alert-danger">{{ validationErrors.tel }}</div>
                         </div>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -316,6 +373,11 @@ import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
 import { useRoute } from 'vue-router';
 
+const selectedOption = ref('1'); // 기본 선택 옵션
+
+const updateOption = (option) => {
+  selectedOption.value = option;
+};
 
 // 이메일 중복 체크 상태 추가
 const emailChecked = ref(false);
@@ -325,26 +387,56 @@ const validateEmail = (email) => {
     const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
     return regex.test(email);
 };
+const validateBizEmail = (bizEmail) => {
+    const regex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
+    return regex.test(bizEmail);
+};
 
 const validatePassword = (password) => {
     const regex = /^[a-zA-Z0-9!@*]+$/;
     return regex.test(password);
+};
+const validateBizPassword = (bizPassword) => {
+    const regex = /^[a-zA-Z0-9!@*]+$/;
+    return regex.test(bizPassword);
 };
 
 const validateNickName = (nick_name) => {
     const regex = /^[가-힣a-zA-Z]+$/u;
     return regex.test(nick_name);
 };
+const validateBizNickName = (biz_nick_name) => {
+    const regex = /^[가-힣a-zA-Z]+$/u;
+    return regex.test(biz_nick_name);
+};
 
 const validateName = (name) => {
     const regex = /^[가-힣]+$/u;
     return regex.test(name);
+};
+const validateBizName = (bizName) => {
+    const regex = /^[가-힣]+$/u;
+    return regex.test(bizName);
 };
 
 const validateTel = (tel) => {
     const regex = /^(\d{2,3}-\d{3,4}-\d{4})|(\d{10,11})$/;
     return regex.test(tel);
 };
+const validateBizTel = (bizTel) => {
+    const regex = /^(\d{2,3}-\d{3,4}-\d{4})|(\d{10,11})$/;
+    return regex.test(bizTel);
+};
+
+const validateBusiness_code = (business_code) => {
+    const regex = /^\d{3}-\d{2}-\d{5}$/;
+    return regex.test(business_code);
+}
+
+const validateBusiness_name = (business_name) => {
+    const regex = /^[가-힣a-zA-Z0-9()&,\s]+$/u;
+    return regex.test(business_name);
+}
 
 // 상태 관리 및 유효성 검사 결과
 // const store = useStore();
@@ -352,7 +444,22 @@ const loginFlg = ref(false);
 const registrationFlg = ref(false);
 const campRegisterFlg = ref(false);
 const advertiseFlg = ref(false);
+
+
+
 const registerForm = ref({
+    business: selectedOption,
+    email: '',
+    password: '',
+    ps_chk: '',
+    nick_name: '',
+    name: '',
+    tel: ''
+});
+const bizRegisterForm = ref({
+    business: selectedOption,
+    business_code: '',
+    business_name: '',
     email: '',
     password: '',
     ps_chk: '',
@@ -361,6 +468,8 @@ const registerForm = ref({
     tel: ''
 });
 const validationErrors = ref({
+    business_code: '',
+    business_name: '',
     email: '',
     password: '',
     ps_chk: '',
@@ -378,10 +487,27 @@ watch(() => registerForm.value.email, (newEmail) => {
         validationErrors.value.email = '';
     }
 });
+watch(() => bizRegisterForm.value.email, (newEmail) => {
+    emailChecked.value = false; // 이메일이 변경될 때마다 중복 체크 상태 초기화
+    if (!validateBizEmail(newEmail)) {
+        validationErrors.value.email = '유효한 이메일을 입력해주세요.';
+    } else {
+        validationErrors.value.email = '';
+    }
+});
 
 // 비밀번호 유효성 검사
 watch(() => registerForm.value.password, (newPassword) => {
     if (!validatePassword(newPassword)) {
+        validationErrors.value.password = '영문, 숫자, 특수문자(!@*)만 사용 가능합니다.';
+    } else if (newPassword.length < 2 || newPassword.length > 20) {
+        validationErrors.value.password = '비밀번호는 2자 이상, 20자 이하이어야 합니다.';
+    } else {
+        validationErrors.value.password = '';
+    }
+});
+watch(() => bizRegisterForm.value.password, (newPassword) => {
+    if (!validateBizPassword(newPassword)) {
         validationErrors.value.password = '영문, 숫자, 특수문자(!@*)만 사용 가능합니다.';
     } else if (newPassword.length < 2 || newPassword.length > 20) {
         validationErrors.value.password = '비밀번호는 2자 이상, 20자 이하이어야 합니다.';
@@ -398,10 +524,26 @@ watch(() => registerForm.value.ps_chk, (newPsChk) => {
         validationErrors.value.ps_chk = '';
     }
 });
+watch(() => bizRegisterForm.value.ps_chk, (newPsChk) => {
+    if (newPsChk !== bizRegisterForm.value.password) {
+        validationErrors.value.ps_chk = '비밀번호가 일치하지 않습니다.';
+    } else {
+        validationErrors.value.ps_chk = '';
+    }
+});
 
 // 닉네임 유효성 검사
 watch(() => registerForm.value.nick_name, (newNickName) => {
     if (!validateNickName(newNickName)) {
+        validationErrors.value.nick_name = '한글 또는 영문만 사용 가능합니다.';
+    } else if (newNickName.length < 2 || newNickName.length > 10) {
+        validationErrors.value.nick_name = '닉네임은 2자 이상, 10자 이하이어야 합니다.';
+    } else {
+        validationErrors.value.nick_name = '';
+    }
+});
+watch(() => bizRegisterForm.value.nick_name, (newNickName) => {
+    if (!validateBizNickName(newNickName)) {
         validationErrors.value.nick_name = '한글 또는 영문만 사용 가능합니다.';
     } else if (newNickName.length < 2 || newNickName.length > 10) {
         validationErrors.value.nick_name = '닉네임은 2자 이상, 10자 이하이어야 합니다.';
@@ -420,6 +562,15 @@ watch(() => registerForm.value.name, (newName) => {
         validationErrors.value.name = '';
     }
 });
+watch(() => bizRegisterForm.value.name, (newName) => {
+    if (!validateBizName(newName)) {
+        validationErrors.value.name = '한글만 사용 가능합니다.';
+    } else if (newName.length < 2 || newName.length > 20) {
+        validationErrors.value.name = '이름은 2자 이상, 20자 이하이어야 합니다.';
+    } else {
+        validationErrors.value.name = '';
+    }
+});
 
 // 전화번호 유효성 검사
 watch(() => registerForm.value.tel, (newTel) => {
@@ -429,6 +580,31 @@ watch(() => registerForm.value.tel, (newTel) => {
         validationErrors.value.tel = '';
     }
 });
+watch(() => bizRegisterForm.value.tel, (newTel) => {
+    if (!validateBizTel(newTel)) {
+        validationErrors.value.tel = '유효한 전화번호 형식이 아닙니다.'; 
+    } else {
+        validationErrors.value.tel = '';
+    }
+});
+
+// 사업자 번호 유효성 검사
+watch(() => bizRegisterForm.value.business_code, (newBusiness_code) => {
+    if(!validateBusiness_code(newBusiness_code)){
+        validationErrors.value.business_code = '사업자번호 형식에 맞지 않습니다.';
+    } else {
+        validationErrors.value.business_code = '';
+    }
+})
+
+// 캠핑장 이름 유효성 검사
+watch(() => bizRegisterForm.value.business_name, (newBusiness_name) => {
+    if(!validateBusiness_name(newBusiness_name)){
+        validationErrors.value.business_name = '한글,영문,숫자,특수문자[ ()&, ] 만 가능합니다.';
+    } else {
+        validationErrors.value.business_name = '';
+    }
+})
 
 
 // 회원가입 처리 함수
@@ -444,6 +620,8 @@ function register() {
 
     if (isEmpty) {
         alert('내용을 입력해주세요.');
+        console.log(registerForm.value);
+
         return;
     }
 
@@ -467,6 +645,7 @@ function register() {
 
 function resetRegisterForm() {
     registerForm.value = {
+        business: '',
         email: '',
         password: '',
         ps_chk: '',
@@ -475,6 +654,8 @@ function resetRegisterForm() {
         tel: ''
     };
     validationErrors.value = {
+        business_code: '',
+        business_name: '',
         email: '',
         password: '',
         ps_chk: '',
@@ -486,6 +667,66 @@ function resetRegisterForm() {
     emailCheckResult.value = null;
 }
 
+// 사업자 회원가입 처리
+function bizRegister() {
+    // 이메일 중복 체크를 하지 않았거나 중복된 이메일일 경우 경고 메시지 표시
+    if (!emailChecked.value) {
+        alert('이메일 중복 체크를 해주세요.');
+        return;
+    }
+
+    // 데이터가 비어 있는지 검사
+    const isEmpty = Object.values(bizRegisterForm.value).some(value => value === '');
+
+    if (isEmpty) {
+        alert('내용을 입력해주세요.');
+        console.log(bizRegisterForm.value);
+        return;
+    }
+
+    // 최종 폼 유효성 검사
+    if (Object.values(validationErrors.value).some(error => error)) {
+        alert('입력한 정보를 확인해주세요.');
+        return;
+    }
+
+    store.dispatch('bizRegister', bizRegisterForm.value)
+        .then(() => {
+            alert(`${bizRegisterForm.value.name}님 환영합니다!`);
+            resetBizRegisterForm();
+            closeRegistration();
+        })
+        .catch(error => {
+            console.error('회원가입 실패:', error);
+        });
+}
+
+
+function resetBizRegisterForm() {
+    bizRegisterForm.value = {
+        business: '',
+        business_code: '',
+        business_name: '',
+        email: '',
+        password: '',
+        ps_chk: '',
+        nick_name: '',
+        name: '',
+        tel: ''
+    };
+    validationErrors.value = {
+        business_code: '',
+        business_name: '',
+        email: '',
+        password: '',
+        ps_chk: '',
+        nick_name: '',
+        name: '',
+        tel: ''
+    };
+
+    emailCheckResult.value = null;
+}
 
 
 // 스크롤 탑 함수 사용
@@ -676,7 +917,24 @@ async function checkEmail() {
         emailCheckResult.value = true;
     }
 }
+async function BizCheckEmail() {
+    const email = bizRegisterForm.value.email;
+    if (!email) {
+        alert('이메일을 입력해주세요.');
+        emailCheckResult.value = null;
+        return;
+    }
 
+    try {
+        const response = await axios.post('/api/check-email', { email });
+        emailCheckResult.value = response.data.duplicate;
+        emailChecked.value = true; // 이메일 중복 체크 완료로 설정
+        console.log('Checking email:', email);
+    } catch (error) {
+        console.error('이메일 중복 확인 실패:', error);
+        emailCheckResult.value = true;
+    }
+}
 // 전화번호 입력 처리 함수
 function oninputPhone() {
     const phone = registerForm.value.tel.replace(/[^0-9]/g, '');
@@ -690,6 +948,20 @@ function oninputPhone() {
         registerForm.value.tel = phone.slice(0, 3) + '-' + phone.slice(3, 6) + '-' + phone.slice(6);
     } else {
         registerForm.value.tel = phone.slice(0, 3) + '-' + phone.slice(3, 7) + '-' + phone.slice(7);
+    }
+}
+function bizOninputPhone() {
+    const phone = bizRegisterForm.value.tel.replace(/[^0-9]/g, '');
+    const phoneLength = phone.length;
+
+    if (phoneLength < 4) {
+        bizRegisterForm.value.tel = phone;
+    } else if (phoneLength < 7) {
+        bizRegisterForm.value.tel = phone.slice(0, 3) + '-' + phone.slice(3);
+    } else if (phoneLength < 11) {
+        bizRegisterForm.value.tel = phone.slice(0, 3) + '-' + phone.slice(3, 6) + '-' + phone.slice(6);
+    } else {
+        bizRegisterForm.value.tel = phone.slice(0, 3) + '-' + phone.slice(3, 7) + '-' + phone.slice(7);
     }
 }
 

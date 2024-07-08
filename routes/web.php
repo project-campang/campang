@@ -33,6 +33,7 @@ Route::get('/{any}', function () {
 // 유저 컨트롤러
 Route::post('/api/login', [UserController::class, 'login']);
 Route::post('/api/register', [UserController::class, 'register']);
+Route::post('/api/bizRegister', [UserController::class, 'bizRegister']);
 Route::post('/api/logout', [UserController::class, 'logout']);
 Route::post('/api/check-email', [UserController::class, 'checkEmail']);
 Route::post('/mypage/update', [UserController::class, 'update']);
