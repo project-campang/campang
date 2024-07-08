@@ -40,11 +40,14 @@
                                     </div>
                                 </div>
                                 <div class="shop-info-btn-container">
-                                    <div class="shop-info-btn-item">
+                                    <div class="shop-info-btn-item share">
                                         <button @click="shareBtn()" class="btn-group">
                                             <img class="shop-info-btn" src="../../public/img_nr/공유하기.png" alt="공유">
                                             <div  class="shop-info-btn-name" id="share-btn">공유하기</div>
                                         </button>
+                                        <transition name="shareFade">
+                                            <div v-if="showTip" class="shareTip">링크 복사 완료 !<br> 지금 공유 해 보세요.</div>
+                                        </transition>
                                     </div>
                                     <div class="shop-info-btn-item">
                                         <!-- <button @click="toggleWish" class="btn-group"> -->
@@ -55,11 +58,12 @@
                                         </button>
                                     </div>
                                     <div class="shop-info-btn-item">
-                                        <!-- <a @click="gotoLink()" :href="$store.state.campDetail.campInfo.link" class="btn-group"> -->
-                                        <button type="button" @click="openReserveModal" class="btn-group">
+                                        <a @click="gotoLink()" :href="$store.state.campDetail.campInfo.link" class="btn-group">
+                                        <!-- <button type="button" @click="openReserveModal" class="btn-group"> -->
                                             <img class="shop-info-btn" src="../../public/img_nr/예약하기.png" alt="예약">
                                             <div class="shop-info-btn-name">예약하기</div>
-                                        </button>
+                                        <!-- </button> -->
+                                        </a>
                                     </div>
                                 </div>
                             </div>
@@ -229,11 +233,20 @@ function showReviewTap() {
 
 
 // ------------------ 공유하기 ------------------------
+const showTip = ref(false);
+const tipStyle = ref({});
+const button = ref(null);
+
 const shareBtn = () => {
   const url = `https://127.0.0.1:8000/camp/${route.params.id}`;
-  console.log(url);
+  //   console.log(url);
   window.navigator.clipboard.writeText(url).then(() => {
-    alert('링크 복사 완료 ! \n 지금 공유 해보세요!');
+      // alert('링크 복사 완료 ! \n 지금 공유 해보세요!');
+      showTip.value = true;
+      setTimeout(() => {
+        showTip.value = false;
+      }, 2000);
+
   }).catch(err => {
     console.error('클립보드에 복사 실패:', err);
   });
@@ -297,18 +310,13 @@ function gotoLink() {
 <style>
 @import url(../css/camp.css);
 /* 모달 페이드 */
-.fade-enter-from {
+.showFade-enter-from, .fade-leave-to {
   /* 시작시 효과 */
   opacity: 0;
 }
 
-.fade-enter-active {
+.showFade-enter-active, .showFade-leave-active {
   /* 전체 단계에서 적용될 부분*/
-  transition: all 1s;
-}
-
-.fade-enter-to {
-  /* 끝나는 효과 */
-  opacity: 1;
+  transition: opacity 0.5s;
 }
 </style>
