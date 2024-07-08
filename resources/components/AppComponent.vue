@@ -168,7 +168,7 @@
    </div>
     <!-- advertiseModal -->
     <!-- Vue의 조건부 렌더링 사용 -->
-    <!-- Modal -->
+    <!-- 광고Modal -->
     <div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -195,7 +195,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">광고 유형 *</label>
                             <div class="col-sm-9">
-                                <div class="btn-group" role="group">
+                                <div class="btn-group" role="group1">
                                     <button type="button" class="btn btn-outline-primary" id="type1">캠핑장</button>
                                     <button type="button" class="btn btn-outline-primary" id="type2">캠핑용품</button>
                                 </div>
@@ -237,7 +237,7 @@
                         <div class="mb-3 row">
                             <label class="col-sm-3 col-form-label">채널플러스 수신 동의 *</label>
                             <div class="col-sm-9">
-                                <div class="btn-group" role="group">
+                                <div class="btn-group" role="group2">
                                     <button type="button" class="btn btn-outline-primary me-2" id="agree">동의함</button>
                                     <button type="button" class="btn btn-outline-primary" id="disagree">동의 안함</button>
                                 </div>
@@ -252,7 +252,21 @@
             </div>
         </div>
     </div>
-   
+<!-- 두번째광고모달 -->
+    <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel3">신청 완료되었습니다</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- 신청 완료 메시지 내용 -->
+                        광고 신청이 성공적으로 완료되었습니다.
+                    </div>
+                </div>
+            </div>
+        </div>
    <button @click="backToTop" ref="btnBackToTop" id="btn-back-to-top" title="위로 가기">
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -630,7 +644,8 @@ function logout() {
         .then(() => {
             resetLoginForm();
             closeLogin();
-            location.reload(); // 페이지 새로고침
+            // location.reload(); // 페이지 새로고침
+            router.replace('/main');
         })
         .catch(error => {
             console.error('로그아웃 실패:', error);
@@ -773,6 +788,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
+// 신청 완료 모달 상태 관리
+const adCompleteModal = ref(false);
+
+// 광고 신청 폼 제출 처리
+function submitAdForm() {
+    // 여기에 광고 신청 로직을 추가
+
+    adCompleteModal.value = true;
+}
 
 </script>
 

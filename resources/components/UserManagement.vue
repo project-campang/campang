@@ -1,22 +1,7 @@
 <template>
   <div>
-    <h2>새로운 요청</h2>
-    <div class="request-section">
-      <div class="request-box">
-        <p>캠핑장등록</p>
-        <p>0 건</p>
-      </div>
-      <div class="request-box">
-        <p>광고 신청</p>
-        <p>1 건</p>
-      </div>
-      <div class="request-box">
-        <p>예약환불 신청</p>
-        <p>0 건</p>
-      </div>
-    </div>
-
-    <h2>최근 가입내역 5건</h2>
+    <h2>유저 관리</h2>
+    <input type="text" v-model="filterText" placeholder="유저 검색" class="search-input"/>
     <!-- 테이블 헤더를 대체하는 요소 -->
     <div class="user-list-header">
       <span>ID</span>
@@ -29,8 +14,32 @@
       <span>상태</span>
       <span>관리</span>
     </div>
+    <!-- 유저 목록을 필터링하여 보여주는 부분 -->
     <ul class="user-list">
-      <li v-for="(item, key) in store.state.newmember" :key="key" class="user-item">
+      <li v-if="filterText" v-for="(item, key) in filteredUsers" :key="key" class="user-item">
+        <span>{{ item.id }}</span>
+        <span>{{ item.business === '0' ? '일반' : '사업자' }}</span>
+        <span class="home-email">{{ item.email }}</span>
+        <span>{{ item.name }}</span>
+        <span>{{ item.nick_name }}</span>
+        <span>{{ item.tel }}</span>
+        <span>{{ item.post_count }}</span>
+        <span>{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
+        <div class="actions">
+          <button 
+              type="button" 
+              class="btn btn-primary btn-sm" 
+              data-bs-toggle="modal" 
+              data-bs-target="#exampleModal"
+              @click="showUserDetails(item)"
+          >
+              보기
+          </button>
+          <button v-if="!item.deleted_at" class="btn btn-danger btn-sm" @click="confirmDeleteUser(item)">탈퇴</button>
+        </div>
+      </li>
+      <!-- 검색어가 없을 때 전체 유저 목록을 보여주는 부분 -->
+      <li v-else v-for="(item, index) in store.state.usermanagement" :key="index" class="user-item">
         <span>{{ item.id }}</span>
         <span>{{ item.business === '0' ? '일반' : '사업자' }}</span>
         <span class="home-email">{{ item.email }}</span>
@@ -90,17 +99,18 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref, computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const newMembers = ref([]);
+const userManagement = ref([]);
 const selectedUser = ref(null);
+const filterText = ref('');
 
 onBeforeMount(() => {
-    store.dispatch('setNewMember')
+    store.dispatch('userManagement')
         .then(() => {
-            newMembers.value = store.state.newmember;
+          userManagement.value = store.state.usermanagement;
         })
         .catch((error) => {
             console.error('신규 유저를 가져오는 도중 에러 발생:', error);
@@ -116,6 +126,26 @@ const confirmDeleteUser = (user) => {
         store.dispatch('deleteUser', user.id);
     }
 };
+
+// 검색어를 기준으로 유저 목록을 필터링하는 computed 프로퍼티
+const filteredUsers = computed(() => {
+const text = filterText.value.toLowerCase().trim();
+if (!text) {
+  // 검색어가 없을 때는 전체 유저 목록을 반환
+  return userManagement.value;
+}
+// 검색어를 포함하는 유저를 필터링하여 반환
+return userManagement.value.filter(user => {
+  return (
+    user.id.toString().toLowerCase().includes(text) ||
+    user.email.toLowerCase().includes(text) ||
+    user.name.toLowerCase().includes(text) ||
+    user.nick_name.toLowerCase().includes(text) ||
+    user.tel.toLowerCase().includes(text)
+  );
+  });
+});
+
 </script>
 
 <style scoped src="../css/admin.css"></style>
