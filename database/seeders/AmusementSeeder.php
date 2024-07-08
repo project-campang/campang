@@ -16,6 +16,6 @@ class AmusementSeeder extends Seeder
      */
     public function run()
     {
-        Amusement::factory(10)->create();
+        Amusement::factory(5)->create();
     }
 }

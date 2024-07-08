@@ -67,8 +67,8 @@
                                             <label for="fishing"><span><input type="checkbox" name="fishing" id="fishing"> 낚시</span></label>
                                             <label for="leisure"><span><input type="checkbox" name="leisure" id="leisure"> 수상 레저</span></label>
                                             <label for="pool"><span><input type="checkbox" name="pool" id="pool"> 수영장</span></label>
-                                            <label for="playground"><span><input type="checkbox" name="playground" id="playground"> 체육 시설</span></label>
-                                            <label for="karaoke"><span><input type="checkbox" name="karaoke" id="karaoke"> 노래방</span></label>
+                                            <label for="sports"><span><input type="checkbox" name="sports" id="sports"> 체육 시설</span></label>
+                                            <label for="playground"><span><input type="checkbox" name="playground" id="playground"> 놀이터</span></label>
                                         </div>
                                     </div>
                                     <div class="items items-last price">

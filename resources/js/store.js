@@ -1032,7 +1032,7 @@ const store = createStore({
          * 
          * @param {*} context 
          */
-        campListGet(context, {page=1, state=0, county=0}) {
+        campListGet(context, {page=1, state=0, county=0, caravan=false, glamping=false, }) {
             // const url = ('/api/search/searchPage?page=' + page);
             // const url = ('/api/search/searchPage?page=' + page);
             const url = ('/api/search/searchPage?page=' + page + '&state=' + state + '&county=' + county);

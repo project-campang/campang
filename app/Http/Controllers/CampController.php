@@ -49,7 +49,8 @@ class CampController extends Controller
                         // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
                         // ->join('amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
 
-                        ->orderBy('camps.county');
+                        // ->groupBy('camps.id', 'camps.name', 'camps.tel', 'camps.address', 'camps.state', 'camps.county', 'camps.latitude', 'camps.longitude', 'camps.info_text', 'camps.link', 'camps.price', 'camps.main_img', 'camps.other_img_1', 'camps.other_img_2', 'camps.other_img_3', 'camps.other_img_4', 'camps.other_img_5', 'camps.other_img_6', 'camps.other_img_7', 'camps.other_img_8', 'camps.other_img_9', 'camps.other_img_10', 'camps.created_at', 'camps.updated_at', 'camps.deleted_at')
+                        ->orderBy('counties.name');
                         // ->limit()
         
         if($request->has('state') && $request->state != '0') {
@@ -58,21 +59,21 @@ class CampController extends Controller
         if($request->has('county') && $request->county != '0') {
             $campList->where('counties.id', $request->county);
         }
-        // if($request->has('site_type') && $request->site_type != '0') {
-        //     $campList->where('site_types.id', $request->site_type);
-        // }
-        // if($request->has('topo') && $request->topo != '0') {
-        //     $campList->where('topos.id', $request->topo);
-        // }
-        // if($request->has('amenity') && $request->amenity != '0') {
-        //     $campList->where('amenities.id', $request->amenity);
-        // }
-        // if($request->has('amusement') && $request->amusement != '0') {
-        //     $campList->where('amusements.id', $request->amusement);
-        // }
-        // if($request->has('price') && $request->price != '0') {
-        //     $campList->where('camps.price', $request->price);
-        // }
+        if($request->has('site_type')) {
+            $campList->where('site_types.id', $request->site_type);
+        }
+        if($request->has('topo')) {
+            $campList->where('topos.id', $request->topo);
+        }
+        if($request->has('amenity')) {
+            $campList->where('amenities.id', $request->amenity);
+        }
+        if($request->has('amusement')) {
+            $campList->where('amusements.id', $request->amusement);
+        }
+        if($request->has('price')) {
+            $campList->where('camps.price', $request->price);
+        }
 
         $result = $campList->paginate(5);
         
