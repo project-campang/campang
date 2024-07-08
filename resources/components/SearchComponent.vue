@@ -4,95 +4,89 @@
             <!-- <div class="search-container"> -->
             <div class="search-container" ref="searchContainer">
                 <div class="search-box">
-                    <form action="" id="searchForm">
-                        <label for="address"></label>
-                        <select @change="selectState" name="state" id="select1" class="address" v-model="stateSelete">
-                            <option :value="0">시/도 선택</option>
-                            <option :value="item.id" v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
-                        </select>
-                        <select @change="selectCounty" name="county" id="select2" class="address" v-model="countySelete">
-                            <option :value="0">구/군 선택</option>
-                            <option :value="item.id" v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
-                            <!-- <option v-for="(item, key) in filteredCounties" :key="key" :value="item.id">{{ item.name }}</option> -->
-                        </select>
-                        <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">검색</button>
-                        <!-- <div class="accordion" id="accordionPanelsStayOpenExample">
-                            <div class="accordion-item" style="background-color: white;">
-                                <h2 class="accordion-header" id="panelsStayOpen-headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne">
-                                    상세 검색
-                                </button>
-                                </h2>
-                                <div id="panelsStayOpen-collapseOne" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne">
-                                    <div class="accordion-body">
-                                        <div class="accordion" id="nestedAccordionOne">
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="nested-headingOne">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseOne" aria-expanded="true" aria-controls="nested-collapseOne">
-                                                    지형/환경
-                                                </button>
-                                                </h2>
-                                                <div id="nested-collapseOne" class="accordion-collapse collapse" aria-labelledby="nested-headingOne">
-                                                    <div class="accordion-body">
-                                                        <label for="topo">
-                                                            <span><input type="checkbox" name="revierside" id="topo1">강변</span>
-                                                            <span><input type="checkbox" name="valley" id="topo2">계곡</span>
-                                                            <span><input type="checkbox" name="city" id="topo3">도심</span>
-                                                            <span><input type="checkbox" name="ocean" id="topo4">바다</span>
-                                                            <span><input type="checkbox" name="mountain" id="topo5">산</span>
-                                                            <span><input type="checkbox" name="island" id="topo6">섬</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="nested-headingTwo">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseTwo" aria-expanded="false" aria-controls="nested-collapseTwo">
-                                                    편의 시설
-                                                </button>
-                                                </h2>
-                                                <div id="nested-collapseTwo" class="accordion-collapse collapse" aria-labelledby="nested-headingTwo">
-                                                    <div class="accordion-body">
-                                                        <label for="amenities">
-                                                            <span><input type="checkbox" name="wash" id="amenities1">개수대</span>
-                                                            <span><input type="checkbox" name="store" id="amenities2">편의점</span>
-                                                            <span><input type="checkbox" name="barbecue" id="amenities3">바비큐</span>
-                                                            <span><input type="checkbox" name="shower-booth" id="amenities4">샤워시설</span><br>
-                                                            <span><input type="checkbox" name="heated-water" id="amenities5">온수</span>
-                                                            <span><input type="checkbox" name="wi-fi" id="amenities6">와이파이</span>
-                                                            <span><input type="checkbox" name="long-stay" id="amenities7">장기숙박</span>
-                                                            <span><input type="checkbox" name="electricity" id="amenities8">전기</span><br>
-                                                            <span><input type="checkbox" name="rental" id="amenities9">캠핑용품 대여</span>
-                                                            <span><input type="checkbox" name="restroom" id="amenities10">화장실</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="accordion-item">
-                                                <h2 class="accordion-header" id="nested-headingThree">
-                                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#nested-collapseThree" aria-expanded="false" aria-controls="nested-collapseThree">
-                                                    즐길거리
-                                                </button>
-                                                </h2>
-                                                <div id="nested-collapseThree" class="accordion-collapse collapse" aria-labelledby="nested-headingThree">
-                                                    <div class="accordion-body">
-                                                        <label for="amusement">
-                                                            <span><input type="checkbox" name="sea-fishing" id="amusement1">바다낚시</span>
-                                                            <span><input type="checkbox" name="river-fishing" id="amusement2">민물낚시</span>
-                                                            <span><input type="checkbox" name="pool" id="amusement3">수영장</span>
-                                                            <span><input type="checkbox" name="karaoke" id="amusement4">노래방</span><br>
-                                                            <span><input type="checkbox" name="leisure" id="amusement5">수상레저</span>
-                                                            <span><input type="checkbox" name="playground" id="amusement6">체육시설(놀이터)</span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
+                    <div id="searchForm">
+                        <label for="address">
+                            <select @change="selectState" name="state" id="select1" class="address" v-model="stateSelete">
+                                <option :value="0">시/도 선택</option>
+                                <option :value="item.id" v-for="(item, key) in $store.state.stateData" :key="key">{{ item.name }}</option>
+                            </select>
+                            <select @change="selectCounty" name="county" id="select2" class="address" v-model="countySelete">
+                                <option :value="0">구/군 선택</option>
+                                <option :value="item.id" v-for="(item, key) in $store.state.countyData" :key="key">{{ item.name }}</option>
+                                <!-- <option v-for="(item, key) in filteredCounties" :key="key" :value="item.id">{{ item.name }}</option> -->
+                            </select>
+                        </label>
+                        <div class="search-btn-con">
+                            <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">빠른 검색</button>
+                            <button class="search-btn btn-bg-grey" type="button" @click="toggleAccordion">상세 검색</button>
+                        </div>
+                        <!-- 아코디언 영역 -->
+                        <transition>
+                            <div v-if="accordionFlg" class="accordion-container">
+                                <div class="accordion-title">
+                                    <img src="/img/check-mark.png" style="width: 25px;" alt="">
+                                    원하는 캠핑장을 좀 더 상세하게 찾아보세요.
+                                </div>
+                                <div class="accordion-items">
+                                    <div class="items site-type">
+                                        <span class="option-name">캠핑 유형</span>
+                                        <div class="option-list">
+                                            <label for="caravan"><span><input type="checkbox" name="caravan" id="caravan"> 카라반</span></label>
+                                            <label for="glamping"><span><input type="checkbox" name="glamping" id="glamping"> 글램핑</span></label>
+                                            <label for="deck"><span><input type="checkbox" name="deck" id="deck"> 데크</span></label>
+                                            <label for="grass"><span><input type="checkbox" name="grass" id="grass"> 잔디</span></label>
+                                            <label for="gravel"><span><input type="checkbox" name="gravel" id="gravel"> 자갈</span></label>
+                                            <label for="crushed-stone"><span><input type="checkbox" name="crushed-stone" id="crushed-stone"> 파쇄석</span></label>
+                                            <label for="soil"><span><input type="checkbox" name="soil" id="soil"> 흙</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="items topo">
+                                        <span class="option-name">지형/환경</span>
+                                        <div class="option-list">
+                                            <label for="river"><span><input type="checkbox" name="river" id="river"> 강변</span></label>
+                                            <label for="valley"><span><input type="checkbox" name="valley" id="valley"> 계곡</span></label>
+                                            <label for="ocean"><span><input type="checkbox" name="ocean" id="ocean"> 바다</span></label>
+                                            <label for="mountain"><span><input type="checkbox" name="mountain" id="mountain"> 산</span></label>
+                                            <label for="ground"><span><input type="checkbox" name="ground" id="ground"> 초원</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="items amenities">
+                                        <span class="option-name">편의 시설</span>
+                                        <div class="option-list">
+                                            <label for="electricity"><span><input type="checkbox" name="electricity" id="electricity"> 전기</span></label>
+                                            <label for="wi-fi"><span><input type="checkbox" name="wi-fi" id="wi-fi"> 와이파이</span></label>
+                                            <label for="store"><span><input type="checkbox" name="store" id="store"> 편의점</span></label>
+                                            <label for="heated-water"><span><input type="checkbox" name="heated-water" id="heated-water"> 온수</span></label>
+                                            <label for="shower-booth"><span><input type="checkbox" name="shower-booth" id="shower-booth"> 샤워실</span></label>
+                                            <label for="barbecue"><span><input type="checkbox" name="barbecue" id="barbecue"> 바비큐</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="items items-last amusement">
+                                        <span class="option-name">즐길거리</span>
+                                        <div class="option-list">
+                                            <label for="fishing"><span><input type="checkbox" name="fishing" id="fishing"> 낚시</span></label>
+                                            <label for="leisure"><span><input type="checkbox" name="leisure" id="leisure"> 수상 레저</span></label>
+                                            <label for="pool"><span><input type="checkbox" name="pool" id="pool"> 수영장</span></label>
+                                            <label for="playground"><span><input type="checkbox" name="playground" id="playground"> 체육 시설</span></label>
+                                            <label for="karaoke"><span><input type="checkbox" name="karaoke" id="karaoke"> 노래방</span></label>
+                                        </div>
+                                    </div>
+                                    <div class="items items-last price">
+                                        <div>
+                                            <span class="option-name">가격대(₩)</span><br>
+                                            <span class="sub-text">(1박 기준 세금 포함)</span>
+                                        </div>
+                                        <div class="option-list">
+                                            <input type="number" name="" id="" min="41000" max="60900">
+                                            <span>ㅤ~ㅤ</span>
+                                            <input type="number" name="" id="" min="41000" max="60900">
+                                            <button class="btn-bg-green" type="button" @click="searchBtn">검색</button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div> -->
-                    </form>
+                        </transition>
+                    </div> 
                 </div>
                 <div class="result">
                     <div class="count">
@@ -118,7 +112,7 @@
                             </div>
                             <div class="item-info-3">
                                 <span class="item-price">₩{{ item.price }}
-                                    <span class="sub-text">1박 기준</span>
+                                    <span class="sub-text">(1박 기준 세금 포함)</span>
                                 </span>
                             </div>
                             <div class="item-tel sub-text">
@@ -370,6 +364,12 @@ const adjustMarkerZIndex = () => {
     campData.forEach((item, index) => {
         item.markerZIndex = index === 0 ? 0 : 1; // 첫 번째 마커는 0(z-index), 나머지는 1(z-index)
     });
+};
+
+let accordionFlg = ref(false);
+
+const toggleAccordion = () => {
+    accordionFlg.value = !accordionFlg.value; // true <-> false 토글
 };
 
 

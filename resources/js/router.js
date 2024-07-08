@@ -17,6 +17,7 @@ import DashboardComponent from '../components/DashboardComponent.vue';
 import Homepage from '../components/Homepage.vue';
 import ReservationManagement from '../components/ReservationManagement.vue';
 import AdvertisementManagement from '../components/AdvertisementManagement.vue';
+import UserManagement from '../components/UserManagement.vue';
 
 const routes = [
     {
@@ -72,18 +73,27 @@ const routes = [
     {
         path: "/dashboard",
         component:DashboardComponent,
+        beforeEnter: chkAdmin,
     },
     {
         path: "/Homepage",
         component:Homepage,
+        beforeEnter: chkAdmin,
     },
     {
         path: "/ReservationManagement",
         component:ReservationManagement,
+        beforeEnter: chkAdmin,
     },
     {
         path: "/AdvertisementManagement",
         component:AdvertisementManagement,
+        beforeEnter: chkAdmin,
+    },
+    {
+        path: "/UserManagement",
+        component:UserManagement,
+        beforeEnter: chkAdmin,
     },
 
     // 404 는 항상 맨 아래 위치
@@ -101,6 +111,15 @@ function chkAuth(to, from, next) {
     } else {
         alert('로그인이 필요한 서비스입니다.');
         next('/main');
+    }
+}
+// 관리자
+function chkAdmin(to, from, next) {
+    if (store.state.authFlg) {
+        next();
+    } else {
+        alert('로그인이 필요한 서비스입니다.');
+        next('/admin');
     }
 }
 
