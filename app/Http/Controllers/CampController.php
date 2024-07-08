@@ -2,14 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Camp;
+use App\Models\State;
+use App\Models\County
+;
+use App\Models\SiteType;
+use App\Models\Topo;
 use App\Models\Amenity;
 use App\Models\Amusement;
-use App\Models\Camp;
-use App\Models\County;
-use App\Models\SiteType;
+
+use App\Models\CampSiteType;
+use App\Models\CampTopo;
+use App\Models\CampAmenity;
+use App\Models\CampAmusement;
+
 use App\Models\Stamp;
-use App\Models\State;
-use App\Models\Topo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -26,9 +33,22 @@ class CampController extends Controller
 
         
         $campList = Camp::select('camps.*')
+
                         ->join('states', 'camps.state', '=', 'states.name')
                         ->join('counties', 'camps.county', '=', 'counties.name')
-                        // ->groupBy('camps.id' )
+
+                        // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
+                        // ->join('site_types', 'camp_site_types.site_type_no', '=', 'site_types.id')
+
+                        // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
+                        // ->join('topos', 'camp_topos.topo_no', '=', 'topos.id')
+
+                        // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
+                        // ->join('amenities', 'camp_amenities.amenity_no', '=', 'amenities.id')
+
+                        // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
+                        // ->join('amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
+
                         ->orderBy('camps.county');
                         // ->limit()
         
@@ -38,6 +58,21 @@ class CampController extends Controller
         if($request->has('county') && $request->county != '0') {
             $campList->where('counties.id', $request->county);
         }
+        // if($request->has('site_type') && $request->site_type != '0') {
+        //     $campList->where('site_types.id', $request->site_type);
+        // }
+        // if($request->has('topo') && $request->topo != '0') {
+        //     $campList->where('topos.id', $request->topo);
+        // }
+        // if($request->has('amenity') && $request->amenity != '0') {
+        //     $campList->where('amenities.id', $request->amenity);
+        // }
+        // if($request->has('amusement') && $request->amusement != '0') {
+        //     $campList->where('amusements.id', $request->amusement);
+        // }
+        // if($request->has('price') && $request->price != '0') {
+        //     $campList->where('camps.price', $request->price);
+        // }
 
         $result = $campList->paginate(5);
         
