@@ -63,11 +63,7 @@ const routes = [
         path: "/faq",
         component:FaqComponent,
     },
-    {
-        path: '/:pathMatch(.*)*', 
-        name: 'NotFound',
-        component: NotFound
-    },
+
     // 관리자 라우터
     {
         path: "/admin",
@@ -88,6 +84,13 @@ const routes = [
     {
         path: "/AdvertisementManagement",
         component:AdvertisementManagement,
+    },
+
+    // 404 는 항상 맨 아래 위치
+    {
+        path: '/:pathMatch(.*)*', 
+        name: 'NotFound',
+        component: NotFound
     },
 ];
 

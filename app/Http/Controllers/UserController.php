@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Exceptions\MyAuthException;
 use App\Exceptions\MyValidateException;
+use App\Models\Business;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Validator;
@@ -118,6 +120,7 @@ class UserController extends Controller
         $validator = validator::make(
             $requestData,
             [
+                'business' => ['required'],
                 'password' => ['required', 'min:2', 'max:20', 'regex:/^[a-zA-Z0-9!@*]+$/'],
                 'ps_chk' => ['same:password'],
                 'nick_name' => ['required', 'min:2', 'max:10', 'regex:/^[가-힣a-zA-Z]+$/u'],
@@ -159,6 +162,87 @@ class UserController extends Controller
         ];
 
         return response()->json($responseData, 200);
+    }
+
+    // 사업자 회원가입 처리
+    public function bizRegister(Request $request)
+    {
+        $requestData = $request->all();
+        
+        // 유효성 검사 rules에 profile 추가
+        $validator = validator::make(
+            $requestData,
+            [
+                'business_code' => ['required', 'regex:/^\d{3}-\d{2}-\d{5}$/'],
+                'business_name' => ['required', 'regex:/^[가-힣a-zA-Z0-9()&,\s]+$/u'],
+                'password' => ['required', 'min:2', 'max:20', 'regex:/^[a-zA-Z0-9!@*]+$/'],
+                'ps_chk' => ['same:password'],
+                'nick_name' => ['required', 'min:2', 'max:10', 'regex:/^[가-힣a-zA-Z]+$/u'],
+                'name' => ['required', 'min:2', 'max:20', 'regex:/^[가-힣]+$/u'],
+                'email' => ['required', 'regex:/^[-A-Za-z0-9_]+[-A-Za-z0-9_.][@]{1}[-A-Za-z0-9_]+[-A-Za-z0-9_.][.]{1}[A-Za-z]{1,5}$/'],
+                'tel' => ['required', 'regex:/^(\d{2,3}-\d{3,4}-\d{4})|(\d{10,11})$/'],
+                'profile' => ['nullable', 'string'] // profile 필드 추가 (nullable은 선택 사항)
+            ]
+        );
+
+        if ($validator->fails()) {
+            Log::debug('유효성 검사 실패 회원가입', $validator->errors()->toArray());
+            throw new MyValidateException('E01');
+            return response()->json([
+                'status' => 'error',
+                'errors' => $validator->errors()
+            ], 422);
+        }
+
+        try{
+            $user = new User();
+            $user->name = $request->input('name');
+            $user->email = $request->input('email');
+            $user->password = Hash::make($request->input('password'));
+            $user->tel = $request->input('tel');
+            $user->profile = $request->input('profile', '/img/user.png');
+            $user->business = $request->input('business');
+            $user->nick_name = $request->input('nick_name');
+            $user->save();
+            
+            Log::debug('사업자 유저테이블 세이브', $user->toArray());
+
+            // 여기서 $user->id를 사용하여 다른 테이블에 인서트
+            $business = new Business();
+            $business->user_id = $user->id; // 이 부분에서 유저 테이블의 인서트된 ID를 참조
+            $business->business_name = $request->input('business_name');
+            $business->business_code = $request->input('business_code');
+            $business->save();
+            
+            Log::debug('사업자 비즈니스테이블 세이브', $business->toArray());
+
+            $responseData = [
+                'code' => '0',
+                'msg' => '회원가입 성공',
+                'data' => [
+                    'user' => $user,
+                    'business' => $business
+                ],
+            ];
+            
+            Log::debug('사업자회원가입 레스폰스', $responseData);
+
+            return response()->json($responseData, 200);
+
+        } catch(\Exception $e) {
+            DB::rollback();
+
+             // 오류 로그 기록
+            Log::error('회원가입 실패: ' . $e->getMessage());
+
+            // Log::debug('회원가입실패', $e->getMessage());
+
+            return response()->json([
+                'code' => '1',
+                'msg' => '회원가입 실패',
+                'error' => $e->getMessage(),
+            ], 500);
+        }
     }
 
 
@@ -346,7 +430,8 @@ class UserController extends Controller
             ,'msg' => '카카오 로그인 유저정보 획득 성공'
             ,'data' => $userInfo->toArray()
         ];
-        return response()->json($responseData, 200);
+        Log::debug('KakaoResponseData',$responseData );
+        return response()->json($responseData, 200)->cookie('auth', '1', 120, null, null, false, false);
     }
 }
 // ------------------------- 나라 카카오 로그인 -------------------------------
