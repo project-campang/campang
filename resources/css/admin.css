@@ -65,6 +65,12 @@
     text-align: center;
     font-weight: bold;
   }
+
+  .home-email {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
   
   /* 리스트 스타일 */
   .user-list {
@@ -134,7 +140,80 @@
   }
 
 /* Homepage 유저정보모달 */
-.home-user-modal, .home-user-modal2, .home-user-modal3  {
-    display: flex;
-    flex-direction: column;
+/* 모달 전체 스타일 */
+/* Modal header styles */
+.modal-header {
+  background-color: #f5f5f5;
+  border-bottom: 1px solid #ddd;
+  padding: 15px 20px;
+}
+
+.modal-title {
+  font-size: 1.25rem;
+  font-weight: bold;
+}
+
+.btn-close {
+  border: none;
+  background: none;
+  font-size: 1.25rem;
+}
+
+/* Modal body styles */
+.modal-body {
+  padding: 20px;
+}
+
+.home-user-modal {
+  font-family: Arial, sans-serif;
+  line-height: 1.5;
+}
+
+.home-user-modal p {
+  margin: 0 0 10px;
+  padding: 5px 0;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.home-user-modal .label {
+  font-weight: bold;
+  color: #5e5d5d;
+  display: inline-block;
+  width: 120px;
+}
+
+/* Modal footer styles */
+.modal-footer {
+  background-color: #f5f5f5;
+  border-top: 1px solid #ddd;
+  padding: 15px 20px;
+  text-align: right;
+}
+
+.btn {
+  min-width: 100px;
+  padding: 10px 15px;
+  font-size: 1rem;
+}
+
+.btn-secondary {
+  background-color: #6c757d;
+  border: none;
+  color: #fff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border: none;
+  color: #fff;
+}
+
+/* 유저 관리 */
+.search-input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
 }

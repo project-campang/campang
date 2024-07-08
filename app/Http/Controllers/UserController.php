@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
@@ -433,6 +434,66 @@ class UserController extends Controller
         Log::debug('KakaoResponseData',$responseData );
         return response()->json($responseData, 200)->cookie('auth', '1', 120, null, null, false, false);
     }
+    // ------------------------- 나라 카카오 로그인 -------------------------------
+
+
+
+
+
+
+
+    // 신규유저 가져오기 관리자페이지
+    public function newMember()
+    {
+        // 최신 가입 회원 5명을 가져오며, 각 회원의 게시글 수와 댓글 수를 함께 조회
+        $newUsers = User::select('users.id', 'users.name', 'users.email', 'users.tel', 'users.nick_name', 'users.profile', 'users.business', 'users.created_at', 'users.deleted_at')
+                        ->leftJoin('communities', 'users.id', '=', 'communities.user_id')
+                        ->leftJoin('comments', 'users.id', '=', 'comments.user_id')
+                        ->selectRaw('users.id, users.name, users.email, users.tel, users.nick_name, users.profile, users.business, users.created_at, users.deleted_at,
+                                    COUNT(DISTINCT communities.id) as post_count, 
+                                    COUNT(DISTINCT comments.id) as comment_count')
+                        ->orderBy('users.created_at', 'desc')
+                        ->groupBy('users.id', 'users.name', 'users.email', 'users.tel', 'users.nick_name', 'users.profile', 'users.business', 'users.created_at', 'users.deleted_at')
+                        ->take(5)
+                        ->get();
+
+        return response()->json(['data' => $newUsers], 200);
+    }
+    // 유저관리
+    public function userManagement()
+    {
+        // 최신 가입 회원 5명을 가져오며, 각 회원의 게시글 수와 댓글 수를 함께 조회
+        $newUsers = User::select('users.id', 'users.name', 'users.email', 'users.tel', 'users.nick_name', 'users.profile', 'users.business', 'users.created_at', 'users.deleted_at')
+                        ->leftJoin('communities', 'users.id', '=', 'communities.user_id')
+                        ->leftJoin('comments', 'users.id', '=', 'comments.user_id')
+                        ->selectRaw('users.id, users.name, users.email, users.tel, users.nick_name, users.profile, users.business, users.created_at, users.deleted_at,
+                                    COUNT(DISTINCT communities.id) as post_count, 
+                                    COUNT(DISTINCT comments.id) as comment_count')
+                        ->orderBy('users.created_at', 'desc')
+                        ->groupBy('users.id', 'users.name', 'users.email', 'users.tel', 'users.nick_name', 'users.profile', 'users.business', 'users.created_at', 'users.deleted_at')
+                        ->get();
+
+        return response()->json(['data' => $newUsers], 200);
+    }
+
+
+
+
+
+// 관리자-유저 탈퇴
+public function deleteUser($id)
+    {
+        $user = User::find($id);
+
+        if ($user) {
+            $user->deleted_at = Carbon::now();
+            $user->save();
+
+            return response()->json(['message' => 'User has been deleted'], 200);
+        } else {
+            return response()->json(['message' => 'User not found'], 404);
+        }
+    }
+
 }
-// ------------------------- 나라 카카오 로그인 -------------------------------
 

@@ -70,6 +70,11 @@ const store = createStore({
                 ,page: '1'
             },
             communityDetail:{},
+
+            // 관리자
+            newmember:{},
+            removeMember:{},
+            usermanagement:{},
         }
     },
     mutations: {
@@ -292,6 +297,17 @@ const store = createStore({
         setLocalInfo(state, data) {
             state.localInfo = data;
         },
+
+        // 관리자
+        setNewMember(state,data){
+            state.newmember = data;
+        },
+        setRemoveMember(state,data){
+            state.removeMember = data;
+        },
+        setUserManagement(state,data){
+            state.usermanagement = data;
+        },
     },
     actions: {
         // async login(context, loginForm) {
@@ -382,7 +398,7 @@ const store = createStore({
                 commit('setAuthFlg', false);
                 commit('setUserInfo', null);
                 localStorage.removeItem('userInfo');
-                router.replace('/main');
+                
             } catch (error) {
                 console.error('로그아웃 실패:', error.response.data.message);
             }
@@ -1309,7 +1325,63 @@ const store = createStore({
                 .catch(error => {
                     console.log('사진획득 실패', error.response);
                 })
+            },
+
+        // 관리자페이지 로그인
+        async adminLogin({ commit }, loginForm) {
+            try {
+                const response = await axios.post('/api/adminLogin', loginForm);
+                commit('setAuthFlg', true);
+                commit('setUserInfo', response.data.data);
+                router.push('/dashboard');
+                return response;
+            } catch (error) {
+                throw error;
             }
+        },
+
+        // 관리자페이지 신규유저
+        setNewMember(context) {
+            const url = '/api/Homepage/newmember';
+
+            axios.get(url)
+                .then(response => {
+                    context.commit('setNewMember', response.data.data);
+                    console.log(response.data.data);
+                })
+                .catch(error => {
+                    console.log(`신규유저 획득 실패 (${error.response.data.code})`);
+                    // console.log(response.data.data);
+                });
+        },
+
+        // 관리자페이지 - 유저탈퇴
+        deleteUser({ commit }, userId) {
+            return axios.post(`/api/users/${userId}/delete`)
+                .then(() => {
+                    commit('removeMember', userId);
+                    alert('사용자가 탈퇴되었습니다.');
+                    location.reload();
+                })
+                .catch(error => {
+                    console.error('사용자 탈퇴 중 에러 발생:', error);
+                    alert('사용자 탈퇴 중 에러가 발생했습니다.');
+                });
+        },
+
+        userManagement(context) {
+            const url = '/api/Homepage/userManagement';
+
+            axios.get(url)
+                .then(response => {
+                    context.commit('setUserManagement', response.data.data);
+                    console.log(response.data.data);
+                })
+                .catch(error => {
+                    console.log(`신규유저 획득 실패 (${error.response.data.code})`);
+                    // console.log(response.data.data);
+                });
+        },
 
     },
 
@@ -1336,5 +1408,7 @@ function calculateSimpleDistance(lat1, lon1, lat2, lon2) {
   
     // return R * c;
   }
+
+
 
 export default store;

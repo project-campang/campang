@@ -152,6 +152,16 @@ p {
     border: none;
     cursor: pointer;
 }
+.share {
+    position: relative;
+}
+.share > .shareTip {
+    position: absolute;
+    top: -55px;
+    left: 0;
+    width: 150px;
+    background-color: aquamarine;
+}
 
 /* 메인 바디 오른쪽 */
 .detail-right {

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
@@ -98,6 +99,17 @@ Route::delete('/api/community/comment/{id}/delete', [CommunityCommentController:
 
 
 
+
 // 위시 컨트롤러
     //위시 추가
 Route::post('/api/camp/{id}/wishBtnUpsert', [WishController::class, 'wishBtnUpsert']);
+
+// 관리자 페이지
+// 로그인
+Route::post('/api/adminLogin', [AdminController::class, 'adminLogin']);
+
+// 관리자페이지 신규유져 획득
+Route::get('/api/Homepage/newmember', [UserController::class, 'newMember']);
+// 유저관리
+Route::get('/api/Homepage/userManagement', [UserController::class, 'userManagement']);
+Route::post('/api/users/{id}/delete', [UserController::class, 'deleteUser']);

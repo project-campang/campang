@@ -24,7 +24,8 @@
                         <div class="review-nick">{{item.nick_name}}</div>
                         <div class="review-at content-font">{{item.created_at}}</div>
                     </div>
-                    <button @click="openDetailModal(item)" type="button"><img src="../../public/img/상세보기 화살표.png" alt=""></button>
+                    <!-- <button @click="openDetailModal(item)" type="button"><img src="../../public/img/상세보기 화살표.png" alt=""></button> -->
+                    <router-link :to="`/community/detail/${item.id}`"><img src="../../public/img/상세보기 화살표.png" alt=""></router-link>
                 </div>
             </div>
         </div>
