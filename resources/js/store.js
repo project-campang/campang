@@ -308,6 +308,9 @@ const store = createStore({
         setUserManagement(state,data){
             state.usermanagement = data;
         },
+        setadverTisement(state,data){
+            state.advertisement = data;
+        },
     },
     actions: {
         // async login(context, loginForm) {
@@ -1049,8 +1052,7 @@ const store = createStore({
         // campListGet(context, {page=1, state=0, county=0, caravan=false, }) {
         campListGet(context, inputData) {
             // const url = ('/api/search/searchPage?page=' + page);
-            // const url = ('/api/search/searchPage?page=' + page);
-            // const url = ('/api/search/searchPage?page=' + page + '&state=' + state + '&county=' + county);
+            const url = ('/api/search');
             const config = {
                 params: inputData
             }
@@ -1139,7 +1141,7 @@ const store = createStore({
         searchResult(context) {
             console.log('searchResult Start');
 
-            const url = ('/api/search/searchPage');
+            const url = ('/api/search');
 
             console.log(url);
 
@@ -1384,6 +1386,21 @@ const store = createStore({
                     // console.log(response.data.data);
                 });
         },
+        // 광고신청
+        adverTisement(context) {
+            const url = '/api/submitAd';
+
+            axios.get(url)
+                .then(response => {
+                    context.commit('setNewadverTisement', response.data.data);
+                    console.log(response.data.data);
+                })
+                .catch(error => {
+                    console.log(`신규유저 획득 실패 (${error.response.data.code})`);
+                    // console.log(response.data.data);
+                });
+        }
+
 
     },
 

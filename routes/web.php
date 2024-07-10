@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdvertiseController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
@@ -68,7 +69,7 @@ Route::get('/api/stampCnt', [CampController::class, 'stampCnt']);
 Route::post('/api/stampStore/{id}', [StampController::class, 'stampStore']);
 
 // 캠프 컨트롤러
-Route::get('/api/search/searchPage', [CampController::class, 'campListGet']);
+Route::get('/api/search', [CampController::class, 'campListGet']);
 // Route::post('/api/search/searchPage', [CampController::class, 'searchResult']); // 같은 처리이므로 불필요
 Route::get('/api/searchCount', [CampController::class, 'searchResultCount']);
 // Route::get('/api/camp/commentPage', [CommentController::class, 'commentPaginate']);
@@ -113,3 +114,6 @@ Route::get('/api/Homepage/newmember', [UserController::class, 'newMember']);
 // 유저관리
 Route::get('/api/Homepage/userManagement', [UserController::class, 'userManagement']);
 Route::post('/api/users/{id}/delete', [UserController::class, 'deleteUser']);
+
+// 광고
+Route::post('/api/submitAd', [AdvertiseController::class, 'submitAdForm']);
