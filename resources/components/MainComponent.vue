@@ -7,9 +7,9 @@
                     <img src="/img/logo-ko3.png" class="img-logo" loading="lazy">
                 </div>
                 <div class="main-search">
-
-                        <div class="search1">
-                            <span class="span1">어느 지역?</span>
+                    <div class="search1">
+                        <span class="span1">어느 지역?</span>
+                        <div class="select-box-grid-container">
                             <div class="main-select-box">
                                 <select @change="changeState" name="state" id="select1" class="select" v-model="stateSelete">
                                     <option :value="0">전체 시/도</option>
@@ -23,8 +23,10 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="search1">
-                            <span class="span2">어떤 캠핑?</span>
+                    </div>
+                    <div class="search1">
+                        <span class="span2">어떤 캠핑?</span>
+                        <div class="select-box-grid-container">
                             <div class="main-select-box">
                                 <select name="option" class="select">
                                     <option>선택</option>
@@ -35,7 +37,7 @@
                             </div>
                             <button type="button" @click="searchBtn" class="main-search-button">검색</button>
                         </div>
-
+                    </div>
                 </div>
             </div>
             <div class="main-ad">
@@ -45,7 +47,8 @@
                     </div>
                     <div class="ad-box-con">
                         <div class="ad-box" style="background-image: url('/camp_img/2/2-1.png'); background-repeat: no-repeat; background-size: cover;">
-                            <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;">
+                            <div class="ad-info">
+                                <!-- <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;"> -->
                                 <div class="ad-title">
                                     그린야영장
                                 </div>
@@ -55,7 +58,8 @@
                             </div>
                         </div>
                         <div class="ad-box" style="background-image: url('/camp_img/11/11-2.png'); background-repeat: no-repeat; background-size: cover;">
-                            <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;">
+                            <div class="ad-info">
+                                <!-- <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;"> -->
                                 <div class="ad-title">
                                     그린야영장
                                 </div>
@@ -65,7 +69,8 @@
                             </div>
                         </div>
                         <div class="ad-box" style="background-image: url('/camp_img/16/16-5.png'); background-repeat: no-repeat; background-size: cover;">
-                            <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;">
+                            <div class="ad-info">
+                                <!-- <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;"> -->
                                 <div class="ad-title">
                                     그린야영장
                                 </div>
@@ -78,82 +83,80 @@
                 </div>
             </div>
         </div>
-    
-    <!-- 두번째 -->
-    <div class="bg-white white-main main-second" data-section="2">
-        <div class="main-top">
-            <div class="main-top-left">
-                <div class="main-rank">
-                    <button type="button" class="main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
-                    <button type="button" class="main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
-                    <div class="main-rank-box">
-                        <div class="main-rank-cam1" v-if="isCampinglerVisible">
-                            <div v-for="(item, index) in $store.state.mainCampingler" :key="index">
-                                <img :src="item.profile">
-                                <p>{{ index + 1 }}위: {{ item.nick_name }}</p>
+        <!-- 두번째 -->
+        <div class="bg-white white-main main-second" data-section="2">
+            <div class="main-top">
+                <div class="main-top-left">
+                    <div class="main-rank">
+                        <button type="button" class="main-rank-btn-left"  @click="showCampingler"><h3>캠핑러</h3></button>
+                        <button type="button" class="main-rank-btn-right" id="campingzang" @click="showCampingzang"><h3>캠핑장</h3></button>
+                        <div class="main-rank-box">
+                            <div class="main-rank-cam1" v-if="isCampinglerVisible">
+                                <div v-for="(item, index) in $store.state.mainCampingler" :key="index">
+                                    <img :src="item.profile">
+                                    <p>{{ index + 1 }}위: {{ item.nick_name }}</p>
+                                </div>
+                            </div>
+                            <div class="main-rank-cam2" v-else>
+                                <div v-for="(item, index) in $store.state.mainCampingzang" :key="index">
+                                    <img :src="item.main_img">
+                                    <p>{{ index + 1 }}위: {{ item.name }}</p>
+                                </div>
                             </div>
                         </div>
-                        <div class="main-rank-cam2" v-else>
-                            <div v-for="(item, index) in $store.state.mainCampingzang" :key="index">
-                                <img :src="item.main_img">
-                                <p>{{ index + 1 }}위: {{ item.name }}</p>
+                    </div>
+                </div>
+                <div class="main-top-middle">
+                    <div class="main-mini-search">
+                        <div class="align-items-center justify-content-center popularBoard">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow ma-co-h">캠팡 인기글</h2>
+                                <router-link to="/community/1"><span class="btn btn-outline-success ma-co-b">더보기</span></router-link>
                             </div>
+                            <hr>
+                            <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span class="main-community-span">자유</span>{{ index + 1 }}위. {{ item.title }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="main-top-right">
+                    <div class="main-mini-search">
+                        <div class="align-items-center justify-content-center popularBoard">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow ma-co-h">캠팡 꿀팁</h2>
+                                <router-link to="/community/4"><span class="btn btn-outline-success ma-co-b">더보기</span></router-link>
+                            </div>
+                            <hr>
+                            <p class="freeBoardList" v-for="(item, index) in $store.state.tip" :key="index"><span class="main-span-tip">꿀팁</span>{{ index + 1 }}위. {{ item.title }}</p>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="main-top-middle">
-                <div class="main-mini-search">
-                    <div class="align-items-center justify-content-center popularBoard">
-                        <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow">캠팡 인기글</h2>
-                        <router-link to="/community/1"><span class="btn btn-outline-success">더보기</span></router-link>
-                        </div>
-                        <hr>
-                        <p class="freeBoardList" v-for="(item, index) in $store.state.mainCommunity" :key="index"><span class="main-community-span">자유</span>{{ index + 1 }}위. {{ item.title }}</p>
+            <div class="main-bottom" data-section="3">
+                <div class="main-right-top" data-counter>
+                    <div>
+                        <span class=" main-count">0</span>
+                        <p>가입유저수</p>
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAADNklEQVR4nO2dTUtVURSGnwZlgTUriqJBkVGQEEEG9jOylH5ANG0aCU4KxHFf5rBJRP6CpBpkSEQfQxsVBSlSlt997Ni4LtlNypv3nrXuve8D7+R6de/1rnP22eesfbYghBBCCCGEEEIIIUQ8tgE9wCAwBkwAS6YJ++wm0A1s9e5sI9EGDAGzQFqj8ndvAQe8O1/PbAEGgK8VGF+ufHb0A5u9g6k3DgCv1mF8uUaBXd5B1QtHbUxPVdZboN07uHo48idqYP7KJOz0DjIqm4HnNTS/pKd2fRFlDBRgfkl95Y03O23rnO1Uqi8ain5nqEDzS7rqdLCFvMOddUjAjO6Yl+lxML+kM9aHpmbQMQE3vIOPwJhjAvIdctMz6ZiAD03vPrDomIAFJQAlwJtJDUG+jOki7MtNxwRcd449BN2OCejyDj4CrfZYoGjzZ6xtwXIBvegE5KFPrKiELRVofr732FdqXCzTX2ACrliboqwkOVqA+Y+BlpUNi1/kgvmbGpr/Dti9oj2xCu22eqHa5ufEHlmtQfEn24GHVR52tBylQlps9cLMOmc7lzXmr4+dVkCvJBEzVu3SVLOKtFoNNz+/eWLFlEXTB/vsGnBad7hCCCGEEEIIIYQQQlT+5swxWzfUC9wGRuwtx9f2OuuCacI+yz+7b9/ttd/Nf0N7R/yDjUAHcAEYttJhLcqRw9ZGh7XZtGwAjlvBZcTpHbFZa7vP+pL71NDkAE/aM/v3DoanNZwhuW+djZaMHcBFYDyAyWmNGrc+59p03XLY3v+dD2Bo+k/N27LJQ9QRe60e+y2AgalK+g7cAfYTmE029VsIYFiqkXJslyLOoNqrvMFSCq6XkRZ5dTmt70/Oyht+nPI2/zzwI4AZyUk59nNe5p+1i1Nqcn23Rx6F7+8zFyD4FERzRW+R+ShA0CmYHhRlfmeAYFNQnWj07WVScBWy/c2LAIGmoHpWRAI+BQg0BdXHIhLgHWQKLiUAJcD9KEw6A/yNSBqC/M1IDtI1gAZPwOcAR1kKqjxFrzn3AgSagupuEQk4CEwFCDYF01SRT0T3WJF6OkDgyVnTduTrPzYJIYQQQgghhBBCCP7GT8suwKXYQNvyAAAAAElFTkSuQmCC">
+                    </div>
+                    <div>
+                        <span class=" main-count">0</span>
+                        <p>도장갯수</p>
+                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAADeklEQVR4nO2dTYhOURjHf4zvjwVm5SNlyVL5KGsZHxtFbKxkQZqlsLHRNBulwexRikhYWSkS5aPkIxthRBNGGgmlRydnUu/MO2be9973PPc9/1/9N/Nx75znN+fce+49970ghBBC5MFUYB1wBLgMPAWGgF8xQ/Fr4XuH48+G3xEFsxToAd4BNskMxN8N2xBNsgjoB342IKI2P4AzcZuiAXYBnwoQUZuPwE4ZmTjTYq+wknM67kuMw2zgegtkjORa3KcYgw7gSgtljOSGesrY9CeQMZJT6iKjD+CWODsk5S8L45mPJU44o+uUlLRDldWkL3chSwua9FlBCZPHJWRMjwMJVpPjZEq46PfWgQCrybt4Cp4d6xwU3+pkDRly1EHhrU4OkSEpZuU2wVwiQ546KLzVyRMy5LODwludhIlqdniaf9gY85HskBBnlHE30ArKIBny0kHhrU5ekCGtvDNok8xVMsTjdSzL+XrWZgeFtzrZSIbMjaeX5izfc174cNGBAKvJBTJmkwMBpuHqH1OA+w4kWMyD+DdlTZcDEZbzwXwsbjmQcTt1ETyxHvidUEbY99rURfBGX0IhJ1M33uu85FUCGW+A+akb75UtCYSEfYpxON9CGedk4v90xvsRZcsI+9DjbRNkXwuE7FXvmDgdJa9Kea6HdCbP9hKFhG2LBnrJm5KW+EyXjcY4UYIQPb7WBFtLEBLuVIoGWV6CkGWy0ThzShAyS0KawwqOkJD2wtRDfGES4guTEF+YhPjCJMQXJiFCCCFEdW9MrQR2A73AzYIWPQzGbfXGba/M9UNmxmMGsArYE1cP3gG+lXBmVS/h48mfAWeBbmADMI9MWBAb3B0L8Czxel4bJ+/jQ6nHgG3ACipMR2zAttig0LAPDopsTeZL7MEnY49eHXu4K1IPOZY4SYe8Kg051s5DXlgU8NpBI63ieR2fFmuaRt7ZoVD3XSZNo+JSaA0kBF//VBJCegkSQvrCSwjpiy0hpC+whJC+qBJC+kJKCOmLJyGkL5iEOCiSSUj6wpiEpC+GOYgundBmQgYcNMLaJOEVT03T5fRdUVaxvC3qBpUQQgjRLMMODoxW0XylBO45aJhVNHfLEHLQQcOsotlfhpCZwGMHjbOK5WGZa4DDq60fOWikVUjGYkom2D4Qx0Ud6BklYTjWZr/H1fFCCCFoW/4AQvL8SIqQ7nwAAAAASUVORK5CYII=">
+                    </div>
+                    <div>
+                        <span class=" main-count">0</span>
+                        <p>캠핑장 수</p>
+                    <img src="data:image/png;base64,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">
                     </div>
                 </div>
-            </div>
-            <div class="main-top-right">
-                <div class="main-mini-search">
-                    <div class="align-items-center justify-content-center popularBoard">
-                        <div class="d-flex justify-content-between align-items-center">
-                        <h2 class="animate__animated animate__bounce animate__repeat-3 animate__slow	">캠팡 꿀팁</h2>
-                        <router-link to="/community/4"><span class="btn btn-outline-success">더보기</span></router-link>
+                <!-- <div class="main-right-bottom">
+                    <div class="right-tv">
+                        <a href="#">캠팡 유튜브 <img src="/img/tv.png" alt="" loading="lazy"></a>
                     </div>
-                        <hr>
-                        <p class="freeBoardList" v-for="(item, index) in $store.state.tip" :key="index"><span class="main-span-tip">꿀팁</span>{{ index + 1 }}위. {{ item.title }}</p>
-                    </div>
-                </div>
+                </div> -->
             </div>
-        </div>
-        <div class="main-bottom" data-section="3">
-            
-            <div class="main-right-top" data-counter>
-                <div>
-                    <span class=" main-count">0</span>
-                    <p>가입유저수</p>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAAAsTAAALEwEAmpwYAAADNklEQVR4nO2dTUtVURSGnwZlgTUriqJBkVGQEEEG9jOylH5ANG0aCU4KxHFf5rBJRP6CpBpkSEQfQxsVBSlSlt997Ni4LtlNypv3nrXuve8D7+R6de/1rnP22eesfbYghBBCCCGEEEIIIUQ8tgE9wCAwBkwAS6YJ++wm0A1s9e5sI9EGDAGzQFqj8ndvAQe8O1/PbAEGgK8VGF+ufHb0A5u9g6k3DgCv1mF8uUaBXd5B1QtHbUxPVdZboN07uHo48idqYP7KJOz0DjIqm4HnNTS/pKd2fRFlDBRgfkl95Y03O23rnO1Uqi8ain5nqEDzS7rqdLCFvMOddUjAjO6Yl+lxML+kM9aHpmbQMQE3vIOPwJhjAvIdctMz6ZiAD03vPrDomIAFJQAlwJtJDUG+jOki7MtNxwRcd449BN2OCejyDj4CrfZYoGjzZ6xtwXIBvegE5KFPrKiELRVofr732FdqXCzTX2ACrliboqwkOVqA+Y+BlpUNi1/kgvmbGpr/Dti9oj2xCu22eqHa5ufEHlmtQfEn24GHVR52tBylQlps9cLMOmc7lzXmr4+dVkCvJBEzVu3SVLOKtFoNNz+/eWLFlEXTB/vsGnBad7hCCCGEEEIIIYQQQlT+5swxWzfUC9wGRuwtx9f2OuuCacI+yz+7b9/ttd/Nf0N7R/yDjUAHcAEYttJhLcqRw9ZGh7XZtGwAjlvBZcTpHbFZa7vP+pL71NDkAE/aM/v3DoanNZwhuW+djZaMHcBFYDyAyWmNGrc+59p03XLY3v+dD2Bo+k/N27LJQ9QRe60e+y2AgalK+g7cAfYTmE029VsIYFiqkXJslyLOoNqrvMFSCq6XkRZ5dTmt70/Oyht+nPI2/zzwI4AZyUk59nNe5p+1i1Nqcn23Rx6F7+8zFyD4FERzRW+R+ShA0CmYHhRlfmeAYFNQnWj07WVScBWy/c2LAIGmoHpWRAI+BQg0BdXHIhLgHWQKLiUAJcD9KEw6A/yNSBqC/M1IDtI1gAZPwOcAR1kKqjxFrzn3AgSagupuEQk4CEwFCDYF01SRT0T3WJF6OkDgyVnTduTrPzYJIYQQQgghhBBCCP7GT8suwKXYQNvyAAAAAElFTkSuQmCC">
-                </div>
-                <div>
-                    <span class=" main-count">0</span>
-                    <p>도장갯수</p>
-                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABkCAYAAABw4pVUAAAACXBIWXMAAAsTAAALEwEAmpwYAAADeklEQVR4nO2dTYhOURjHf4zvjwVm5SNlyVL5KGsZHxtFbKxkQZqlsLHRNBulwexRikhYWSkS5aPkIxthRBNGGgmlRydnUu/MO2be9973PPc9/1/9N/Nx75znN+fce+49970ghBBC5MFUYB1wBLgMPAWGgF8xQ/Fr4XuH48+G3xEFsxToAd4BNskMxN8N2xBNsgjoB342IKI2P4AzcZuiAXYBnwoQUZuPwE4ZmTjTYq+wknM67kuMw2zgegtkjORa3KcYgw7gSgtljOSGesrY9CeQMZJT6iKjD+CWODsk5S8L45mPJU44o+uUlLRDldWkL3chSwua9FlBCZPHJWRMjwMJVpPjZEq46PfWgQCrybt4Cp4d6xwU3+pkDRly1EHhrU4OkSEpZuU2wVwiQ546KLzVyRMy5LODwludhIlqdniaf9gY85HskBBnlHE30ArKIBny0kHhrU5ekCGtvDNok8xVMsTjdSzL+XrWZgeFtzrZSIbMjaeX5izfc174cNGBAKvJBTJmkwMBpuHqH1OA+w4kWMyD+DdlTZcDEZbzwXwsbjmQcTt1ETyxHvidUEbY99rURfBGX0IhJ1M33uu85FUCGW+A+akb75UtCYSEfYpxON9CGedk4v90xvsRZcsI+9DjbRNkXwuE7FXvmDgdJa9Kea6HdCbP9hKFhG2LBnrJm5KW+EyXjcY4UYIQPb7WBFtLEBLuVIoGWV6CkGWy0ThzShAyS0KawwqOkJD2wtRDfGES4guTEF+YhPjCJMQXJiFCCCFEdW9MrQR2A73AzYIWPQzGbfXGba/M9UNmxmMGsArYE1cP3gG+lXBmVS/h48mfAWeBbmADMI9MWBAb3B0L8Czxel4bJ+/jQ6nHgG3ACipMR2zAttig0LAPDopsTeZL7MEnY49eHXu4K1IPOZY4SYe8Kg051s5DXlgU8NpBI63ieR2fFmuaRt7ZoVD3XSZNo+JSaA0kBF//VBJCegkSQvrCSwjpiy0hpC+whJC+qBJC+kJKCOmLJyGkL5iEOCiSSUj6wpiEpC+GOYgundBmQgYcNMLaJOEVT03T5fRdUVaxvC3qBpUQQgjRLMMODoxW0XylBO45aJhVNHfLEHLQQcOsotlfhpCZwGMHjbOK5WGZa4DDq60fOWikVUjGYkom2D4Qx0Ud6BklYTjWZr/H1fFCCCFoW/4AQvL8SIqQ7nwAAAAASUVORK5CYII=">
-                </div>
-                <div>
-                    <span class=" main-count">0</span>
-                    <p>캠핑장 수</p>
-                   <img src="data:image/png;base64,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">
-                </div>
-            </div>
-            <!-- <div class="main-right-bottom">
-                <div class="right-tv">
-                    <a href="#">캠팡 유튜브 <img src="/img/tv.png" alt="" loading="lazy"></a>
-                </div>
-            </div> -->
         </div>
     </div>
-</div>
     <!-- 세번째 -->
     <div class="bg-white">
         <div class="third-main">
@@ -170,7 +173,7 @@
         </div>
     </div>
     <!-- 네번째 -->
-    <div class="bg-white">
+    <div class="bg-white brand-ad-container">
         <div class="last-main">
             <!-- <div id="carouselExampleSlidesOnly" class="carousel slide last-left" data-bs-ride="carousel">
                 <h2>캠팡 추천 캠핑장</h2>
@@ -206,51 +209,50 @@
         </div>
     </div>
     <!-- 모바일에서만 나오는 섹션 -->
-  <div v-if="isWithinTargetArea && authFlg">
-    <div class="animate__animated animate__pulse animate__infinite mobile-float" :class="{ hidden: isScrolled }">
-      <button type="button" class="btn my-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        지금 <b>{{ currentTarget.name }}</b>에 계시는군요!<br>도장찍으러 가기 >>
-      </button>
-    </div>
+    <div v-if="isWithinTargetArea && authFlg">
+        <div class="animate__animated animate__pulse animate__infinite mobile-float" :class="{ hidden: isScrolled }">
+        <button type="button" class="btn my-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            지금 <b>{{ currentTarget.name }}</b>에 계시는군요!<br>도장찍으러 가기 >>
+        </button>
+        </div>
 
-    <div class="animate__animated animate__pulse animate__infinite small-float" :class="{ hidden: !isScrolled }">
-      <button type="button" class="btn small-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        도장
-      </button>
+        <div class="animate__animated animate__pulse animate__infinite small-float" :class="{ hidden: !isScrolled }">
+        <button type="button" class="btn small-stamp-btn" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            도장
+        </button>
+        </div>
     </div>
-  </div>
-
-        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                <div class="modal-header">
-                    <!-- <h1 class="modal-title fs-5" id="exampleModalLabel"></h1> -->
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                        <div class=" modal-body-gap">
-                            <div class="text-center first-line animate__animated animate__tada animate__repeat-3">축하 합니다!</div>
-                        </div>
-                        <div class="modal-body-gap">
-                            <div class="text-center second-line">벌써 <b>{{stampCnt.cnt + 1}}</b>번째 정복중</div>
-                        </div>
-                        <div v-if="isWithinTargetArea" class="modal-body-gap">
-                            <div class="text-center third-line">{{currentTarget.name}}</div>
-                        </div>
-                        <button @click="createStamp" :class="{ stampBackGround: isStamped, animate__animated: isTrue, animate__bounce: isTrue }" class="modal-body-gap stampArea text-center">
-                            <div class="text-center stamp-pang">도장 팡팡!</div>
-                            <div class="click text-center">click</div>
-                        </button>
-                        <!-- <div class="text-center">
-                            <router-link to="/mypage"  class="text-center fifth-line"  @click="closeModalAndNavigate">도장판 보러가기 -></router-link>
-                        </div> -->
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
-                </div>
-                </div>
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+            <div class="modal-header">
+                <!-- <h1 class="modal-title fs-5" id="exampleModalLabel"></h1> -->
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                    <div class=" modal-body-gap">
+                        <div class="text-center first-line animate__animated animate__tada animate__repeat-3">축하 합니다!</div>
+                    </div>
+                    <div class="modal-body-gap">
+                        <div class="text-center second-line">벌써 <b>{{stampCnt.cnt + 1}}</b>번째 정복중</div>
+                    </div>
+                    <div v-if="isWithinTargetArea" class="modal-body-gap">
+                        <div class="text-center third-line">{{currentTarget.name}}</div>
+                    </div>
+                    <button @click="createStamp" :class="{ stampBackGround: isStamped, animate__animated: isTrue, animate__bounce: isTrue }" class="modal-body-gap stampArea text-center">
+                        <div class="text-center stamp-pang">도장 팡팡!</div>
+                        <div class="click text-center">click</div>
+                    </button>
+                    <!-- <div class="text-center">
+                        <router-link to="/mypage"  class="text-center fifth-line"  @click="closeModalAndNavigate">도장판 보러가기 -></router-link>
+                    </div> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
             </div>
         </div>
+    </div>
 
 
 </template>
