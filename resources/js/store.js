@@ -308,6 +308,9 @@ const store = createStore({
         setUserManagement(state,data){
             state.usermanagement = data;
         },
+        setadverTisement(state,data){
+            state.advertisement = data;
+        },
     },
     actions: {
         // async login(context, loginForm) {
@@ -1384,6 +1387,21 @@ const store = createStore({
                     // console.log(response.data.data);
                 });
         },
+        // 광고신청
+        adverTisement(context) {
+            const url = '/api/submitAd';
+
+            axios.get(url)
+                .then(response => {
+                    context.commit('setNewadverTisement', response.data.data);
+                    console.log(response.data.data);
+                })
+                .catch(error => {
+                    console.log(`신규유저 획득 실패 (${error.response.data.code})`);
+                    // console.log(response.data.data);
+                });
+        }
+
 
     },
 

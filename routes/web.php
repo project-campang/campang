@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdvertiseController;
 use App\Http\Controllers\CommunityController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\CommentController;
@@ -113,3 +114,6 @@ Route::get('/api/Homepage/newmember', [UserController::class, 'newMember']);
 // 유저관리
 Route::get('/api/Homepage/userManagement', [UserController::class, 'userManagement']);
 Route::post('/api/users/{id}/delete', [UserController::class, 'deleteUser']);
+
+// 광고
+Route::post('/api/submitAd', [AdvertiseController::class, 'submitAdForm']);
