@@ -1007,14 +1007,14 @@ const store = createStore({
          */
         async communityViews({ commit }, id) {
             try {
-              const response = await axios.post(`/api/community/increase-view/${id}`);
-              console.log('조회수+1 성공:', response.data);
-              commit('setCommunityList', response.data.data);
+                const response = await axios.post(`/api/community/increase-view/${id}`);
+                console.log('조회수+1 성공:', response.data);
+                commit('setCommunityList', response.data.data);
             } catch (error) {
-              console.error('조회수 증가 실패:', error.response.data);
-              throw error;
+                console.error('조회수 증가 실패:', error.response.data);
+                throw error;
             }
-          },
+        },
 
         /**
          * 게시글 수정 처리
@@ -1024,16 +1024,14 @@ const store = createStore({
         //     const url = '/api/community';
         //     const updateTitle = document.querySelector('#detail-modal-title');
         //     const updateContent = document.querySelector('#detail-modal-content');
-
         // },
-
 
         // 캠핑장 상세페이지 get 
         campDetailGet(context, id){
             const url = '/api/camp/'+id;
             console.log(url);
 
-            axios.get(url)
+                    axios.get(url)
             .then(response => {
                 context.commit('setCampDetail', response.data.data);
                 console.log(response.data);
@@ -1041,19 +1039,23 @@ const store = createStore({
             .catch( error => {
                 console.log('정보획득 실패 : ', error);
             })
-
         },
+
         /**
          * 캠핑장 데이터 획득
          * 
          * @param {*} context 
          */
-        campListGet(context, {page=1, state=0, county=0, caravan=false, glamping=false, }) {
+        // campListGet(context, {page=1, state=0, county=0, caravan=false, }) {
+        campListGet(context, inputData) {
             // const url = ('/api/search/searchPage?page=' + page);
             // const url = ('/api/search/searchPage?page=' + page);
-            const url = ('/api/search/searchPage?page=' + page + '&state=' + state + '&county=' + county);
+            // const url = ('/api/search/searchPage?page=' + page + '&state=' + state + '&county=' + county);
+            const config = {
+                params: inputData
+            }
             console.log(url);
-            axios.get(url)
+            axios.get(url, config)
             .then(response => {
 
                 const campList = response.data.data;
