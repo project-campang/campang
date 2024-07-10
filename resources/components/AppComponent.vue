@@ -235,7 +235,7 @@
                 </div>
                 <div class="modal-body">
                     <form @submit.prevent="submitAdForm" id="adForm">
-                        <input type="hidden" v-model="form.id">
+                        <input type="hidden" name="id" id="id" :value="form.id">
                         <div class="mb-3 row">
                             <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명 <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
@@ -332,8 +332,8 @@
         사업자 회원에 한해 제공되는 서비스 입니다.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
       </div>
     </div>
   </div>
