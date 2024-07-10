@@ -167,14 +167,14 @@ a {
     grid-template-columns: 1fr 1fr;
 }
 
-.search1 span {
+/* .search1 span {
     font-family: 'SUITE';
     font-weight: 900;
 }
 .search2 span {
     font-family: 'SUITE';
     font-weight: 900;
-}
+} */
 
 .main-mini-search {
     height: 360px;

@@ -17,8 +17,11 @@
                             </select>
                         </label>
                         <div class="search-btn-con">
-                            <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">빠른 검색</button>
-                            <button class="search-btn btn-bg-grey" type="button" @click="toggleAccordion">상세 검색</button>
+                            <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">빠른 검색 
+                                <img src="/img/search-icon.png" style="width: 15px;" alt="">
+                            </button>
+                            <button class="search-btn btn-bg-grey" type="button" @click="toggleAccordion">상세 검색 
+                                <img src="/img/arrow-icon.png" style="width: 12px;" alt=""></button>
                             <!-- {{ result }} -->
                         </div>
                         <!-- 아코디언 영역 -->
@@ -32,50 +35,50 @@
                                     <div class="items site-type">
                                         <span class="option-name">캠핑 유형</span>
                                         <div class="option-list">
-                                            <label for="caravan"><span><input type="checkbox" v-model="result.site_type" value="caravan" id="caravan"> 카라반</span></label>
-                                            <label for="glamping"><span><input type="checkbox" v-model="result.site_type" value="glamping" id="glamping"> 글램핑</span></label>
-                                            <label for="deck"><span><input type="checkbox" v-model="result.site_type" value="deck" id="deck"> 데크</span></label>
-                                            <label for="grass"><span><input type="checkbox" v-model="result.site_type" value="grass" id="grass"> 잔디</span></label>
-                                            <label for="gravel"><span><input type="checkbox" v-model="result.site_type" value="gravel" id="gravel"> 자갈</span></label>
-                                            <label for="crushed-stone"><span><input type="checkbox" v-model="result.site_type" value="crushed-stone" id="crushed-stone"> 파쇄석</span></label>
-                                            <label for="soil"><span><input type="checkbox" v-model="result.site_type" value="soil" id="soil"> 흙</span></label>
+                                            <label for="caravan"><span><input type="checkbox" v-model="result.site_type" value="1" id="caravan"> 카라반</span></label>
+                                            <label for="glamping"><span><input type="checkbox" v-model="result.site_type" value="2" id="glamping"> 글램핑</span></label>
+                                            <label for="deck"><span><input type="checkbox" v-model="result.site_type" value="3" id="deck"> 데크</span></label>
+                                            <label for="grass"><span><input type="checkbox" v-model="result.site_type" value="4" id="grass"> 잔디</span></label>
+                                            <label for="gravel"><span><input type="checkbox" v-model="result.site_type" value="5" id="gravel"> 자갈</span></label>
+                                            <label for="crushed-stone"><span><input type="checkbox" v-model="result.site_type" value="6" id="crushed-stone"> 파쇄석</span></label>
+                                            <label for="soil"><span><input type="checkbox" v-model="result.site_type" value="7" id="soil"> 흙</span></label>
                                         </div>
                                     </div>
                                     <div class="items topo">
                                         <span class="option-name">지형/환경</span>
                                         <div class="option-list">
-                                            <label for="river"><span><input type="checkbox" v-model="result.topo" value="river" id="river"> 강변</span></label>
-                                            <label for="valley"><span><input type="checkbox" v-model="result.topo" value="valley" id="valley"> 계곡</span></label>
-                                            <label for="ocean"><span><input type="checkbox" v-model="result.topo" value="ocean" id="ocean"> 바다</span></label>
-                                            <label for="mountain"><span><input type="checkbox" v-model="result.topo" value="mountain" id="mountain"> 산</span></label>
-                                            <label for="ground"><span><input type="checkbox" v-model="result.topo" value="ground" id="ground"> 초원</span></label>
+                                            <label for="river"><span><input type="checkbox" v-model="result.topo" value="1" id="river"> 강변</span></label>
+                                            <label for="valley"><span><input type="checkbox" v-model="result.topo" value="2" id="valley"> 계곡</span></label>
+                                            <label for="ocean"><span><input type="checkbox" v-model="result.topo" value="3" id="ocean"> 바다</span></label>
+                                            <label for="mountain"><span><input type="checkbox" v-model="result.topo" value="4" id="mountain"> 산</span></label>
+                                            <label for="ground"><span><input type="checkbox" v-model="result.topo" value="5" id="ground"> 초원</span></label>
                                         </div>
                                     </div>
                                     <div class="items amenities">
                                         <span class="option-name">편의 시설</span>
                                         <div class="option-list">
-                                            <label for="electricity"><span><input type="checkbox" v-model="result.amenity" value="electricity" id="electricity"> 전기</span></label>
-                                            <label for="wi-fi"><span><input type="checkbox" v-model="result.amenity" value="wi-fi" id="wi-fi"> 와이파이</span></label>
-                                            <label for="store"><span><input type="checkbox" v-model="result.amenity" value="store" id="store"> 편의점</span></label>
-                                            <label for="heated-water"><span><input type="checkbox" v-model="result.amenity" value="heated-water" id="heated-water"> 온수</span></label>
-                                            <label for="shower-booth"><span><input type="checkbox" v-model="result.amenity" value="shower-booth" id="shower-booth"> 샤워실</span></label>
-                                            <label for="barbecue"><span><input type="checkbox" v-model="result.amenity" value="barbecue" id="barbecue"> 바비큐</span></label>
+                                            <label for="electricity"><span><input type="checkbox" v-model="result.amenity" value="1" id="electricity"> 전기</span></label>
+                                            <label for="wi-fi"><span><input type="checkbox" v-model="result.amenity" value="2" id="wi-fi"> 와이파이</span></label>
+                                            <label for="store"><span><input type="checkbox" v-model="result.amenity" value="3" id="store"> 편의점</span></label>
+                                            <label for="heated-water"><span><input type="checkbox" v-model="result.amenity" value="4" id="heated-water"> 온수</span></label>
+                                            <label for="shower-booth"><span><input type="checkbox" v-model="result.amenity" value="5" id="shower-booth"> 샤워실</span></label>
+                                            <label for="barbecue"><span><input type="checkbox" v-model="result.amenity" value="6" id="barbecue"> 바비큐</span></label>
                                         </div>
                                     </div>
                                     <div class="items items-last amusement">
                                         <span class="option-name">즐길거리</span>
                                         <div class="option-list">
-                                            <label for="fishing"><span><input type="checkbox" v-model="result.amusement" value="fishing" id="fishing"> 낚시</span></label>
-                                            <label for="leisure"><span><input type="checkbox" v-model="result.amusement" value="leisure" id="leisure"> 수상 레저</span></label>
-                                            <label for="pool"><span><input type="checkbox" v-model="result.amusement" value="pool" id="pool"> 수영장</span></label>
-                                            <label for="sports"><span><input type="checkbox" v-model="result.amusement" value="sports" id="sports"> 체육 시설</span></label>
-                                            <label for="playground"><span><input type="checkbox" v-model="result.amusement" value="playground" id="playground"> 놀이터</span></label>
+                                            <label for="fishing"><span><input type="checkbox" v-model="result.amusement" value="1" id="fishing"> 낚시</span></label>
+                                            <label for="leisure"><span><input type="checkbox" v-model="result.amusement" value="2" id="leisure"> 수상 레저</span></label>
+                                            <label for="pool"><span><input type="checkbox" v-model="result.amusement" value="3" id="pool"> 수영장</span></label>
+                                            <label for="sports"><span><input type="checkbox" v-model="result.amusement" value="4" id="sports"> 체육 시설</span></label>
+                                            <label for="playground"><span><input type="checkbox" v-model="result.amusement" value="5" id="playground"> 놀이터</span></label>
                                         </div>
                                     </div>
                                     <div class="items items-last price">
                                         <div>
                                             <span class="option-name">가격대(₩)</span><br>
-                                            <span class="sub-text">(1박 기준 세금 포함)</span>
+                                            <span class="sub-text">(1박 기준 VAT 포함)</span>
                                         </div>
                                         <div class="option-list">
                                             <input type="number" v-model.number="result.priceMin" value="min" id="min" min="41000" max="60900">
@@ -113,11 +116,12 @@
                             </div>
                             <div class="item-info-3">
                                 <span class="item-price">₩{{ item.price }}
-                                    <span class="sub-text">(1박 기준 세금 포함)</span>
+                                    <span class="sub-text">(1박 기준 VAT 포함)</span>
                                 </span>
                             </div>
                             <div class="item-tel sub-text">
-                                <span>{{ item.tel }}</span>
+                                <img src="/img/tel.png" style="width: 10px;" lt="">
+                                <span>ㅤ{{ item.tel }}</span>
                             </div>
                         </div>
                         <div class="item-detail">
@@ -256,7 +260,8 @@ watch(() => store.state.campData, (newData) => {
 const imageUrls = {};
 
 function markerLoad() {
-    console.log('처음 로드되는 이벤트');
+    // console.log('처음 로드되는 이벤트');
+    // store.state.campData[0]= 
 }
 
 // item 클릭시 이벤트
@@ -276,10 +281,10 @@ const childElements = parentElement.querySelectorAll('img[title]');
 
     childElements.forEach(function(img) {
         const imgTitle = img.getAttribute('title');
-        console.log('imgTitle', imgTitle);
-        console.log('item.name', item.name);
+        // console.log('imgTitle', imgTitle);
+        // console.log('item.name', item.name);
         if (imgTitle === item.name) {
-            console.log('똑같다');
+            // console.log('똑같다');
             img.src = imageUrls[item.name] || '/images/center-pin.png';
             img.style.zIndex = '4';
         } else {
@@ -320,26 +325,22 @@ const stopResize = () => {
 
 // 검색 버튼
 function searchBtn() {
-    console.log('선택된 값:', result.value.state, result.value.county);
+    console.log('선택된 값:', result.state, result.county, result.site_type, result.topo, result.amenity, result.amusement);
 
     store.commit('setLocalInfo', result)
+    console.log('resultresultresultresultresultresultresult', result);
     store.dispatch('searchResult');
 }
 
 // 페이지네이션
 function prevPage() {
-    store.dispatch('campListGet', {page: store.state.campData.current_page-1, state: result.value.state, county: result.value.county});
+    store.dispatch('campListGet', {page: store.state.campData.current_page-1, state: result.state, county: result.county});
     console.log('-1', store.state.campData.current_page-1);
 }
 function nextPage() {
-    store.dispatch('campListGet', {page: store.state.campData.current_page+1, state: result.value.state, county: result.value.county});
+    store.dispatch('campListGet', {page: store.state.campData.current_page+1, state: result.state, county: result.county});
     console.log('+1', store.state.campData.current_page+1);
 }
-
-function openMarkerLink(url) {
-    window.location.href = url;
-    element.style.width = '200px';
-    }
 
 
 const adjustMarkerZIndex = () => {
@@ -352,8 +353,9 @@ const adjustMarkerZIndex = () => {
 
 let accordionFlg = ref(false);
 
+// 상세 검색 영역 토글
 const toggleAccordion = () => {
-    accordionFlg.value = !accordionFlg.value; // true <-> false 토글
+    accordionFlg.value = !accordionFlg.value;
 };
 
 onBeforeMount(() => {

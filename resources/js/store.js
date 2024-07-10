@@ -1049,8 +1049,7 @@ const store = createStore({
         // campListGet(context, {page=1, state=0, county=0, caravan=false, }) {
         campListGet(context, inputData) {
             // const url = ('/api/search/searchPage?page=' + page);
-            // const url = ('/api/search/searchPage?page=' + page);
-            // const url = ('/api/search/searchPage?page=' + page + '&state=' + state + '&county=' + county);
+            const url = ('/api/search');
             const config = {
                 params: inputData
             }
@@ -1139,7 +1138,7 @@ const store = createStore({
         searchResult(context) {
             console.log('searchResult Start');
 
-            const url = ('/api/search/searchPage');
+            const url = ('/api/search');
 
             console.log(url);
 

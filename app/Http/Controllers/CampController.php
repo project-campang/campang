@@ -34,24 +34,14 @@ class CampController extends Controller
         
         $campList = Camp::select('camps.*')
 
-                        ->join('states', 'camps.state', '=', 'states.name')
-                        ->join('counties', 'camps.county', '=', 'counties.name')
+        // 시/도
+        ->join('states', 'camps.state', '=', 'states.name')
+        // 군/구
+        ->join('counties', 'camps.county', '=', 'counties.name')
 
-                        // ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
-                        // ->join('site_types', 'camp_site_types.site_type_no', '=', 'site_types.id')
-
-                        // ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
-                        // ->join('topos', 'camp_topos.topo_no', '=', 'topos.id')
-
-                        // ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
-                        // ->join('amenities', 'camp_amenities.amenity_no', '=', 'amenities.id')
-
-                        // ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
-                        // ->join('amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
-
-                        // ->groupBy('camps.id', 'camps.name', 'camps.tel', 'camps.address', 'camps.state', 'camps.county', 'camps.latitude', 'camps.longitude', 'camps.info_text', 'camps.link', 'camps.price', 'camps.main_img', 'camps.other_img_1', 'camps.other_img_2', 'camps.other_img_3', 'camps.other_img_4', 'camps.other_img_5', 'camps.other_img_6', 'camps.other_img_7', 'camps.other_img_8', 'camps.other_img_9', 'camps.other_img_10', 'camps.created_at', 'camps.updated_at', 'camps.deleted_at')
-                        ->orderBy('counties.name');
-                        // ->limit()
+        ->groupBy('camps.id', 'camps.name', 'camps.tel', 'camps.address', 'camps.state', 'camps.county', 'camps.latitude', 'camps.longitude', 'camps.info_text', 'camps.link', 'camps.price', 'camps.main_img', 'camps.other_img_1', 'camps.other_img_2', 'camps.other_img_3', 'camps.other_img_4', 'camps.other_img_5', 'camps.other_img_6', 'camps.other_img_7', 'camps.other_img_8', 'camps.other_img_9', 'camps.other_img_10', 'camps.created_at', 'camps.updated_at', 'camps.deleted_at')
+        ->orderBy('counties.name');
+        // ->limit()
         
         if($request->has('state') && $request->state != '0') {
             $campList->where('states.id', $request->state);
@@ -59,27 +49,43 @@ class CampController extends Controller
         if($request->has('county') && $request->county != '0') {
             $campList->where('counties.id', $request->county);
         }
+        // 사이트 타입
         if($request->has('site_type')) {
-            $campList->where('site_types.id', $request->site_type);
+            $campList
+            ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
+            ->join('site_types', 'camp_site_types.site_type_no', '=', 'site_types.id')
+            ->where('site_types.id', $request->site_type);
         }
+        // 지형/환경
         if($request->has('topo')) {
-            $campList->where('topos.id', $request->topo);
+            $campList
+            ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
+            ->join('topos', 'camp_topos.topo_no', '=', 'topos.id')
+            ->where('topos.id', $request->topo);
         }
+        // 편의 시설
         if($request->has('amenity')) {
-            $campList->where('amenities.id', $request->amenity);
+            $campList
+            ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
+            ->join('amenities', 'camp_amenities.amenity_no', '=', 'amenities.id'
+            )->where('amenities.id', $request->amenity);
         }
+        // 즐길거리
         if($request->has('amusement')) {
-            $campList->where('amusements.id', $request->amusement);
+            $campList
+            ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
+            ->join('amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
+            ->where('amusements.id', $request->amusement);
         }
-        if($request->has('price')) {
-            $campList->where('camps.price', $request->price);
-        }
+        // if($request->has('price')) {
+        //     $campList->where('camps.price', $request->price);
+        // }
         
         $result = $campList->paginate(5);
 
         log::debug('****************************');
         // log::debug('result', $result->toArray());
-        log::debug('****************************');
+        // log::debug('****************************');
         
         $responseData = [
             'code' => '0'

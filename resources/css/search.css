@@ -91,7 +91,7 @@ a {
 #searchForm {
     margin: auto;
     display: grid;
-    grid-template-columns: 1.5fr 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr auto;
 }
 
@@ -113,9 +113,10 @@ a {
 }
 
 .address {
-    /* margin-right: 10px; */
+    min-width: 90%;
+    height: 40px;
+    line-height: 40px;
     width: 100%;
-    /* max-width: 150px; */
     height: 40px;
     border-radius: 10px;
     border: solid 1px rgb(171, 171, 171);
