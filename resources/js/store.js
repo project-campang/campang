@@ -74,7 +74,7 @@ const store = createStore({
             // 관리자
             newmember:{},
             removeMember:{},
-            usermanagement:{},
+            usermanagement:[],
         }
     },
     mutations: {

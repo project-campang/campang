@@ -211,7 +211,7 @@
             <h2>CAMPANG <img src="/img/logo-ko3.png" alt=""></h2>
             <div class="footer-btn-con">
                 <button class="footer-btn" @click.prevent="openCampRegister">캠핑장 등록 신청하기</button>
-                <button type="button" class="footer-btn" data-bs-toggle="modal" data-bs-target="#exampleModal2">광고 게시 신청하기</button>
+                <button type="button" class="footer-btn"  @click="openAdModal">광고 게시 신청하기</button>
             </div>
             <p>개인정보처리방침 | 전자우편무단수집거부 | 캠핑장 | 등록안내 | 미등록야영장불법영업신고</p>
             <p>
@@ -235,22 +235,22 @@
                 </div>
                 <div class="modal-body">
                     <form id="adForm">
-                        <div class="mb-3 row">
+                        <!-- <div class="mb-3 row">
                             <label for="businessNumber" class="col-sm-3 col-form-label">사업자 번호 *</label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="businessNumber" placeholder="사업자 번호를 입력하세요">
                                 <div class="valid-feedback">유효한 번호입니다.</div>
                                 <div class="invalid-feedback">사용할 수 없는 번호입니다.</div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="mb-3 row">
-                            <label for="businessName" class="col-sm-3 col-form-label">상호명 *</label>
+                            <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명 <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <input type="text" class="form-control" id="businessName" placeholder="상호명을 입력하세요">
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">광고 유형 *</label>
+                            <label class="col-sm-3 col-form-label">광고 유형 <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="btn-group" role="group1">
                                     <button type="button" class="btn btn-outline-primary" id="type1">캠핑장</button>
@@ -259,7 +259,7 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label for="adPeriod" class="col-sm-3 col-form-label">광고 기간 *</label>
+                            <label for="adPeriod" class="col-sm-3 col-form-label">광고 기간 <span class="text-danger">*</span></label>
                             <div class="col-sm-9 d-flex align-items-center">
                                 <input type="date" class="form-control me-2" id="adStart" value="2024-07-06">
                                 <span>~</span>
@@ -292,7 +292,25 @@
                             </div>
                         </div>
                         <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">채널플러스 수신 동의 *</label>
+                            <p>결제</p>
+                            <p>-----------------------------------------------------------------</p>
+                            <div class="form-text">캠팡은 무통장입금만 지원 하고 있습니다. 더 많은 결제서비스는 조금만 기다려 주세요 :) </div>
+                            <label for="name" class="col-sm-3 col-form-label">입금자명 <span class="text-danger">*</span></label>
+                            <div class="col-sm-9"><input type="text" class="form-control" id="name" placeholder="입금자명을 입력하세요"></div>
+                            <label for="name" class="col-sm-3 col-form-label">입금계좌 <span class="text-danger">*</span></label>
+                            <!-- <div class="col-sm-9"><input type="text" class="form-control" id="name" placeholder="상호명을 입력하세요"></div> -->
+                             <div class="col-sm-9">
+                                <select class="form-select " aria-label="Default select example">
+                                    <option selected>::선택:: 예약자명과 입금자명이 다른경우 고객센터로 연락주세요</option>
+                                    <option value="1">카카오뱅크 3333-05-8145823 이서린</option>
+                                    <!-- <option value="2">Two</option>
+                                    <option value="3">Three</option> -->
+                                </select>
+                            </div>
+                            <p>-----------------------------------------------------------------</p>
+                        </div>
+                        <div class="mb-3 row">
+                            <label class="col-sm-3 col-form-label">채널플러스 수신 동의 <span class="text-danger">*</span></label>
                             <div class="col-sm-9">
                                 <div class="btn-group" role="group2">
                                     <button type="button" class="btn btn-outline-primary me-2" id="agree">동의함</button>
@@ -309,6 +327,27 @@
             </div>
         </div>
     </div>
+
+<!-- 사업자 아닐경우 Modal -->
+<div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h1 class="modal-title fs-5" id="exampleModalLabel"></h1>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAACXBIWXMAAAsTAAALEwEAmpwYAAADo0lEQVR4nO2ZPWxbVRiGn6ogYAAqWAqqyo8ECwMCJDoxVCBRMZSFARZgACHBwI8ETAyIpQNiZOhYAYKwJChIKfY9N3EqQqsQ35u4dpqmokoDSkVpEvVcO3Zqv+haTpqmTnDq+9OIfNK3ZXiec77Xx/4CO/U/Lk3zvM7xkf7gENut6pMcbUyhxlnUmEb1aXokdrEdShMcVBE1SqgxiRpnUCijaV7iVqq/T3B3YHim7PCaNXwSGN61Lm/WRjGNcaTTKBRZkVGJj9NmRi53ll1etYafrEMtMGijruRQ7SRalSlwOFX4wOUVazi/GXS7toZGdYQluexJBXxhgPsCw/Gtggc39mglw6OJwpcdHgocihHAq9kO81eyHEwE3rrstQ4XIoM3q71oHZ6MFV497A4c3Bjg1crFn3aIB2ITCBw+jws+uNbfxgJfzrDfOlTiFrAOjXKW5yIXsIavEjh9tUKdifyhChwuJyVgDVeDX3gw0scqsdM3rc7yQWQC1tCXtIA1fBcJ/GKG+62hmvgNGH6PRCAwvJcCvALDQiQC1nAyFQGHy13DLw3yWPi5nIaAdZjpWiAwfJHS+ChwmOgKPvytag3nUhMwXX6lCJ/zFOEVGN7pSiAwHE0L3hrqXb3Era8O8ynOf6Zz2AJ7VeQtFfk07HqJI/UCX5eHmGyeRDo38EZn8FPcoQnON7cD69Yd4e6mfhrVxlB5aPNNQ8TwQbia6Uwgz8MK1xsTrS60RFZkStdkrhZQ7VRTJu7x+abz8RG75PODfNQUGV8jspFMCS2Po+pvKHBjuYEXOxZYcxNPyOOIPOZWZSbayBTbyHho6dfIZObkctuWBVZFetitMV5QnmPysdfdSrsRa5OXynBX4/PlTcPfIDPKvfJ4XR4ZeTQ6HrEu8mLjWqvIZ5983peHF2NeCrHAb5SX+hgXt5KXehHV8q28mLann+yWeraP8zO9jMy7DNXzN5eX8hCLrU+eeuCyL1EBm2V+/ji6+DOa7WPhr35y9gT+VvOyPE6lOkJv4v+pqQ3TvzyMlgbRlSz6ZwDN9aPZXi5cyvK9PCY3zUtx3YiVOKZRbk9MoDrIU7VhlkKJlS67aCFD9dIAz173vvgd5yWrKe5JTGI5x6HlHGfXSPi1HAfW/114svI5rDw/yqPyH3k5pRnuSkyiCTjMfnW4VVaePcrztvLkNsnLy2yHkscj8vhMPmdWR8ynKo/H2W4ljwPK86F8nk6bZad2ilu8/gUxZMZ9CcOCcQAAAABJRU5ErkJggg==">
+        <br>
+        사업자 회원에 한해 제공되는 서비스 입니다.
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 <!-- 두번째광고모달 -->
     <div class="modal fade" id="exampleModal3" tabindex="-1" aria-labelledby="exampleModalLabel3" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
@@ -1070,6 +1109,21 @@ function submitAdForm() {
 
     adCompleteModal.value = true;
 }
+
+// 사업자회원인지 아닌지 판단
+const userBusiness = ref(null);
+
+const openAdModal = () => {
+  // 로그인 후에 Vuex 상태가 업데이트되지 않은 경우를 대비하여 userInfo를 직접 접근
+  const userInfo = store.state.userInfo;
+  console.log(userInfo);
+  
+  if (userInfo && userInfo.business === '2') {
+    $('#exampleModal2').modal('show');
+  } else {
+    $('#exampleModal3').modal('show');
+  }
+};
 
 </script>
 
