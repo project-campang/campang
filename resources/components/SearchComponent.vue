@@ -120,7 +120,7 @@
                             </div>
                         </div>
                         <div class="item-detail">
-                            <button>
+                            <button type="button" class="btn">
                                 <a :href="`/camp/${item.id}`">
                                     <img src="../../public/img/상세보기 화살표.png" alt="">
                                 </a>
@@ -128,9 +128,9 @@
                         </div>
                     </div> 
                     <div class="pagination">
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == null" @click="prevPage()"><ㅤ</button>
+                        <button class="btn pre-next-btn" type="button" :disabled="$store.state.campData.current_page == null" @click="prevPage()"><ㅤ</button>
                         <div class="page-num">{{ $store.state.campData.current_page+'ㅤ/ㅤ'+$store.state.campData.last_page }}</div>
-                        <button class="pre-next-btn" type="button" :disabled="$store.state.campData.current_page == $store.state.campData.last_page" @click="nextPage()">ㅤ> </button>
+                        <button class="btn pre-next-btn" type="button" :disabled="$store.state.campData.current_page == $store.state.campData.last_page" @click="nextPage()">ㅤ> </button>
                     </div>          
                 </div>
             </div>

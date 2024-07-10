@@ -41,7 +41,7 @@
                                 </div>
                                 <div class="shop-info-btn-container">
                                     <div class="shop-info-btn-item share">
-                                        <button @click="shareBtn()" class="btn-group">
+                                        <button @click="shareBtn()" class="btn btn-group">
                                             <img class="shop-info-btn" src="../../public/img_nr/공유하기.png" alt="공유">
                                             <div  class="shop-info-btn-name" id="share-btn">공유하기</div>
                                         </button>
@@ -51,7 +51,7 @@
                                     </div>
                                     <div class="shop-info-btn-item">
                                         <!-- <button @click="toggleWish" class="btn-group"> -->
-                                        <button @click="toggleWish()" class="btn-group">
+                                        <button @click="toggleWish()" class="btn btn-group">
                                             <img v-if="!$store.state.wishes"  class="shop-info-btn" src="../../public/img_nr/찜하기.png" alt="찜전">
                                             <img v-else class="shop-info-btn" src="../../public/img_nr/찜하기_활성화.png" alt="찜후">
                                             <div class="shop-info-btn-name">찜하기</div>
@@ -128,8 +128,8 @@
                     </div>
                     <hr>
                     <div class="comment-review-tap">
-                        <button type="button" class="comment-tap" @click="showCommentTap">댓글</button>
-                        <button type="button" class="review-tap" @click="showReviewTap">리뷰</button>
+                        <button type="button" class="btn comment-tap" @click="showCommentTap">댓글</button>
+                        <button type="button" class="btn review-tap" @click="showReviewTap">리뷰</button>
                     </div>
                     <div class="tapUI-container">
                         <div class="comment-container" v-if="detailTapUI">
