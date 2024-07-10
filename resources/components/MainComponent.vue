@@ -175,33 +175,15 @@
     <!-- 네번째 -->
     <div class="bg-white brand-ad-container">
         <div class="last-main">
-            <!-- <div id="carouselExampleSlidesOnly" class="carousel slide last-left" data-bs-ride="carousel">
-                <h2>캠팡 추천 캠핑장</h2>
-                <p>캠팡 제휴업체에서 할인받자 !</p>
-                <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
-                <div class="carousel-container">
-                    <div class="carousel-inner h-100">
-                        <div class="carousel-item h-100" data-bs-interval="5000"
-                            v-for="(camp, index) in $store.state.suggestCam"
-                            :class="{'active': index === 0}"
-                            :key="index">
-                            <img :src="camp.main_img" class="d-block last-box-img h-100" alt="추천 캠핑장 이미지">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h1>{{ camp.name }}</h1>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
             <div class="last-right">
-                <h2>캠팡 추천 브랜드</h2>
-                <p>믿고 보는 캠팡PICK!</p>
+                <h2>믿고 보는 캠팡PICK!</h2>
+                <p class="suggest-brand">캠팡 추천 브랜드</p>
                 <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="last-right-box">
                     <div class="slider">
-                        <div class="slide" v-for="(item, key) in $store.state.suggestbrand" :key="key">
+                        <div class="slide" v-for="(item, key) in $store.state.suggestbrand.concat($store.state.suggestbrand)" :key="key">
                             <img :src="item.img" alt="브랜드 이미지">
-                            <p>{{ item.name }}</p>
+                            <!-- <p>{{ item.name }}</p> -->
                         </div>
                     </div>
                 </div>

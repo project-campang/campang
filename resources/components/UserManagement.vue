@@ -103,18 +103,18 @@ import { ref, computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const userManagement = ref([]);
+const userManagement = ref([]); // 배열로 초기화
 const selectedUser = ref(null);
 const filterText = ref('');
 
-onBeforeMount(() => {
-    store.dispatch('userManagement')
-        .then(() => {
-          userManagement.value = store.state.usermanagement;
-        })
-        .catch((error) => {
-            console.error('신규 유저를 가져오는 도중 에러 발생:', error);
-        });
+onBeforeMount(async () => {
+    try {
+        await store.dispatch('userManagement');
+        userManagement.value = store.state.usermanagement; // 데이터 할당
+        console.log('유저 정보:', userManagement.value); // 데이터 확인
+    } catch (error) {
+        console.error('유저 정보를 가져오는 도중 에러 발생:', error);
+    }
 });
 
 const showUserDetails = (user) => {
@@ -129,21 +129,22 @@ const confirmDeleteUser = (user) => {
 
 // 검색어를 기준으로 유저 목록을 필터링하는 computed 프로퍼티
 const filteredUsers = computed(() => {
-const text = filterText.value.toLowerCase().trim();
-if (!text) {
-  // 검색어가 없을 때는 전체 유저 목록을 반환
-  return userManagement.value;
-}
-// 검색어를 포함하는 유저를 필터링하여 반환
-return userManagement.value.filter(user => {
-  return (
-    user.id.toString().toLowerCase().includes(text) ||
-    user.email.toLowerCase().includes(text) ||
-    user.name.toLowerCase().includes(text) ||
-    user.nick_name.toLowerCase().includes(text) ||
-    user.tel.toLowerCase().includes(text)
-  );
-  });
+  const text = filterText.value.toLowerCase().trim();
+  if (!text) {
+    // 검색어가 없을 때는 전체 유저 목록 반환
+    return userManagement.value;
+  } else {
+    // 검색어를 포함하는 유저를 필터링하여 반환
+    return userManagement.value.filter(user => {
+      return (
+        user.id.toString().toLowerCase().includes(text) ||
+        user.email.toLowerCase().includes(text) ||
+        user.name.toLowerCase().includes(text) ||
+        user.nick_name.toLowerCase().includes(text) ||
+        user.tel.toLowerCase().includes(text)
+      );
+    });
+  }
 });
 
 </script>
