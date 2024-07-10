@@ -74,8 +74,12 @@ class CampController extends Controller
         if($request->has('price')) {
             $campList->where('camps.price', $request->price);
         }
-
+        
         $result = $campList->paginate(5);
+
+        log::debug('****************************');
+        // log::debug('result', $result->toArray());
+        log::debug('****************************');
         
         $responseData = [
             'code' => '0'
@@ -87,11 +91,6 @@ class CampController extends Controller
     
         return response()->json($responseData, 200);
     }
-
-
-
-
-
 
     // // 검색 결과 획득
     // public function searchResult(Request $request) {
@@ -123,7 +122,6 @@ class CampController extends Controller
     
     //     return response()->json($responseData, 200);
     // }
-
 
     //   카운트 획득
     public function searchResultCount(Request $request) {
@@ -183,10 +181,6 @@ class CampController extends Controller
     //     return response()->json($responseData, 200);
     // }
 
-
-
-
-
     public function suggestCampingzang(Request $request)
 
     {
@@ -238,11 +232,6 @@ class CampController extends Controller
 
 }
 
-    
-
-
-
-
     // public function campDetailGet($id){ // TODO : 미완성
     //     // 캠핑장 데이터 획득
     //     // $sql = Camp::select('*')->whereNull('deleted_at')->get();
@@ -268,7 +257,6 @@ class CampController extends Controller
         Log::debug('상세', $responseData);
         return response()->json($responseData, 200);
     }
-
 
     // test
     private function getCampDetail($id) {

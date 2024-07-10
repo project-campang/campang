@@ -20,7 +20,7 @@
 
 button {
     border: 0;
-    background-color: transparent;
+    /* background-color: transparent; */
 }
 
 .router-view-container {
@@ -98,6 +98,7 @@ a {
     text-decoration: none;
   }
 .main-main {
+    height: 90%;
     width: 100%;
     background-image: url("/img/main.gif");
     background-size: cover;
@@ -717,7 +718,7 @@ a {
 
 /* last-main */
 .last-main {
-    padding: 50px;
+    /* padding: 50px; */
     display: grid;
     /* margin: 15rem auto; */
     text-align: center;
@@ -727,7 +728,10 @@ a {
     background-position: center; */
 }
 .main-promotion {
-    font-size: 0.5rem;
+    font-family: 'SUITE';
+    font-weight: 900;
+    font-size: 0.7rem;
+    color: #737070;
 }
 /* last-left */
 .last-left {
@@ -753,33 +757,42 @@ a {
 }
 
 .carousel-item img {
-    width: 1200px;
-    height: 700px;
+    /* width: 1200px;
+    height: 700px; */
 }
 
 
 /* last-right */
 .last-right {
+    background-color: #fff;
     text-align: center;
     width: 100%;
     /* max-width: 1200px; */
     margin: auto;
 }
 
+.suggest-brand {
+    font-family: 'SUITE';
+    font-weight: 900;
+    font-size: 1.2rem;
+}
+
 .last-right-box {
+    height: 100%;
     overflow: hidden;
     white-space: nowrap;
     position: relative;
     padding: 10px;
-    background-color: #fff;
+    /* background-color: #fff; */
     border-radius: 15px;
 }
 
 /* slider 애니메이션 */
 .slider {
     display: flex;
+    justify-content: space-around;
+    overflow: hidden;
     animation: slide 20s linear infinite;
-    justify-content: space-around
 }
 
 /* slide 스타일 */
@@ -788,10 +801,24 @@ a {
     margin: auto 10px;
     white-space: normal;
     text-align: center;
+    flex: 0 0 auto;
+}
+/* 
+@keyframes slide {
+    0% {
+        transform: translateX(0%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
 }
 
+.slide {
+    animation: slide 2s linear infinite;
+} */
+
 .slide img {
-    max-width: 100px;
+    max-width: 300px;
     height: auto;
     display: block;
     margin: 0 auto;
@@ -810,11 +837,12 @@ a {
 /* Bootstrap 캐러셀 */
 .carousel-item img {
     max-width: 100%;
-    height: auto;
+    /* height: auto; */
     object-fit: cover;
 }
 .carousel-container {
-    height: 600px;
+    height: 1800px;
+    width: 100%;
 }
 /* .my-carousel-inner {
     height: 100%;
@@ -1008,9 +1036,10 @@ a {
     /* background-color: #ABE188; */
     padding: 20px;
     border-radius: 15px;
-    background-image: url(/img/error.png);
+    /* background-image: url(/img/error.png); */
     background-position: center;
     background-size: contain;
+    width: 100vw;
 }
 
 /* 버튼 스타일 */
