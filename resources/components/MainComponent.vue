@@ -186,6 +186,12 @@
                             <!-- <p>{{ item.name }}</p> -->
                         </div>
                     </div>
+                    <div class="slider2">
+                        <div class="slide2" v-for="(item, key) in $store.state.suggestbrand.concat($store.state.suggestbrand)" :key="key">
+                            <img :src="item.img" alt="브랜드 이미지">
+                            <!-- <p>{{ item.name }}</p> -->
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -336,11 +342,11 @@ window.onload = () => {
     let max;
 
     if (index === 0) {
-      max = 124; // 첫 번째 항목의 목표 수치 설정
+      max = 500; // 첫 번째 항목의 목표 수치 설정
     } else if (index === 1) {
-      max = 322; 
+      max = 675; 
     } else if (index === 2) {
-      max = 467; // 세 번째 항목의 목표 수치 설정
+      max = 2278; // 세 번째 항목의 목표 수치 설정
     }
 
     setTimeout(() => counter($counter, max), 2000 * index);

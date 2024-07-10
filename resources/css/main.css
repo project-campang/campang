@@ -697,18 +697,22 @@ a {
         width: 100%;
         height: auto;
         margin: 10rem auto;
+        grid-template-rows: 1fr 0.2fr;
     }
 
     .main-top {
         grid-template-columns: 1fr;
-        gap: 10px;
+        gap: 35px;
         margin: 10px;
         height: auto;
     }
 
-    .main-top-left, .main-top-middle, .main-top-right {
+    .main-top-left, .main-top-middle{
         width: 100%;
         margin: 0;
+    }
+    .main-top-right {
+        display: none;
     }
 
     .main-rank {
@@ -725,17 +729,16 @@ a {
     }
 
     .main-right-top {
-        grid-template-columns: 1fr;
         padding: 10px;
     }
 
     .main-right-top img {
-        width: 100px;
+        width: 80px;
         margin: 10px auto;
     }
 
     .main-count {
-        font-size: 2.5rem;
+        font-size: 1.9rem;
     }
 
     .freeBoardList {
@@ -753,19 +756,12 @@ a {
         font-size: 0.8rem;
     }
 }
-
-@media screen and (max-width: 480px) {
-
-    .main-count {
-        font-size: 2rem;
-    }
-}
 /* bg-white 끝 */
 
 /* 세번째시작 */
 .third-main {
     background-image:url(/img/main-bg3.webp);
-    margin-top: 15rem;
+    margin-top: 10rem;
     margin-bottom: 5rem;
     background-size: cover;
     background-position: center;
@@ -803,6 +799,26 @@ a {
 
 .third-main-btn {
     padding: 0;
+}
+
+@media screen and (max-width: 700px) {
+    .third-main {
+        background-size: cover;
+        background-position: -1070px bottom;
+        margin-top: 7rem;
+    }
+    .third-main-p {
+        padding: 30px;
+    }
+    .third-main-p h1 {
+        font-size: 2.5rem;
+    }
+    .third-main-p p {
+        font-size: 0.7rem;
+    }
+    .third-main-p a {
+        margin-top: 20px;
+    }
 }
 /* 세번째끝 */
 /* 네번째시작 */
@@ -864,7 +880,7 @@ a {
 .last-right {
     text-align: center;
     margin: auto;
-    width: 100%;
+    width: 95vw;
 
 }
 
@@ -880,20 +896,44 @@ a {
     white-space: nowrap;
     position: relative;
     padding: 10px;
-    /* background-color: #fff; */
+    background-color: #fff;
     border-radius: 15px;
+    display: flex;
 }
 
 /* slider 애니메이션 */
 .slider {
     display: flex;
     justify-content: space-around;
-    overflow: hidden;
-    animation: slide 20s linear infinite;
+    /* overflow: hidden; */
+    /* animation: slide 20s linear infinite; */
+    animation-iteration-count: infinite;
+    animation-duration: 15s;
+    animation-timing-function: linear;
+    animation-fill-mode: backwards;
+    animation-name: slide;
+}
+.slider2 {
+    display: flex;
+    justify-content: space-around;
+    /* overflow: hidden; */
+    /* animation: slide 20s linear infinite; */
+    animation-iteration-count: infinite;
+    animation-duration: 15s;
+    animation-timing-function: linear;
+    animation-fill-mode: backwards;
+    animation-name: slide2 ;
 }
 
 /* slide 스타일 */
 .slide {
+    display: inline-block;
+    margin: auto 10px;
+    white-space: normal;
+    text-align: center;
+    flex: 0 0 auto;
+}
+.slide2 {
     display: inline-block;
     margin: auto 10px;
     white-space: normal;
@@ -915,16 +955,30 @@ a {
 } */
 
 .slide img {
-    max-width: 300px;
+    max-width: 200px;
     height: auto;
-    display: block;
+    /* display: block; */
+    margin: 0 auto;
+}
+.slide2 img {
+    max-width: 200px;
+    height: auto;
+    /* display: block; */
     margin: 0 auto;
 }
 
 /* 캐러셀 애니메이션 */
 @keyframes slide {
     0% {
-        transform: translateX(0%);
+        transform: translateX(100%);
+    }
+    100% {
+        transform: translateX(-100%);
+    }
+}
+@keyframes slide2 {
+    0% {
+        transform: translateX(100%);
     }
     100% {
         transform: translateX(-100%);
