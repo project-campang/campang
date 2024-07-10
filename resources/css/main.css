@@ -1312,6 +1312,26 @@ a {
     align-items: center;
 }
 
+/* 광고 완료 모달 */
+.footer-complete {
+    display: flex;
+}
+
+.footer-complete img {
+    width: 50px;
+    height: 50px;
+}
+
+.complete-title{
+    font-size: 2rem;
+}
+
+.complete-footer {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #b6b5b5;
+}
+
 
 
 
