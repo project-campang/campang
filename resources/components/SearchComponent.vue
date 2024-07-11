@@ -80,9 +80,9 @@
                                         <span class="sub-text">(1박 기준 VAT 포함)</span>
                                     </div>
                                     <div class="option-list">
-                                        <input type="number" v-model.number="result.priceMin" value="min" id="min" min="41000" max="60900">
+                                        <input type="number" v-model.number="result.priceMin" value="min" id="min" min="40000" max="60900">
                                         <span>ㅤ~ㅤ</span>
-                                        <input type="number" v-model.number="result.priceMax" value="max" id="max" min="41000" max="60900">
+                                        <input type="number" v-model.number="result.priceMax" value="max" id="max" min="40000" max="60900">
                                         <button class="btn-bg-green" type="button" @click="searchBtn">검색</button>
                                     </div>
                                 </div>
@@ -106,7 +106,7 @@
                         <div class="item-info">
                             <div>
                                 <span class="item-name">{{ item.name }}</span>
-                                <span class="item-distance sub-text">87.2km</span>
+                                <!-- <span class="item-distance sub-text">87.2km</span> -->
                             </div>
                             <div class="item-info-2">
                                 <span class="address-depth sub-text">{{ item.state }} > {{ item.county }}> </span>
@@ -161,8 +161,9 @@
                             }"
                         ></KakaoMapMarker>
                         <KakaoMapMarker
-                            :lat="coordinate.lat"
-                            :lng="coordinate.lng"
+                            :lat="store.state.userPosition.latitude"
+                            :lng="store.state.userPosition.longitude"
+                            :title="('현재 나의 위치')"
                             :image="{
                                 imageSrc: '/images/center-pin.png',
                                 imageWidth: 35,
@@ -348,22 +349,47 @@ function searchBtn() {
 
 // 페이지네이션
 function prevPage() {
-    store.dispatch('campListGet', {page: store.state.campData.current_page-1, state: result.state, county: result.county});
+    store.dispatch('campListGet', {
+        page: store.state.campData.current_page-1,
+        state: result.state,
+        county: result.county,
+        site_type: result.site_type,
+        topo: result.topo,
+        amenity: result.amenity,
+        amusement: result.amusement,
+        priceMin: result.priceMin,
+        priceMax: result.priceMax,
+    });
     console.log('-1', store.state.campData.current_page-1);
 }
 function nextPage() {
-    store.dispatch('campListGet', {page: store.state.campData.current_page+1, state: result.state, county: result.county});
+    store.dispatch('campListGet', {
+        page: store.state.campData.current_page+1,
+        state: result.state,
+        county: result.county,
+        site_type: result.site_type,
+        topo: result.topo,
+        amenity: result.amenity,
+        amusement: result.amusement,
+        priceMin: result.priceMin,
+        priceMax: result.priceMax,
+    });
     console.log('+1', store.state.campData.current_page+1);
 }
 
 
-// const adjustMarkerZIndex = () => {
-//     // 각 마커의 z-index를 조정
-//     const campData = store.state.campData;
-//     campData.forEach((item, index) => {
-//         item.markerZIndex = index === 0 ? 0 : 1; // 첫 번째 마커는 0(z-index), 나머지는 1(z-index)
-//     });
-// };
+function openMarkerLink(url) {
+      window.location.href = url;
+      element.style.width = '200px';
+}
+
+const adjustMarkerZIndex = () => {
+    // 각 마커의 z-index를 조정
+    const campData = store.state.campData;
+    campData.forEach((item, index) => {
+        item.markerZIndex = index === 0 ? 0 : 1; // 첫 번째 마커는 0(z-index), 나머지는 1(z-index)
+    });
+};
 
 let accordionFlg = ref(false);
 
@@ -386,60 +412,12 @@ onBeforeMount(() => {
     store.dispatch('updateUserPosition');
 })
 
-const map = ref(null);
-
-onMounted(() => {
-
-});
-
-function displayMarker(map, locPosition, message) {
-  const marker = new kakao.maps.Marker({
-    map: map,
-    position: locPosition
-  });
-
-  const infowindow = new kakao.maps.InfoWindow({
-    content: message,
-    removable: true
-  });
-
-  infowindow.open(map, marker);
-  map.setCenter(locPosition);
-}
-
-
-
-
-
 onMounted(() => {
     const resizer = document.querySelector('.resizer');
     resizer.addEventListener('mousedown', startResize);
     window.addEventListener('mouseup', stopResize);
     
     // console.log( "\u001b[1;36m Cyan message" );
-    // 사용자의 현재 위치를 가져오는 함수
-    const getCurrentLocation = () => {
-        if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition((position) => {
-            const lat = position.coords.latitude;
-            const lng = position.coords.longitude;
-            const locPosition = new kakao.maps.LatLng(lat, lng);
-            const message = '<div style="padding:5px;">여기에 계신가요?!</div>';
-            displayMarker(map.value, locPosition, message);
-        }, (error) => {
-            console.error('Error getting user location:', error);
-            // 기본 위치 (제주도)로 설정
-            const defaultPosition = new kakao.maps.LatLng(33.450701, 126.570667);
-            const message = '위치 정보를 가져올 수 없습니다.';
-            displayMarker(map.value, defaultPosition, message);
-        });
-        } else {
-        // HTML5의 GeoLocation을 사용할 수 없을 때
-        const defaultPosition = new kakao.maps.LatLng(33.450701, 126.570667);
-        const message = 'geolocation을 사용할수 없어요..';
-        displayMarker(map.value, defaultPosition, message);
-        }
-    }
 });
 
 onBeforeUpdate(() => {
@@ -463,6 +441,7 @@ onUpdated(() => {
     //     img.style.height = '37px';
     // });
 })
+
 
 </script>
 

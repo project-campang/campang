@@ -54,7 +54,10 @@ const store = createStore({
             stampCampingzang: [],
             mypageWishes:[],
             targetCamp: [],
-            userPosition: null,
+            userPosition: {
+                latitude: null,
+                longitude: null,
+              },
             currentTarget: null,
             isWithinTargetArea: false,
             stampCnt: {},
@@ -259,8 +262,9 @@ const store = createStore({
         //     state.searchResult = countyData;
         // },
         // 유저 위치 획득
-        setUserPosition(state,position){
-            state.userPosition = position;
+        setUserPosition(state, position) {
+            state.userPosition.latitude = position.latitude;
+            state.userPosition.longitude = position.longitude;
         },
         // 정복캠핑장 정보
         setTargetCamp(state, data){

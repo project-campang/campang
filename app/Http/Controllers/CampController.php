@@ -50,37 +50,66 @@ class CampController extends Controller
         if($request->has('county') && $request->county != '0') {
             $campList->where('counties.id', $request->county);
         }
-        // 사이트 타입
-        if($request->has('site_type')) {
+        // 사이트 타입 필터링
+        if ($request->has('site_type')) {
+            $siteTypes = $request->site_type;
+
             $campList
-            ->join('camp_site_types', 'camps.id', '=', 'camp_site_types.camp_id')
-            ->join('site_types', 'camp_site_types.site_type_no', '=', 'site_types.id')
-            ->where('site_types.id', $request->site_type);
+                ->join('camp_site_types', function ($join) use ($siteTypes) {
+                    $join->on('camps.id', '=', 'camp_site_types.camp_id')
+                        ->whereIn('camp_site_types.site_type_no', $siteTypes); // 모든 선택된 사이트 타입 필터링
+                })
+                ->groupBy('camps.id') // 캠핑장 그룹화
+                ->havingRaw('COUNT(DISTINCT camp_site_types.site_type_no) = ?', [count($siteTypes)]); // 포함 확인
         }
-        // 지형/환경
-        if($request->has('topo')) {
+
+        // 지형/환경 필터링
+        if ($request->has('topo')) {
+            $topos = $request->topo;
+
             $campList
-            ->join('camp_topos', 'camps.id', '=', 'camp_topos.camp_id')
-            ->join('topos', 'camp_topos.topo_no', '=', 'topos.id')
-            ->where('topos.id', $request->topo);
+                ->join('camp_topos as ct1', function ($join) use ($topos) {
+                    $join->on('camps.id', '=', 'ct1.camp_id')
+                        ->whereIn('ct1.topo_no', $topos); // 선택된 모든 지형/환경 옵션에 대해 필터링
+                })
+                ->groupBy('camps.id') // 캠핑장을 그룹화합니다.
+                ->havingRaw('COUNT(DISTINCT ct1.topo_no) = ?', [count($topos)]); // 모든 지형/환경 옵션을 포함하는지 확인합니다.
         }
-        // 편의 시설
-        if($request->has('amenity')) {
+
+        // 편의 시설 필터링
+        if ($request->has('amenity')) {
+            $amenities = $request->amenity;
+
             $campList
-            ->join('camp_amenities', 'camps.id', '=', 'camp_amenities.camp_id')
-            ->join('amenities', 'camp_amenities.amenity_no', '=', 'amenities.id'
-            )->where('amenities.id', $request->amenity);
+                ->join('camp_amenities as ca1', function ($join) use ($amenities) {
+                    $join->on('camps.id', '=', 'ca1.camp_id')
+                        ->whereIn('ca1.amenity_no', $amenities); // 선택된 모든 편의 시설 옵션에 대해 필터링
+                })
+                ->groupBy('camps.id') // 캠핑장을 그룹화합니다.
+                ->havingRaw('COUNT(DISTINCT ca1.amenity_no) = ?', [count($amenities)]); // 모든 편의 시설 옵션을 포함하는지 확인합니다.
         }
-        // 즐길거리
-        if($request->has('amusement')) {
+
+        // 즐길거리 필터링
+        if ($request->has('amusement')) {
+            $amusements = $request->amusement;
+
             $campList
-            ->join('camp_amusements', 'camps.id', '=', 'camp_amusements.camp_id')
-            ->join('amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
-            ->where('amusements.id', $request->amusement);
+                ->join('camp_amusements as cam1', function ($join) use ($amusements) {
+                    $join->on('camps.id', '=', 'cam1.camp_id')
+                        ->whereIn('cam1.amusement_no', $amusements); // 선택된 모든 즐길거리 옵션에 대해 필터링
+                })
+                ->groupBy('camps.id') // 캠핑장을 그룹화합니다.
+                ->havingRaw('COUNT(DISTINCT cam1.amusement_no) = ?', [count($amusements)]); // 모든 즐길거리 옵션을 포함하는지 확인합니다.
         }
-        // if($request->has('price')) {
-        //     $campList->where('camps.price', $request->price);
-        // }
+        
+        // 가격대 필터링
+        if ($request->has('priceMin') && $request->has('priceMax')) {
+            $priceMin = $request->priceMin;
+            $priceMax = $request->priceMax;
+
+            $campList->whereBetween('camps.price', [$priceMin, $priceMax]);
+        }
+
         
         $result = $campList->paginate(5);
 
