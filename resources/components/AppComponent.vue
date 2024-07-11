@@ -235,83 +235,83 @@
                 </div>
                 <div class="modal-body">
                     <form @submit.prevent="submitAdForm" id="adForm">
-                        <input type="hidden" name="id" id="id" :value="form.id">
-                        <div class="mb-3 row">
-                            <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명 <span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
-                            <input type="text" class="form-control" v-model="form.title" placeholder="상호명을 입력하세요">
-                            </div>
+                    <input type="hidden" name="user_id" id="user_id" :value="form.user_id">
+                    <div class="mb-3 row">
+                        <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명 <span class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" v-model="form.title" placeholder="상호명을 입력하세요">
                         </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">광고 유형 <span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
-                            <div class="btn-group" role="group1">
-                                <button type="button" class="btn btn-outline-primary" :class="{ active: form.type === 0 }" @click="form.type = 0">캠핑장</button>
-                                <button type="button" class="btn btn-outline-primary" :class="{ active: form.type === 1 }" @click="form.type = 1">캠핑용품</button>
-                            </div>
-                            </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">광고 유형 <span class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                        <div class="btn-group" role="group1">
+                            <button type="button" class="btn btn-outline-primary" :class="{ active: form.ad_type === 0 }" @click="form.ad_type = 0">캠핑장</button>
+                            <button type="button" class="btn btn-outline-primary" :class="{ active: form.ad_type === 1 }" @click="form.ad_type = 1">캠핑용품</button>
                         </div>
-                        <div class="mb-3 row">
-                            <label for="adPeriod" class="col-sm-3 col-form-label">광고 기간 <span class="text-danger">*</span></label>
-                            <div class="col-sm-9 d-flex align-items-center">
-                            <input type="date" class="form-control me-2" v-model="form.start_date">
-                            <span>~</span>
-                            <input type="date" class="form-control ms-2" v-model="form.end_date">
-                            </div>
                         </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label"></label>
-                            <div class="col-sm-9 text-end">
-                            <span id="adPeriodTotal">총 {{ calculateDays }}일</span>
-                            </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="adPeriod" class="col-sm-3 col-form-label">광고 기간 <span class="text-danger">*</span></label>
+                        <div class="col-sm-9 d-flex align-items-center">
+                        <input type="date" class="form-control me-2" v-model="form.start_date" @change="updateAmount">
+                        <span>~</span>
+                        <input type="date" class="form-control ms-2" v-model="form.end_date" @change="updateAmount">
                         </div>
-                        <div class="mb-3 row">
-                            <label for="adAmount" class="col-sm-3 col-form-label">금액</label>
-                            <div class="col-sm-9">
-                            <input type="text" class="form-control" v-model="form.amount" readonly>
-                            </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label"></label>
+                        <div class="col-sm-9 text-end">
+                        <span id="adPeriodTotal">총 {{ calculateDays }}일</span>
                         </div>
-                        <div class="mb-3 row">
-                            <label for="adSentence" class="col-sm-3 col-form-label">희망 문구</label>
-                            <div class="col-sm-9">
-                            <input type="text" class="form-control" v-model="form.content" placeholder="최대 몇몇몇몇글자">
-                            </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="adAmount" class="col-sm-3 col-form-label">금액</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" v-model="form.amount" readonly>
                         </div>
-                        <div class="mb-3 row">
-                            <label for="adImage" class="col-sm-3 col-form-label">희망 이미지</label>
-                            <div class="col-sm-9">
-                            <input type="file" class="form-control"  @change="handleFileUpload">
-                            <div class="form-text">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다.</div>
-                            </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="adSentence" class="col-sm-3 col-form-label">희망 문구</label>
+                        <div class="col-sm-9">
+                        <input type="text" class="form-control" v-model="form.content" placeholder="최대 몇몇몇몇글자">
                         </div>
-                        <div class="mb-3 row">
-                            <p>결제</p>
-                            <p>-----------------------------------------------------------------</p>
-                            <div class="form-text">캠팡은 무통장입금만 지원 하고 있습니다. 더 많은 결제서비스는 조금만 기다려 주세요 :) </div>
-                            <label for="name" class="col-sm-3 col-form-label">입금자명 <span class="text-danger">*</span></label>
-                            <div class="col-sm-9"><input type="text" class="form-control" v-model="form.name" placeholder="입금자명을 입력하세요"></div>
-                            <label for="account" class="col-sm-3 col-form-label">입금계좌 <span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
-                            <select class="form-select" v-model="form.account">
-                                <option value="">::선택:: 예약자명과 입금자명이 다른경우 고객센터로 연락주세요</option>
-                                <option value="1">카카오뱅크 3333-05-8145823 이서린</option>
-                            </select>
-                            </div>
-                            <p>-----------------------------------------------------------------</p>
+                    </div>
+                    <div class="mb-3 row">
+                        <label for="adImage" class="col-sm-3 col-form-label">희망 이미지</label>
+                        <div class="col-sm-9">
+                        <input type="file" class="form-control"  @change="handleFileUpload">
+                        <div class="form-text">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다.</div>
                         </div>
-                        <div class="mb-3 row">
-                            <label class="col-sm-3 col-form-label">채널플러스 수신 동의 <span class="text-danger">*</span></label>
-                            <div class="col-sm-9">
-                            <div class="btn-group" role="group2">
-                                <button type="button" class="btn btn-outline-primary me-2" :class="{ active: form.agree === true }" @click="form.agree = true">동의함</button>
-                                <button type="button" class="btn btn-outline-primary" :class="{ active: form.agree === false }" @click="form.agree = false">동의 안함</button>
-                            </div>
-                            </div>
+                    </div>
+                    <div class="mb-3 row">
+                        <p>결제</p>
+                        <p>-----------------------------------------------------------------</p>
+                        <div class="form-text">캠팡은 무통장입금만 지원 하고 있습니다. 더 많은 결제서비스는 조금만 기다려 주세요 :)</div>
+                        <label for="name" class="col-sm-3 col-form-label">입금자명 <span class="text-danger">*</span></label>
+                        <div class="col-sm-9"><input type="text" class="form-control" v-model="form.name" placeholder="입금자명을 입력하세요"></div>
+                        <label for="account" class="col-sm-3 col-form-label">입금계좌 <span class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                        <select class="form-select" v-model="form.account">
+                            <option value="">::선택:: 예약자명과 입금자명이 다른경우 고객센터로 연락주세요</option>
+                            <option value="1">카카오뱅크 3333-05-8145823 이서린</option>
+                        </select>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-                            <button type="button" class="btn btn-primary" @click="submitAdForm">신청</button>
+                        <p>-----------------------------------------------------------------</p>
+                    </div>
+                    <div class="mb-3 row">
+                        <label class="col-sm-3 col-form-label">채널플러스 수신 동의 <span class="text-danger">*</span></label>
+                        <div class="col-sm-9">
+                        <div class="btn-group" role="group2">
+                            <button type="button" class="btn btn-outline-primary me-2" :class="{ active: form.agree === true }" @click="form.agree = true">동의함</button>
+                            <button type="button" class="btn btn-outline-primary" :class="{ active: form.agree === false }" @click="form.agree = false">동의 안함</button>
                         </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
+                        <button type="submit" class="btn btn-primary">신청</button>
+                    </div>
                     </form>
                 </div>
             </div>
@@ -396,41 +396,6 @@
    <a href="http://pf.kakao.com/_wIPpG" id="csButton" ><img src="../../public/img/CS.png" alt="" v-if="!isAdminRoute"></a>
 
 
-<!-- 광고 신청하기 모달 만들어야됌 지우지 마세용요용용요요요요요용용 -->
-    <!-- <transition name="fade">
-        <div class="ad-req-modal-bg">
-            <div class="ad-req-modal-area">
-                <div class="ad-req-modal-top">
-                    <div class="ad-req-modal-title">예약하기</div>
-                    <button type="button" class="ad-req-modal-top-x">x</button>
-                </div>
-                <hr class="ad-req-modal-hr">
-                <div class="ad-req-modal-main">
-                    <div class="ad-req-modal-main-left">
-                        <form>
-                            <div class="ad-req-name">
-                                <label for="ad-req-name">예약자 성함</label>
-                                <input type="text" name="ad-req-name" id="ad-req-name" value="TODO" readonly>
-                            </div>
-                        </form>
-                    </div>
-                    <div class="reserve-modal-main-right">
-                        <div class="reserve-camp-info">
-                            <div class="reserve-camp-warning">* 예약한 캠핑장 정보를 확인 해 주세요</div>
-                            <div class="reserve-camp-img">
-                                <img src="../../public/camp_img/10/10-2.png" alt="TODO">
-                            </div>
-                            <div class="reserve-camp-text">
-                                <div class="reserve-camp-title">TODO</div>
-                                <div class="reserve-camp-address">TODO TODO</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="reserve-modal-bottom"></div>
-            </div>
-        </div>
-    </transition> -->
 </template>
 
 
@@ -1082,21 +1047,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const adEnd = document.getElementById('adEnd');
     const adAmount = document.getElementById('adAmount');
     const adPeriodTotal = document.getElementById('adPeriodTotal');
+    const businessNumber = document.getElementById('businessNumber');
+    const btnGroup = document.querySelectorAll('.btn-group button');
 
-    function updateAmount() {
-        const startDate = new Date(adStart.value);
-        const endDate = new Date(adEnd.value);
-        const diffTime = Math.abs(endDate - startDate);
-        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-        const amount = diffDays * 500000;  // 1일 광고비: 500,000원
-        adAmount.value = `₩ ${amount.toLocaleString()}`;
-        adPeriodTotal.innerText = `총 ${diffDays}일`;
-    }
+    // function updateAmount() {
+    //     const startDate = new Date(adStart.value);
+    //     const endDate = new Date(adEnd.value);
+    //     if (isNaN(startDate) || isNaN(endDate)) return; // 날짜가 유효하지 않은 경우 무시
+
+    //     const diffTime = Math.abs(endDate - startDate);
+    //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    //     const amount = diffDays * 500000;  // 1일 광고비: 500,000원
+
+    //     adAmount.value = `₩ ${amount.toLocaleString()}`;
+    //     adPeriodTotal.innerText = `총 ${diffDays}일`;
+    // }
 
     adStart.addEventListener('change', updateAmount);
     adEnd.addEventListener('change', updateAmount);
 
-    const businessNumber = document.getElementById('businessNumber');
     businessNumber.addEventListener('input', function() {
         if (businessNumber.value.match(/^\d+$/)) {
             businessNumber.classList.remove('is-invalid');
@@ -1107,7 +1076,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    const btnGroup = document.querySelectorAll('.btn-group button');
     btnGroup.forEach(btn => {
         btn.addEventListener('click', function() {
             btnGroup.forEach(b => b.classList.remove('active'));
@@ -1115,6 +1083,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+
 
 // 사업자회원인지 아닌지 판단
 const userBusiness = ref(null);
@@ -1131,46 +1100,112 @@ const openAdModal = () => {
   }
 };
 
+
+
 const form = ref({
+    user_id: '',
     title: '',
-    type: 0,
+    ad_type: 0,
     start_date: new Date().toISOString().substr(0, 10), // 오늘 날짜로 설정 (YYYY-MM-DD 형식)
     end_date: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().substr(0, 10), // 오늘로부터 일주일 후의 날짜로 설정 (YYYY-MM-DD 형식)
-    amount: '₩ 500,000',
+    amount: '₩3,500,000',
     content: '',
-    name: '',
     account: '',
+    img_1: null,
     agree: false,
 });
 
-const calculateDays = computed(() => {
-    const startDate = new Date(form.value.start_date);
-    const endDate = new Date(form.value.end_date);
-    const diffTime = Math.abs(endDate - startDate);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-    return diffDays;
+const isFormValid = computed(() => {
+  // 필수 필드들이 모두 채워져 있는지 확인
+  return (
+    form.value.title !== '' &&
+    form.value.start_date !== '' &&
+    form.value.end_date !== '' &&
+    form.value.name !== ''
+
+  );
 });
 
+
 const handleFileUpload = (event) => {
-    form.value.image = event.target.files[0];
+    const file = event.target.files[0]; // 선택된 파일 객체
+    form.value.img_1 = file; // Vue.js 데이터에 파일 객체 저장
 };
 
+const calculateDays = computed(() => {
+      const startDate = new Date(form.value.start_date);
+      const endDate = new Date(form.value.end_date);
+      const diffTime = Math.abs(endDate - startDate);
+      const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+      return diffDays;
+    });
+
+const updateAmount = () => {
+      const diffDays = calculateDays.value;
+      const amount = diffDays * 500000;  // 1일 광고비: 500,000원
+      form.value.amount = `₩${amount.toLocaleString()}`;
+    };
 const submitAdForm = async () => {
+  if (isFormValid.value) {
     const formData = new FormData();
     Object.keys(form.value).forEach(key => {
     formData.append(key, form.value[key]);
     });
-
-    try {
-    const response = await axios.post('/api/submitAd', formData);
-    $('#exampleModal2').modal('hide');
-    $('#exampleModal5').modal('show');
-
-    } catch (error) {
-        console.error('광고신청 실패:', error);
-
+     // 이미지 파일이 선택되었을 경우에만 FormData에 추가
+     if (form.img_1 instanceof File) {
+        formData.append('img_1', form.img_1);
     }
+    try {
+        // 서버로 데이터 전송
+        const response = await axios.post('/api/submitAd', formData);
+
+        // 성공적으로 신청한 경우
+        // 폼 초기화 (Vue 3 Composition API 방식)
+        form.value = {
+            user_id: '',
+            title: '',
+            ad_type: 0,
+            start_date: new Date().toISOString().substr(0, 10), // 오늘 날짜로 설정 (YYYY-MM-DD 형식)
+            end_date: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().substr(0, 10), // 오늘로부터 일주일 후의 날짜로 설정 (YYYY-MM-DD 형식)
+            amount: '₩3,500,000',
+            content: '',
+            account: '',
+            img_1: null,
+            agree: false,
+        };
+
+      // 모달 닫기
+      $('#exampleModal2').modal('hide');
+      // 성공 모달 열기
+      $('#exampleModal5').modal('show');
+    } catch (error) {
+      console.error('광고신청 실패:', error);
+    }
+  } else {
+    // 필수 입력 필드가 비어 있음을 사용자에게 알림
+    alert('모든 필수 항목을 입력하세요.');
+  }
 };
+// const submitAdForm = async () => {
+//     const formData = new FormData();
+//     Object.keys(form.value).forEach(key => {
+//     formData.append(key, form.value[key]);
+//     });
+//      // 이미지 파일이 선택되었을 경우에만 FormData에 추가
+//      if (form.img_1 instanceof File) {
+//         formData.append('img_1', form.img_1);
+//     }
+
+//     try {
+//     const response = await axios.post('/api/submitAd', formData);
+//     $('#exampleModal2').modal('hide');
+//     $('#exampleModal5').modal('show');
+
+//     } catch (error) {
+//         console.error('광고신청 실패:', error);
+
+//     }
+// };
 
 
 </script>

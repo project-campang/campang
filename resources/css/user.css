@@ -391,3 +391,9 @@ a {
 .content-font {
     font-family: 'SBAggroL';
 }  
+
+.content-advertise {
+    display: flex;
+    justify-content: space-around;
+    /* text-align: center; */
+}
