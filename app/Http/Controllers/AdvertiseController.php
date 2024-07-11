@@ -63,4 +63,21 @@ class AdvertiseController extends Controller
         return response()->json(['message' => '광고 신청이 성공적으로 처리되었습니다.']);
     }
 
+    public function myadverTisement(Request $request)
+    {   
+        
+       $boardList = Advertise::join('users', 'advertises.user_id', '=', 'users.id')
+                              ->select('advertises.*', 'users.name', 'users.nick_name')
+                              ->orderBy('advertises.created_at', 'DESC')
+                              ->get();
+        
+        $responseData= [
+            'code' => '0',
+            'msg' => '게시글 획득',
+            'data' => $boardList
+        ];
+    
+        return response()->json($responseData, 200);
+    }
+
 }

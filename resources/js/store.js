@@ -75,6 +75,7 @@ const store = createStore({
             newmember:{},
             removeMember:{},
             usermanagement:[],
+            adverTisement:[],
         }
     },
     mutations: {
@@ -311,6 +312,9 @@ const store = createStore({
         setadverTisement(state,data){
             state.advertisement = data;
         },
+        setNewadverTisement(state,data){
+            state.adverTisement = data;
+        },
     },
     actions: {
         // async login(context, loginForm) {
@@ -401,6 +405,7 @@ const store = createStore({
                 commit('setAuthFlg', false);
                 commit('setUserInfo', null);
                 localStorage.removeItem('userInfo');
+                router.replace('/main');
                 
             } catch (error) {
                 console.error('로그아웃 실패:', error.response.data.message);
@@ -558,6 +563,19 @@ const store = createStore({
             .catch(error => {
                 console.log(error.response); // TODO
                 alert(`리뷰 삭제 실패 (${error.response.data.code})`)
+            })
+        },
+        myadverTisement(context) {
+            const url = `/api/my/adverTisement`;
+
+            axios.get(url)
+            .then(response => {
+                console.log(response.data); // TODO
+                context.commit('setNewadverTisement', response.data.data);
+            })
+            .catch(error => {
+                console.log(error.response); // TODO
+                console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
 

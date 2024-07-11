@@ -50,6 +50,7 @@ Route::post('/api/comment/update', [CommentController::class, 'updateWish']);
 Route::delete('/api/posts/delete/{id}', [CommunityController::class, 'deletePost']);
 Route::delete('/api/reviews/delete/{id}', [CommunityController::class, 'deleteReview']);
 Route::delete('/api/comments/delete/{id}', [CommentController::class, 'deleteComment']);
+Route::get('/api/my/adverTisement', [AdvertiseController::class, 'myadverTisement']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 // Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);
