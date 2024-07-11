@@ -13,6 +13,7 @@
     <a href="#" class="my-page-link" @click="showContent(); markActive($event)"><p>-게시글</p></a>
     <a href="#review" class="my-page-link" @click="showContent(); markActive($event)"><p>-리뷰</p></a>
     <a href="#comment" class="my-page-link" @click="showContent(); markActive($event)"><p>-댓글</p></a>
+    <p v-if="$store.state.userInfo.business === '2'" @click="showAdvertisement">내광고</p>
 </div>
 
     </div>
@@ -78,6 +79,35 @@
           </div>
         </div>
     </div>
+    <div v-else-if="isshowAdvertisement" class="ad-section" id="advertisement">
+        <h1>내 광고</h1>
+      <hr>
+      <div class="content-bottom">
+        <div class="my-content-box">
+          <div class="list-group">
+            <div class="content-column list-item text-center content-advertise" aria-disabled="true">
+              <div class="my-page-top">번호</div>
+              <div class="my-page-top">품명</div>
+              <div class="my-page-top">등록일</div>
+              <div class="my-page-top">상태</div>
+              <div class="my-page-top"></div>
+              <div></div>
+            </div>
+            <div class="content-row text-center content-font content-advertise" v-for="(item, index) in $store.state.adverTisement" :key="index">
+              <div class="content-row-num content-font">{{ index + 1 }}</div>
+              <div class="title-text-my content-font" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '광고')">{{ item.title }}</div>
+              <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
+              <div class="content-font">{{ item.status === '1' ? '접수' : item.status === '2' ? '대기' : item.status === '3' ? '완료' : '상태 없음' }}</div>
+              <div>
+                <button type="button" class="btn mypage-btn-update" @click="updataModal(item, '광고')">상세</button>
+                <button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '광고')">취소</button>
+              </div>
+            </div>
+            <hr class="item-hr">
+          </div>
+        </div>
+      </div>
+    </div>
     <div v-else class="posts-section" id="content">
         <h1 >내 게시글</h1>
         <hr>
@@ -103,7 +133,9 @@
             </div>
           </div>
         </div>
-        <h1 class="my-m-top">내가 쓴 리뷰</h1>
+        <h1 class="my-m-top">
+          내가 쓴 리뷰
+        </h1>
         <hr>
         <div class="content-bottom">
           <div class="my-content-box">
@@ -155,7 +187,7 @@
           </div>
         </div>
       </div>
-    
+      
   </div>
 
   <!-- Modal -->
@@ -521,6 +553,9 @@ onBeforeMount(() => {
   if(store.state.mypageComment.length < 1 ) {
     store.dispatch('setMypageComment');
   }
+  if(store.state.adverTisement.length < 1 ) {
+    store.dispatch('myadverTisement');
+  }
 })
 
 const validateNickName = (nick_name) => {
@@ -610,20 +645,21 @@ const updateUserInfo = () => {
 };
 
 const isstampVisible = ref(true);
-// const userInfo = ref({
-//   name: '',
-//   nick_name: '',
-//   email: '',
-//   tel: '',
-//   profile: ''
-// });
+const isshowAdvertisement = ref(false);
+
+function showAdvertisement() {
+  isshowAdvertisement.value = true;
+  isstampVisible.value = false;
+}
 
 function showStamp() {
   isstampVisible.value = true;
+  isshowAdvertisement.value = false; // 게시글 영역으로 전환할 때 추가
 }
 
 function showContent() {
   isstampVisible.value = false;
+  isshowAdvertisement.value = false; // 게시글 영역으로 전환할 때 추가
 }
 
 function openModal(data) {

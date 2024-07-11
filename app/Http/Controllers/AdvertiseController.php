@@ -13,48 +13,71 @@ use Illuminate\Support\Facades\Validator;
 class AdvertiseController extends Controller
 {
     public function submitAdForm(Request $request)
-    {
+    {   
+        
+       // 현재 인증된 사용자의 id 가져오기
+        $user_id = Auth::id();
+
         // 요청에서 데이터 추출
         $data = $request->all();
+        Log::debug($data);
 
-        // 로직에 따라 데이터 처리
+        // amount에서 ₩와 쉼표(,) 제거하고 숫자만 남기기
+        $amountString = $data['amount'];
+        $amountString = str_replace(['₩', ',', ' '], '', $amountString);
+        $amount = (float) $amountString; // 부동 소수점 형식으로 변환
+
+        // 광고 등록 처리
         $advertise = new Advertise();
-        $advertise->id = $data['id']; // 프론트엔드에서 hidden 필드로 넘어온 user_id 사용
+        $advertise->user_id = $user_id;
         $advertise->title = $data['title'];
-        $advertise->type = $data['type'];
+        $advertise->ad_type = $data['ad_type'];
         $advertise->start_date = $data['start_date'];
         $advertise->end_date = $data['end_date'];
-        $advertise->amount = $data['amount'];
+        $advertise->amount = $amount; // 숫자로 변환한 amount 저장
         $advertise->content = $data['content'];
-        $advertise->status = 1; // 기본적으로 '1'이 들어가야 함
+        $advertise->status = 1;
 
         // 이미지 처리
-        if ($request->hasFile('image')) {
-            if ($advertise->profile) {
-                Storage::disk('img_1')->delete($advertise->profile);
+        if ($request->hasFile('img_1')) {
+            // 기존 프로필 사진 삭제
+            if ($advertise->img_1) {
+                Storage::disk('public')->delete($advertise->img_1);
             }
-
-            // 고유한 파일 이름 생성
+    
+            // 파일을 저장하고 경로를 설정
             $file = $request->file('img_1');
             $filename = uniqid() . '.' . $file->getClientOriginalExtension();
-
-            // 파일을 public/img 디렉터리에 저장
-            $path = $file->move(public_path('img'), $filename);
-
+            $path = $file->move(public_path('img'), $filename); // public/img 디렉터리에 저장
+    
             if ($path) {
-                $advertise->profile = '/img/' . $filename;  // '/img/파일명.확장자'로 경로 설정
+                $advertise->img_1 = '/img/' . $filename; // 저장된 파일의 상대 경로
             } else {
-                return response()->json(['message' => '파일 저장 실패'], 500);
+                return response()->json(['message' => '파일 저장 실패'], 200);
             }
-        } else {
-            // 파일이 선택되지 않았을 때의 처리
-            
         }
 
         // 데이터 저장
         $advertise->save();
 
         return response()->json(['message' => '광고 신청이 성공적으로 처리되었습니다.']);
+    }
+
+    public function myadverTisement(Request $request)
+    {   
+        
+       $boardList = Advertise::join('users', 'advertises.user_id', '=', 'users.id')
+                              ->select('advertises.*', 'users.name', 'users.nick_name')
+                              ->orderBy('advertises.created_at', 'DESC')
+                              ->get();
+        
+        $responseData= [
+            'code' => '0',
+            'msg' => '게시글 획득',
+            'data' => $boardList
+        ];
+    
+        return response()->json($responseData, 200);
     }
 
 }
