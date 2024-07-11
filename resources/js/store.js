@@ -201,10 +201,10 @@ const store = createStore({
 
         setCommentPageGet(state, data) {
             state.communityComment = data;
-          },
+        },
         setCommentPost(state, data) {
             state.communityCommentInsert = data;
-          },
+        },
         // 게시글 작성
         setUnshiftCommunityData(state, data) {
             state.communityData.unshift(data);
@@ -708,12 +708,12 @@ const store = createStore({
             })
         },
 
-         /**
+        /**
          * 댓글 페이지네이션
          * @param {*} context 
          * @param {*} page 
          */
-         commentPageGet(context, { id, page }) {
+        commentPageGet(context, { id, page }) {
             const url = `/api/camp/${id}/commentPage?page=${page}`;
             console.log('페이지확인',url);
             axios.get(url)
@@ -810,37 +810,37 @@ const store = createStore({
         
         communityGet(context, { id, page = 1 }) {
             if (!id) {
-              console.error('API 호출 오류: id가 정의되지 않았습니다.'); // 오류 로그 추가
-              return;
+            console.error('API 호출 오류: id가 정의되지 않았습니다.'); // 오류 로그 추가
+            return;
             }
-          
+        
             const url = `/api/community/${id}/communityPage?page=${page}`;
             console.log('API 요청 URL:', url); // 디버깅 로그 추가
-          
+        
             axios.get(url)
-              .then(response => {
+            .then(response => {
                 const data = response.data.data;
                 console.log('API 응답 데이터:', data); // 디버깅 로그 추가
                 context.commit('setCommunityList', data.data);
                 context.commit('setPaginationCommunity', {
-                  current_page: data.current_page,
-                  first_page_url: data.first_page_url,
-                  last_page: data.last_page,
-                  last_page_url: data.last_page_url,
-                  total: data.total,
-                  per_page: data.per_page,
-                  prev_page_url: data.prev_page_url,
-                  next_page_url: data.next_page_url,
-                  links: response.data.links
+                current_page: data.current_page,
+                first_page_url: data.first_page_url,
+                last_page: data.last_page,
+                last_page_url: data.last_page_url,
+                total: data.total,
+                per_page: data.per_page,
+                prev_page_url: data.prev_page_url,
+                next_page_url: data.next_page_url,
+                links: response.data.links
                 });
-              })
-              .catch(error => {
+            })
+            .catch(error => {
                 console.error('API 호출 오류:', error.response); // 오류 로그 추가
                 alert(`communityGet 오류: ${error.response}`);
-              });
-          },
+            });
+        },
         
-          async communityDetailGet({ commit }, id) {
+        async communityDetailGet({ commit }, id) {
             try {
                 // console.log(`Fetching data for post ID: ${id}`);
                 const response = await fetch(`/api/community/post/${id}`);
@@ -938,34 +938,29 @@ const store = createStore({
         commentPost(context, payload) {
             const { id, comment } = payload; // payload에서 데이터 추출
             const url = `/api/community/comment/insert/${id}`;
-          
+        
             // 데이터 객체를 JSON으로 생성
             const data = {
-              community_id: id,
+                community_id: id,
               comment: comment, // 전달받은 comment 값을 사용
             };
-          
+        
             console.log('보낼 데이터:', data);
-          
+        
             // 서버에 POST 요청 보내기
             axios.post(url, data, {
-              headers: {
+                headers: {
                 'Content-Type': 'application/json', // JSON 형식으로 전송
-              },
+            },
             })
-              .then(response => {
+            .then(response => {
                 context.commit('setCommentPost', response.data.data); // 댓글 가장 앞에 추가
-              })
-              .catch(error => {
+            })
+            .catch(error => {
                 console.error('댓글 작성 실패:', error.response.data);
                 alert('댓글 작성 실패: ' + error.response.data.message);
-              });
-          },
-        
-        
-
-
-        
+            });
+        },
 
 
         /**
@@ -978,17 +973,17 @@ const store = createStore({
             const url = `/api/community/${id}`;
             const insertForm = document.querySelector('#insertForm');
             const formData = new FormData(insertForm);
-          
+        
             axios.post(url, formData)
-              .then(response => {
+            .then(response => {
                 context.commit('setUnshiftCommunityData', response.data.data);
                 console.log('게시글 작성 완료');
-              })
-              .catch(error => {
+            })
+            .catch(error => {
                 console.error('게시글 작성 실패:', error.response.data);
                 alert('게시글 작성 실패: ' + error.response.data);
-              });
-          },
+            });
+        },
         // 커뮤니티 게시글 삭제
         async communityDelete({ commit }, id) {
             try {
@@ -1053,10 +1048,11 @@ const store = createStore({
         campListGet(context, inputData) {
             // const url = ('/api/search/searchPage?page=' + page);
             const url = ('/api/search');
+            console.log( "\u001b[1;36m campListGet", url);
+
             const config = {
                 params: inputData
             }
-            console.log(url);
             axios.get(url, config)
             .then(response => {
 
@@ -1066,7 +1062,7 @@ const store = createStore({
                 // context.commit('setCampList', response.data.data);
                 // console.log(response.data.data);
                 // console.log(setCampList);
-                console.log('스토어 캠프리스트', campList);
+                console.log('store 캠프리스트', campList);
                 context.commit('setPaginationSearch', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -1088,7 +1084,7 @@ const store = createStore({
                     
                     // console.log('campList[0].name', campList.data[0].name);
                     context.commit('updateMapCenter', newCenter);
-                    console.log('지도 중심 좌표 업데이트', newCenter);
+                    console.log('\u001b[1;36m 중심 좌표 업데이트', newCenter);
                 };
                 
             })
@@ -1142,8 +1138,7 @@ const store = createStore({
             console.log('searchResult Start');
 
             const url = ('/api/search');
-
-            console.log(url);
+            console.log( "\u001b[1;35m searchResult", url);
 
             const reqData = {
                 params: context.state.localInfo
@@ -1151,9 +1146,15 @@ const store = createStore({
 
             axios.get(url, reqData)
             .then(response => {
-                console.log('searchResult 검색 결과 획득 성공', response.data);
-                context.commit('setCampList', response.data.data);
-                console.log('스토어 캠프데이터', context.state.campData);
+                const responseData = response.data.data;
+                console.log('\u001b[1;35m 검색 결과 획득 성공', responseData);
+
+                context.commit('setCampList', responseData);
+                console.log('store 캠프데이터', context.state.campData);
+                
+                // 정렬
+                
+
                 if (context.state.campData.length > 0) {
                     const newCenter = {
                         lat: context.campData[0].latitude,
@@ -1254,6 +1255,7 @@ const store = createStore({
                             longitude: position.coords.longitude,
                             });
                         dispatch('checkPosition');
+                        console.log('\u001b[1;34m 유저 좌표', position.coords.latitude, position.coords.longitude);
                     },
                     () => {
                         console.error('유저 위치 확인 실패');
@@ -1400,33 +1402,28 @@ const store = createStore({
                     // console.log(response.data.data);
                 });
         }
-
-
     },
-
-
-
 });
 
 // 단순 거리 계산 함수 (Pythagorean Theorem 사용)
 function calculateSimpleDistance(lat1, lon1, lat2, lon2) {
     return Math.sqrt(
-      Math.pow(lat1 - lat2, 2) +
-      Math.pow(lon1 - lon2, 2)
+        Math.pow(lat1 - lat2, 2) +
+        Math.pow(lon1 - lon2, 2)
     );
     // const R = 6371e3; // 지구의 반경 (미터 단위)
     // const P1 = lat1 * Math.PI / 180; // φ, λ를 라디안으로 변환
     // const P2 = lat2 * Math.PI / 180;
     // const DP = (lat2 - lat1) * Math.PI / 180;
     // const DL = (lon2 - lon1) * Math.PI / 180;
-  
+
     // const a =
     //   Math.sin(DP / 2) * Math.sin(DP / 2) +
     //   Math.cos(P1) * Math.cos(P2) * Math.sin(DL / 2) * Math.sin(DL / 2);
     // const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  
+
     // return R * c;
-  }
+}
 
 
 
