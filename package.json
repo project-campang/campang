@@ -27,6 +27,7 @@
         "bootstrap": "^5.3.3",
         "dayjs": "^1.11.11",
         "vue-router": "^4.3.2",
+        "vue3-carousel": "^0.3.3",
         "vue3-kakao-maps": "^2.3.9",
         "vuex": "^4.0.2"
     },
