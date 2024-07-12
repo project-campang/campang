@@ -21,7 +21,7 @@
               <router-link :to="`/community/2`" class="list-item" :class="{ active: isActive('/community/2') }">리뷰 게시판</router-link>
             </div>
             <div :class="{ 'active': route.params.id === '5' }">
-              <router-link :to="`/community/5`" class="list-item" :class="{ active: isActive('/community/5') }">랭킹 게시판</router-link>
+              <!-- <router-link :to="`/community/5`" class="list-item" :class="{ active: isActive('/community/5') }">랭킹 게시판</router-link> -->
             </div>
           </div>
         </div>
@@ -86,6 +86,20 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form id="insertForm" enctype="multipart/form-data">
+          <div>
+            리뷰를 남길 캠핑장은?
+            <div>
+<input type="text" v-model="filterText" placeholder="캠핑장 이름을 입력하세요" @click="userInfoGet()" class="search-input"/>
+            </div>
+          </div>
+          <div>
+            해당 캠핑장의 별점은?
+            <div class="counter">
+              <button class="button" @click="decrease">-</button>
+              <input type="number" class="display" :value="count" readonly />
+              <button class="button" @click="increase">+</button>
+            </div>
+          </div>
           <input type="hidden" name="community-type" id="community-type" :value="route.params.id" />
           <div class="modal-body">
             <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요." />
@@ -95,34 +109,33 @@
               <!-- Main Image -->
               <!-- Additional Images -->
               <div class="mb-3">
-              <label for="main_img" class="form-label">메인 이미지 업로드</label>
+              <label for="main_img" class="form-label">메인 이미지</label>
               <input type="file" class="form-control" id="main_img" accept="image/*" @change="handleImgUpload('main_img')">
-              <img v-if="mainImgPreview" :src="mainImgPreview" alt="Main Image" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="mainImgPreview" :src="mainImgPreview" alt="Main Image" style="width: 200px; margin-top: 10px;">
               
-
             </div>
             <div class="mb-3">
-              <label for="other_img2" class="form-label">부가 이미지 2 업로드</label>
+              <label for="other_img2" class="form-label">이미지 2</label>
               <input type="file" class="form-control" name="other_img2" id="other_img2"  accept="image/*" @change="handleImgUpload('other_img2')">
-              <img v-if="otherImg2Preview" :src="otherImg2Preview" alt="Other Image 2" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="otherImg2Preview" :src="otherImg2Preview" alt="Other Image 2" style="width: 200px; margin-top: 10px;">
               
             </div>
             <div class="mb-3">
-              <label for="other_img3" class="form-label">부가 이미지 3 업로드</label>
+              <label for="other_img3" class="form-label">이미지 3</label>
               <input type="file" class="form-control"  name="other_img3" id="other_img3"  accept="image/*" @change="handleImgUpload('other_img3')">
-              <img v-if="otherImg3Preview" :src="otherImg3Preview" alt="Other Image 3" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="otherImg3Preview" :src="otherImg3Preview" alt="Other Image 3" style="width: 200px; margin-top: 10px;">
               
             </div>
             <div class="mb-3">
-              <label for="other_img4" class="form-label">부가 이미지 4 업로드</label>
+              <label for="other_img4" class="form-label">이미지 4</label>
               <input type="file" class="form-control" id="other_img4"  name="other_img4" accept="image/*" @change="handleImgUpload('other_img4')">
-              <img v-if="otherImg4Preview" :src="otherImg4Preview" alt="Other Image 4" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="otherImg4Preview" :src="otherImg4Preview" alt="Other Image 4" style="width: 200px; margin-top: 10px;">
               
             </div>
             <div class="mb-3">
-              <label for="other_img5" class="form-label">부가 이미지 5 업로드</label>
+              <label for="other_img5" class="form-label">이미지 5</label>
               <input type="file" class="form-control" id="other_img5"  name="other_img5" accept="image/*" @change="handleImgUpload('other_img5')">
-              <img v-if="otherImg5Preview" :src="otherImg5Preview" alt="Other Image 5" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="otherImg5Preview" :src="otherImg5Preview" alt="Other Image 5" style="width: 200px; margin-top: 10px;">
               
             </div>
           </div>
@@ -148,42 +161,42 @@
         <form @submit.prevent="submitUpdate">
           <div class="mb-3">
               <input type="hidden" id="id" v-model="selectedContent.id">
-              <label for="title" class="form-label">제목</label>
-              <input type="text" class="form-control content-font" id="title" v-model="selectedContent.title">
+              <label for="title" class="form-label form-label-title">제목</label>
+              <input type="text" class="form-control form-label-title" id="title" v-model="selectedContent.title">
             </div>
             <div class="mb-3">
-              <label for="content" class="form-label">내용</label>
-              <textarea class="form-control my-update-form content-font" id="content" v-model="selectedContent.content" rows="5"></textarea>
+              <label for="content" class="form-label form-label-title">내용</label>
+              <textarea class="form-control my-update-form" id="content" v-model="selectedContent.content" rows="5"></textarea>
             </div>
             <div class="mb-3">
-              <label for="main_img" class="form-label">메인 이미지 업로드</label>
+              <label for="main_img" class="form-label">메인 이미지</label>
               <input type="file" class="form-control" id="main_img" accept="image/*" @change="handleImgUpload('main_img')">
-              <img v-if="mainImgPreview" :src="mainImgPreview" alt="Main Image" style="max-width: 100%; margin-top: 10px;">
-              <img v-else-if="selectedContent.main_img" :src="selectedContent.main_img" alt="Main Image" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="mainImgPreview" :src="mainImgPreview" alt="Main Image" style="width: 200px; margin-top: 10px;">
+              <img v-else-if="selectedContent.main_img" :src="selectedContent.main_img" alt="Main Image" style="width: 200px; margin-top: 10px;">
             </div>
             <div class="mb-3">
-              <label for="other_img2" class="form-label">부가 이미지 2 업로드</label>
+              <label for="other_img2" class="form-label">이미지 2</label>
               <input type="file" class="form-control" id="other_img2"  accept="image/*" @change="handleImgUpload('other_img2')">
-              <img v-if="otherImg2Preview" :src="otherImg2Preview" alt="Other Image 2" style="max-width: 100%; margin-top: 10px;">
-              <img v-else-if="selectedContent.other_img2" :src="selectedContent.other_img2" alt="Other Image 2" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="otherImg2Preview" :src="otherImg2Preview" alt="Other Image 2" style="width: 200px; margin-top: 10px;">
+              <img v-else-if="selectedContent.other_img2" :src="selectedContent.other_img2" alt="Other Image 2" style="width: 200px; margin-top: 10px;">
             </div>
             <div class="mb-3">
-              <label for="other_img3" class="form-label">부가 이미지 3 업로드</label>
+              <label for="other_img3" class="form-label">이미지 3</label>
               <input type="file" class="form-control" id="other_img3"  accept="image/*" @change="handleImgUpload('other_img3')">
-              <img v-if="otherImg3Preview" :src="otherImg3Preview" alt="Other Image 3" style="max-width: 100%; margin-top: 10px;">
-              <img v-else-if="selectedContent.other_img3" :src="selectedContent.other_img3" alt="Other Image 3" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="otherImg3Preview" :src="otherImg3Preview" alt="Other Image 3" style="width: 200px; margin-top: 10px;">
+              <img v-else-if="selectedContent.other_img3" :src="selectedContent.other_img3" alt="Other Image 3" style="width: 200px; margin-top: 10px;">
             </div>
             <div class="mb-3">
-              <label for="other_img4" class="form-label">부가 이미지 4 업로드</label>
+              <label for="other_img4" class="form-label">이미지 4</label>
               <input type="file" class="form-control" id="other_img4"  accept="image/*" @change="handleImgUpload('other_img4')">
-              <img v-if="otherImg4Preview" :src="otherImg4Preview" alt="Other Image 4" style="max-width: 100%; margin-top: 10px;">
-              <img v-else-if="selectedContent.other_img4" :src="selectedContent.other_img4" alt="Other Image 4" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="otherImg4Preview" :src="otherImg4Preview" alt="Other Image 4" style="width: 200px; margin-top: 10px;">
+              <img v-else-if="selectedContent.other_img4" :src="selectedContent.other_img4" alt="Other Image 4" style="width: 200px; margin-top: 10px;">
             </div>
             <div class="mb-3">
-              <label for="other_img5" class="form-label">부가 이미지 5 업로드</label>
+              <label for="other_img5" class="form-label">이미지 5</label>
               <input type="file" class="form-control" id="other_img5"  accept="image/*" @change="handleImgUpload('other_img5')">
-              <img v-if="otherImg5Preview" :src="otherImg5Preview" alt="Other Image 5" style="max-width: 100%; margin-top: 10px;">
-              <img v-else-if="selectedContent.other_img5" :src="selectedContent.other_img5" alt="Other Image 5" style="max-width: 100%; margin-top: 10px;">
+              <img v-if="otherImg5Preview" :src="otherImg5Preview" alt="Other Image 5" style="width: 200px; margin-top: 10px;">
+              <img v-else-if="selectedContent.other_img5" :src="selectedContent.other_img5" alt="Other Image 5" style="width: 200px; margin-top: 10px;">
             </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -534,6 +547,18 @@ function deletePost(id) {
   }
 }
 
+const count = ref(0)
+
+const increase = () => {
+  count.value++
+}
+
+const decrease = () => {
+  count.value--
+}
+
 </script>
 
-<style scoped src="../css/community.css"></style>
+<style scoped src="../css/community.css">
+
+</style>

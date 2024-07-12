@@ -35,27 +35,34 @@
     <!-- Content -->
     <div class="detail-content" v-if="postDetail">
       <div class="detail-content-top">
-        <h2>{{ postDetail.title }}</h2>
-        <button @click="goBack" class="btn commu-btn">목록으로 돌아가기</button>
+        <span class="post-detail-title">{{ postDetail.title }}</span>
+        <button @click="goBack" class="btn commu-btn mb-3">목록</button>
       </div>
       <div class="detail-content-top2">
-        <p>작성자: {{ postDetail.user_nick_name }}</p>
-        <p>조회수: {{ postDetail.views }} 작성일: {{ getFormattedDate(postDetail.created_at) }}</p>
+        <p class="sub-text">작성자ㅤ
+          <span class="sub-text2">{{ postDetail.user_nick_name }}</span>
+        </p>
+        <p class="sub-text">
+          조회수ㅤ
+          <span class="sub-text2">{{ postDetail.views }}</span>
+          ㅤ작성일ㅤ
+          <span class="sub-text2">{{ getFormattedDate(postDetail.created_at) }}</span>
+        </p>
       </div>
       <div class="detail-content-midle">
         <h3></h3>
-        <p>{{ postDetail.content }}</p>
+        <p class="detail-content-text">{{ postDetail.content }}</p>
         <div class="img-box">
           <!-- <img v-if="postDetail.main_img" :src="postDetail.main_img" alt="post image" /> -->
-          <p v-if="postDetail?.main_img" class="my-detail-title"><hr>메인이미지</p>
+          <p v-if="postDetail?.main_img" class="my-detail-title"></p>
           <img v-if="postDetail?.main_img" :src="postDetail.main_img" alt="Main Image" class="my-page-detailmodal">
-          <p v-if="postDetail?.other_img2" class="my-detail-title">부가이미지1</p>
+          <p v-if="postDetail?.other_img2" class="my-detail-title"></p>
           <img v-if="postDetail?.other_img2" :src="postDetail.other_img2" alt="Other Image 2" class="my-page-detailmodal">
-          <p v-if="postDetail?.other_img3" class="my-detail-title">부가이미지2</p>
+          <p v-if="postDetail?.other_img3" class="my-detail-title"></p>
           <img v-if="postDetail?.other_img3" :src="postDetail.other_img3" alt="Other Image 3" class="my-page-detailmodal">
-          <p v-if="postDetail?.other_img4" class="my-detail-title">부가이미지3</p>
+          <p v-if="postDetail?.other_img4" class="my-detail-title"></p>
           <img v-if="postDetail?.other_img4" :src="postDetail.other_img4" alt="Other Image 4" class="my-page-detailmodal">
-          <p v-if="postDetail?.other_img5" class="my-detail-title">부가이미지4</p>
+          <p v-if="postDetail?.other_img5" class="my-detail-title"></p>
           <img v-if="postDetail?.other_img5" :src="postDetail.other_img5" alt="Other Image 5" class="my-page-detailmodal">
         </div>
       </div>
@@ -179,7 +186,7 @@ async function fetchPostDetail(id) {
 
 
 function getFormattedDate(dateTime) {
-  return dayjs(dateTime).format('YYYY.MM.DD HH:mm');
+  return dateTime.split(' ')[0]; // 공백을 기준으로 나눠서 첫 번째 부분만 반환
 }
 
 function getCommunityTypeName(id) {

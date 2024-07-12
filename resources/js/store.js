@@ -705,11 +705,6 @@ const store = createStore({
             });
         },
 
-
-
-
-
-
         /**
          * 댓글 작성
          * 
@@ -823,11 +818,6 @@ const store = createStore({
         //     console.error('Error toggling wish:', error);
         //     }
         // },
-
-
-
-
-
 
         /**
          * 커뮤니티 게시글 획득

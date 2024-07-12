@@ -40,7 +40,7 @@ class CampController extends Controller
         ->join('counties', 'camps.county', '=', 'counties.name')
 
         ->groupBy('camps.id', 'camps.name', 'camps.tel', 'camps.address', 'camps.state', 'camps.county', 'camps.latitude', 'camps.longitude', 'camps.info_text', 'camps.link', 'camps.price', 'camps.main_img', 'camps.other_img_1', 'camps.other_img_2', 'camps.other_img_3', 'camps.other_img_4', 'camps.other_img_5', 'camps.other_img_6', 'camps.other_img_7', 'camps.other_img_8', 'camps.other_img_9', 'camps.other_img_10', 'camps.created_at', 'camps.updated_at', 'camps.deleted_at')
-        // ->orderBy('counties.name')
+        ->orderBy('counties.id')
         ;
         // ->limit()
         
