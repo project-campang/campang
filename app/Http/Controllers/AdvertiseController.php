@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Admin;
 use App\Models\Advertise;
 use Illuminate\Http\Request;
@@ -100,5 +101,151 @@ class AdvertiseController extends Controller
 
         return response()->json($responseData, 200);
     }
+    //관리자페이지 광고수정
+    public function updateAdvertisement(Request $request)
+{
+    $requestData = $request->all();
+
+    // 광고 ID
+    $advertisementId = $requestData['id'];
+
+        // 업데이트할 광고 정보
+        $advertisement = Advertise::findOrFail($advertisementId);
+
+        // 요청으로부터 받은 필드들 업데이트
+        $advertisement->title = $requestData['title'];
+        $advertisement->start_date = $requestData['start_date'];
+        $advertisement->end_date = $requestData['end_date'];
+        $advertisement->amount = $requestData['amount'];
+        $advertisement->status = $requestData['status'];
+        $advertisement->order = $requestData['order'];
+
+        // 이미지 업로드 처리
+        if ($request->has('img_1') && Str::startsWith($requestData['img_1'], 'data:image')) {
+            // Decode the base64 image
+            $imgData = substr($requestData['img_1'], strpos($requestData['img_1'], ',') + 1);
+            $image = base64_decode($imgData);
+
+            // Generate unique file name for image
+            $imageName = time() . '.png';
+
+            // Save image to public/img directory
+            $filePath = public_path('img') . '/' . $imageName;
+            file_put_contents($filePath, $image);
+
+            // Update advertisement model with image path
+            $advertisement->img_1 = '/img/' . $imageName;
+        }
+
+        if ($request->has('img_2') && Str::startsWith($requestData['img_2'], 'data:image')) {
+            // Decode the base64 image
+            $imgData = substr($requestData['img_2'], strpos($requestData['img_2'], ',') + 1);
+            $image = base64_decode($imgData);
+
+            // Generate unique file name for image
+            $imageName = time() . '_2.png';
+
+            // Save image to public/img directory
+            $filePath = public_path('img') . '/' . $imageName;
+            file_put_contents($filePath, $image);
+
+            // Update advertisement model with image path
+            $advertisement->img_2 = '/img/' . $imageName;
+        }
+
+        if ($request->has('img_3') && Str::startsWith($requestData['img_3'], 'data:image')) {
+            // Decode the base64 image
+            $imgData = substr($requestData['img_3'], strpos($requestData['img_3'], ',') + 1);
+            $image = base64_decode($imgData);
+
+            // Generate unique file name for image
+            $imageName = time() . '_3.png';
+
+            // Save image to public/img directory
+            $filePath = public_path('img') . '/' . $imageName;
+            file_put_contents($filePath, $image);
+
+            // Update advertisement model with image path
+            $advertisement->img_3 = '/img/' . $imageName;
+        }
+
+        // 광고 정보 저장
+        $advertisement->save();
+
+        // 업데이트된 광고 목록 조회
+        $adType = $request->query('ad_type');
+        $query = Advertise::query();
+        if ($adType !== null) {
+            $query->where('ad_type', $adType);
+        }
+        $updatedList = $query->orderBy('created_at', 'DESC')->get();
+
+        // 응답 데이터 구성
+        $responseData = [
+            'code' => '0',
+            'msg' => '광고 수정 완료',
+            'data' => $updatedList
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+
+    // 광고취소
+    public function cancelAdvertisement(Request $request)
+    {
+        $requestData = $request->all();
+        $advertisementId = $requestData['id'];
+
+        // 해당 ID의 광고를 찾아서 취소 처리
+        $advertisement = Advertise::findOrFail($advertisementId);
+
+        // deleted_at에 현재 시간을 설정하여 소프트 삭제
+        $advertisement->deleted_at = now();
+        
+        // status를 4로 설정하여 취소 상태 표시
+        $advertisement->status = 4;
+
+        // 광고 정보 저장
+        $advertisement->save();
+
+        // 취소된 광고 목록 다시 조회
+        $query = Advertise::query();
+        $boardList = $query->orderBy('created_at', 'DESC')->get();
+
+        $responseData = [
+            'code' => '0',
+            'msg' => '광고 취소 완료',
+            'data' => $boardList
+        ];
+
+        return response()->json($responseData, 200);
+    }
+    // 배너 광고 관리
+    public function advertiseAdd(Request $request)
+    {
+        $adType = $request->query('ad_type'); // ad_type 파라미터 가져오기
+        
+        $query = Advertise::query();
+        
+        if ($adType !== null) {
+            $query->where('ad_type', $adType);
+        }
+        
+        $boardList = $query->orderBy('created_at', 'DESC')->take(5)->get(); // Limit to 5 items
+        
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득',
+            'data' => $boardList
+        ];
+        
+        return response()->json($responseData, 200);
+    }
 
 }
+
+
+    
+
+

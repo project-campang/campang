@@ -217,3 +217,8 @@
   border: 1px solid #ccc;
   border-radius: 4px;
 }
+
+/* 광고관리 */
+.advertise-count {
+  margin-right: 10px;
+}

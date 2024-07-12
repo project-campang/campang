@@ -80,6 +80,7 @@ const store = createStore({
             usermanagement:[],
             adverTisement:[],
             adminAdverTisement:[],
+            adminAdverTise:[],
             
         }
     },
@@ -323,6 +324,9 @@ const store = createStore({
         },
         setadminAdverTisement(state,data){
             state.adminAdverTisement = data.data;
+        },
+        setadminAdverTise(state,data){
+            state.adminAdverTise = data.data;
         },
     },
     actions: {
@@ -1415,25 +1419,51 @@ const store = createStore({
                     // console.log(response.data.data);
                 });
         },
-        // advertiseManagement(context) {
-        //     const url = '/api/Homepage/advertiseManagement';
-
-        //     axios.get(url)
-        //         .then(response => {
-        //             context.commit('setadminAdverTisement', response.data.data);
-        //             console.log(response.data.data);
-        //         })
-        //         .catch(error => {
-        //             console.log(`광고유저 획득 실패 (${error.response.data.code})`);
-        //         });
-        // },
+        async updateAdvertisement(context, formData) {
+            try {
+              const url = '/api/Homepage/updateAdvertisement';
+              const response = await axios.post(url, formData); // POST 요청으로 데이터 전송
+      
+              context.commit('setAdminAdvertisement', response.data.data);
+              console.log('광고 수정 성공');
+            } catch (error) {
+              console.error(`광고 수정 실패 (${error.response.data.code})`);
+              throw error; // 실패 시 예외 처리
+            }
+          },
+          async cancelAdvertisement(context, id) {
+            try {
+              const url = '/api/Homepage/cancelAdvertisement';
+              const response = await axios.delete(url, {
+                data: { id }  // DELETE 요청의 경우 데이터는 'data' 속성에 객체 형태로 전달해야 함
+              });
+          
+              context.commit('setAdminAdvertisement', response.data.data);
+              console.log('광고 취소 성공');
+            } catch (error) {
+              console.error(`광고 취소 실패 (${error.response.data.code})`);
+              throw error; 
+            }
+          },
+          
         async fetchAdvertisements({ commit }, adType) {
             try {
               const response = await axios.get('/api/Homepage/advertiseManagement', {
                 params: { ad_type: adType }
               });
               commit('setadminAdverTisement', response.data);
-              console.log(response.data.data);
+            //   console.log(response.data.data);
+            } catch (error) {
+              console.error('광고 데이터를 가져오는 도중 에러 발생:', error);
+            }
+          },
+        async advertisements({ commit }, adType) {
+            try {
+              const response = await axios.get('/api/Homepage/advertiseAdd', {
+                params: { ad_type: adType }
+              });
+              commit('setadminAdverTise', response.data);
+            //   console.log(response.data.data);
             } catch (error) {
               console.error('광고 데이터를 가져오는 도중 에러 발생:', error);
             }
@@ -1446,7 +1476,7 @@ const store = createStore({
             axios.get(url)
                 .then(response => {
                     context.commit('setNewadverTisement', response.data.data);
-                    console.log(response.data.data);
+                    // console.log(response.data.data);
                 })
                 .catch(error => {
                     console.log(`신규유저 획득 실패 (${error.response.data.code})`);
