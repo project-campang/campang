@@ -90,7 +90,7 @@
               <div class="my-page-top">품명</div>
               <div class="my-page-top">등록일</div>
               <div class="my-page-top">상태</div>
-              <div class="my-page-top"></div>
+              <!-- <div class="my-page-top"></div> -->
               <div></div>
             </div>
             <div class="content-row text-center content-font content-advertise" v-for="(item, index) in $store.state.adverTisement" :key="index">
@@ -99,8 +99,8 @@
               <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
               <div class="content-font">{{ item.status === '1' ? '접수' : item.status === '2' ? '대기' : item.status === '3' ? '완료' : '상태 없음' }}</div>
               <div>
-                <button type="button" class="btn mypage-btn-update" @click="updataModal(item, '광고')">상세</button>
-                <button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '광고')">취소</button>
+                <button type="button" class="btn mypage-btn-update" @click="detailModal(item, '광고')">상세</button>
+                <!-- <button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '광고')">취소</button> -->
               </div>
             </div>
             <hr class="item-hr">
@@ -366,6 +366,41 @@
       </div>
     </div>
   </div>
+<!-- 광고 상세Modal -->
+<div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg"> <!-- .modal-lg를 추가하여 모달 크기를 크게 합니다 -->
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="detailModalLabel">광고 상세 정보</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="detail-item">
+            <span class="detail-label">광고 품명:</span> <span class="detail-value">{{ selectedContent.title }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">광고 내용:</span> <span class="detail-value">{{ selectedContent.content }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">신청일:</span> <span class="detail-value">{{ selectedContent.created_at }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">접수 상태:</span> <span class="detail-value">{{ selectedContent.status }}</span>
+          </div>
+          <div class="detail-item" v-if="selectedContent.img_1">
+            <span class="detail-label">광고 이미지:</span>
+            <div class="detail-image">
+              <img :src="selectedContent.img_1" alt="이미지 미리보기" class="img-fluid">
+            </div>
+          </div>
+          <h2 class="detail-note">광고신청 후 수정이나 취소는 톡톡으로 문의주시기 바랍니다.</h2>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+        </div>
+      </div>
+    </div>
+</div>    
 </template>
 
 <script setup>
@@ -525,6 +560,7 @@ watchEffect(() => {
     // 모달 닫기
     $('#updateModal').modal('hide');
     $('#deleteModal').modal('hide');
+    $('#detailModal').modal('hide');
     // backdrop 강제 제거
     $('.modal-backdrop').remove();
   }
@@ -682,6 +718,15 @@ function updataModal(content, type) {
   contentType.value = type; // 컨텐츠 타입 설정
   // $('#contentModal').modal('hide'); // 상세 모달 닫기
   $('#updateModal').modal('show'); // 수정 모달 열기
+  isUpdateModalVisible.value = true;
+}
+
+// 광고상세 모달열기
+function detailModal(content) {
+  console.log(content);
+  selectedContent.value = { ...content }; // 선택된 컨텐츠 데이터 설정
+  const modal = new bootstrap.Modal(document.getElementById('detailModal'));
+  modal.show(); // 수정 모달 열기
   isUpdateModalVisible.value = true;
 }
 

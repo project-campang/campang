@@ -13,16 +13,16 @@
             <a href="#" class="nav-link" @click.prevent="selectPage('home')">홈</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('reservation')">예약관리</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('advertisement')">광고관리</a>
+            <!-- <a href="#" class="nav-link" @click.prevent="selectPage('reservation')">예약관리</a> -->
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" @click.prevent="selectPage('users')">유저관리</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('posts')">게시글관리</a>
+            <a href="#" class="nav-link" @click.prevent="selectPage('advertisement')">광고관리</a>
+          </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link" @click.prevent="selectPage('posts')">광고 게시글관리</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" @click.prevent="selectPage('camping')">캠핑장관리</a>
@@ -33,19 +33,19 @@
         <div v-if="selectedPage === 'home'">
           <Homepage />
         </div>
-        <div v-if="selectedPage === 'reservation'">
+        <!-- <div v-if="selectedPage === 'reservation'">
           <ReservationManagement />
+        </div> -->
+        <div v-if="selectedPage === 'users'">
+          <UserManagement />
         </div>
         <div v-if="selectedPage === 'advertisement'">
           <AdvertisementManagement />
         </div>
-        <div v-if="selectedPage === 'users'">
-          <UserManagement />
-        </div>
-        <!-- <div v-if="selectedPage === 'posts'">
+        <div v-if="selectedPage === 'posts'">
           <PostManagement />
         </div>
-        <div v-if="selectedPage === 'camping'">
+        <!-- <div v-if="selectedPage === 'camping'">
           <CampingManagement />
         </div> -->
       </div>
@@ -62,7 +62,7 @@
   import ReservationManagement from '../components/ReservationManagement.vue';
   import AdvertisementManagement from '../components/AdvertisementManagement.vue';
   import UserManagement from '../components/UserManagement.vue';
-//   import PostManagement from '../components/PostManagement.vue';
+  import PostManagement from '../components/PostManagement.vue';
 //   import CampingManagement from '../components/CampingManagement.vue';
 
 

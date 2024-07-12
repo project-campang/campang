@@ -79,5 +79,26 @@ class AdvertiseController extends Controller
     
         return response()->json($responseData, 200);
     }
+    // 관리자페이지 광고
+    public function advertiseManagement(Request $request)
+    {
+        $adType = $request->query('ad_type'); // ad_type 파라미터 가져오기
+        
+        $query = Advertise::query();
+
+        if ($adType !== null) {
+            $query->where('ad_type', $adType);
+        }
+
+        $boardList = $query->orderBy('created_at', 'DESC')->get();
+        
+        $responseData = [
+            'code' => '0',
+            'msg' => '게시글 획득',
+            'data' => $boardList
+        ];
+
+        return response()->json($responseData, 200);
+    }
 
 }
