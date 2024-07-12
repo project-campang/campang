@@ -139,7 +139,7 @@
     </div>
   </div>
 
-  <!-- 나라 : 광고 신청 카톡으로 받았을 시 수기로 추가하는 배너추가 모달 주의::: 저장버튼 누르지마세요오오오오오오오오오 -->
+  <!-- 나라 : 광고 신청 카톡으로 받았을 시 수기로 추가하는 배너추가 모달 주의::: 저장버튼 누르지마세요오오오오오오오오오
   <div class="modal fade" id="optionAddModal" tabindex="-1" aria-labelledby="optionAddModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -148,45 +148,38 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form @submit.prevent="submitForm">
-            <input type="hidden" v-model="modalData.id">
-            <input type="hidden" v-model="modalData.order">
+          <form @submit.prevent="submitAdForm" id="adForm">
+            <input type="hidden" name="user_id" id="user_id" :value="form.user_id">
             <div class="mb-3">
-              <label for="advertisementTitle" class="form-label">{{ selectedAdType === '1' ? '브랜드명' : '사업장명'}}</label>
-              <input type="text" class="form-control" id="advertisementTitle" v-model="modalData.title">
+              <div class="btn-group" role="group1">
+                  <button type="button" class="btn btn-outline-primary" :class="{ active: form.ad_type === 0 }" @click="form.ad_type = 0">캠핑장</button>
+                  <button type="button" class="btn btn-outline-primary" :class="{ active: form.ad_type === 1 }" @click="form.ad_type = 1">캠핑용품</button>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label for="advertisementTitle" class="form-label">광고할 상호(용품)명</label>
+              <input type="text" class="form-control" id="advertisementTitle" v-model="form.title">
             </div>
             <div class="mb-3">
               <label for="startDate" class="form-label">시작일</label>
-              <input type="date" class="form-control" id="startDate" v-model="modalData.start_date">
+              <input type="date" class="form-control" id="startDate" v-model="form.start_date">
             </div>
             <div class="mb-3">
               <label for="endDate" class="form-label">종료일</label>
-              <input type="date" class="form-control" id="endDate" v-model="modalData.end_date">
+              <input type="date" class="form-control" id="endDate" v-model="form.end_date">
             </div>
             <div class="mb-3">
               <label for="amount" class="form-label">결제(예정)금액</label>
-              <input type="text" class="form-control" id="amount" :value="formatCurrency(modalData.amount)" @input="modalData.amount = parseFloat($event.target.value.replace(/[^0-9.-]/g, '')) || 0">
+              <input type="text" class="form-control" id="amount" :value="formatCurrency(form.amount)" @input="form.amount = parseFloat($event.target.value.replace(/[^0-9.-]/g, '')) || 0">
             </div>
             <div class="mb-3">
               <label for="imageUpload1" class="form-label">이미지 업로드 1</label>
-              <input type="file" class="form-control" id="imageUpload1" @change="handleImageUpload(1)">
-              <img v-if="modalData.img_1" :src="modalData.img_1" alt="이미지 미리보기 1" class="img-thumbnail mt-2" style="max-width: 200px;">
-            </div>
-
-            <div class="mb-3">
-              <label for="imageUpload2" class="form-label">이미지 업로드 2</label>
-              <input type="file" class="form-control" id="imageUpload2" @change="handleImageUpload(2)">
-              <img v-if="modalData.img_2" :src="modalData.img_2" alt="이미지 미리보기 2" class="img-thumbnail mt-2" style="max-width: 200px;">
-            </div>
-
-            <div class="mb-3">
-              <label for="imageUpload3" class="form-label">이미지 업로드 3</label>
-              <input type="file" class="form-control" id="imageUpload3" @change="handleImageUpload(3)">
-              <img v-if="modalData.img_3" :src="modalData.img_3" alt="이미지 미리보기 3" class="img-thumbnail mt-2" style="max-width: 200px;">
+              <input type="file" class="form-control" id="imageUpload1" @change="handleImageUploadAdd(1)">
+              <img v-if="form.img_1" :src="form.img_1" alt="이미지 미리보기 1" class="img-thumbnail mt-2" style="max-width: 200px;">
             </div>
             <div class="mb-3">
               <label for="status" class="form-label">상태</label>
-              <select class="form-select" id="status" v-model="modalData.status">
+              <select class="form-select" id="status" v-model="form.status">
                 <option :value="'1'">접수</option>
                 <option :value="'2'">입금대기</option>
                 <option :value="'3'">입금완료</option>
@@ -204,7 +197,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </template>
 
 <script setup>
@@ -255,10 +248,6 @@ function openModal(item) {
   $('#exampleModal').modal('show'); // Bootstrap modal show
 }
 
-// 나라 배너추가
-function openAddModal() {
-  $('#optionAddModal').modal('show'); // Bootstrap modal show
-}
 
 function handleImageUpload(index) {
   if (event.target && event.target.files.length > 0) {
@@ -315,6 +304,153 @@ function cancelAdvertisement(advertisementId) {
     });
 }
 
+
+// 나라 광고배너 추가
+function openAddModal() {
+  $('#optionAddModal').modal('show'); // Bootstrap modal show
+}
+
+// function handleImageUploadAdd(index) {
+//   if (event.target && event.target.files.length > 0) {
+//     const file = event.target.files[0];
+//     const reader = new FileReader();
+//     reader.onload = () => {
+//       if (index === 1) {
+//         form.value.img_1 = reader.result;
+//       }
+//     };
+//     reader.readAsDataURL(file);
+//   } else {
+//     console.error('파일을 선택해 주세요.');
+//   }
+// }
+
+// document.addEventListener('DOMContentLoaded', function() {
+//     const adStart = document.getElementById('adStart');
+//     const adEnd = document.getElementById('adEnd');
+//     const adAmount = document.getElementById('adAmount');
+//     const adPeriodTotal = document.getElementById('adPeriodTotal');
+//     const businessNumber = document.getElementById('businessNumber');
+//     const btnGroup = document.querySelectorAll('.btn-group button');
+
+//     // function updateAmount() {
+//     //     const startDate = new Date(adStart.value);
+//     //     const endDate = new Date(adEnd.value);
+//     //     if (isNaN(startDate) || isNaN(endDate)) return; // 날짜가 유효하지 않은 경우 무시
+
+//     //     const diffTime = Math.abs(endDate - startDate);
+//     //     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+//     //     const amount = diffDays * 500000;  // 1일 광고비: 500,000원
+
+//     //     adAmount.value = `₩ ${amount.toLocaleString()}`;
+//     //     adPeriodTotal.innerText = `총 ${diffDays}일`;
+//     // }
+
+//     adStart.addEventListener('change', updateAmount);
+//     adEnd.addEventListener('change', updateAmount);
+
+//     businessNumber.addEventListener('input', function() {
+//         if (businessNumber.value.match(/^\d+$/)) {
+//             businessNumber.classList.remove('is-invalid');
+//             businessNumber.classList.add('is-valid');
+//         } else {
+//             businessNumber.classList.remove('is-valid');
+//             businessNumber.classList.add('is-invalid');
+//         }
+//     });
+
+//     btnGroup.forEach(btn => {
+//         btn.addEventListener('click', function() {
+//             btnGroup.forEach(b => b.classList.remove('active'));
+//             this.classList.add('active');
+//         });
+//     });
+// });
+
+// const form = ref({
+//     user_id: '',
+//     title: '',
+//     ad_type: 0,
+//     start_date: new Date().toISOString().substr(0, 10), // 오늘 날짜로 설정 (YYYY-MM-DD 형식)
+//     end_date: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().substr(0, 10), // 오늘로부터 일주일 후의 날짜로 설정 (YYYY-MM-DD 형식)
+//     amount: '₩3,500,000',
+//     content: '',
+//     account: '',
+//     img_1: null,
+//     agree: false,
+//     status: '', 
+// });
+
+// const isFormValid = computed(() => {
+//   // 필수 필드들이 모두 채워져 있는지 확인
+//   return (
+//     form.value.title !== '' &&
+//     form.value.start_date !== '' &&
+//     form.value.end_date !== '' &&
+//     form.value.name !== ''
+
+//   );
+// });
+
+
+// const handleFileUpload = (event) => {
+//     const file = event.target.files[0]; // 선택된 파일 객체
+//     form.value.img_1 = file; // Vue.js 데이터에 파일 객체 저장
+// };
+
+// const calculateDays = computed(() => {
+//       const startDate = new Date(form.value.start_date);
+//       const endDate = new Date(form.value.end_date);
+//       const diffTime = Math.abs(endDate - startDate);
+//       const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+//       return diffDays;
+//     });
+
+// const updateAmount = () => {
+//       const diffDays = calculateDays.value;
+//       const amount = diffDays * 500000;  // 1일 광고비: 500,000원
+//       form.value.amount = `₩${amount.toLocaleString()}`;
+//     };
+// const submitAdForm = async () => {
+//   if (isFormValid.value) {
+//     const formData = new FormData();
+//     Object.keys(form.value).forEach(key => {
+//     formData.append(key, form.value[key]);
+//     });
+//      // 이미지 파일이 선택되었을 경우에만 FormData에 추가
+//      if (form.img_1 instanceof File) {
+//         formData.append('img_1', form.img_1);
+//     }
+//     try {
+//         // 서버로 데이터 전송
+//         const response = await axios.post('/api/submitAd', formData);
+
+//         // 성공적으로 신청한 경우
+//         // 폼 초기화 (Vue 3 Composition API 방식)
+//         form.value = {
+//             user_id: '',
+//             title: '',
+//             ad_type: 0,
+//             start_date: new Date().toISOString().substr(0, 10), // 오늘 날짜로 설정 (YYYY-MM-DD 형식)
+//             end_date: new Date(new Date().getTime() + 7 * 24 * 60 * 60 * 1000).toISOString().substr(0, 10), // 오늘로부터 일주일 후의 날짜로 설정 (YYYY-MM-DD 형식)
+//             amount: '₩3,500,000',
+//             content: '',
+//             account: '',
+//             img_1: null,
+//             agree: false,
+//             status: '',
+//         };
+
+//       // 모달 닫기
+//       $('#optionAddModal').modal('hide');
+//     } catch (error) {
+//       console.error('광고신청 실패:', error);
+//     }
+//   } else {
+//     // 필수 입력 필드가 비어 있음을 사용자에게 알림
+//     alert('모든 필수 항목을 입력하세요.');
+//   }
+// };
 </script>
 
 <style scoped src="../css/admin.css"></style>
