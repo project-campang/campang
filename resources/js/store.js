@@ -313,7 +313,7 @@ const store = createStore({
         setRemoveMember(state,data){
             state.removeMember = data;
         },
-        setUserManagement(state,data){
+        setUserManagement(state, data) {
             state.usermanagement = data;
         },
         setadverTisement(state,data){
@@ -1071,7 +1071,7 @@ const store = createStore({
         },
 
         /**
-         * 캠핑장 데이터 획득
+         * 검색 페이지 - 캠핑장 데이터 획득
          * 
          * @param {*} context 
          */
@@ -1127,7 +1127,7 @@ const store = createStore({
 
 
         /**
-         * 시/도 데이터 획득
+         * 검색 페이지 - 시/도 데이터 획득
          * @param {*} context 
          */
         stateGet(context) {
@@ -1143,7 +1143,7 @@ const store = createStore({
         },
 
         /**
-         * 군/구 데이터 획득
+         * 검색 페이지 - 군/구 데이터 획득
          * @param {*} context 
          */
         countyGet(context ,id) {
@@ -1161,7 +1161,7 @@ const store = createStore({
 
 
         /**
-         * 검색 결과 획득
+         * 검색 페이지 - 검색 결과 획득
          * 
          * @param {*} context 
          */
@@ -1202,7 +1202,7 @@ const store = createStore({
         },
             
             /**
-             * 검색결과 카운트
+             * 검색 페이지 - 검색 결과 카운트
              * @param {*} context 
              */
             searchCount(context) {
@@ -1377,7 +1377,7 @@ const store = createStore({
             }
         },
 
-        // 관리자페이지 신규유저
+        // 관리자 페이지 - 신규유저
         setNewMember(context) {
             const url = '/api/Homepage/newmember';
 
@@ -1392,7 +1392,7 @@ const store = createStore({
                 });
         },
 
-        // 관리자페이지 - 유저탈퇴
+        // 관리자 페이지 - 유저탈퇴
         deleteUser({ commit }, userId) {
             return axios.post(`/api/users/${userId}/delete`)
                 .then(() => {
@@ -1412,7 +1412,7 @@ const store = createStore({
             axios.get(url)
                 .then(response => {
                     context.commit('setUserManagement', response.data.data);
-                    console.log(response.data.data);
+                    console.log('\u001b[1;35m store 레스폰스데이타:', response.data.data);
                 })
                 .catch(error => {
                     console.log(`신규유저 획득 실패 (${error.response.data.code})`);
@@ -1469,6 +1469,19 @@ const store = createStore({
             }
           },
         
+
+          
+        async fetchUserManagement({ commit }) {
+            try {
+              const url = '/api/Homepage/userManagement';
+              const response = await axios.get(url);
+              commit('setUserManagement', response.data.data);
+            } catch (error) {
+              console.error('유저 정보를 가져오는 도중 에러 발생:', error);
+              throw error; // 에러를 상위 컴포넌트로 던지거나, 적절히 처리할 수 있습니다.
+            }
+          },
+
         // 광고신청
         adverTisement(context) {
             const url = '/api/submitAd';
