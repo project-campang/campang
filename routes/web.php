@@ -116,6 +116,10 @@ Route::get('/api/Homepage/userManagement', [UserController::class, 'userManageme
 Route::post('/api/users/{id}/delete', [UserController::class, 'deleteUser']);
 //광고관리
 Route::get('/api/Homepage/advertiseManagement', [AdvertiseController::class, 'advertiseManagement']);
-
+Route::get('/api/Homepage/advertiseAdd', [AdvertiseController::class, 'advertiseAdd']);
+Route::post('/api/Homepage/updateAdvertisement', [AdvertiseController::class, 'updateAdvertisement']);
+Route::delete('/api/Homepage/cancelAdvertisement', [AdvertiseController::class, 'cancelAdvertisement']);
+//캠핑장
+Route::post('/api/Homepage/updateCamp', [CampController::class, 'updateCamp']);
 // 광고
 Route::post('/api/submitAd', [AdvertiseController::class, 'submitAdForm']);

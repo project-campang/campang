@@ -17,11 +17,13 @@ use App\Models\CampAmenity;
 use App\Models\CampAmusement;
 
 use App\Models\Stamp;
+use Carbon\Carbon;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Support\Facades\Storage;
 
 class CampController extends Controller
 {
@@ -350,4 +352,89 @@ class CampController extends Controller
 
         return response()->json($responseData, 200);
     }
+
+
+
+
+    public function updateCamp(Request $request)
+{
+    $id = $request->input('id');
+
+    $camp = Camp::find($id);
+    if (!$camp) {
+        return response()->json(['message' => '해당 캠핑장을 찾을 수 없습니다.'], 404);
+    }
+
+    // 업데이트할 필드들을 받아옵니다.
+    $camp->name = $request->input('name');
+    $camp->address = $request->input('address');
+    $camp->link = $request->input('link');
+    $camp->price = $request->input('price');
+    $camp->tel = $request->input('tel');
+
+    // deleted_at 필드 처리
+    $deletedAt = $request->input('deleted_at');
+    if ($deletedAt === 'null') {
+        $camp->deleted_at = null;
+    } else {
+        $camp->deleted_at = $deletedAt ? Carbon::parse($deletedAt) : null;
+    }
+
+    // 이미지 업데이트 처리
+    if ($request->hasFile('main_img')) {
+        // 기존 이미지 삭제
+        if ($camp->main_img) {
+            Storage::disk('public')->delete($camp->main_img); // Storage에서 이미지 삭제
+        }
+        // 새로운 이미지 저장
+        $camp->main_img = $request->file('main_img')->store('public/camp_images');
+    }
+    if ($request->hasFile('other_img_2')) {
+        // 기존 이미지 삭제
+        if ($camp->other_img_2) {
+            Storage::disk('public')->delete($camp->other_img_2); // Storage에서 이미지 삭제
+        }
+        // 새로운 이미지 저장
+        $camp->other_img_2 = $request->file('other_img_2')->store('public/camp_images');
+    }
+    if ($request->hasFile('other_img_3')) {
+        // 기존 이미지 삭제
+        if ($camp->other_img_3) {
+            Storage::disk('public')->delete($camp->other_img_3); // Storage에서 이미지 삭제
+        }
+        // 새로운 이미지 저장
+        $camp->other_img_3 = $request->file('other_img_3')->store('public/camp_images');
+    }
+    if ($request->hasFile('other_img_4')) {
+        // 기존 이미지 삭제
+        if ($camp->other_img_4) {
+            Storage::disk('public')->delete($camp->other_img_4); // Storage에서 이미지 삭제
+        }
+        // 새로운 이미지 저장
+        $camp->other_img_4 = $request->file('other_img_4')->store('public/camp_images');
+    }
+    if ($request->hasFile('other_img_5')) {
+        // 기존 이미지 삭제
+        if ($camp->other_img_5) {
+            Storage::disk('public')->delete($camp->other_img_5); // Storage에서 이미지 삭제
+        }
+        // 새로운 이미지 저장
+        $camp->other_img_5 = $request->file('other_img_5')->store('public/camp_images');
+    }
+    if ($request->hasFile('other_img_6')) {
+        // 기존 이미지 삭제
+        if ($camp->other_img_6) {
+            Storage::disk('public')->delete($camp->other_img_6); // Storage에서 이미지 삭제
+        }
+        // 새로운 이미지 저장
+        $camp->other_img_6 = $request->file('other_img_6')->store('public/camp_images');
+    }
+
+    $camp->save();
+
+    return response()->json(['message' => '캠핑장 정보를 업데이트했습니다.', 'data' => $camp], 200);
+}
+
+    
+
 }

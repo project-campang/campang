@@ -19,7 +19,7 @@
             <a href="#" class="nav-link" @click.prevent="selectPage('users')">유저관리</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('advertisement')">광고관리</a>
+            <a href="#" class="nav-link" @click.prevent="selectPage('advertisement')">광고요청관리</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" @click.prevent="selectPage('posts')">광고 게시글관리</a>
@@ -45,9 +45,9 @@
         <div v-if="selectedPage === 'posts'">
           <PostManagement />
         </div>
-        <!-- <div v-if="selectedPage === 'camping'">
+        <div v-if="selectedPage === 'camping'">
           <CampingManagement />
-        </div> -->
+        </div>
       </div>
     </div>
   </template>
@@ -63,7 +63,7 @@
   import AdvertisementManagement from '../components/AdvertisementManagement.vue';
   import UserManagement from '../components/UserManagement.vue';
   import PostManagement from '../components/PostManagement.vue';
-//   import CampingManagement from '../components/CampingManagement.vue';
+  import CampingManagement from '../components/CampingManagement.vue';
 
 
 const store = useStore();
