@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2>유저 관리</h2>
-    <input type="text" v-model="filterText" placeholder="유저 검색" class="search-input"/>
+    <input type="text" v-model="filterText" placeholder="유저 검색" @click="userInfoGet()" class="search-input"/>
     <!-- 테이블 헤더를 대체하는 요소 -->
     <div class="user-list-header">
       <span>ID</span>
@@ -103,18 +103,20 @@ import { ref, computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
-const userManagement = ref([]); // 배열로 초기화
+const userManagement = ref([]);
 const selectedUser = ref(null);
 const filterText = ref('');
+
 
 onBeforeMount(async () => {
     try {
         await store.dispatch('userManagement');
         userManagement.value = store.state.usermanagement; // 데이터 할당
-        console.log('유저 정보:', userManagement.value); // 데이터 확인
+        console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
     } catch (error) {
         console.error('유저 정보를 가져오는 도중 에러 발생:', error);
     }
+
 });
 
 const showUserDetails = (user) => {
@@ -130,11 +132,12 @@ const confirmDeleteUser = (user) => {
 // 검색어를 기준으로 유저 목록을 필터링하는 computed 프로퍼티
 const filteredUsers = computed(() => {
   const text = filterText.value.toLowerCase().trim();
+  if (!userManagement.value) {
+    return []; // 초기 데이터가 없는 경우 빈 배열 반환
+  }
   if (!text) {
-    // 검색어가 없을 때는 전체 유저 목록 반환
     return userManagement.value;
   } else {
-    // 검색어를 포함하는 유저를 필터링하여 반환
     return userManagement.value.filter(user => {
       return (
         user.id.toString().toLowerCase().includes(text) ||
@@ -146,6 +149,16 @@ const filteredUsers = computed(() => {
     });
   }
 });
+
+function userInfoGet() {
+      try {
+        store.dispatch('userManagement');
+        userManagement.value = store.state.usermanagement; // 데이터 할당
+        console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
+    } catch (error) {
+        console.error('유저 정보를 가져오는 도중 에러 발생:', error);
+    }
+}
 
 </script>
 
