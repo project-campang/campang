@@ -15,6 +15,6 @@ class CampAmusementSeeder extends Seeder
      */
     public function run()
     {
-        CampAmusement::factory(30)->create();
+        CampAmusement::factory(1000)->create();
     }
 }
