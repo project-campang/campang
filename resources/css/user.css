@@ -397,3 +397,57 @@ a {
     justify-content: space-around;
     /* text-align: center; */
 }
+
+.modal-header {
+    background-color: #f5f5f5;
+    border-bottom: 1px solid #ddd;
+  }
+  
+  .modal-title {
+    font-size: 1.25rem;
+    font-weight: bold;
+  }
+  
+  .modal-body {
+    padding: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+  
+.detail-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .detail-label {
+    font-weight: bold;
+    color: #333;
+    font-size: 1.8rem;
+  }
+  
+  .detail-value {
+    color: #555;
+    font-size: 1.5rem;
+  }
+  
+  .detail-note {
+    color: #d9534f;
+    margin-top: 20px;
+    font-size: 1.1rem;
+  }
+  
+  .modal-footer {
+    background-color: #f5f5f5;
+    border-top: 1px solid #ddd;
+  }
+  
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+  }

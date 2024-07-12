@@ -79,6 +79,8 @@ const store = createStore({
             removeMember:{},
             usermanagement:[],
             adverTisement:[],
+            adminAdverTisement:[],
+            
         }
     },
     mutations: {
@@ -318,6 +320,9 @@ const store = createStore({
         },
         setNewadverTisement(state,data){
             state.adverTisement = data;
+        },
+        setadminAdverTisement(state,data){
+            state.adminAdverTisement = data.data;
         },
     },
     actions: {
@@ -1410,7 +1415,32 @@ const store = createStore({
                     // console.log(response.data.data);
                 });
         },
+        // advertiseManagement(context) {
+        //     const url = '/api/Homepage/advertiseManagement';
 
+        //     axios.get(url)
+        //         .then(response => {
+        //             context.commit('setadminAdverTisement', response.data.data);
+        //             console.log(response.data.data);
+        //         })
+        //         .catch(error => {
+        //             console.log(`광고유저 획득 실패 (${error.response.data.code})`);
+        //         });
+        // },
+        async fetchAdvertisements({ commit }, adType) {
+            try {
+              const response = await axios.get('/api/Homepage/advertiseManagement', {
+                params: { ad_type: adType }
+              });
+              commit('setadminAdverTisement', response.data);
+              console.log(response.data.data);
+            } catch (error) {
+              console.error('광고 데이터를 가져오는 도중 에러 발생:', error);
+            }
+          },
+        
+
+          
         async fetchUserManagement({ commit }) {
             try {
               const url = '/api/Homepage/userManagement';

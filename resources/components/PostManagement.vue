@@ -2,7 +2,7 @@
     <div class="admin-page">
       <div class="content">
         <div class="header">
-          <h2>광고 관리</h2>
+          <h2>광고 게시글 관리</h2>
         </div>
         <div class="search-section">
           <div class="search-bar">

@@ -109,12 +109,13 @@ Route::post('/api/camp/{id}/wishBtnUpsert', [WishController::class, 'wishBtnUpse
 // 관리자 페이지
 // 로그인
 Route::post('/api/adminLogin', [AdminController::class, 'adminLogin']);
-
 // 관리자페이지 신규유져 획득
 Route::get('/api/Homepage/newmember', [UserController::class, 'newMember']);
 // 유저관리
 Route::get('/api/Homepage/userManagement', [UserController::class, 'userManagement']);
 Route::post('/api/users/{id}/delete', [UserController::class, 'deleteUser']);
+//광고관리
+Route::get('/api/Homepage/advertiseManagement', [AdvertiseController::class, 'advertiseManagement']);
 
 // 광고
 Route::post('/api/submitAd', [AdvertiseController::class, 'submitAdForm']);
