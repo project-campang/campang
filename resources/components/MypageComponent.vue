@@ -13,7 +13,7 @@
     <a href="#" class="my-page-link" @click="showContent(); markActive($event)"><p>-게시글</p></a>
     <a href="#review" class="my-page-link" @click="showContent(); markActive($event)"><p>-리뷰</p></a>
     <a href="#comment" class="my-page-link" @click="showContent(); markActive($event)"><p>-댓글</p></a>
-    <p v-if="$store.state.userInfo.business === '2'" @click="showAdvertisement">내광고</p>
+    <p v-if="$store.state.userInfo.business === '2'" @click="showAdvertisement" class="side-ad-btn-nr">내광고</p>
 </div>
 
     </div>

@@ -12,6 +12,8 @@
             <option value="1">브랜드</option>
           </select>
           <button class="btn btn-primary" @click="searchAds">검색</button>
+          <!-- 나라 배너추가 -->
+          <button type="button" class="btn btn-danger" @click="openAddModal()">배너추가</button>
         </div>
         <div class="summary">
           <span class="advertise-count">총 : {{ totalAdsCount }}개 </span>
@@ -136,6 +138,73 @@
       </div>
     </div>
   </div>
+
+  <!-- 나라 : 광고 신청 카톡으로 받았을 시 수기로 추가하는 배너추가 모달 주의::: 저장버튼 누르지마세요오오오오오오오오오 -->
+  <div class="modal fade" id="optionAddModal" tabindex="-1" aria-labelledby="optionAddModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="optionAddModalLabel">광고 배너추가</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <form @submit.prevent="submitForm">
+            <input type="hidden" v-model="modalData.id">
+            <input type="hidden" v-model="modalData.order">
+            <div class="mb-3">
+              <label for="advertisementTitle" class="form-label">{{ selectedAdType === '1' ? '브랜드명' : '사업장명'}}</label>
+              <input type="text" class="form-control" id="advertisementTitle" v-model="modalData.title">
+            </div>
+            <div class="mb-3">
+              <label for="startDate" class="form-label">시작일</label>
+              <input type="date" class="form-control" id="startDate" v-model="modalData.start_date">
+            </div>
+            <div class="mb-3">
+              <label for="endDate" class="form-label">종료일</label>
+              <input type="date" class="form-control" id="endDate" v-model="modalData.end_date">
+            </div>
+            <div class="mb-3">
+              <label for="amount" class="form-label">결제(예정)금액</label>
+              <input type="text" class="form-control" id="amount" :value="formatCurrency(modalData.amount)" @input="modalData.amount = parseFloat($event.target.value.replace(/[^0-9.-]/g, '')) || 0">
+            </div>
+            <div class="mb-3">
+              <label for="imageUpload1" class="form-label">이미지 업로드 1</label>
+              <input type="file" class="form-control" id="imageUpload1" @change="handleImageUpload(1)">
+              <img v-if="modalData.img_1" :src="modalData.img_1" alt="이미지 미리보기 1" class="img-thumbnail mt-2" style="max-width: 200px;">
+            </div>
+
+            <div class="mb-3">
+              <label for="imageUpload2" class="form-label">이미지 업로드 2</label>
+              <input type="file" class="form-control" id="imageUpload2" @change="handleImageUpload(2)">
+              <img v-if="modalData.img_2" :src="modalData.img_2" alt="이미지 미리보기 2" class="img-thumbnail mt-2" style="max-width: 200px;">
+            </div>
+
+            <div class="mb-3">
+              <label for="imageUpload3" class="form-label">이미지 업로드 3</label>
+              <input type="file" class="form-control" id="imageUpload3" @change="handleImageUpload(3)">
+              <img v-if="modalData.img_3" :src="modalData.img_3" alt="이미지 미리보기 3" class="img-thumbnail mt-2" style="max-width: 200px;">
+            </div>
+            <div class="mb-3">
+              <label for="status" class="form-label">상태</label>
+              <select class="form-select" id="status" v-model="modalData.status">
+                <option :value="'1'">접수</option>
+                <option :value="'2'">입금대기</option>
+                <option :value="'3'">입금완료</option>
+                <option :value="'4'">취소</option>
+                <option :value="'5'">만료</option>
+                <option :value="'6'">환불대기</option>
+                <option :value="'7'">환불완료</option>
+              </select>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">저장</button>
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script setup>
@@ -184,6 +253,11 @@ function getStatusCount(status) {
 function openModal(item) {
   modalData.value = { ...item };
   $('#exampleModal').modal('show'); // Bootstrap modal show
+}
+
+// 나라 배너추가
+function openAddModal() {
+  $('#optionAddModal').modal('show'); // Bootstrap modal show
 }
 
 function handleImageUpload(index) {

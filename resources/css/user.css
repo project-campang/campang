@@ -79,7 +79,9 @@ a {
     color: black;
     cursor: pointer;
 }
-
+.side-ad-btn-nr {
+    cursor: pointer;
+}
 
 /* 활성화된 버튼의 스타일 */
 .my-page-link.active p {
@@ -393,9 +395,8 @@ a {
 }  
 
 .content-advertise {
-    display: flex;
-    justify-content: space-around;
-    /* text-align: center; */
+    display: grid;
+    grid-template-columns: 0.3fr 1fr 1fr 1fr 0.5fr;
 }
 
 .modal-header {
