@@ -328,6 +328,9 @@ const store = createStore({
         setadminAdverTise(state,data){
             state.adminAdverTise = data.data;
         },
+        setupdateCamp(state,data){
+            state.updateCamp = data;
+        },
     },
     actions: {
         // async login(context, loginForm) {
@@ -1468,8 +1471,19 @@ const store = createStore({
               console.error('광고 데이터를 가져오는 도중 에러 발생:', error);
             }
           },
-        
-
+        // 캠핑장 수정
+          async updateCamp(context, formData) {
+            try {
+              const url = '/api/Homepage/updateCamp';
+              const response = await axios.post(url, formData); // POST 요청으로 데이터 전송
+      
+              context.commit('setadminAdverTise', response.data.data);
+              console.log('광고 수정 성공');
+            } catch (error) {
+              console.error(`광고 수정 실패 (${error.response.data.code})`);
+              throw error; // 실패 시 예외 처리
+            }
+          },
           
         async fetchUserManagement({ commit }) {
             try {

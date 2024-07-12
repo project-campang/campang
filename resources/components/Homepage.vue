@@ -1,20 +1,20 @@
 <template>
+
   <div>
     <h2>새로운 요청</h2>
     <div class="request-section">
       <div class="request-box">
-        <p>캠핑장등록</p>
-        <p>0 건</p>
+        <p>캠핑장 등록</p>
+        <p v-if="newCampgroundRegistrationCount !== null">{{ newCampgroundRegistrationCount }} 건</p>
+        <p v-else>Loading...</p>
       </div>
       <div class="request-box">
         <p>광고 신청</p>
-        <p>1 건</p>
-      </div>
-      <div class="request-box">
-        <p>예약환불 신청</p>
-        <p>0 건</p>
+        <p v-if="newAdvertisementRequestCount !== null">{{ newAdvertisementRequestCount }} 건</p>
+        <p v-else>Loading...</p>
       </div>
     </div>
+  </div>
 
     <h2>최근 가입내역 5건</h2>
     <!-- 테이블 헤더를 대체하는 요소 -->
@@ -53,7 +53,7 @@
         </div>
       </li>
     </ul>
-  </div>
+
 
   <!-- Modal -->
   <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -90,31 +90,55 @@
 </template>
 
 <script setup>
-import { ref, onBeforeMount } from 'vue';
+import { ref, onBeforeMount, computed } from 'vue';
 import { useStore } from 'vuex';
 
 const store = useStore();
 const newMembers = ref([]);
 const selectedUser = ref(null);
 
+// 신규 캠핑장 등록 건수 계산
+const newCampgroundRegistrationCount = computed(() => {
+  if (!store.state.searchResult) return null;
+
+  return store.state.searchResult.filter(item => {
+    const createdAt = new Date(item.created_at);
+    const today = new Date();
+    const sevenDaysAgo = new Date(today.setDate(today.getDate() - 7));
+    return createdAt >= sevenDaysAgo;
+  }).length;
+});
+
+// 광고 신청 건수 계산
+const newAdvertisementRequestCount = computed(() => {
+  if (!store.state.adminAdvertisement) return null;
+
+  return store.state.adminAdvertisement.filter(item => {
+    const createdAt = new Date(item.created_at);
+    const today = new Date();
+    const sevenDaysAgo = new Date(today.setDate(today.getDate() - 7));
+    return createdAt >= sevenDaysAgo;
+  }).length;
+});
+
 onBeforeMount(() => {
-    store.dispatch('setNewMember')
-        .then(() => {
-            newMembers.value = store.state.newmember;
-        })
-        .catch((error) => {
-            console.error('신규 유저를 가져오는 도중 에러 발생:', error);
-        });
+  store.dispatch('setNewMember')
+    .then(() => {
+      newMembers.value = store.state.newmember;
+    })
+    .catch((error) => {
+      console.error('신규 유저를 가져오는 도중 에러 발생:', error);
+    });
 });
 
 const showUserDetails = (user) => {
-    selectedUser.value = user;
+  selectedUser.value = user;
 };
 
 const confirmDeleteUser = (user) => {
-    if (confirm(`${user.name}님을 탈퇴시키겠습니까?`)) {
-        store.dispatch('deleteUser', user.id);
-    }
+  if (confirm(`${user.name}님을 탈퇴시키겠습니까?`)) {
+    store.dispatch('deleteUser', user.id);
+  }
 };
 </script>
 

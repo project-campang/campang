@@ -45,9 +45,9 @@
         <div v-if="selectedPage === 'posts'">
           <PostManagement />
         </div>
-        <!-- <div v-if="selectedPage === 'camping'">
+        <div v-if="selectedPage === 'camping'">
           <CampingManagement />
-        </div> -->
+        </div>
       </div>
     </div>
   </template>
@@ -63,7 +63,7 @@
   import AdvertisementManagement from '../components/AdvertisementManagement.vue';
   import UserManagement from '../components/UserManagement.vue';
   import PostManagement from '../components/PostManagement.vue';
-//   import CampingManagement from '../components/CampingManagement.vue';
+  import CampingManagement from '../components/CampingManagement.vue';
 
 
 const store = useStore();
