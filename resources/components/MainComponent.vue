@@ -40,88 +40,14 @@
                     </div>
                 </div>
             </div>
-            <div class="main-ad">
-                <div class="ad-con">
-                    <div class="campang-pick">
-                        <span>캠팡 Pick! 둘러보기</span>
-                    </div>
-                    <div class="ad-box-con">
-                        <div v-if="isMobile" class="mobile-ad">
-                            <Carousel :autoplay="10000" :wrap-around="true">
-                                <Slide v-for="(image, index) in images" :key="index" class="custom-slide">
-                                    <!-- <div class="carousel__item">{{ slide }}</div> -->
-                                    <div class="ad-box" :style="{backgroundImage: 'url(' + image + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}">
-                                        <!-- <div class="ad-box" style="background-image: url(images); background-repeat: no-repeat; background-size: cover;"> -->
-                                        <div class="ad-info">
-                                            <!-- <div class="ad-info" style=" height: 150px; color: white; background: linear-gradient(to bottom, rgba(0, 0, 0, 0.0), rgba(0, 0, 0, 0.9)), transparent; padding-bottom: 10px; margin-bottom: 0; border-radius: 0 0 20px 20px; align-items: flex-end;"> -->
-                                            <div class="ad-title">
-                                                그린야영장
-                                            </div>
-                                            <div class="ad-content">
-                                                당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Slide>
-    
-                                <template #addons>
-                                <!-- <Navigation /> -->
-                                <Pagination />
-                                </template>
-                            </Carousel>
-                        </div>
-                        <div v-else class="web-ad">
-                            <!-- <Carousel id="gallery" :items-to-show="1" :wrap-around="false" v-model="currentSlide">
-                                <Slide v-for="(image, index) in images" :key="index">
-                                    <div class="ad-box" :style="{backgroundImage: 'url(' + image + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}">
-                                        <div class="ad-info">
-                                            <div class="ad-title">
-                                                그린야영장
-                                            </div>
-                                            <div class="ad-content">
-                                                당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Slide>
-                            </Carousel>
-
-                            <Carousel id="thumbnails" :items-to-show="4" :wrap-around="true" v-model="currentSlide" ref="carousel" >
-                                <Slide v-for="(image, index) in images" :key="index">
-                                <div class="carousel__item" @click="slideTo(slide - 1)">{{ slide }}</div>
-                                <div @click="slideTo(slide - 1)" class="ad-box" :style="{backgroundImage: 'url(' + image + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}">
-                                        <div class="ad-info">
-                                            <div class="ad-title">
-                                                그린야영장
-                                            </div>
-                                            <div class="ad-content">
-                                                당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Slide>
-                            </Carousel> -->
-
-                            <Carousel :autoplay="5000" :itemsToShow="3.95" :wrapAround="true" :transition="500">
-                                <Slide v-for="(image, index) in images" :key="index">
-                                    <div class="ad-box" :style="{backgroundImage: 'url(' + image + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}">
-                                        <div class="ad-info">
-                                            <div class="ad-title">
-                                                그린야영장
-                                            </div>
-                                            <div class="ad-content">
-                                                당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
-                                            </div>
-                                        </div>
-                                    </div>
-                                </Slide>
-
-                                <template #addons>
-                                <Navigation />
-                                <Pagination />
-                                </template>
-                            </Carousel>
-                            <!-- <div class="ad-box" style="background-image: url('/camp_img/2/2-1.png'); background-repeat: no-repeat; background-size: cover;">
+            <div class="test-ad-con">
+                <div class="campang-pick">
+                    <span>캠팡 Pick! 둘러보기</span>
+                </div>
+                <div class="test-ad">
+                    <Carousel v-bind="settings" :breakpoints="breakpoints" :autoplay="5000" :wrapAround="true">
+                        <Slide v-for="(image, index) in images" :key="index">
+                            <div class="ad-box" :style="{backgroundImage: 'url(' + image + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}">
                                 <div class="ad-info">
                                     <div class="ad-title">
                                         그린야영장
@@ -131,28 +57,12 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="ad-box" style="background-image: url('/camp_img/11/11-2.png'); background-repeat: no-repeat; background-size: cover;">
-                                <div class="ad-info">
-                                    <div class="ad-title">
-                                        그린야영장
-                                    </div>
-                                    <div class="ad-content">
-                                        당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="ad-box" style="background-image: url('/camp_img/16/16-5.png'); background-repeat: no-repeat; background-size: cover;">
-                                <div class="ad-info">
-                                    <div class="ad-title">
-                                        그린야영장
-                                    </div>
-                                    <div class="ad-content">
-                                        당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
-                                    </div>
-                                </div>
-                            </div> -->
-                        </div>
-                    </div>
+                        </Slide>
+                
+                        <template #addons>
+                        <Navigation />
+                        </template>
+                    </Carousel>
                 </div>
             </div>
         </div>
@@ -564,36 +474,60 @@ const windowWidth = ref(window.innerWidth);
 // 윈도우 사이즈가 변경될 때 업데이트
 const updateWindowWidth = () => {
   windowWidth.value = window.innerWidth;
+  console.log('Window width updated:', windowWidth.value);
 };
 
 // 윈도우 리사이즈 이벤트 리스너 등록
 onMounted(() => {
   window.addEventListener('resize', updateWindowWidth);
+  console.log('Mounted, window width:', windowWidth.value);
 });
 
 // 컴포넌트 제거 전에 이벤트 리스너 제거
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateWindowWidth);
+  console.log('Unmounted');  // 콘솔 로그 추가
 });
 
 // 모바일 화면인지 여부를 계산
 const isMobile = computed(() => {
-  return windowWidth.value <= 768; // 예시로 768px 이하를 모바일로 간주
+  const mobile = windowWidth.value <= 768; // 예시로 768px 이하를 모바일로 간주
+  console.log('isMobile:', mobile);  // 콘솔 로그 추가
+  return mobile;    
 });
 
-const currentSlide = ref(0);
+const settings = {
+      itemsToShow: 1,
+      snapAlign: 'center',
+};
 
-function slideTo(val) {
-  currentSlide.value = val;
-}
+// breakpoints are mobile first
+// any settings not specified will fallback to the carousel settings
+const breakpoints = {
+  // 700px and up
+  700: {
+        itemsToShow: 3.5,
+        snapAlign: 'center',
+      },
+      // 1024 and up
+      1024: {
+        itemsToShow: 5,
+        snapAlign: 'center',
+      },
+  // 1024 and up
+//   1024: {
+//     itemsToShow: 5,
+//     snapAlign: 'center',
+//   },
+};
 
 </script>
 
 <style>
 @import url('../css/main.css');
-@media screen and (max-width: 760px) {
+/* @media screen and (max-width: 760px) {
     .carousel__slide {
-      padding: 10px;
+      padding: 5px;
     }
     
     .carousel__prev,
@@ -603,9 +537,7 @@ function slideTo(val) {
     }
     .carousel__viewport {
         height: 85%;
-        /* margin-top: 62px; */
         overflow: visible;
-        overflow-x: hidden;
     }
     .carousel__slide {
         width: 100%;
@@ -617,12 +549,12 @@ function slideTo(val) {
 }
 .carousel__slide {
   padding: 5px;
-}
+} */
 
-.carousel__viewport {
+/* .carousel__viewport {
   perspective: 2000px;
-}
-
+} */
+/* 
 .carousel__track {
   transform-style: preserve-3d;
 }
@@ -653,5 +585,21 @@ function slideTo(val) {
 .carousel__slide--active {
   opacity: 1;
   transform: rotateY(0) scale(1.1);
-}
+} */
+ .test-ad {
+    width: 90%;
+    /* background-color: #000; */
+    margin: 0 auto;
+ }
+ .test-ad-con {
+    background-color: rgba(240, 248, 255, 0.531);
+    padding: 10px 0 50px 0;
+    border-radius: 30px;
+    margin: 60px 5% 0 5%;
+ }
+ @media screen and(max-width:800px) {
+    .test-ad-con {
+        margin: 60px 5% 60px 5%;
+    }
+ }
 </style>

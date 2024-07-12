@@ -89,22 +89,25 @@ a {
     background-position: center;
     padding: 2rem 1rem;
     box-sizing: border-box;
-
+}
+@media screen and (max-width: 700px) {
+    .main-main {
+        background-repeat: no-repeat;
+        background-position: top;
+        background-size: 730%;
+    }
 }
 
 .main-first {
-    display: grid;
-    grid-template-rows: 1fr 1fr;
-    height: 800px;
+    height: 600px;
 }
 
 .main-default {
-    margin: 50px 250px;
     display: grid;
     grid-template-columns: 1fr 2fr;
     justify-items: end;
     align-items: center;
-    margin: 0 250px;
+    margin: 60px 250px 0 250px;
 }
 
 .my-logo-img {
@@ -217,6 +220,7 @@ a {
     /* background-color: blue; */
     display: grid;
     justify-items: center;
+    width: 100%;
 }
 
 .ad-con {
@@ -249,14 +253,8 @@ a {
     width: 300px;
     /* transition: filter 0.3s ease; */
 }
-/* .ad2 {
-    display: inline-block;
-}
-.ad3 {
-    display: inline-block;
-} */
 .mobile-ad-width {
-    width: 290%;
+    width: 70%;
 }
 .ad2 {
     display: none;
@@ -293,33 +291,30 @@ a {
 }
 @media (max-width: 768px) {
     .ad-con {
-        width: 90%; /* Adjusted width for smaller screens */
+        width: 90%;
     }
 
     .ad-box-con {
-        /* grid-template-columns: 1fr; Stack columns on mobile */
-        /* overflow-x: scroll; */
         display: inline-block;
-        height: 0;
     }
-
+/* 
     .ad-box {
-        margin: 5px; /* Adjusted margin for smaller spacing */
+        margin: 5px;
         height: 110%;
-    }
+    } */
 
     .ad-title {
         margin: 5px;
-        font-size: 0.9rem; /* Adjusted font size for smaller screens */
+        font-size: 0.9rem;
     }
 
     .ad-content {
         margin: 5px;
-        font-size: 0.7rem; /* Adjusted font size for smaller screens */
+        font-size: 0.7rem;
     }
 
     .ad-info {
-        height: auto; /* Adjusted height to be flexible on smaller screens */
+        height: auto;
     }
 
 }
@@ -717,7 +712,7 @@ a {
         padding: 2rem;
         width: 100%;
         height: auto;
-        margin: 10rem auto;
+        margin: 25rem auto 0 auto;
         grid-template-rows: 1fr 0.2fr;
     }
 
