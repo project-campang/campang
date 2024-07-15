@@ -125,15 +125,18 @@
                         </div>
                         <div class="mb-3 register-modal">
                             <label  class="suite">
-                                <input type="checkbox" class="suite" name="agree_personal" required> 개인정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>
+                                <input type="checkbox" class="suite" name="agree_personal" required> 개인정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>ㅤ<button type="button" class="agree-btn" @click="toggleAgree1">보기></button>
+                                <p v-if="agreeFlg1"class="suite">● 이름, 전화번호, 닉네임, 이메일</p>
                             </label>
                             <br>
                             <label  class="suite">
-                                <input type="checkbox" class="suite" name="agree_purpose" required> 개인정보 이용 목적 동의 <span class="text-danger suite">(필수)</span>
+                                <input type="checkbox" class="suite" name="agree_purpose" required> 개인정보 이용 목적 동의 <span class="text-danger suite">(필수)</span>ㅤ<button type="button" class="agree-btn" @click="toggleAgree2">보기></button>
+                                <p v-if="agreeFlg2"class="suite">● 회원 관리, 고객 상담 및 민원 처리, 서비스 제공 및 운영, 마케팅 및 광고에의 활용</p>
                             </label>
                             <br>
                             <label  class="suite">
-                                <input type="checkbox" class="suite" name="agree_retention" required> 개인정보 보유 및 이용 기간 동의 <span class="text-danger suite">(필수)</span>
+                                <input type="checkbox" class="suite" name="agree_retention" required> 개인정보 보유 및 이용 기간 동의 <span class="text-danger suite">(필수)</span>ㅤ<button type="button" class="agree-btn" @click="toggleAgree3">보기></button>
+                                <p v-if="agreeFlg3"class="suite">● 회원 탈퇴 시까지 보유 및 이용. 단, 관련 법령에 따라 일정 기간 보유</p>
                             </label>
                         </div>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -189,19 +192,23 @@
                         </div>
                         <div class="mb-3 register-modal">
                             <label  class="suite">
-                                <input type="checkbox" class="suite" name="agree_personal" required> 개인정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>
+                                <input type="checkbox" class="suite" name="agree_personal" required> 개인정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>ㅤ<button type="button" class="agree-btn" @click="toggleAgree1">보기></button>
+                                <p v-if="agreeFlg1"class="suite">● 이름, 전화번호, 닉네임, 이메일</p>
                             </label>
                             <br>
                             <label  class="suite">
-                                <input type="checkbox" class="suite" name="agree_business" required> 사업자 정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>
+                                <input type="checkbox" class="suite" name="agree_business" required> 사업자 정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>ㅤ<button type="button" class="agree-btn" @click="toggleAgree2">보기></button>
+                                <p v-if="agreeFlg2"class="suite">● 사업자번호, 사업장 이름</p>
                             </label>
                             <br>
                             <label  class="suite">
-                                <input type="checkbox" class="suite" name="agree_purpose" required> 개인정보 이용 목적 동의 <span class="text-danger suite">(필수)</span>
+                                <input type="checkbox" class="suite" name="agree_purpose" required> 개인정보 이용 목적 동의 <span class="text-danger suite">(필수)</span>ㅤ<button type="button" class="agree-btn" @click="toggleAgree3">보기></button>
+                                <p v-if="agreeFlg3"class="suite">● 회원 관리, 고객 상담 및 민원 처리, 서비스 제공 및 운영, 마케팅 및 광고에의 활용</p>
                             </label>
                             <br>
                             <label class="suite">
-                                <input type="checkbox" class="suite" name="agree_retention" required> 개인정보 보유 및 이용 기간 동의 <span class="text-danger suite">(필수)</span>
+                                <input type="checkbox" class="suite" name="agree_retention" required> 개인정보 보유 및 이용 기간 동의 <span class="text-danger suite">(필수)</span>ㅤ<button type="button" class="agree-btn" @click="toggleAgree4">보기></button>
+                                <p v-if="agreeFlg4"class="suite">● 회원 탈퇴 시까지 보유 및 이용. 단, 관련 법령에 따라 일정 기간 보유</p>
                             </label>
                         </div>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
@@ -438,6 +445,25 @@ import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
 import { useRoute } from 'vue-router';
+
+let agreeFlg1 = ref(false);
+let agreeFlg2 = ref(false);
+let agreeFlg3 = ref(false);
+let agreeFlg4 = ref(false);
+
+const toggleAgree1 = () => {
+    agreeFlg1.value = !agreeFlg1.value;
+};
+const toggleAgree2 = () => {
+    agreeFlg2.value = !agreeFlg2.value;
+};
+const toggleAgree3 = () => {
+    agreeFlg3.value = !agreeFlg3.value;
+};
+const toggleAgree4 = () => {
+    agreeFlg4.value = !agreeFlg4.value;
+};
+
 
 const selectedOption = ref('1'); // 기본 선택 옵션
 
