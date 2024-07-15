@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use App\Models\Admin;
 use App\Models\Advertise;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -243,6 +244,33 @@ class AdvertiseController extends Controller
         return response()->json($responseData, 200);
     }
 
+    // 광고 캠핑장 데이터 불러오기
+    public function getAds() {
+        $date = Carbon::now();
+        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','0')->orderBy('order','ASC')->get();
+
+        $responseData = [
+            'code'=> '0',
+            'msg' => '게시할광고 획득완료',
+            'data' => $ads
+        ];
+
+        return response()->json($responseData, 200);
+    }
+
+    //광고 캠핑장 브랜드 데이터 불러오기
+    public function getBrandAds() {
+        $date = Carbon::now();
+        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','1')->orderBy('order','ASC')->get();
+
+        $responseData = [
+            'code'=> '0',
+            'msg' => '게시할 브랜드광고 획득완료',
+            'data' => $ads
+        ];
+
+        return response()->json($responseData, 200);
+    }
 }
 
 

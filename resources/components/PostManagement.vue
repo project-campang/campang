@@ -27,19 +27,19 @@
                 <th>액션</th>
               </tr>
             </thead>
-            <tbody>
+            <tbody class="aggroL">
               <tr v-for="(item, idx) in $store.state.adminAdverTise" :key="idx">
-                <td>{{ idx + 1 }}</td>
-                <td>{{ item.id }}</td>
-                <td>{{ item.title }}</td>
-                <td>{{ item.start_date + ' ~ ' + item.end_date }}</td>
-                <td>메인</td>
-                <td>{{ item.order }}</td>
+                <td class="aggroL">{{ idx + 1 }}</td>
+                <td class="aggroL">{{ item.id }}</td>
+                <td class="aggroL">{{ item.title }}</td>
+                <td class="aggroL">{{ item.start_date + ' ~ ' + item.end_date }}</td>
+                <td class="aggroL">메인</td>
+                <td class="aggroL">{{ item.order }}</td>
                 <td>
                   <!-- <button class="btn btn-link" @click="toggleAccordion(idx)">
                     상세보기
                   </button> -->
-                  <button type="button" class="btn btn-primary btn-sm" @click="openModal(item)">
+                  <button type="button" class="btn btn-primary btn-sm aggroL" @click="openModal(item)">
                     수정
                   </button>
                 </td>

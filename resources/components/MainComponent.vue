@@ -45,15 +45,15 @@
                     <span>캠팡 Pick! 둘러보기</span>
                 </div>
                 <div class="test-ad">
-                    <Carousel v-bind="settings" :breakpoints="breakpoints" :autoplay="5000" :wrapAround="true">
-                        <Slide v-for="(image, index) in images" :key="index">
-                            <div class="ad-box" :style="{backgroundImage: 'url(' + image + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover'}">
+                    <Carousel v-bind="settings" :breakpoints="breakpoints" :autoplay="5000" :wrapAround="true" :pauseAutoplayOnHover="true">
+                        <Slide v-for="(item, index) in $store.state.campAds" :key="index">
+                            <div class="ad-box" :style="{backgroundImage: 'url(' + item.img_1 + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}">
                                 <div class="ad-info">
                                     <div class="ad-title">
-                                        그린야영장
+                                        {{ item.title }}
                                     </div>
                                     <div class="ad-content">
-                                        당신이 꿈꾸던 완벽한 탈출 당신을 기다리는 특별한 여행.
+                                        {{ item.content }}
                                     </div>
                                 </div>
                             </div>
@@ -164,8 +164,8 @@
                 <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="last-right-box">
                     <div class="slider" v-for="i in 1000">
-                        <div class="slide" v-for="(item, key) in $store.state.suggestbrand.concat($store.state.suggestbrand)" :key="key">
-                            <img :src="item.img" alt="브랜드 이미지">
+                        <div class="slide" v-for="(item, key) in $store.state.campBrandAds.concat($store.state.campBrandAds)" :key="key">
+                            <img :src="item.img_1" alt="브랜드 이미지">
                             <!-- {{ i++ }} -->
                             <input type="hidden" name="for" :value="i++">
                             <!-- <p>{{ item.name }}</p> -->
@@ -395,6 +395,8 @@ onBeforeMount(() => {
     store.dispatch('fetchCamps');
     store.dispatch('updateUserPosition');
     store.dispatch('stampCnt');
+    store.dispatch('getCampAds');
+    store.dispatch('getCampBrandAds');
 
     // 시군구 정보
     if (store.state.stateData.length < 1) {

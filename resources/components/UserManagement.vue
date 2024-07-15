@@ -17,48 +17,48 @@
     <!-- 유저 목록을 필터링하여 보여주는 부분 -->
     <ul class="user-list">
       <li v-if="filterText" v-for="(item, key) in filteredUsers" :key="key" class="user-item">
-        <span>{{ item.id }}</span>
-        <span>{{ item.business === '0' ? '일반' : '사업자' }}</span>
-        <span class="home-email">{{ item.email }}</span>
-        <span>{{ item.name }}</span>
-        <span>{{ item.nick_name }}</span>
-        <span>{{ item.tel }}</span>
-        <span>{{ item.post_count }}</span>
-        <span>{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
+        <span class="aggroL">{{ item.id }}</span>
+        <span class="aggroL">{{ item.business === '0' ? '일반' : '사업자' }}</span>
+        <span class="home-email aggroL">{{ item.email }}</span>
+        <span class="aggroL">{{ item.name }}</span>
+        <span class="aggroL">{{ item.nick_name }}</span>
+        <span class="aggroL">{{ item.tel }}</span>
+        <span class="aggroL">{{ item.post_count }}</span>
+        <span class="aggroL">{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
         <div class="actions">
           <button 
               type="button" 
-              class="btn btn-primary btn-sm" 
+              class="btn btn-primary btn-sm aggroL" 
               data-bs-toggle="modal" 
               data-bs-target="#exampleModal"
               @click="showUserDetails(item)"
           >
               보기
           </button>
-          <button v-if="!item.deleted_at" class="btn btn-danger btn-sm" @click="confirmDeleteUser(item)">탈퇴</button>
+          <button v-if="!item.deleted_at" class="btn btn-danger btn-sm aggroL" @click="confirmDeleteUser(item)">탈퇴</button>
         </div>
       </li>
       <!-- 검색어가 없을 때 전체 유저 목록을 보여주는 부분 -->
       <li v-else v-for="(item, index) in store.state.usermanagement" :key="index" class="user-item">
-        <span>{{ item.id }}</span>
-        <span>{{ item.business === '0' ? '일반' : '사업자' }}</span>
-        <span class="home-email">{{ item.email }}</span>
-        <span>{{ item.name }}</span>
-        <span>{{ item.nick_name }}</span>
-        <span>{{ item.tel }}</span>
-        <span>{{ item.post_count }}</span>
-        <span>{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
+        <span class="aggroL">{{ item.id }}</span>
+        <span class="aggroL">{{ item.business === '0' ? '일반' : '사업자' }}</span>
+        <span class="home-email aggroL">{{ item.email }}</span>
+        <span class="aggroL">{{ item.name }}</span>
+        <span class="aggroL">{{ item.nick_name }}</span>
+        <span class="aggroL">{{ item.tel }}</span>
+        <span class="aggroL">{{ item.post_count }}</span>
+        <span class="aggroL">{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
         <div class="actions">
           <button 
               type="button" 
-              class="btn btn-primary btn-sm" 
+              class="btn btn-primary btn-sm aggroL" 
               data-bs-toggle="modal" 
               data-bs-target="#exampleModal"
               @click="showUserDetails(item)"
           >
               보기
           </button>
-          <button v-if="!item.deleted_at" class="btn btn-danger btn-sm" @click="confirmDeleteUser(item)">탈퇴</button>
+          <button v-if="!item.deleted_at" class="btn btn-danger btn-sm aggroL" @click="confirmDeleteUser(item)">탈퇴</button>
         </div>
       </li>
     </ul>

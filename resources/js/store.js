@@ -73,6 +73,8 @@ const store = createStore({
                 ,page: '1'
             },
             communityDetail:{},
+            campAds:[],
+            campBrandAds:[],
 
             // 관리자
             newmember:{},
@@ -304,6 +306,12 @@ const store = createStore({
         // 로컬 정보 셋
         setLocalInfo(state, data) {
             state.localInfo = data;
+        },
+        setCampAds(state,data){
+            state.campAds = data;
+        },
+        setCampBrandAds(state,data){
+            state.campBrandAds = data;
         },
 
         // 관리자
@@ -1354,6 +1362,26 @@ const store = createStore({
                 })
                 .catch(error => {
                     console.log('사진획득 실패', error.response);
+                })
+            },
+            getCampAds(context){
+                const url = 'api/getAds';
+                axios.get(url)
+                .then(response=> {
+                    context.commit('setCampAds', response.data.data);
+                })
+                .catch(error => {
+                    console.log('광고캠핑장획득 실패', error.response);
+                })
+            },
+            getCampBrandAds(context){
+                const url = 'api/getBrandAds';
+                axios.get(url)
+                .then(response=> {
+                    context.commit('setCampBrandAds', response.data.data);
+                })
+                .catch(error => {
+                    console.log('광고캠핑브랜드획득 실패', error.response);
                 })
             },
 

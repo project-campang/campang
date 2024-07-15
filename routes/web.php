@@ -123,3 +123,5 @@ Route::delete('/api/Homepage/cancelAdvertisement', [AdvertiseController::class, 
 Route::post('/api/Homepage/updateCamp', [CampController::class, 'updateCamp']);
 // 광고
 Route::post('/api/submitAd', [AdvertiseController::class, 'submitAdForm']);
+Route::get('api/getAds', [AdvertiseController::class, 'getAds']);
+Route::get('api/getBrandAds', [AdvertiseController::class, 'getBrandAds']);

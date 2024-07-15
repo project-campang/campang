@@ -13,7 +13,7 @@
           </select>
           <button class="btn btn-primary" @click="searchAds">검색</button>
           <!-- 나라 배너추가 -->
-          <button type="button" class="btn btn-danger" @click="openAddModal()">배너추가</button>
+          <!-- <button type="button" class="btn btn-danger" @click="openAddModal()">배너추가</button> -->
         </div>
         <div class="summary">
           <span class="advertise-count">총 : {{ totalAdsCount }}개 </span>
@@ -41,12 +41,12 @@
           </thead>
           <tbody>
             <tr v-for="(item, index) in $store.state.adminAdverTisement" :key="index">
-              <td>{{ index + 1 }}</td>
-              <td>{{ item.id }}</td>
-              <td>{{ item.title }}</td>
-              <td>{{ item.start_date + ' ~ ' + item.end_date }}</td>
-              <td>{{ formatCurrency(item.amount) }}</td>
-              <td>
+              <td class="aggroL">{{ index + 1 }}</td>
+              <td class="aggroL">{{ item.id }}</td>
+              <td class="aggroL">{{ item.title }}</td>
+              <td class="aggroL">{{ item.start_date + ' ~ ' + item.end_date }}</td>
+              <td class="aggroL">{{ formatCurrency(item.amount) }}</td>
+              <td class="aggroL">
                 {{
                   item.status === '1' ? '접수' : 
                   item.status === '2' ? '입금대기' : 
@@ -57,10 +57,10 @@
                 }}
               </td>
               <td>
-                <button type="button" class="btn btn-primary btn-sm" @click="openModal(item)">
+                <button type="button" class="btn btn-primary btn-sm aggroL" @click="openModal(item)">
                   수정
                 </button>
-                <button type="button" class="btn btn-danger btn-sm" @click="confirmCancel(item)">
+                <button type="button" class="btn btn-danger btn-sm aggroL" @click="confirmCancel(item)">
                   취소
                 </button>
 
@@ -103,18 +103,6 @@
               <label for="imageUpload1" class="form-label">이미지 업로드 1</label>
               <input type="file" class="form-control" id="imageUpload1" @change="handleImageUpload(1)">
               <img v-if="modalData.img_1" :src="modalData.img_1" alt="이미지 미리보기 1" class="img-thumbnail mt-2" style="max-width: 200px;">
-            </div>
-
-            <div class="mb-3">
-              <label for="imageUpload2" class="form-label">이미지 업로드 2</label>
-              <input type="file" class="form-control" id="imageUpload2" @change="handleImageUpload(2)">
-              <img v-if="modalData.img_2" :src="modalData.img_2" alt="이미지 미리보기 2" class="img-thumbnail mt-2" style="max-width: 200px;">
-            </div>
-
-            <div class="mb-3">
-              <label for="imageUpload3" class="form-label">이미지 업로드 3</label>
-              <input type="file" class="form-control" id="imageUpload3" @change="handleImageUpload(3)">
-              <img v-if="modalData.img_3" :src="modalData.img_3" alt="이미지 미리보기 3" class="img-thumbnail mt-2" style="max-width: 200px;">
             </div>
             <div class="mb-3">
               <label for="status" class="form-label">상태</label>
@@ -214,8 +202,6 @@ const modalData = ref({
   amount: '',
   status: '',
   img_1: '',
-  img_2: '',
-  img_3: '',
   order: ''
 });
 
@@ -256,10 +242,6 @@ function handleImageUpload(index) {
     reader.onload = () => {
       if (index === 1) {
         modalData.value.img_1 = reader.result;
-      } else if (index === 2) {
-        modalData.value.img_2 = reader.result;
-      } else if (index === 3) {
-        modalData.value.img_3 = reader.result;
       }
     };
     reader.readAsDataURL(file);
@@ -277,8 +259,6 @@ function submitForm() {
     amount: modalData.value.amount,
     status: modalData.value.status,
     img_1: modalData.value.img_1,
-    img_2: modalData.value.img_2,
-    img_3: modalData.value.img_3,
     order: modalData.value.order
   };
 

@@ -123,6 +123,19 @@
                             <input type="text" v-model="registerForm.tel" class="form-control" id="tel" @input="oninputPhone" maxlength="14" autocomplete="user_num"/>
                             <div v-if="validationErrors.tel" class="alert alert-danger">{{ validationErrors.tel }}</div>
                         </div>
+                        <div class="mb-3 register-modal">
+                            <label  class="suite">
+                                <input type="checkbox" class="suite" name="agree_personal" required> 개인정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>
+                            </label>
+                            <br>
+                            <label  class="suite">
+                                <input type="checkbox" class="suite" name="agree_purpose" required> 개인정보 이용 목적 동의 <span class="text-danger suite">(필수)</span>
+                            </label>
+                            <br>
+                            <label  class="suite">
+                                <input type="checkbox" class="suite" name="agree_retention" required> 개인정보 보유 및 이용 기간 동의 <span class="text-danger suite">(필수)</span>
+                            </label>
+                        </div>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                         <button type="submit" class="btn btn-primary" >가입하기</button>
                     </form>
@@ -174,6 +187,23 @@
                             <input type="text" v-model="bizRegisterForm.tel" class="form-control" id="bizTel" @input="bizOninputPhone" maxlength="14" autocomplete="tel"/>
                             <div v-if="validationErrors.tel" class="alert alert-danger">{{ validationErrors.tel }}</div>
                         </div>
+                        <div class="mb-3 register-modal">
+                            <label  class="suite">
+                                <input type="checkbox" class="suite" name="agree_personal" required> 개인정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>
+                            </label>
+                            <br>
+                            <label  class="suite">
+                                <input type="checkbox" class="suite" name="agree_business" required> 사업자 정보 수집 및 이용 동의 <span class="text-danger suite">(필수)</span>
+                            </label>
+                            <br>
+                            <label  class="suite">
+                                <input type="checkbox" class="suite" name="agree_purpose" required> 개인정보 이용 목적 동의 <span class="text-danger suite">(필수)</span>
+                            </label>
+                            <br>
+                            <label class="suite">
+                                <input type="checkbox" class="suite" name="agree_retention" required> 개인정보 보유 및 이용 기간 동의 <span class="text-danger suite">(필수)</span>
+                            </label>
+                        </div>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
                         <button type="submit" class="btn btn-primary" >가입하기</button>
                     </form>
@@ -210,14 +240,14 @@
         <div class="main-footer-content">
             <h2>CAMPANG <img src="/img/logo-ko3.png" alt=""></h2>
             <div class="footer-btn-con">
-                <button class="footer-btn" @click.prevent="openCampRegister">캠핑장 등록 신청하기</button>
+                <!-- <button class="footer-btn" @click.prevent="openCampRegister">캠핑장 등록 신청하기</button> -->
                 <button type="button" class="footer-btn"  @click="openAdModal">광고 게시 신청하기</button>
             </div>
-            <p>개인정보처리방침 | 전자우편무단수집거부 | 캠핑장 | 등록안내 | 미등록야영장불법영업신고</p>
-            <p>
-                대구시 달서구 남일동 109-2 그린컴퓨터아트학원 
+            <!-- <p>3조 :: 사서고생하조</p> -->
+            <p class="aggroL">
+                3조 :: 사서고생하조  //  팀장 :: 정보배  //  팀원 :: 이나라  //  팀원 :: 이서린
                 <hr>
-                대구캠퍼스 TEL : 0507-1414-1018 (상담시간 : 평일 10:00~18:00)EMAIL : green@gampang.or.kr
+                대구캠퍼스 TEL : 053-719-0574 (상담시간 : 평일 10:00~18:00) EMAIL : green@campang.or.kr
                 <br>
                 Copyrights(c) 2024 GREEN COMPUTER ACADEMY DAEGU BRANCH 2ND PROJECT TEAM 3.
             </p>
@@ -239,15 +269,15 @@
                     <div class="mb-3 row">
                         <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명 <span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" v-model="form.title" placeholder="상호명을 입력하세요">
+                        <input type="text" class="form-control aggroL" v-model="form.title" placeholder="상호명을 입력하세요">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">광고 유형 <span class="text-danger">*</span></label>
                         <div class="col-sm-9">
                         <div class="btn-group" role="group1">
-                            <button type="button" class="btn btn-outline-primary" :class="{ active: form.ad_type === 0 }" @click="form.ad_type = 0">캠핑장</button>
-                            <button type="button" class="btn btn-outline-primary" :class="{ active: form.ad_type === 1 }" @click="form.ad_type = 1">캠핑용품</button>
+                            <button type="button" class="btn btn-outline-primary aggroL" :class="{ active: form.ad_type === 0 }" @click="form.ad_type = 0">캠핑장</button>
+                            <button type="button" class="btn btn-outline-primary aggroL" :class="{ active: form.ad_type === 1 }" @click="form.ad_type = 1">캠핑용품</button>
                         </div>
                         </div>
                     </div>
@@ -274,14 +304,14 @@
                     <div class="mb-3 row">
                         <label for="adSentence" class="col-sm-3 col-form-label">희망 문구</label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control" v-model="form.content" placeholder="최대 몇몇몇몇글자">
+                        <input type="text" class="form-control aggroL" v-model="form.content" placeholder="최대 40글자" maxlength="40">
                         </div>
                     </div>
                     <div class="mb-3 row">
                         <label for="adImage" class="col-sm-3 col-form-label">희망 이미지</label>
                         <div class="col-sm-9">
-                        <input type="file" class="form-control"  @change="handleFileUpload">
-                        <div class="form-text">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다.</div>
+                        <input type="file" class="form-control aggroL"  @change="handleFileUpload">
+                        <div class="form-text aggroL">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다. (높이:너비 = 3:4 권장)</div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -289,12 +319,14 @@
                         <p>-----------------------------------------------------------------</p>
                         <div class="form-text">캠팡은 무통장입금만 지원 하고 있습니다. 더 많은 결제서비스는 조금만 기다려 주세요 :)</div>
                         <label for="name" class="col-sm-3 col-form-label">입금자명 <span class="text-danger">*</span></label>
-                        <div class="col-sm-9"><input type="text" class="form-control" v-model="form.name" placeholder="입금자명을 입력하세요"></div>
+                        <div class="col-sm-9"><input type="text" class="form-control aggroL" v-model="form.name" placeholder="입금자명을 입력하세요"></div>
                         <label for="account" class="col-sm-3 col-form-label">입금계좌 <span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <select class="form-select" v-model="form.account">
-                            <option value="">::선택:: 예약자명과 입금자명이 다른경우 고객센터로 연락주세요</option>
-                            <option value="1">카카오뱅크 3333-05-8145823 이서린</option>
+                        <select class="form-select aggroL" v-model="form.account">
+                            <option value=""  class="aggroL">::선택:: 예약자명과 입금자명이 다른경우 고객센터로 연락주세요</option>
+                            <option value="1" class="aggroL">카카오뱅크 3333-05-8145823 이서린</option>
+                            <option value="2" class="aggroL">토스뱅크 1000-6514-4505 이나라</option>
+                            <option value="3" class="aggroL">신한은행 110-499-353214 정보배</option>
                         </select>
                         </div>
                         <p>-----------------------------------------------------------------</p>
@@ -303,8 +335,8 @@
                         <label class="col-sm-3 col-form-label">채널플러스 수신 동의 <span class="text-danger">*</span></label>
                         <div class="col-sm-9">
                         <div class="btn-group" role="group2">
-                            <button type="button" class="btn btn-outline-primary me-2" :class="{ active: form.agree === true }" @click="form.agree = true">동의함</button>
-                            <button type="button" class="btn btn-outline-primary" :class="{ active: form.agree === false }" @click="form.agree = false">동의 안함</button>
+                            <button type="button" class="btn btn-outline-primary me-2 aggroL" :class="{ active: form.agree === true }" @click="form.agree = true">동의함</button>
+                            <button type="button" class="btn btn-outline-primary aggroL" :class="{ active: form.agree === false }" @click="form.agree = false">동의 안함</button>
                         </div>
                         </div>
                     </div>
