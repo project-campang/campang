@@ -279,9 +279,9 @@
                     <form @submit.prevent="submitAdForm" id="adForm">
                     <input type="hidden" name="user_id" id="user_id" :value="form.user_id">
                     <div class="mb-3 row">
-                        <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명 <span class="text-danger">*</span></label>
+                        <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control aggroL" v-model="form.title" placeholder="상호명을 입력하세요">
+                        <input type="text" class="form-control aggroL" v-model="form.title">
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -445,11 +445,16 @@
 
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, watch, computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
 import { useRoute } from 'vue-router';
+
+// Vuex 스토어 사용
+const store = useStore();
+
+
 
 let agreeFlg1 = ref(false);
 let agreeFlg2 = ref(false);
@@ -854,8 +859,7 @@ const loginForm = ref({
 
 const emailCheckResult = ref(null);
 
-// Vuex 스토어 사용
-const store = useStore();
+
 
 // 모달 초기화
 let loginModal;
@@ -1287,6 +1291,24 @@ const submitAdForm = async () => {
 //     }
 // };
 
+// TODO : 광고 모달에 상호명 나오게 하는거 고치기
+// onMounted(async () => {
+//   const user_id = store.state.userInfo ? store.state.userInfo.id : null;
+
+//   try {
+//     if (user_id !== null) {
+//       const bizInfo = await store.dispatch('getBizInfo', user_id);
+
+//       if (bizInfo && bizInfo.business_name) {
+//         form.title = bizInfo.business_name;
+//       } else {
+//         console.error('Business info is undefined or does not have business_name property');
+//       }
+//     }
+//   } catch (error) {
+//     console.error('Error fetching business info:', error);
+//   }
+// });
 
 </script>
 

@@ -176,6 +176,7 @@ class UserController extends Controller
             [
                 'business_code' => ['required', 'regex:/^\d{3}-\d{2}-\d{5}$/'],
                 'business_name' => ['required', 'regex:/^[가-힣a-zA-Z0-9()&,\s]+$/u'],
+                'business_link' => ['required','regex: /^https:\/\/(112\.222\.157\.156:6435|localhost:8000|127.0.0.1:8000)\/camp\/[0-9]+$/'],
                 'password' => ['required', 'min:2', 'max:20', 'regex:/^[a-zA-Z0-9!@*]+$/'],
                 'ps_chk' => ['same:password'],
                 'nick_name' => ['required', 'min:2', 'max:10', 'regex:/^[가-힣a-zA-Z]+$/u'],
@@ -213,6 +214,7 @@ class UserController extends Controller
             $business->user_id = $user->id; // 이 부분에서 유저 테이블의 인서트된 ID를 참조
             $business->business_name = $request->input('business_name');
             $business->business_code = $request->input('business_code');
+            $business->business_link = $request->input('business_link');
             $business->save();
             
             Log::debug('사업자 비즈니스테이블 세이브', $business->toArray());

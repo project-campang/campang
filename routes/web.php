@@ -8,6 +8,7 @@ use App\Http\Controllers\CommentController;
 use App\Http\Controllers\CampController;
 use App\Http\Controllers\CampTopoController;
 use App\Http\Controllers\BrandController;
+use App\Http\Controllers\BusinessController;
 use App\Http\Controllers\CommunityCommentController;
 use App\Http\Controllers\CommunityTypeController;
 use App\Http\Controllers\CountyController;
@@ -51,6 +52,7 @@ Route::delete('/api/posts/delete/{id}', [CommunityController::class, 'deletePost
 Route::delete('/api/reviews/delete/{id}', [CommunityController::class, 'deleteReview']);
 Route::delete('/api/comments/delete/{id}', [CommentController::class, 'deleteComment']);
 Route::get('/api/my/adverTisement', [AdvertiseController::class, 'myadverTisement']);
+Route::get('/api/getBizInfo/{id}', [BusinessController::class, 'getBizInfo']);
 // 카카오로그인
 // Route::get('/api/kakao-login', [UserController::class, 'getKakaoLoginUrl']);
 // Route::get('/oauth/kakao', [UserController::class, 'kakaoCallback']);

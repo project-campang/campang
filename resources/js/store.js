@@ -75,6 +75,7 @@ const store = createStore({
             communityDetail:{},
             campAds:[],
             campBrandAds:[],
+            bizInfo:{},
 
             // 관리자
             newmember:{},
@@ -312,6 +313,9 @@ const store = createStore({
         },
         setCampBrandAds(state,data){
             state.campBrandAds = data;
+        },
+        setBizInfo(state,data){
+            state.bizInfo = data;
         },
 
         // 관리자
@@ -1382,6 +1386,16 @@ const store = createStore({
                 })
                 .catch(error => {
                     console.log('광고캠핑브랜드획득 실패', error.response);
+                })
+            },
+            getBizInfo(context, id){
+                const url =`api/getBizInfo/${id}`;
+                axios.get(url)
+                .then(response => {
+                    context.commit('setBizInfo', response.data.data);
+                })
+                .catch(error => {
+                    console.log('비즈니스정보 획득실패', error.response);
                 })
             },
 
