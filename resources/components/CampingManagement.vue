@@ -53,7 +53,7 @@
                 <td>{{ item.created_at }}</td>
                 <td>{{ item.deleted_at === null ? '영업중' : '폐업' }}</td>
                 <td>
-                  <button type="button" class="btn btn-primary btn-sm" @click="openModal(item)">
+                  <button type="button" class="btn btn-outline-primary btn-sm m-1" @click="openModal(item)">
                     수정
                   </button>
                 </td>

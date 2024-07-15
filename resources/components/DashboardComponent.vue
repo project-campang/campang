@@ -19,10 +19,10 @@
             <a href="#" class="nav-link" @click.prevent="selectPage('users')">유저관리</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('advertisement')">광고요청관리</a>
+            <a href="#" class="nav-link" @click.prevent="selectPage('advertisement')">광고 요청 관리</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('posts')">광고 게시글관리</a>
+            <a href="#" class="nav-link" @click.prevent="selectPage('posts')">광고 게시 관리</a>
           </li>
           <li class="nav-item">
             <a href="#" class="nav-link" @click.prevent="selectPage('camping')">캠핑장관리</a>

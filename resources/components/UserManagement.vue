@@ -51,14 +51,14 @@
         <div class="actions">
           <button 
               type="button" 
-              class="btn btn-primary btn-sm" 
+              class="btn btn-outline-primary btn-sm m-1" 
               data-bs-toggle="modal" 
               data-bs-target="#exampleModal"
               @click="showUserDetails(item)"
           >
               보기
           </button>
-          <button v-if="!item.deleted_at" class="btn btn-danger btn-sm" @click="confirmDeleteUser(item)">탈퇴</button>
+          <button v-if="!item.deleted_at" class="btn btn-outline-danger btn-sm m-1" @click="confirmDeleteUser(item)">탈퇴</button>
         </div>
       </li>
     </ul>
