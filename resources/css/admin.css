@@ -40,7 +40,7 @@
 /* Homepage */
 .request-section {
     display: flex;
-    justify-content: space-between;
+    justify-content: space-evenly;
     margin-bottom: 20px;
   }
   
@@ -131,6 +131,8 @@
     text-align: right;
   }
   
+
+
   .table-section {
     margin-top: 20px;
   }
@@ -221,4 +223,16 @@
 /* 광고관리 */
 .advertise-count {
   margin-right: 10px;
+}
+
+.table {
+  min-width: 1000px;
+}
+
+.content {
+  min-width: 1000px;
+}
+
+.sidebar {
+  min-width: 200px;
 }

@@ -2,13 +2,13 @@
   <div class="admin-page">
     <div class="content">
       <div class="header">
-        <h2>광고 관리</h2>
+        <h2>광고 요청 관리</h2>
       </div>
       <div class="search-section">
         <div class="search-bar">
           <label for="adType">광고 유형:</label>
           <select id="adType" v-model="selectedAdType">
-            <option value="0">업소</option>
+            <option value="0">영업장</option>
             <option value="1">브랜드</option>
           </select>
           <button class="btn btn-primary" @click="searchAds">검색</button>
@@ -20,7 +20,7 @@
           <span class="advertise-count">접수중: {{ getStatusCount('1') }}개 </span>
           <span class="advertise-count">입금대기: {{ getStatusCount('2') }}개 </span>
           <span class="advertise-count">입금완료: {{ getStatusCount('3') }}개 </span>
-          <span class="advertise-count">취소: {{ getStatusCount('4') }}개 </span>
+          <span class="advertise-count">반려: {{ getStatusCount('4') }}개 </span>
           <span class="advertise-count">만료: {{ getStatusCount('5') }}개 </span>
           <span class="advertise-count">환불대기: {{ getStatusCount('6') }}개 </span>
           <span class="advertise-count">환불완료: {{ getStatusCount('7') }}개 </span>
@@ -51,17 +51,17 @@
                   item.status === '1' ? '접수' : 
                   item.status === '2' ? '입금대기' : 
                   item.status === '3' ? '입금완료' :
-                  item.status === '4' ? '취소' :
+                  item.status === '4' ? '반려' :
                   item.status === '5' ? '만료' :
                   item.status === '6' ? '환불대기' : '환불완료'
                 }}
               </td>
               <td>
-                <button type="button" class="btn btn-primary btn-sm aggroL" @click="openModal(item)">
+                <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL" @click="openModal(item)">
                   수정
                 </button>
-                <button type="button" class="btn btn-danger btn-sm aggroL" @click="confirmCancel(item)">
-                  취소
+                <button type="button" class="btn btn-outline-danger btn-sm m-1 aggroL" @click="confirmCancel(item)">
+                  반려
                 </button>
 
               </td>
@@ -96,21 +96,37 @@
               <input type="date" class="form-control" id="endDate" v-model="modalData.end_date">
             </div>
             <div class="mb-3">
+              <label for="adText" class="form-label">광고 문구</label>
+              <input type="text" class="form-control" id="adText" v-model="modalData.ad_text">
+            </div>
+            <div class="mb-3">
               <label for="amount" class="form-label">결제(예정)금액</label>
               <input type="text" class="form-control" id="amount" :value="formatCurrency(modalData.amount)" @input="modalData.amount = parseFloat($event.target.value.replace(/[^0-9.-]/g, '')) || 0">
             </div>
             <div class="mb-3">
-              <label for="imageUpload1" class="form-label">이미지 업로드 1</label>
+              <label for="imageUpload1" class="form-label">이미지 업로드</label>
               <input type="file" class="form-control" id="imageUpload1" @change="handleImageUpload(1)">
-              <img v-if="modalData.img_1" :src="modalData.img_1" alt="이미지 미리보기 1" class="img-thumbnail mt-2" style="max-width: 200px;">
+              <img v-if="modalData.img_1" :src="modalData.img_1" alt="이미지 미리보기" class="img-thumbnail mt-2" style="max-width: 200px;">
             </div>
+
+            <!-- <div class="mb-3">
+              <label for="imageUpload2" class="form-label">이미지 업로드 2</label>
+              <input type="file" class="form-control" id="imageUpload2" @change="handleImageUpload(2)">
+              <img v-if="modalData.img_2" :src="modalData.img_2" alt="이미지 미리보기 2" class="img-thumbnail mt-2" style="max-width: 200px;">
+            </div>
+
+            <div class="mb-3">
+              <label for="imageUpload3" class="form-label">이미지 업로드 3</label>
+              <input type="file" class="form-control" id="imageUpload3" @change="handleImageUpload(3)">
+              <img v-if="modalData.img_3" :src="modalData.img_3" alt="이미지 미리보기 3" class="img-thumbnail mt-2" style="max-width: 200px;">
+            </div> -->
             <div class="mb-3">
               <label for="status" class="form-label">상태</label>
               <select class="form-select" id="status" v-model="modalData.status">
                 <option :value="'1'">접수</option>
                 <option :value="'2'">입금대기</option>
                 <option :value="'3'">입금완료</option>
-                <option :value="'4'">취소</option>
+                <option :value="'4'">반려</option>
                 <option :value="'5'">만료</option>
                 <option :value="'6'">환불대기</option>
                 <option :value="'7'">환불완료</option>
@@ -202,7 +218,8 @@ const modalData = ref({
   amount: '',
   status: '',
   img_1: '',
-  order: ''
+  order: '',
+  ad_text: ''
 });
 
 onBeforeMount(async () => {
@@ -243,6 +260,11 @@ function handleImageUpload(index) {
       if (index === 1) {
         modalData.value.img_1 = reader.result;
       }
+      // else if (index === 2) {
+      //   modalData.value.img_2 = reader.result;
+      // } else if (index === 3) {
+      //   modalData.value.img_3 = reader.result;
+      // }
     };
     reader.readAsDataURL(file);
   } else {
@@ -259,7 +281,8 @@ function submitForm() {
     amount: modalData.value.amount,
     status: modalData.value.status,
     img_1: modalData.value.img_1,
-    order: modalData.value.order
+    order: modalData.value.order,
+    adText: modalData.ad_text
   };
 
   store.dispatch('updateAdvertisement', formData)
@@ -271,7 +294,7 @@ function submitForm() {
 }
 
 function confirmCancel(item) {
-  if (confirm('광고를 취소하시겠습니까?')) {
+  if (confirm('요청을 반려하시겠습니까?')) {
     cancelAdvertisement(item.id);
   }
 }

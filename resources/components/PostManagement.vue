@@ -39,7 +39,7 @@
                   <!-- <button class="btn btn-link" @click="toggleAccordion(idx)">
                     상세보기
                   </button> -->
-                  <button type="button" class="btn btn-primary btn-sm aggroL" @click="openModal(item)">
+                  <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL" @click="openModal(item)">
                     수정
                   </button>
                 </td>

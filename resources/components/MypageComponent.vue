@@ -193,7 +193,7 @@
   <!-- Modal -->
   <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog modal-dialog-centered">
-      <div class="modal-content">
+      <div class="modal-content update-info">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="userModalLabel">내정보 수정</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
