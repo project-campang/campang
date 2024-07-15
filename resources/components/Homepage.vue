@@ -3,11 +3,11 @@
   <div>
     <h2>새로운 요청</h2>
     <div class="request-section">
-      <div class="request-box">
+      <!-- <div class="request-box">
         <p>캠핑장 등록</p>
         <p v-if="newCampgroundRegistrationCount !== null">{{ newCampgroundRegistrationCount }} 건</p>
         <p v-else>Loading...</p>
-      </div>
+      </div> -->
       <div class="request-box">
         <p>광고 신청</p>
         <p v-if="newAdvertisementRequestCount !== null">{{ newAdvertisementRequestCount }} 건</p>
@@ -31,25 +31,25 @@
     </div>
     <ul class="user-list">
       <li v-for="(item, key) in store.state.newmember" :key="key" class="user-item">
-        <span>{{ item.id }}</span>
-        <span>{{ item.business === '0' ? '일반' : '사업자' }}</span>
-        <span class="home-email">{{ item.email }}</span>
-        <span>{{ item.name }}</span>
-        <span>{{ item.nick_name }}</span>
-        <span>{{ item.tel }}</span>
-        <span>{{ item.post_count }}</span>
-        <span>{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
+        <span class="aggroL">{{ item.id }}</span>
+        <span class="aggroL">{{ item.business === '0' ? '일반' : '사업자' }}</span>
+        <span class="home-email aggroL">{{ item.email }}</span>
+        <span class="aggroL">{{ item.name }}</span>
+        <span class="aggroL">{{ item.nick_name }}</span>
+        <span class="aggroL">{{ item.tel }}</span>
+        <span class="aggroL">{{ item.post_count }}</span>
+        <span class="aggroL">{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
         <div class="actions">
           <button 
               type="button" 
-              class="btn btn-primary btn-sm m-1" 
+              class="btn btn-outline-primary btn-sm m-1 aggroL" 
               data-bs-toggle="modal" 
               data-bs-target="#exampleModal"
               @click="showUserDetails(item)"
           >
               보기
           </button>
-          <button v-if="!item.deleted_at" class="btn btn-danger btn-sm m-1" @click="confirmDeleteUser(item)">탈퇴</button>
+          <button v-if="!item.deleted_at" class="btn btn-outline-danger btn-sm m-1 aggroL" @click="confirmDeleteUser(item)">탈퇴</button>
         </div>
       </li>
     </ul>
@@ -98,22 +98,23 @@ const newMembers = ref([]);
 const selectedUser = ref(null);
 
 // 신규 캠핑장 등록 건수 계산
-const newCampgroundRegistrationCount = computed(() => {
-  if (!store.state.searchResult) return null;
+// const newCampgroundRegistrationCount = computed(() => {
+//   if (!store.state.searchResult) return null;
 
-  return store.state.searchResult.filter(item => {
-    const createdAt = new Date(item.created_at);
-    const today = new Date();
-    const sevenDaysAgo = new Date(today.setDate(today.getDate() - 7));
-    return createdAt >= sevenDaysAgo;
-  }).length;
-});
+//   return store.state.searchResult.filter(item => {
+//     const createdAt = new Date(item.created_at);
+//     const today = new Date();
+//     const sevenDaysAgo = new Date(today.setDate(today.getDate() - 7));
+//     return createdAt >= sevenDaysAgo;
+//   }).length;
+// });
 
 // 광고 신청 건수 계산
 const newAdvertisementRequestCount = computed(() => {
-  if (!store.state.adminAdvertisement) return null;
+  if (!store.state.adminAdverTisement) return null;
+  console.log('신규광고',store.state.adminAdverTisement);
 
-  return store.state.adminAdvertisement.filter(item => {
+  return store.state.adminAdverTisement.filter(item => {
     const createdAt = new Date(item.created_at);
     const today = new Date();
     const sevenDaysAgo = new Date(today.setDate(today.getDate() - 7));
@@ -122,6 +123,7 @@ const newAdvertisementRequestCount = computed(() => {
 });
 
 onBeforeMount(() => {
+
   store.dispatch('setNewMember')
     .then(() => {
       newMembers.value = store.state.newmember;

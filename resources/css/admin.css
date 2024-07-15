@@ -40,7 +40,7 @@
 /* Homepage */
 .request-section {
     display: flex;
-    justify-content: space-evenly;
+    justify-content: start;
     margin-bottom: 20px;
   }
   

@@ -99,7 +99,7 @@
               <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
               <div class="content-font">{{ item.status === '1' ? '접수' : item.status === '2' ? '대기' : item.status === '3' ? '완료' : '상태 없음' }}</div>
               <div>
-                <button type="button" class="btn mypage-btn-update" @click="detailModal(item, '광고')">상세</button>
+                <button type="button" class="btn mypage-btn-update aggroL" @click="detailModal(item, '광고')">상세</button>
                 <!-- <button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '광고')">취소</button> -->
               </div>
             </div>
@@ -121,11 +121,11 @@
                 <div class="my-page-top"></div>
               </div>
               <div class="content-row text-center content-font" v-for="(item, index) in $store.state.mypageContent" :key="index">
-                <div class="content-row-num content-font">{{ index + 1 }}</div>
-                <div class="title-text-my content-font" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '게시글')">{{ item.title }}</div>
+                <div class="content-row-num content-font aggroL">{{ index + 1 }}</div>
+                <div class="title-text-my content-font  aggroL" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '게시글')">{{ item.title }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
-                <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '게시글')">삭제</button></div>
+                <div class="content-font aggroL">{{ getFormattedDate(item.created_at) }}</div>
+                <div><button type="button" class="btn mypage-btn-update aggroL" @click="updataModal(item, '게시글')">수정</button><button type="button"  class="btn mypage-btn-delete aggroL" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '게시글')">삭제</button></div>
               </div>
               <hr class="item-hr" id="review">
             </div>
@@ -148,12 +148,12 @@
                 <div class="my-page-top">작성일</div>
               </div>
               <div class="content-row-other text-center" v-for="(item, index) in $store.state.mypageReview" :key="index">
-                <div class="content-row-num content-font">{{ index + 1 }}</div>
-                <div class="title-text-my content-font" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
-                <div class="review-cam content-font">{{ item.camp_name }}</div>
+                <div class="content-row-num content-font aggroL">{{ index + 1 }}</div>
+                <div class="title-text-my content-font aggroL" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '리뷰')">{{ item.title }}</div>
+                <div class="review-cam content-font aggroL">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
-                <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '리뷰')">삭제</button></div>
+                <div class="content-font aggroL">{{ getFormattedDate(item.created_at) }}</div>
+                <div><button type="button" class="btn mypage-btn-update aggroL" @click="updataModal(item, '리뷰')">수정</button><button type="button" class="btn mypage-btn-delete aggroL" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '리뷰')">삭제</button></div>
               </div>
               <hr class="item-hr" id="comment">
             </div>
@@ -174,12 +174,12 @@
                 <div class="my-page-top"></div>
               </div>
               <div class="content-row-other text-center" v-for="(item, index) in $store.state.mypageComment" :key="index">
-                <div class="content-row-num content-font">{{ index + 1 }}</div>
-                <div class="title-text-my content-font" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '댓글')">{{ item.comment }}</div>
-                <div class="review-cam content-font">{{ item.camp_name }}</div>
+                <div class="content-row-num content-font aggroL">{{ index + 1 }}</div>
+                <div class="title-text-my content-font aggroL" data-bs-toggle="modal" data-bs-target="#contentModal" @click="dataModal(item, '댓글')">{{ item.comment }}</div>
+                <div class="review-cam content-font aggroL">{{ item.camp_name }}</div>
                 <!-- <div>{{ item.user_nick_name }}</div> -->
-                <div class="content-font">{{ getFormattedDate(item.created_at) }}</div>
-                <div><button type="button" class="btn mypage-btn-update" @click="updataModal(item, '댓글')">수정</button><button type="button" class="btn mypage-btn-delete" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '댓글')">삭제</button></div>
+                <div class="content-font aggroL">{{ getFormattedDate(item.created_at) }}</div>
+                <div><button type="button" class="btn mypage-btn-update aggroL" @click="updataModal(item, '댓글')">수정</button><button type="button" class="btn mypage-btn-delete aggroL" data-bs-toggle="modal" data-bs-target="#deleteModal" @click="dataModal(item, '댓글')">삭제</button></div>
               </div>
               <hr class="item-hr">
             </div>
@@ -207,22 +207,22 @@
             </div>
             <div class="mb-3">
               <label for="name" class="form-label">이름</label>
-              <input type="text" class="form-control content-font" id="name" name="name" v-model="userInfo.name">
+              <input type="text" class="form-control content-font aggroL" id="name" name="name" v-model="userInfo.name">
               <div v-if="validationErrors.name" class="alert alert-danger content-font">{{ validationErrors.name }}</div>
             </div>
             <div class="mb-3">
               <label for="nick_name" class="form-label">닉네임</label>
-              <input type="text" class="form-control content-font" id="nick_name" name="nick_name" v-model="userInfo.nick_name">
+              <input type="text" class="form-control content-font aggroL" id="nick_name" name="nick_name" v-model="userInfo.nick_name">
               <div v-if="validationErrors.nick_name" class="alert alert-danger content-font">{{ validationErrors.nick_name }}</div>
             </div>
             <div class="mb-3">
               <label for="tel" class="form-label">휴대폰 번호</label>
-              <input type="text" class="form-control content-font" id="tel" name="tel" v-model="userInfo.tel" @input="oninputPhone" maxlength="14">
+              <input type="text" class="form-control content-font aggroL" id="tel" name="tel" v-model="userInfo.tel" @input="oninputPhone" maxlength="14">
               <div v-if="validationErrors.tel" class="alert alert-danger content-font">{{ validationErrors.tel }}</div>
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">취소</button>
-              <button type="button" @click="updateUserInfo" :disabled="!isFormValid" :data-bs-dismiss="isFormValid ? 'modal' : ''" class="btn btn-primary">수정 완료</button>
+              <button type="button" class="btn btn-secondary aggroL" data-bs-dismiss="modal">취소</button>
+              <button type="button" @click="updateUserInfo" :disabled="!isFormValid" :data-bs-dismiss="isFormValid ? 'modal' : ''" class="btn btn-primary aggroL">수정 완료</button>
             </div>
           </form>
         </div>
@@ -376,16 +376,16 @@
         </div>
         <div class="modal-body">
           <div class="detail-item">
-            <span class="detail-label">광고 품명:</span> <span class="detail-value">{{ selectedContent.title }}</span>
+            <span class="detail-label">광고 품명:</span> <span class="detail-value aggroL">{{ selectedContent.title }}</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label">광고 내용:</span> <span class="detail-value">{{ selectedContent.content }}</span>
+            <span class="detail-label">광고 내용:</span> <span class="detail-value aggroL">{{ selectedContent.content }}</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label">신청일:</span> <span class="detail-value">{{ selectedContent.created_at }}</span>
+            <span class="detail-label">신청일:</span> <span class="detail-value aggroL">{{ selectedContent.created_at }}</span>
           </div>
           <div class="detail-item">
-            <span class="detail-label">접수 상태:</span> <span class="detail-value">{{ selectedContent.status }}</span>
+            <span class="detail-label">접수 상태:</span> <span class="detail-value aggroL">{{ selectedContent.status }}</span>
           </div>
           <div class="detail-item" v-if="selectedContent.img_1">
             <span class="detail-label">광고 이미지:</span>

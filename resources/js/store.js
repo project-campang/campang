@@ -1473,7 +1473,6 @@ const store = createStore({
                 params: { ad_type: adType }
               });
               commit('setadminAdverTisement', response.data);
-            //   console.log(response.data.data);
             } catch (error) {
               console.error('광고 데이터를 가져오는 도중 에러 발생:', error);
             }

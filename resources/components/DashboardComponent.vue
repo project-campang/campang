@@ -24,9 +24,9 @@
           <li class="nav-item">
             <a href="#" class="nav-link" @click.prevent="selectPage('posts')">광고 게시 관리</a>
           </li>
-          <li class="nav-item">
+          <!-- <li class="nav-item">
             <a href="#" class="nav-link" @click.prevent="selectPage('camping')">캠핑장관리</a>
-          </li>
+          </li> -->
         </ul>
       </nav>
       <div class="content">
