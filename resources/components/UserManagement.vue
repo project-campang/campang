@@ -82,7 +82,8 @@
             <p><span class="label">전체 게시글:</span> {{ selectedUser.post_count }}</p>
             <!-- <p><span class="label">총 예약횟수:</span> {{ selectedUser.reservations }}</p> -->
             <!-- <p><span class="label">캠핑장 등록 횟수:</span> {{ selectedUser.camps }}</p> -->
-            <p><span class="label">프로필사진:</span> {{ selectedUser.profile }}</p>
+            <p><span class="label">프로필사진:</span> 
+              <img :src="selectedUser.profile" style="width: 96px; height: 96px;" alt=""></p>
             <p><span class="label">닉네임:</span> {{ selectedUser.nick_name }}</p>
             <p><span class="label">전체 댓글:</span> {{ selectedUser.comment_count }}</p>
             <!-- <p><span class="label">예약 환불 횟수:</span> {{ selectedUser.refunds }}</p> -->

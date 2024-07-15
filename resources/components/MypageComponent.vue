@@ -193,7 +193,7 @@
   <!-- Modal -->
   <div class="modal fade" id="userModal" tabindex="-1" aria-labelledby="userModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog modal-dialog-centered">
-      <div class="modal-content update-info">
+      <div class="modal-content">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="userModalLabel">내정보 수정</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -369,31 +369,35 @@
 <!-- 광고 상세Modal -->
 <div class="modal fade" id="detailModal" tabindex="-1" aria-labelledby="detailModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg"> <!-- .modal-lg를 추가하여 모달 크기를 크게 합니다 -->
-      <div class="modal-content">
+      <div class="modal-content-ad">
         <div class="modal-header">
           <h1 class="modal-title fs-5" id="detailModalLabel">광고 상세 정보</h1>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body-ad">
           <div class="detail-item">
-            <span class="detail-label">광고 품명:</span> <span class="detail-value aggroL">{{ selectedContent.title }}</span>
+            <p class="detail-label-ad">광고 품명: <span class="detail-value-ad">{{ selectedContent.title }}</span></p> 
           </div>
           <div class="detail-item">
-            <span class="detail-label">광고 내용:</span> <span class="detail-value aggroL">{{ selectedContent.content }}</span>
+            <p class="detail-label-ad">광고 내용: <span class="detail-value-ad aggroL">{{ selectedContent.content }}</span></p> 
           </div>
           <div class="detail-item">
-            <span class="detail-label">신청일:</span> <span class="detail-value aggroL">{{ selectedContent.created_at }}</span>
+            <p class="detail-label-ad">신청일: <span class="detail-value-ad aggroL">{{ selectedContent.created_at }}</span></p> 
           </div>
           <div class="detail-item">
-            <span class="detail-label">접수 상태:</span> <span class="detail-value aggroL">{{ selectedContent.status }}</span>
+            <p class="detail-label-ad">접수 상태: <span class="detail-value-ad aggroL">{{ selectedContent.status }}</span></p>
+          </div>
+          <div class="detail-item">
+            <p class="detail-label-ad">광고 문구: <span class="detail-value-ad aggroL">{{ selectedContent.ad_text }}</span></p>
           </div>
           <div class="detail-item" v-if="selectedContent.img_1">
-            <span class="detail-label">광고 이미지:</span>
-            <div class="detail-image">
-              <img :src="selectedContent.img_1" alt="이미지 미리보기" class="img-fluid">
-            </div>
+            <p class="detail-label-ad">광고 이미지: 
+              <div class="detail-image">
+                <img :src="selectedContent.img_1" alt="이미지 미리보기" style="width: 300px;" class="img-fluid">
+              </div>
+            </p>
           </div>
-          <h2 class="detail-note">광고신청 후 수정이나 취소는 톡톡으로 문의주시기 바랍니다.</h2>
+          <h2 class="detail-note">광고신청 후 수정이나 취소는 채널 플러스로 문의주시기 바랍니다.</h2>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
@@ -430,6 +434,7 @@ const selectedContent = ref({
   other_img4: null,
   other_img5: null,
   comment: '',
+  ad_text: '',
 });
 
 const mainImgPreview = ref('');
@@ -533,6 +538,7 @@ const closeUpdateModal = () => {
     other_img4: null,
     other_img5: null,
     comment: '',
+    ad_text: '',
   };
 };
 

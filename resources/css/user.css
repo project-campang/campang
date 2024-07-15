@@ -218,13 +218,28 @@ a {
     height: 100%;
 }
 
-.update-info {
+.modal-content-ad {
+    border-radius: 1rem;
+    padding: 1rem;
+    height: 100%;
     width: 600px;
+    background-color: #fff;
+}
+
+.detail-item {
+    width: 100%;
+    margin: 0 0 10px;
+    padding: 5px 0;
+    border-bottom: 1px solid #e9ecef;
+}
+
+.detail-item > * {
+    padding: 10px;
 }
 
 .my-page-top {
     font-size: 1.3rem;
-    line-height: 50px;
+    line-height: 0 50px;
 }
 
 .list-item {
@@ -418,6 +433,10 @@ a {
     font-size: 1rem;
     line-height: 1.5;
   }
+
+  .modal-body-ad {
+    padding: 0 60px;
+  }
   
 .detail-item {
     display: flex;
@@ -435,11 +454,22 @@ a {
     color: #555;
     font-size: 1.5rem;
   }
+
+  .detail-label-ad {
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .detail-value-ad {
+    color: #555;
+    font-family: 'SBAggroM';
+  }
   
   .detail-note {
+    font-family: SBAggroL;
     color: #d9534f;
     margin-top: 20px;
-    font-size: 1.1rem;
+    font-size: 0.9rem;
   }
   
   .modal-footer {
