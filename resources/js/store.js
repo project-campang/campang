@@ -1445,8 +1445,8 @@ const store = createStore({
               const url = '/api/Homepage/updateAdvertisement';
               const response = await axios.post(url, formData); // POST 요청으로 데이터 전송
       
-              context.commit('setAdminAdvertisement', response.data.data);
-              console.log('광고 수정 성공');
+              context.commit('setadminAdvertisement', response.data.data);
+              console.log('광고 수정 성공 이거?', response.data);
             } catch (error) {
               console.error(`광고 수정 실패 (${error.response.data.code})`);
               throw error; // 실패 시 예외 처리

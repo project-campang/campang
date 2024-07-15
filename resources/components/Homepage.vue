@@ -10,8 +10,9 @@
       </div> -->
       <div class="request-box">
         <p>광고 신청</p>
-        <p v-if="newAdvertisementRequestCount !== null">{{ newAdvertisementRequestCount }} 건</p>
-        <p v-else>Loading...</p>
+        <p class="text-danger">{{ getStatusCount('1') }}건</p>
+        <!-- <p v-if="newAdvertisementRequestCount !== null">{{ newAdvertisementRequestCount }} 건</p> -->
+        <!-- <p v-else>Loading...</p> -->
       </div>
     </div>
   </div>
@@ -121,7 +122,9 @@ const newAdvertisementRequestCount = computed(() => {
     return createdAt >= sevenDaysAgo;
   }).length;
 });
-
+function getStatusCount(status) {
+  return store.state.adminAdverTisement.filter(item => item.status === status).length;
+}
 onBeforeMount(() => {
 
   store.dispatch('setNewMember')

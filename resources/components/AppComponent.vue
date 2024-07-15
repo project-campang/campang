@@ -155,6 +155,11 @@
                             <div v-if="validationErrors.business_name" class="alert alert-danger">{{ validationErrors.business_name }}</div>
                         </div>
                         <div class="mb-3 register-modal">
+                            <label for="business_link" class="form-label">[캠팡]에 등록된 캠핑장 링크</label>
+                            <input type="text" v-model="bizRegisterForm.business_link" class="form-control aggroL" id="business_link" autocomplete="off" placeholder="'공유하기'버튼을 클릭해 링크복사,붙여넣기">
+                            <div v-if="validationErrors.business_link" class="alert alert-danger">{{ validationErrors.business_link }}</div>
+                        </div>
+                        <div class="mb-3 register-modal">
                             <label for="bizName" class="form-label">이름</label>
                             <input type="text" v-model="bizRegisterForm.name" class="form-control" id="bizName" autocomplete="name">
                             <div v-if="validationErrors.name" class="alert alert-danger">{{ validationErrors.name }}</div>
@@ -530,6 +535,11 @@ const validateBusiness_name = (business_name) => {
     return regex.test(business_name);
 }
 
+const validateBusiness_link = (business_link) => {
+    const regex = /^https:\/\/(112\.222\.157\.156:6435|localhost:8000|127.0.0.1:8000)\/camp\/[0-9]+$/;
+    return regex.test(business_link);
+}
+
 // 상태 관리 및 유효성 검사 결과
 // const store = useStore();
 const loginFlg = ref(false);
@@ -552,6 +562,7 @@ const bizRegisterForm = ref({
     business: selectedOption,
     business_code: '',
     business_name: '',
+    business_link: '',
     email: '',
     password: '',
     ps_chk: '',
@@ -562,6 +573,7 @@ const bizRegisterForm = ref({
 const validationErrors = ref({
     business_code: '',
     business_name: '',
+    business_link: '',
     email: '',
     password: '',
     ps_chk: '',
@@ -698,6 +710,14 @@ watch(() => bizRegisterForm.value.business_name, (newBusiness_name) => {
     }
 })
 
+// 캠핑장 링크 유효성 검사
+watch(() => bizRegisterForm.value.business_link, (newBusiness_link) => {
+    if(!validateBusiness_link(newBusiness_link)){
+        validationErrors.value.business_link = '상세페이지에서 [공유하기]를 눌러 나오는 링크만 가능합니다.';
+    } else {
+        validationErrors.value.business_link = '';
+    }
+})
 
 // 회원가입 처리 함수
 function register() {
@@ -799,6 +819,7 @@ function resetBizRegisterForm() {
         business: '',
         business_code: '',
         business_name: '',
+        business_link: '',
         email: '',
         password: '',
         ps_chk: '',
@@ -809,6 +830,7 @@ function resetBizRegisterForm() {
     validationErrors.value = {
         business_code: '',
         business_name: '',
+        business_link: '',
         email: '',
         password: '',
         ps_chk: '',

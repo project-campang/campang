@@ -21,6 +21,7 @@
                 <th>번호</th>
                 <th>광고 번호</th>
                 <th>{{ selectedAdType === '1' ? '브랜드명' : '사업장명' }}</th>
+                <th>이미지</th>
                 <th>광고 기간</th>
                 <th>위치</th>
                 <th>출력순서</th>
@@ -32,6 +33,9 @@
                 <td class="aggroL">{{ idx + 1 }}</td>
                 <td class="aggroL">{{ item.id }}</td>
                 <td class="aggroL">{{ item.title }}</td>
+                <td class="aggroL">
+                    <img :src="item.img_1" alt="" height="100">
+                </td>
                 <td class="aggroL">{{ item.start_date + ' ~ ' + item.end_date }}</td>
                 <td class="aggroL">메인</td>
                 <td class="aggroL">{{ item.order }}</td>
@@ -92,6 +96,11 @@
                   <input type="date" class="form-control" id="endDate" v-model="modalData.end_date">
                 </div>
                 <div class="mb-3">
+                  <label for="imageUpload1" class="form-label">게시 이미지</label>
+                  <input type="file" class="form-control" id="imageUpload1" @change="handleImageUpload(1, $event)">
+                  <img v-if="modalData.img_1" :src="modalData.img_1" alt="이미지 미리보기" class="img-thumbnail mt-2" style="max-width: 200px;">
+                </div>
+                <div class="mb-3">
                   <label for="order" class="form-label">출력순서</label>
                   <select class="form-select" id="order" v-model="modalData.order">
                     <option :value="'1'">1</option>
@@ -128,9 +137,8 @@
     amount: '',
     status: '',
     img_1: '',
-    img_2: '',
-    img_3: '',
-    order: ''
+    order: '',
+    updated_at: '',
   });
   const openAccordionIndex = ref(null);
   const editedStatus = ref({}); // Track edited status locally
@@ -168,11 +176,24 @@
   modalData.amount = item.amount;
   modalData.status = item.status;
   modalData.img_1 = item.img_1;
-  modalData.img_2 = item.img_2;
-  modalData.img_3 = item.img_3;
   modalData.order = item.order;
 
   $('#exampleModal').modal('show'); // Bootstrap modal show
+}
+
+function handleImageUpload(index, event) {
+  if (event.target && event.target.files.length > 0) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      if (index === 1) {
+        modalData.img_1 = reader.result;
+      }
+    };
+    reader.readAsDataURL(file);
+  } else {
+    console.error('파일을 선택해 주세요.');
+  }
 }
  
 function submitForm() {
@@ -184,6 +205,7 @@ function submitForm() {
       amount: modalData.amount,
       status: modalData.status,
       order: modalData.order,
+      img_1: modalData.img_1,
     };
 
     store.dispatch('updateAdvertisement', formData)
