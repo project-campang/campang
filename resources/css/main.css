@@ -28,7 +28,10 @@
 .aggroL {
     font-family: 'SBAggroL';
 }
-
+.agree-btn {
+    background-color: transparent;
+    opacity: 0.5;
+}
 a {
     text-decoration: none;
     color: #000;
