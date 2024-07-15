@@ -86,7 +86,7 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form id="insertForm" enctype="multipart/form-data">
-          <div>
+          <!-- <div>
             리뷰를 남길 캠핑장은?
             <div>
 <input type="text" v-model="filterText" placeholder="캠핑장 이름을 입력하세요" @click="userInfoGet()" class="search-input"/>
@@ -99,7 +99,7 @@
               <input type="number" class="display" :value="count" readonly />
               <button class="button" @click="increase">+</button>
             </div>
-          </div>
+          </div> -->
           <input type="hidden" name="community-type" id="community-type" :value="route.params.id" />
           <div class="modal-body">
             <input class="title-input" type="text" name="title" placeholder="제목을 적어주세요." />
