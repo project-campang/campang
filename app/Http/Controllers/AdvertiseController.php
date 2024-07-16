@@ -127,6 +127,7 @@ class AdvertiseController extends Controller
         $advertisement->amount = $requestData['amount'];
         $advertisement->status = $requestData['status'];
         $advertisement->order = $requestData['order'];
+        $advertisement->content = $requestData['content'];
 
         // 이미지 업로드 처리
         if ($request->has('img_1') && Str::startsWith($requestData['img_1'], 'data:image')) {
@@ -251,7 +252,7 @@ class AdvertiseController extends Controller
             $query->where('ad_type', $adType);
         }
         
-        $boardList = $query->orderBy('created_at', 'DESC')->get();
+        $boardList = $query->orderBy('order','ASC')->orderBy('start_date','ASC')->orderBy('created_at', 'DESC')->get();
         
         $responseData = [
             'code' => '0',

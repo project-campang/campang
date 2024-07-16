@@ -233,12 +233,7 @@ const store = createStore({
         setCampDetail(state, data){
             state.campDetail = data;
         },
-
-
-        setCampDetail(state, data){
-            state.campDetail = data;
-        },
-
+        
         // 시/도 데이터 획득
         setStateData(state, data) {
             state.stateData = data;
@@ -1067,14 +1062,15 @@ const store = createStore({
             const url = '/api/camp/'+id;
             console.log(url);
 
-                    axios.get(url)
+            axios.get(url)
             .then(response => {
                 context.commit('setCampDetail', response.data.data);
-                console.log(response.data);
+                console.log(response.data.data);
             })
             .catch( error => {
                 console.log('정보획득 실패 : ', error);
             })
+
         },
 
         /**
@@ -1478,7 +1474,7 @@ const store = createStore({
                 data: { id }  // DELETE 요청의 경우 데이터는 'data' 속성에 객체 형태로 전달해야 함
               });
           
-              context.commit('setAdminAdvertisement', response.data.data);
+              context.commit('setAdminAdvertisement', response.data);
               console.log('광고 취소 성공');
             } catch (error) {
               console.error(`광고 취소 실패 (${error.response.data.code})`);

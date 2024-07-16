@@ -299,6 +299,7 @@ class CampController extends Controller
     // test
     private function getCampDetail($id) {
         $campInfo = Camp::find($id);
+
         $amenityInfo = Amenity::join('camp_amenities', 'camp_amenities.amenity_no', '=', 'amenities.id')
                                 ->where('camp_amenities.camp_id','=',$id)->get();
         $amusementInfo = Amusement::join('camp_amusements', 'camp_amusements.amusement_no', '=', 'amusements.id')
@@ -314,6 +315,7 @@ class CampController extends Controller
             ,'siteTypeInfo' => $siteTypeInfo
             ,'topoInfo' => $topoInfo
         ];
+        
     }
 
     public function gpsTargetStamp(){
