@@ -81,6 +81,7 @@
             <div class="modal-body">
               <form @submit.prevent="submitForm">
                 <input type="hidden" v-model="modalData.id">
+                <input type="hidden" v-model="modalData.content">
                 <input type="hidden" v-model="modalData.amount">
                 <input type="hidden" v-model="modalData.status">
                 <div class="mb-3">
@@ -141,6 +142,7 @@ const modalData = reactive({
   img_1: '',
   order: '',
   updated_at: '',
+  content: '',
 });
 const openAccordionIndex = ref(null);
 const editedStatus = ref({}); // Track edited status locally
@@ -196,6 +198,7 @@ function submitForm() {
     status: modalData.status,
     order: modalData.order,
     img_1: modalData.img_1,
+    content: modalData.content
   };
 
   store.dispatch('updateAdvertisement', formData)
