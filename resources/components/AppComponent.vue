@@ -281,7 +281,8 @@
                     <div class="mb-3 row">
                         <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control aggroL" v-model="form.title">
+                        <input type="text" class="form-control aggroL" id="businessName" name="businessName" v-model="form.title" readonly>
+                        <div class="form-text aggroL">광고할 상호명이 다른경우 카카오톡으로 문의 바랍니다.</div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -1185,7 +1186,6 @@ const openAdModal = () => {
 };
 
 
-
 const form = ref({
     user_id: '',
     title: '',
@@ -1198,6 +1198,17 @@ const form = ref({
     img_1: null,
     agree: false,
 });
+
+
+
+onMounted(async () => {
+  await store.dispatch('getBizInfo', store.state.userInfo.id);
+  if (store.state.bizInfo.length > 0) {
+    form.value.title = store.state.bizInfo[0].business_name;
+  }
+  console.log('bizInfo:', store.state.bizInfo); // bizInfo 확인
+});
+
 
 const isFormValid = computed(() => {
   // 필수 필드들이 모두 채워져 있는지 확인
@@ -1242,7 +1253,7 @@ const submitAdForm = async () => {
     try {
         // 서버로 데이터 전송
         const response = await axios.post('/api/submitAd', formData);
-
+        console.log('form.value', form.value);
         // 성공적으로 신청한 경우
         // 폼 초기화 (Vue 3 Composition API 방식)
         form.value = {
@@ -1262,6 +1273,7 @@ const submitAdForm = async () => {
       $('#exampleModal2').modal('hide');
       // 성공 모달 열기
       $('#exampleModal5').modal('show');
+     
     } catch (error) {
       console.error('광고신청 실패:', error);
     }
@@ -1291,24 +1303,6 @@ const submitAdForm = async () => {
 //     }
 // };
 
-// TODO : 광고 모달에 상호명 나오게 하는거 고치기
-// onMounted(async () => {
-//   const user_id = store.state.userInfo ? store.state.userInfo.id : null;
-
-//   try {
-//     if (user_id !== null) {
-//       const bizInfo = await store.dispatch('getBizInfo', user_id);
-
-//       if (bizInfo && bizInfo.business_name) {
-//         form.title = bizInfo.business_name;
-//       } else {
-//         console.error('Business info is undefined or does not have business_name property');
-//       }
-//     }
-//   } catch (error) {
-//     console.error('Error fetching business info:', error);
-//   }
-// });
 
 </script>
 

@@ -75,7 +75,7 @@ const store = createStore({
             communityDetail:{},
             campAds:[],
             campBrandAds:[],
-            bizInfo:{},
+            bizInfo:[],
 
             // 관리자
             newmember:{},
@@ -1388,15 +1388,18 @@ const store = createStore({
                     console.log('광고캠핑브랜드획득 실패', error.response);
                 })
             },
-            getBizInfo(context, id){
+            async getBizInfo({commit}, id){
                 const url =`api/getBizInfo/${id}`;
-                axios.get(url)
-                .then(response => {
-                    context.commit('setBizInfo', response.data.data);
-                })
-                .catch(error => {
-                    console.log('비즈니스정보 획득실패', error.response);
-                })
+                try {
+                    const response = await axios.get(url);
+                    if (response.data && response.data.data) {
+                      commit('setBizInfo', response.data.data);
+                    } else {
+                      console.log('Invalid response structure:', response.data);
+                    }
+                  } catch (error) {
+                    console.log('비즈니스 정보 획득 실패:', error.response);
+                  }
             },
 
         // 관리자페이지 로그인
