@@ -236,11 +236,22 @@ class AdvertiseController extends Controller
         
         $query = Advertise::query();
         
+        // 필터링 조건 추가
+        $query->where('status', '3')
+            ->where(function ($query) {
+                $query->where('start_date', '<=', now()) // start_date가 오늘이거나 오늘보다 작거나
+                        ->orWhereNull('start_date'); // start_date가 NULL일 경우도 포함
+            })
+            ->where(function ($query) {
+                $query->where('end_date', '>=', now()) // end_date가 오늘보다 작거나 오늘인 경우
+                        ->orWhereNull('end_date'); // end_date가 NULL일 경우도 포함
+            });
+        
         if ($adType !== null) {
             $query->where('ad_type', $adType);
         }
         
-        $boardList = $query->orderBy('created_at', 'DESC')->take(5)->get(); // Limit to 5 items
+        $boardList = $query->orderBy('created_at', 'DESC')->get();
         
         $responseData = [
             'code' => '0',
@@ -250,6 +261,7 @@ class AdvertiseController extends Controller
         
         return response()->json($responseData, 200);
     }
+
 
     // 광고 캠핑장 데이터 불러오기
     public function getAds() {
