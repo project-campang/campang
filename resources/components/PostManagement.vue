@@ -103,12 +103,12 @@
                 <div class="mb-3">
                   <label for="order" class="form-label">출력순서</label>
                   <select class="form-select" id="order" v-model="modalData.order">
-                    <option :value="'0'">0</option>
                     <option :value="'1'" :disabled="isOrderUsed('1')">1</option>
                     <option :value="'2'" :disabled="isOrderUsed('2')">2</option>
                     <option :value="'3'" :disabled="isOrderUsed('3')">3</option>
                     <option :value="'4'" :disabled="isOrderUsed('4')">4</option>
                     <option :value="'5'" :disabled="isOrderUsed('5')">5</option>
+                    <option :value="'6'">대기</option>
                   </select>
 
                 </div>

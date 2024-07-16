@@ -43,7 +43,8 @@
             <tr v-for="(item, index) in $store.state.adminAdverTisement" :key="index">
               <td class="aggroL">{{ index + 1 }}</td>
               <td class="aggroL">{{ item.id }}</td>
-              <td class="aggroL">{{ item.title }}</td>
+              <td v-if="selectedAdType == 1" class="aggroL">{{ item.content }}</td>
+              <td v-else class="aggroL">{{ item.title }}</td>
               <td class="aggroL">{{ item.start_date + ' ~ ' + item.end_date }}</td>
               <td class="aggroL">{{ formatCurrency(item.amount) }}</td>
               <td class="aggroL">
@@ -96,8 +97,8 @@
               <input type="date" class="form-control" id="endDate" v-model="modalData.end_date">
             </div>
             <div class="mb-3">
-              <label for="adText" class="form-label">광고 문구</label>
-              <input type="text" class="form-control" id="adText" v-model="modalData.ad_text">
+              <label for="content" class="form-label">광고 문구</label>
+              <input type="text" class="form-control" id="content" v-model="modalData.content">
             </div>
             <div class="mb-3">
               <label for="amount" class="form-label">결제(예정)금액</label>
@@ -219,7 +220,7 @@ const modalData = ref({
   status: '',
   img_1: '',
   order: '',
-  ad_text: ''
+  content: ''
 });
 
 onBeforeMount(async () => {
@@ -282,7 +283,7 @@ function submitForm() {
     status: modalData.value.status,
     img_1: modalData.value.img_1,
     order: modalData.value.order,
-    adText: modalData.ad_text
+    content: modalData.content
   };
 
   store.dispatch('updateAdvertisement', formData)

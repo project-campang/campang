@@ -283,7 +283,7 @@
                         <div class="col-sm-9">
                         <input type="text" class="form-control aggroL" id="businessName" name="businessName" v-model="form.title" readonly>
                         <div v-if="form.ad_type == 0" class="form-text aggroL">광고할 상호명이 다른경우 카카오톡으로 문의 바랍니다.</div>
-                        <div v-else class="form-text aggroL">캠핑브랜드의 경우 이미지만 올라갑니다. (상호명 수정 불필요)</div>
+                        <div v-else class="form-text aggroL">캠핑브랜드의 경우 하단 브랜드명에 작성바랍니다.</div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -316,9 +316,10 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="adSentence" class="col-sm-3 col-form-label">희망 문구</label>
+                        <label v-if="form.ad_type == 0" for="adSentence" class="col-sm-3 col-form-label">희망 문구<span class="text-danger">*</span></label>
+                        <label v-else for="adSentence" class="col-sm-3 col-form-label">브랜드명<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control aggroL" v-model="form.content" placeholder="최대 40글자" maxlength="40">
+                        <input type="text" class="form-control aggroL" v-model="form.content" placeholder="최대 40글자" maxlength="40" required>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -329,6 +330,7 @@
                         <input v-else type="file" class="form-control aggroL"  @change="handleFileUpload" required>
                         <div v-if="form.ad_type == 0" class="form-text aggroL">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다. (높이:너비 = 3:4 권장)</div>
                         <div v-else class="form-text aggroL">용품의 경우 이미지 필수 입니다. (높이:너비 = 3:4 권장) </div>
+                        <div class="form-text aggroL">사진 사이즈 조정이 필요하신분은 카카오톡으로 문의 바랍니다.</div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -454,7 +456,7 @@ import { ref, onMounted, watch, computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
-import { useRoute } from 'vue-router';
+import { createRouterMatcher, useRoute } from 'vue-router';
 
 // Vuex 스토어 사용
 const store = useStore();
