@@ -176,7 +176,7 @@ class UserController extends Controller
             [
                 'business_code' => ['required', 'regex:/^\d{3}-\d{2}-\d{5}$/'],
                 'business_name' => ['required', 'regex:/^[가-힣a-zA-Z0-9()&,\s]+$/u'],
-                'business_link' => ['required','regex: /^https:\/\/(112\.222\.157\.156:6435|localhost:8000|127.0.0.1:8000)\/camp\/[0-9]+$/'],
+                'business_link' => ['required', 'regex:/\/camp\/[0-9]+$/'],
                 'password' => ['required', 'min:2', 'max:20', 'regex:/^[a-zA-Z0-9!@*]+$/'],
                 'ps_chk' => ['same:password'],
                 'nick_name' => ['required', 'min:2', 'max:10', 'regex:/^[가-힣a-zA-Z]+$/u'],

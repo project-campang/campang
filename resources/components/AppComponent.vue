@@ -282,7 +282,8 @@
                         <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
                         <input type="text" class="form-control aggroL" id="businessName" name="businessName" v-model="form.title" readonly>
-                        <div class="form-text aggroL">광고할 상호명이 다른경우 카카오톡으로 문의 바랍니다.</div>
+                        <div v-if="form.ad_type == 0" class="form-text aggroL">광고할 상호명이 다른경우 카카오톡으로 문의 바랍니다.</div>
+                        <div v-else class="form-text aggroL">캠핑브랜드의 경우 이미지만 올라갑니다. (상호명 수정 불필요)</div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -321,10 +322,13 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="adImage" class="col-sm-3 col-form-label">희망 이미지</label>
+                        <label v-if="form.ad_type == 0" for="adImage" class="col-sm-3 col-form-label">희망 이미지</label>
+                        <label v-else for="adImage" class="col-sm-3 col-form-label">희망 이미지<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="file" class="form-control aggroL"  @change="handleFileUpload">
-                        <div class="form-text aggroL">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다. (높이:너비 = 3:4 권장)</div>
+                        <input v-if="form.ad_type == 0" type="file" class="form-control aggroL"  @change="handleFileUpload">
+                        <input v-else type="file" class="form-control aggroL"  @change="handleFileUpload" required>
+                        <div v-if="form.ad_type == 0" class="form-text aggroL">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다. (높이:너비 = 3:4 권장)</div>
+                        <div v-else class="form-text aggroL">용품의 경우 이미지 필수 입니다. (높이:너비 = 3:4 권장) </div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -785,6 +789,11 @@ function resetRegisterForm() {
     emailCheckResult.value = null;
 }
 
+function extractLinkPath(link) {
+    const match = link.match(/\/camp\/[0-9]+$/);
+    return match ? match[0] : ''; // 링크에서 "/camp/숫자" 부분만 추출
+}
+
 // 사업자 회원가입 처리
 function bizRegister() {
     // 이메일 중복 체크를 하지 않았거나 중복된 이메일일 경우 경고 메시지 표시
@@ -807,6 +816,11 @@ function bizRegister() {
         alert('입력한 정보를 확인해주세요.');
         return;
     }
+    const link = bizRegisterForm.value.business_link.trim();
+    const path = extractLinkPath(link);
+    bizRegisterForm.value.business_link = path;
+
+    validationErrors.value = {};
 
     store.dispatch('bizRegister', bizRegisterForm.value)
         .then(() => {
