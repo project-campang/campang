@@ -283,7 +283,7 @@ function submitForm() {
     status: modalData.value.status,
     img_1: modalData.value.img_1,
     order: modalData.value.order,
-    content: modalData.content
+    content: modalData.value.content
   };
 
   store.dispatch('updateAdvertisement', formData)
