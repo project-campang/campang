@@ -65,22 +65,29 @@ class AdvertiseController extends Controller
         return response()->json(['message' => '광고 신청이 성공적으로 처리되었습니다.']);
     }
 
+
+    // 마이페이지 내광고
     public function myadverTisement(Request $request)
-    {   
-        
-       $boardList = Advertise::join('users', 'advertises.user_id', '=', 'users.id')
-                              ->select('advertises.*', 'users.name', 'users.nick_name')
-                              ->orderBy('advertises.created_at', 'DESC')
-                              ->get();
-        
-        $responseData= [
+    {
+        // 로그인한 사용자의 ID를 가져옵니다.
+        $userId = auth()->id();
+
+        // 로그인한 사용자의 광고만 조회합니다.
+        $boardList = Advertise::join('users', 'advertises.user_id', '=', 'users.id')
+                            ->select('advertises.*', 'users.name', 'users.nick_name')
+                            ->where('advertises.user_id', $userId)
+                            ->orderBy('advertises.created_at', 'DESC')
+                            ->get();
+
+        $responseData = [
             'code' => '0',
             'msg' => '게시글 획득',
             'data' => $boardList
         ];
-    
+
         return response()->json($responseData, 200);
     }
+
     // 관리자페이지 광고
     public function advertiseManagement(Request $request)
     {
@@ -120,6 +127,7 @@ class AdvertiseController extends Controller
         $advertisement->amount = $requestData['amount'];
         $advertisement->status = $requestData['status'];
         $advertisement->order = $requestData['order'];
+        $advertisement->content = $requestData['content'];
 
         // 이미지 업로드 처리
         if ($request->has('img_1') && Str::startsWith($requestData['img_1'], 'data:image')) {
@@ -229,11 +237,22 @@ class AdvertiseController extends Controller
         
         $query = Advertise::query();
         
+        // 필터링 조건 추가
+        $query->where('status', '3')
+            ->where(function ($query) {
+                $query->where('start_date', '<=', now()) // start_date가 오늘이거나 오늘보다 작거나
+                        ->orWhereNull('start_date'); // start_date가 NULL일 경우도 포함
+            })
+            ->where(function ($query) {
+                $query->where('end_date', '>=', now()) // end_date가 오늘보다 작거나 오늘인 경우
+                        ->orWhereNull('end_date'); // end_date가 NULL일 경우도 포함
+            });
+        
         if ($adType !== null) {
             $query->where('ad_type', $adType);
         }
         
-        $boardList = $query->orderBy('created_at', 'DESC')->take(5)->get(); // Limit to 5 items
+        $boardList = $query->orderBy('order','ASC')->orderBy('start_date','ASC')->orderBy('created_at', 'DESC')->get();
         
         $responseData = [
             'code' => '0',
@@ -244,10 +263,11 @@ class AdvertiseController extends Controller
         return response()->json($responseData, 200);
     }
 
+
     // 광고 캠핑장 데이터 불러오기
     public function getAds() {
         $date = Carbon::now();
-        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','0')->orderBy('order','ASC')->get();
+        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','0')->orderBy('order','ASC')->orderBy('start_date','ASC')->take(5)->get();
 
         $responseData = [
             'code'=> '0',
@@ -261,7 +281,7 @@ class AdvertiseController extends Controller
     //광고 캠핑장 브랜드 데이터 불러오기
     public function getBrandAds() {
         $date = Carbon::now();
-        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','1')->orderBy('order','ASC')->get();
+        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','1')->orderBy('order','ASC')->orderBy('start_date','ASC')->take(5)->get();
 
         $responseData = [
             'code'=> '0',

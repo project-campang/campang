@@ -279,9 +279,11 @@
                     <form @submit.prevent="submitAdForm" id="adForm">
                     <input type="hidden" name="user_id" id="user_id" :value="form.user_id">
                     <div class="mb-3 row">
-                        <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명 <span class="text-danger">*</span></label>
+                        <label for="businessName" class="col-sm-3 col-form-label">광고할 상호명<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control aggroL" v-model="form.title" placeholder="상호명을 입력하세요">
+                        <input type="text" class="form-control aggroL" id="businessName" name="businessName" v-model="form.title" readonly>
+                        <div v-if="form.ad_type == 0" class="form-text aggroL">광고할 상호명이 다른경우 카카오톡으로 문의 바랍니다.</div>
+                        <div v-else class="form-text aggroL">캠핑브랜드의 경우 하단 브랜드명에 작성바랍니다.</div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -314,16 +316,21 @@
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="adSentence" class="col-sm-3 col-form-label">희망 문구</label>
+                        <label v-if="form.ad_type == 0" for="adSentence" class="col-sm-3 col-form-label">희망 문구<span class="text-danger">*</span></label>
+                        <label v-else for="adSentence" class="col-sm-3 col-form-label">브랜드명<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="text" class="form-control aggroL" v-model="form.content" placeholder="최대 40글자" maxlength="40">
+                        <input type="text" class="form-control aggroL" v-model="form.content" placeholder="최대 40글자" maxlength="40" required>
                         </div>
                     </div>
                     <div class="mb-3 row">
-                        <label for="adImage" class="col-sm-3 col-form-label">희망 이미지</label>
+                        <label v-if="form.ad_type == 0" for="adImage" class="col-sm-3 col-form-label">희망 이미지</label>
+                        <label v-else for="adImage" class="col-sm-3 col-form-label">희망 이미지<span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <input type="file" class="form-control aggroL"  @change="handleFileUpload">
-                        <div class="form-text aggroL">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다. (높이:너비 = 3:4 권장)</div>
+                        <input v-if="form.ad_type == 0" type="file" class="form-control aggroL"  @change="handleFileUpload">
+                        <input v-else type="file" class="form-control aggroL"  @change="handleFileUpload" required>
+                        <div v-if="form.ad_type == 0" class="form-text aggroL">미첨부시 기존 캠핑장의 메인 이미지가 게시됩니다. (높이:너비 = 3:4 권장)</div>
+                        <div v-else class="form-text aggroL">용품의 경우 이미지 필수 입니다. (높이:너비 = 3:4 권장) </div>
+                        <div class="form-text aggroL">사진 사이즈 조정이 필요하신분은 카카오톡으로 문의 바랍니다.</div>
                         </div>
                     </div>
                     <div class="mb-3 row">
@@ -445,11 +452,16 @@
 
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, watch, computed, onBeforeMount } from 'vue';
 import { useStore } from 'vuex';
 import axios from 'axios';
 import { useBackToTop } from "../js/scrolltop.js";
-import { useRoute } from 'vue-router';
+import { createRouterMatcher, useRoute } from 'vue-router';
+
+// Vuex 스토어 사용
+const store = useStore();
+
+
 
 let agreeFlg1 = ref(false);
 let agreeFlg2 = ref(false);
@@ -779,6 +791,11 @@ function resetRegisterForm() {
     emailCheckResult.value = null;
 }
 
+function extractLinkPath(link) {
+    const match = link.match(/\/camp\/[0-9]+$/);
+    return match ? match[0] : ''; // 링크에서 "/camp/숫자" 부분만 추출
+}
+
 // 사업자 회원가입 처리
 function bizRegister() {
     // 이메일 중복 체크를 하지 않았거나 중복된 이메일일 경우 경고 메시지 표시
@@ -801,6 +818,11 @@ function bizRegister() {
         alert('입력한 정보를 확인해주세요.');
         return;
     }
+    const link = bizRegisterForm.value.business_link.trim();
+    const path = extractLinkPath(link);
+    bizRegisterForm.value.business_link = path;
+
+    validationErrors.value = {};
 
     store.dispatch('bizRegister', bizRegisterForm.value)
         .then(() => {
@@ -854,8 +876,7 @@ const loginForm = ref({
 
 const emailCheckResult = ref(null);
 
-// Vuex 스토어 사용
-const store = useStore();
+
 
 // 모달 초기화
 let loginModal;
@@ -1181,7 +1202,6 @@ const openAdModal = () => {
 };
 
 
-
 const form = ref({
     user_id: '',
     title: '',
@@ -1194,6 +1214,17 @@ const form = ref({
     img_1: null,
     agree: false,
 });
+
+
+
+onMounted(async () => {
+  await store.dispatch('getBizInfo', store.state.userInfo.id);
+  if (store.state.bizInfo.length > 0) {
+    form.value.title = store.state.bizInfo[0].business_name;
+  }
+  console.log('bizInfo:', store.state.bizInfo); // bizInfo 확인
+});
+
 
 const isFormValid = computed(() => {
   // 필수 필드들이 모두 채워져 있는지 확인
@@ -1238,7 +1269,7 @@ const submitAdForm = async () => {
     try {
         // 서버로 데이터 전송
         const response = await axios.post('/api/submitAd', formData);
-
+        console.log('form.value', form.value);
         // 성공적으로 신청한 경우
         // 폼 초기화 (Vue 3 Composition API 방식)
         form.value = {
@@ -1258,6 +1289,7 @@ const submitAdForm = async () => {
       $('#exampleModal2').modal('hide');
       // 성공 모달 열기
       $('#exampleModal5').modal('show');
+     
     } catch (error) {
       console.error('광고신청 실패:', error);
     }

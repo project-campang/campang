@@ -75,6 +75,7 @@ const store = createStore({
             communityDetail:{},
             campAds:[],
             campBrandAds:[],
+            bizInfo:[],
 
             // 관리자
             newmember:{},
@@ -308,6 +309,9 @@ const store = createStore({
         setCampBrandAds(state,data){
             state.campBrandAds = data;
         },
+        setBizInfo(state,data){
+            state.bizInfo = data;
+        },
 
         // 관리자
         setNewMember(state,data){
@@ -390,7 +394,8 @@ const store = createStore({
             try {
                 const response = await axios.post('/api/bizRegister', bizRegisterForm);
                 commit('setAuthFlg', true);
-                commit('setUserInfo', response.data.data);
+                commit('setUserInfo', response.data.data.user);
+                console.log('사업자 회원가입 response',response.data.data.user);
                 // router.replace('/main');
             } catch (error) {
                 console.error('회원가입 실패:', error);
@@ -1000,6 +1005,7 @@ const store = createStore({
             const url = `/api/community/${id}`;
             const insertForm = document.querySelector('#insertForm');
             const formData = new FormData(insertForm);
+            console.log('zzzzzzzzzzzzzzzzzzzz',formData);
         
             axios.post(url, formData)
             .then(response => {
@@ -1380,6 +1386,19 @@ const store = createStore({
                     console.log('광고캠핑브랜드획득 실패', error.response);
                 })
             },
+            async getBizInfo({commit}, id){
+                const url =`api/getBizInfo/${id}`;
+                try {
+                    const response = await axios.get(url);
+                    if (response.data && response.data.data) {
+                      commit('setBizInfo', response.data.data);
+                    } else {
+                      console.log('Invalid response structure:', response.data);
+                    }
+                  } catch (error) {
+                    console.log('비즈니스 정보 획득 실패:', error.response);
+                  }
+            },
 
         // 관리자페이지 로그인
         async adminLogin({ commit }, loginForm) {
@@ -1455,7 +1474,7 @@ const store = createStore({
                 data: { id }  // DELETE 요청의 경우 데이터는 'data' 속성에 객체 형태로 전달해야 함
               });
           
-              context.commit('setAdminAdvertisement', response.data.data);
+              context.commit('setAdminAdvertisement', response.data);
               console.log('광고 취소 성공');
             } catch (error) {
               console.error(`광고 취소 실패 (${error.response.data.code})`);

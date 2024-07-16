@@ -103,12 +103,14 @@
                 <div class="mb-3">
                   <label for="order" class="form-label">출력순서</label>
                   <select class="form-select" id="order" v-model="modalData.order">
-                    <option :value="'1'">1</option>
-                    <option :value="'2'">2</option>
-                    <option :value="'3'">3</option>
-                    <option :value="'4'">4</option>
-                    <option :value="'5'">5</option>
+                    <option :value="'1'" :disabled="isOrderUsed('1')">1</option>
+                    <option :value="'2'" :disabled="isOrderUsed('2')">2</option>
+                    <option :value="'3'" :disabled="isOrderUsed('3')">3</option>
+                    <option :value="'4'" :disabled="isOrderUsed('4')">4</option>
+                    <option :value="'5'" :disabled="isOrderUsed('5')">5</option>
+                    <option :value="'6'">대기</option>
                   </select>
+
                 </div>
                 <p>신청날짜: {{ modalData.updated_at }}</p>
                 <div class="modal-footer">
@@ -124,50 +126,38 @@
   </template>
   
   <script setup>
-  import { ref, onBeforeMount, reactive } from 'vue';
-  import { useStore } from 'vuex';
-  
-  const selectedAdType = ref('0');
-  const store = useStore();
-  const modalData = reactive({
-    id: '',
-    title: '',
-    start_date: '',
-    end_date: '',
-    amount: '',
-    status: '',
-    img_1: '',
-    order: '',
-    updated_at: '',
-  });
-  const openAccordionIndex = ref(null);
-  const editedStatus = ref({}); // Track edited status locally
-  
-  onBeforeMount(async () => {
-    await searchAds();
-  });
-  
-  async function searchAds() {
-    try {
-      await store.dispatch('advertisements', selectedAdType.value);
-    } catch (error) {
-      console.error('광고를 검색하는 도중 에러 발생:', error);
-    }
+import { ref, onBeforeMount, reactive, computed } from 'vue';
+import { useStore } from 'vuex';
+
+const selectedAdType = ref('0');
+const store = useStore();
+const modalData = reactive({
+  id: '',
+  title: '',
+  start_date: '',
+  end_date: '',
+  amount: '',
+  status: '',
+  img_1: '',
+  order: '',
+  updated_at: '',
+});
+const openAccordionIndex = ref(null);
+const editedStatus = ref({}); // Track edited status locally
+
+onBeforeMount(async () => {
+  await searchAds();
+});
+
+async function searchAds() {
+  try {
+    await store.dispatch('advertisements', selectedAdType.value);
+  } catch (error) {
+    console.error('광고를 검색하는 도중 에러 발생:', error);
   }
-  
-//   function toggleAccordion(idx) {
-//     if (openAccordionIndex.value === idx) {
-//       openAccordionIndex.value = null;
-//     } else {
-//       openAccordionIndex.value = idx;
-//     }
-//   }
-  
-//   function isAccordionOpen(idx) {
-//     return openAccordionIndex.value === idx;
-//   }
-  
-  function openModal(item) {
+}
+
+function openModal(item) {
   // 모달 데이터 초기화
   modalData.id = item.id;
   modalData.title = item.title;
@@ -195,27 +185,32 @@ function handleImageUpload(index, event) {
     console.error('파일을 선택해 주세요.');
   }
 }
- 
+
 function submitForm() {
-    const formData = {
-      id: modalData.id,
-      title: modalData.title,
-      start_date: modalData.start_date,
-      end_date: modalData.end_date,
-      amount: modalData.amount,
-      status: modalData.status,
-      order: modalData.order,
-      img_1: modalData.img_1,
-    };
+  const formData = {
+    id: modalData.id,
+    title: modalData.title,
+    start_date: modalData.start_date,
+    end_date: modalData.end_date,
+    amount: modalData.amount,
+    status: modalData.status,
+    order: modalData.order,
+    img_1: modalData.img_1,
+  };
 
-    store.dispatch('updateAdvertisement', formData)
-      .then(() => {
-        $('#exampleModal').modal('hide');
-        searchAds();
-      });
-  }
+  store.dispatch('updateAdvertisement', formData)
+    .then(() => {
+      $('#exampleModal').modal('hide');
+      searchAds();
+    });
+}
 
-  </script>
+const advertisements = computed(() => store.state.adminAdverTise);
+
+function isOrderUsed(order) {
+  return advertisements.value.some(item => item.order === order && item.id !== modalData.id);
+}
+</script>
   
   <style scoped src="../css/admin.css"></style>
   

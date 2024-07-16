@@ -47,16 +47,18 @@
                 <div class="test-ad">
                     <Carousel v-bind="settings" :breakpoints="breakpoints" :autoplay="5000" :wrapAround="true" :pauseAutoplayOnHover="true">
                         <Slide v-for="(item, index) in $store.state.campAds" :key="index">
-                            <div class="ad-box" :style="{backgroundImage: 'url(' + item.img_1 + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}">
-                                <div class="ad-info">
-                                    <div class="ad-title">
-                                        {{ item.title }}
-                                    </div>
-                                    <div class="ad-content">
-                                        {{ item.content }}
+                            <router-link :to="item.ad_link">
+                                <div class="ad-box" :style="{backgroundImage: 'url(' + item.img_1 + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}">
+                                    <div class="ad-info">
+                                        <div class="ad-title">
+                                            {{ item.title }}
+                                        </div>
+                                        <div class="ad-content">
+                                            {{ item.content }}
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
+                            </router-link>
                         </Slide>
                 
                         <template #addons>
@@ -522,6 +524,7 @@ const breakpoints = {
 //     snapAlign: 'center',
 //   },
 };
+
 
 </script>
 

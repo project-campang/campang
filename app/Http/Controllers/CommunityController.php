@@ -33,31 +33,41 @@ class CommunityController extends Controller
      * @param int $id 게시글 ID
      * @return \Illuminate\Http\JsonResponse
      */
+
     public function getPostById($id)
     {
-        // communities 테이블과 users 테이블을 조인하여 게시글과 작성자의 nick_name을 조회
-        $boardList = Community::join('users', 'communities.user_id', '=', 'users.id')
+
+            // communities 테이블과 camps 테이블을 조인하여 게시글과 캠핑장 이름을 조회
+            $boardList = Community::leftJoin('camps', 'communities.camp_id', '=', 'camps.id')
+                            ->join('users', 'communities.user_id', '=', 'users.id')
                             ->where('communities.id', $id)
                             ->whereNull('communities.deleted_at')
-                            ->select('communities.*', 'users.nick_name as user_nick_name')
+                            ->select(
+                                'communities.*',
+                                'users.nick_name as user_nick_name',
+                                'camps.name as camp_name'
+                            )
                             ->first();
 
-        if (!$boardList) {
-            return response()->json([
-                'code' => '1',
-                'msg' => '게시글을 찾을 수 없습니다.',
-                'data' => null
-            ], 404);
+            if (!$boardList) {
+                return response()->json([
+                    'code' => '1',
+                    'msg' => '게시글을 찾을 수 없습니다.',
+                    'data' => null
+                ], 404);
+            }
+
+            $responseData = [
+                'code' => '0',
+                'msg' => '게시글 획득',
+                'data' => $boardList
+            ];
+
+            return response()->json($responseData, 200);
+        
         }
+    
 
-        $responseData = [
-            'code' => '0',
-            'msg' => '게시글 획득',
-            'data' => $boardList
-        ];
-
-        return response()->json($responseData, 200);
-    }
 
 
     
@@ -66,35 +76,32 @@ class CommunityController extends Controller
 
 
 
-
     public function communityStore(Request $request, $id)
     {
         // 유효성 검사 규칙 정의
-        $validator = Validator::make(
-            $request->all(),
-            [
-                'title' => 'required|min:1|max:50',
-                'content' => 'required|min:1|max:500',
-                'main_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // 2MB 제한
-                'other_img2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'other_img3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'other_img4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-                'other_img5' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            ]
-        );
-
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|min:1|max:50',
+            'content' => 'required|min:1|max:500',
+            'main_img' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // 2MB 제한
+            'other_img2' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'other_img3' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'other_img4' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'other_img5' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+        
+        // 유효성 검사 실패 시 처리
         if ($validator->fails()) {
             Log::debug('커뮤니티 페이지 유효성 검사 실패', $validator->errors()->toArray());
-            throw new MyValidateException('E01');
+            throw new MyValidateException('E01'); // 예외를 던져서 클라이언트에게 유효성 검사 실패를 알림
         }
-
+        
         // 이미지 파일 저장 및 경로 설정
         $mainImgPath = $this->handleImageUpload($request, 'main_img');
         $otherImg2Path = $this->handleImageUpload($request, 'other_img2');
         $otherImg3Path = $this->handleImageUpload($request, 'other_img3');
         $otherImg4Path = $this->handleImageUpload($request, 'other_img4');
         $otherImg5Path = $this->handleImageUpload($request, 'other_img5');
-
+        
         // 게시글 저장
         $community = new Community();
         $community->type = $id; // 보드 ID 설정
@@ -105,20 +112,27 @@ class CommunityController extends Controller
         $community->other_img3 = $otherImg3Path;
         $community->other_img4 = $otherImg4Path;
         $community->other_img5 = $otherImg5Path;
+        
+        // camp_id와 rating 필드는 유효성 검사에서 제외하고, 클라이언트에서 넘어오는 값 그대로 저장
+        $community->camp_id = $request->camp_id;
+        $community->rating = $request->rating;
+    
         $community->user_id = auth()->id();
         $community->views = 0;
         $community->save();
-
+        
         // 응답 데이터 생성
         $responseData = [
             'code' => '0',
             'msg' => '게시글 작성 완료',
             'data' => $community->toArray(),
         ];
-
+        
         Log::debug('게시글 저장 성공', $community->toArray());
         return response()->json($responseData, 200);
     }
+    
+
 
     /**
      * 이미지 파일을 업로드하고 저장 경로를 반환하는 함수

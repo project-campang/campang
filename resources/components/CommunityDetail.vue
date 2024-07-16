@@ -24,9 +24,9 @@
             <div :class="{ 'active': route.params.id === '2' }">
               <router-link :to="`/community/2`" class="list-item" :class="{ active: isActive('/community/2') }">리뷰 게시판</router-link>
             </div>
-            <div :class="{ 'active': route.params.id === '5' }">
+            <!-- <div :class="{ 'active': route.params.id === '5' }">
               <router-link :to="`/community/5`" class="list-item" :class="{ active: isActive('/community/5') }">랭킹 게시판</router-link>
-            </div>
+            </div> -->
           </div>
         </div>
       </div>
@@ -50,7 +50,16 @@
         </p>
       </div>
       <div class="detail-content-midle">
-        <h3></h3>
+        <div class="additional-info" v-if="postDetail.rating >= 1 || postDetail.camp_id !== null">
+          <p  class="rating-box-community" v-if="postDetail.rating >= 1">별점:
+              <div class="rating-item-community" v-for="i in 5" :key="i">
+                <img v-if="i <= postDetail.rating" src="../../public/img_nr/별점_활성화.png" alt="Active Star">
+                <img v-else src="../../public/img_nr/별점_비활성화.png" alt="Inactive Star">
+              </div>
+          </p>
+          <p v-if="postDetail.camp_id !== null">캠핑장: {{ postDetail.camp_name }}</p>
+        </div>
+
         <p class="detail-content-text">{{ postDetail.content }}</p>
         <div class="img-box">
           <!-- <img v-if="postDetail.main_img" :src="postDetail.main_img" alt="post image" /> -->
