@@ -232,12 +232,7 @@ const store = createStore({
         setCampDetail(state, data){
             state.campDetail = data;
         },
-
-
-        setCampDetail(state, data){
-            state.campDetail = data;
-        },
-
+        
         // 시/도 데이터 획득
         setStateData(state, data) {
             state.stateData = data;
@@ -1061,14 +1056,15 @@ const store = createStore({
             const url = '/api/camp/'+id;
             console.log(url);
 
-                    axios.get(url)
+            axios.get(url)
             .then(response => {
                 context.commit('setCampDetail', response.data.data);
-                console.log(response.data);
+                console.log(response.data.data);
             })
             .catch( error => {
                 console.log('정보획득 실패 : ', error);
             })
+
         },
 
         /**

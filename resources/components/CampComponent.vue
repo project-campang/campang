@@ -82,8 +82,15 @@
                     </div>
                     <div class="detail-info-card">
                         <div class="info-card-name">이용시설</div>
+
                         <div class="info-card-main">
+                            <!-- 편의시설 -->
                             <div class="info-icon" v-for="item in $store.state.campDetail.amenityInfo" :key="item">
+                                <img :src="item.img" alt="icon">
+                                <p>{{ item.name }}</p>
+                            </div>
+                            <!-- 즐길거리 -->
+                            <div class="info-icon" v-for="item in $store.state.campDetail.amusementInfo" :key="item">
                                 <img :src="item.img" alt="icon">
                                 <p>{{ item.name }}</p>
                             </div>
