@@ -122,6 +122,7 @@ const newAdvertisementRequestCount = computed(() => {
     return createdAt >= sevenDaysAgo;
   }).length;
 });
+
 function getStatusCount(status) {
   return store.state.adminAdverTisement.filter(item => item.status === status).length;
 }
@@ -134,6 +135,10 @@ onBeforeMount(() => {
     .catch((error) => {
       console.error('신규 유저를 가져오는 도중 에러 발생:', error);
     });
+
+    if(store.state.adminAdverTisement.length < 1 ) {
+        store.dispatch('fetchAdvertisements');
+    }  
 });
 
 const showUserDetails = (user) => {
