@@ -65,22 +65,29 @@ class AdvertiseController extends Controller
         return response()->json(['message' => '광고 신청이 성공적으로 처리되었습니다.']);
     }
 
+
+    // 마이페이지 내광고
     public function myadverTisement(Request $request)
-    {   
-        
-       $boardList = Advertise::join('users', 'advertises.user_id', '=', 'users.id')
-                              ->select('advertises.*', 'users.name', 'users.nick_name')
-                              ->orderBy('advertises.created_at', 'DESC')
-                              ->get();
-        
-        $responseData= [
+    {
+        // 로그인한 사용자의 ID를 가져옵니다.
+        $userId = auth()->id();
+
+        // 로그인한 사용자의 광고만 조회합니다.
+        $boardList = Advertise::join('users', 'advertises.user_id', '=', 'users.id')
+                            ->select('advertises.*', 'users.name', 'users.nick_name')
+                            ->where('advertises.user_id', $userId)
+                            ->orderBy('advertises.created_at', 'DESC')
+                            ->get();
+
+        $responseData = [
             'code' => '0',
             'msg' => '게시글 획득',
             'data' => $boardList
         ];
-    
+
         return response()->json($responseData, 200);
     }
+
     // 관리자페이지 광고
     public function advertiseManagement(Request $request)
     {

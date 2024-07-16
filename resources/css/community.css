@@ -524,7 +524,7 @@ input::placeholder, textarea::placeholder {
   line-height: 1.6;
 }
 
-.detail-content img {
+.img-box img {
   max-width: 100%;
   height: auto;
   border-radius: 8px;
@@ -683,3 +683,14 @@ textarea.community-comment:focus {
 .btn-outline-danger {
   --bs-btn-border-color: transparent;
 } */
+
+.rating-item-community img {
+  /* line-height: 20px; */
+  width: 20px;
+  height: 20px;
+}
+.rating-box-community {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+}

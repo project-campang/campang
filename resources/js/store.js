@@ -1010,6 +1010,7 @@ const store = createStore({
             const url = `/api/community/${id}`;
             const insertForm = document.querySelector('#insertForm');
             const formData = new FormData(insertForm);
+            console.log('zzzzzzzzzzzzzzzzzzzz',formData);
         
             axios.post(url, formData)
             .then(response => {
