@@ -45,15 +45,15 @@
             </thead>
             <tbody>
               <tr v-for="(item, idx) in $store.state.campData.data" :key="idx">
-                <td>{{ idx + 1 }}</td>
-                <td>{{ item.state }}</td>
-                <td>{{ item.county }}</td>
-                <td>{{ item.name}}</td>
-                <td>{{ item.address }}</td>
-                <td>{{ item.created_at }}</td>
-                <td>{{ item.deleted_at === null ? '영업중' : '폐업' }}</td>
+                <td class="aggroL">{{ idx + 1 }}</td>
+                <td class="aggroL">{{ item.state }}</td>
+                <td class="aggroL">{{ item.county }}</td>
+                <td class="aggroL">{{ item.name}}</td>
+                <td class="aggroL">{{ item.address }}</td>
+                <td class="aggroL">{{ item.created_at }}</td>
+                <td class="aggroL">{{ item.deleted_at === null ? '영업중' : '폐업' }}</td>
                 <td>
-                  <button type="button" class="btn btn-outline-primary btn-sm m-1" @click="openModal(item)">
+                  <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL" @click="openModal(item)">
                     수정
                   </button>
                 </td>
