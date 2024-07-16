@@ -399,7 +399,8 @@ const store = createStore({
             try {
                 const response = await axios.post('/api/bizRegister', bizRegisterForm);
                 commit('setAuthFlg', true);
-                commit('setUserInfo', response.data.data);
+                commit('setUserInfo', response.data.data.user);
+                console.log('사업자 회원가입 response',response.data.data.user);
                 // router.replace('/main');
             } catch (error) {
                 console.error('회원가입 실패:', error);

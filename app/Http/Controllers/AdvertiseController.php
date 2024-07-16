@@ -266,7 +266,7 @@ class AdvertiseController extends Controller
     // 광고 캠핑장 데이터 불러오기
     public function getAds() {
         $date = Carbon::now();
-        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','0')->orderBy('order','ASC')->get();
+        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','0')->orderBy('order','ASC')->orderBy('start_date','ASC')->take(5)->get();
 
         $responseData = [
             'code'=> '0',
@@ -280,7 +280,7 @@ class AdvertiseController extends Controller
     //광고 캠핑장 브랜드 데이터 불러오기
     public function getBrandAds() {
         $date = Carbon::now();
-        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','1')->orderBy('order','ASC')->get();
+        $ads = Advertise::select('*')->where('start_date','<=',$date)->where('end_date','>=',$date)->where('status','3')->where('ad_type','1')->orderBy('order','ASC')->orderBy('start_date','ASC')->take(5)->get();
 
         $responseData = [
             'code'=> '0',
