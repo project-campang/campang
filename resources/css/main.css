@@ -501,6 +501,20 @@ a {
     border-radius: 20px;
 } */
 
+.main-top-left {
+    width: 100%;
+    height: 250px;
+}
+
+.main-rank {
+    height: 100%;
+
+}
+
+.main-rank-box {
+    height: 100%;
+}
+
 .main-scroll {
     padding: 20px;
 }
@@ -575,8 +589,10 @@ a {
 }
 
 .main-rank {
+    margin-top: 20px;
     text-align: center;
-    width: 400px;
+    width: 100%;
+    height: 300px;
     /* margin: 1.5rem auto; */
     border-radius:30px;
     border-radius: 40px;
@@ -612,12 +628,19 @@ a {
     border-bottom-left-radius: 40px;
     border-bottom-right-radius: 40px;
     padding: 10px;
+    height: 200px;
     /* align-items: center; */
 }
 
 .main-rank-cam1, .main-rank-cam2 {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+}
+
+.main-rank-box img {
+    width: 110px;
+    height: 110px;
+    margin: 15px 0;
 }
 
 .main-rank-box p {

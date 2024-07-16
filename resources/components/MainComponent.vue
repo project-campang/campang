@@ -165,7 +165,7 @@
                 <p class="suggest-brand">캠팡 추천 브랜드</p>
                 <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="last-right-box">
-                    <div class="slider" v-for="i in 1000">
+                    <div class="slider" @mouseenter="stopSlider" v-for="i in 1000">
                         <div class="slide" v-for="(item, key) in $store.state.campBrandAds.concat($store.state.campBrandAds)" :key="key">
                             <img :src="item.img_1" alt="브랜드 이미지">
                             <!-- {{ i++ }} -->
@@ -524,6 +524,8 @@ const breakpoints = {
 //     snapAlign: 'center',
 //   },
 };
+
+
 
 
 </script>
