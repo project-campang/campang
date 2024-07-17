@@ -30,9 +30,13 @@
                             <div class="main-select-box">
                                 <select name="option" class="select">
                                     <option>선택</option>
-                                    <option value='1'>글램핑</option>
-                                    <option value='2'>오지/노지캠핑</option>
-                                    <option value='3'>카라반</option>
+                                    <option value='1'>카라반</option>
+                                    <option value='2'>글램핑</option>
+                                    <option value='3'>데크</option>
+                                    <option value='4'>잔디</option>
+                                    <option value='5'>자갈</option>
+                                    <option value='6'>파쇄석</option>
+                                    <option value='7'>흙</option>
                                 </select>
                             </div>
                             <button type="button" @click="searchBtn" class="main-search-button">검색</button>
