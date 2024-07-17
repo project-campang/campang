@@ -3,7 +3,7 @@
     <div class="admin-header">
         <h2>Campang</h2>
         <p>administrator Page</p>
-        <button class="btn btn-secondary" @click.prevent="logout">로그아웃</button>
+        <button class="btn btn-secondary admin-logout" @click.prevent="logout">로그아웃</button>
         <h2 class="text-end">{{ adminName }}님 반갑습니다</h2>
     </div>
     <div class="admin-container">
