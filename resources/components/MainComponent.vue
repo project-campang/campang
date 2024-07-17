@@ -44,27 +44,27 @@
                 <div class="campang-pick">
                     <span>캠팡 Pick! 둘러보기</span>
                 </div>
-                <div class="test-ad">
+                <div class="test-ad" @mousemove="updateMousePosition">
                     <Carousel v-bind="settings" :breakpoints="breakpoints" :autoplay="5000" :wrapAround="true" :pauseAutoplayOnHover="true">
-                        <Slide v-for="(item, index) in $store.state.campAds" :key="index">
-                            <router-link :to="item.ad_link">
-                                <div class="ad-box" :style="{backgroundImage: 'url(' + item.img_1 + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center'}">
-                                    <div class="ad-info">
-                                        <div class="ad-title">
-                                            {{ item.title }}
-                                        </div>
-                                        <div class="ad-content">
-                                            {{ item.content }}
-                                        </div>
-                                    </div>
-                                </div>
-                            </router-link>
-                        </Slide>
-                
-                        <template #addons>
+                    <Slide v-for="(item, index) in $store.state.campAds" :key="index">
+                        <router-link :to="item.ad_link" @mouseover="showName(item.name)" @mouseleave="hideName">
+                        <div class="ad-box" :style="{ backgroundImage: 'url(' + item.img_1 + ')', backgroundRepeat: 'no-repeat', backgroundSize: 'cover', backgroundPosition: 'center' }">
+                            <div class="ad-info">
+                            <div class="ad-title">{{ item.title }}</div>
+                            <div class="ad-content">{{ item.content }}</div>
+                            </div>
+                        </div>
+                        </router-link>
+                    </Slide>
+
+                    <template #addons>
                         <Navigation />
-                        </template>
+                    </template>
                     </Carousel>
+
+                    <!-- <div v-if="showingName" class="name-tooltip" :style="{ left: mouseX + 'px', top: mouseY + 'px' }">
+                    {{ $store.state.campAds.title }}
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -165,7 +165,7 @@
                 <p class="suggest-brand">캠팡 추천 브랜드</p>
                 <p class="text-end main-promotion">* 본 섹션은 광고를 포함하고 있습니다.</p>
                 <div class="last-right-box">
-                    <div class="slider" v-for="i in 1000">
+                    <div class="slider" @mouseenter="stopSlider" v-for="i in 1000">
                         <div class="slide" v-for="(item, key) in $store.state.campBrandAds.concat($store.state.campBrandAds)" :key="key">
                             <img :src="item.img_1" alt="브랜드 이미지">
                             <!-- {{ i++ }} -->
@@ -524,6 +524,30 @@ const breakpoints = {
 //     snapAlign: 'center',
 //   },
 };
+
+
+const showingName = ref(false);
+const name = ref('');
+const mouseX = ref(0);
+const mouseY = ref(0);
+
+const showName = (itemName) => {
+  name.value = itemName;
+  showingName.value = true;
+};
+
+const hideName = () => {
+  showingName.value = false;
+};
+
+const updateMousePosition = (event) => {
+  mouseX.value = event.clientX + 10; // 약간 옆으로 이동
+  mouseY.value = event.clientY + 10; // 약간 아래로 이동
+};
+
+
+
+
 
 
 </script>
