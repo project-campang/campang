@@ -8,7 +8,7 @@
         <div class="search-bar">
           <label for="adType">광고 유형:</label>
           <select id="adType" v-model="selectedAdType">
-            <option value="0">영업장</option>
+            <option value="0">캠핑장</option>
             <option value="1">브랜드</option>
           </select>
           <button class="btn btn-primary" @click="searchAds">검색</button>

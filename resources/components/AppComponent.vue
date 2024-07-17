@@ -289,10 +289,10 @@
                     <div class="mb-3 row">
                         <label class="col-sm-3 col-form-label">광고 유형 <span class="text-danger">*</span></label>
                         <div class="col-sm-9">
-                        <div class="btn-group" role="group1">
-                            <button type="button" class="btn btn-outline-primary aggroL" :class="{ active: form.ad_type === 0 }" @click="form.ad_type = 0">캠핑장</button>
-                            <button type="button" class="btn btn-outline-primary aggroL" :class="{ active: form.ad_type === 1 }" @click="form.ad_type = 1">캠핑용품</button>
-                        </div>
+                            <div class="btn-group" role="group1">
+                                <button type="button" class="btn btn-outline-primary aggroL" :class="{ active: form.ad_type === 0 }" @click="form.ad_type = 0">캠핑장</button>
+                                <button type="button" class="btn btn-outline-primary aggroL" :class="{ active: form.ad_type === 1 }" @click="form.ad_type = 1">브랜드</button>
+                            </div>
                         </div>
                     </div>
                     <div class="mb-3 row">
