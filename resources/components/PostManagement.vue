@@ -30,19 +30,19 @@
             </thead>
             <tbody class="aggroL">
               <tr v-for="(item, idx) in $store.state.adminAdverTise" :key="idx">
-                <td class="aggroL">{{ idx + 1 }}</td>
-                <td class="aggroL">{{ item.id }}</td>
-                <td v-if="selectedAdType == 0" class="aggroL">{{ item.title }}</td>
-                <td v-else class="aggroL">{{ item.content }}</td>
-                <td class="aggroL">
+                <td class="aggroL admin-list-post">{{ idx + 1 }}</td>
+                <td class="aggroL admin-list-post">{{ item.id }}</td>
+                <td v-if="selectedAdType == 0" class="aggroL admin-list-post">{{ item.title }}</td>
+                <td v-else class="aggroL admin-list-post">{{ item.content }}</td>
+                <td class="aggroL ">
                     <img :src="item.img_1" alt="" height="100">
                 </td>
-                <td class="aggroL">{{ item.start_date + ' ~ ' + item.end_date }}</td>
-                <td class="aggroL">메인</td>
-                <td class="aggroL" v-if="item.order === '6'">대기</td>
-                <td class="aggroL" v-else>{{ item.order }}</td>
+                <td class="aggroL admin-list-post">{{ item.start_date + ' ~ ' + item.end_date }}</td>
+                <td class="aggroL admin-list-post">메인</td>
+                <td class="aggroL admin-list-post" v-if="item.order === '6'">대기</td>
+                <td class="aggroL admin-list-post" v-else>{{ item.order }}</td>
                 <td>
-                  <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL" @click="openModal(item)">
+                  <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL mt-4" @click="openModal(item)">
                     수정
                   </button>
                 </td>

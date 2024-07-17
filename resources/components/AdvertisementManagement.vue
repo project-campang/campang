@@ -30,7 +30,7 @@
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>번호</th>
+              <th >번호</th>
               <th>광고 번호</th>
               <th>{{ selectedAdType === '1' ? '브랜드명' : '사업장명'}}</th>
               <th>광고 기간</th>
@@ -41,13 +41,13 @@
           </thead>
           <tbody>
             <tr v-for="(item, index) in $store.state.adminAdverTisement" :key="index">
-              <td class="aggroL">{{ index + 1 }}</td>
-              <td class="aggroL">{{ item.id }}</td>
-              <td v-if="selectedAdType == 1" class="aggroL">{{ item.content }}</td>
-              <td v-else class="aggroL">{{ item.title }}</td>
-              <td class="aggroL">{{ item.start_date + ' ~ ' + item.end_date }}</td>
-              <td class="aggroL">{{ formatCurrency(item.amount) }}</td>
-              <td class="aggroL">
+              <td class="aggroL admin-list">{{ index + 1 }}</td>
+              <td class="aggroL admin-list">{{ item.id }}</td>
+              <td v-if="selectedAdType == 1" class="aggroL admin-list">{{ item.content }}</td>
+              <td v-else class="aggroL admin-list">{{ item.title }}</td>
+              <td class="aggroL admin-list">{{ item.start_date + ' ~ ' + item.end_date }}</td>
+              <td class="aggroL admin-list">{{ formatCurrency(item.amount) }}</td>
+              <td class="aggroL admin-list">
                 {{
                   item.status === '1' ? '접수' : 
                   item.status === '2' ? '입금대기' : 

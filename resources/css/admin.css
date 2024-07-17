@@ -239,3 +239,14 @@
 .img-box-nr{
   height: auto;
 }
+
+
+
+.admin-list {
+  height: 35px;
+  line-height: 50px;
+}
+
+.admin-list-post {
+  line-height: 100px;
+}

@@ -40,14 +40,14 @@
       </li>
       <!-- 검색어가 없을 때 전체 유저 목록을 보여주는 부분 -->
       <li v-else v-for="(item, index) in store.state.usermanagement" :key="index" class="user-item">
-        <span class="aggroL">{{ item.id }}</span>
-        <span class="aggroL">{{ item.business === '0' ? '일반' : '사업자' }}</span>
-        <span class="home-email aggroL">{{ item.email }}</span>
-        <span class="aggroL">{{ item.name }}</span>
-        <span class="aggroL">{{ item.nick_name }}</span>
-        <span class="aggroL">{{ item.tel }}</span>
-        <span class="aggroL">{{ item.post_count }}</span>
-        <span class="aggroL">{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
+        <span class="aggroL admin-list">{{ item.id }}</span>
+        <span class="aggroL admin-list">{{ item.business === '0' ? '일반' : '사업자' }}</span>
+        <span class="home-email aggroL admin-list">{{ item.email }}</span>
+        <span class="aggroL admin-list">{{ item.name }}</span>
+        <span class="aggroL admin-list">{{ item.nick_name }}</span>
+        <span class="aggroL admin-list">{{ item.tel }}</span>
+        <span class="aggroL admin-list">{{ item.post_count }}</span>
+        <span class="aggroL admin-list">{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
         <div class="actions">
           <button 
               type="button" 
