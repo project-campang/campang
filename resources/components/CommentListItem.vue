@@ -97,7 +97,7 @@ const deleteComment = async (id) => {
 
   // 빌드시 리스트 출력
   onBeforeMount(() => {
-    console.log('여기서 실행되면 안되는데', route.params.id, store.state.pagination.current_page);
+    // console.log('여기서 실행되면 안되는데', route.params.id, store.state.pagination.current_page);
     store.dispatch('commentPageGet', { id: route.params.id, page: 1 });
   // console.log(store.state.pagination.current_page);
 })

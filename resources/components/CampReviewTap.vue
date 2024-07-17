@@ -109,7 +109,7 @@ function openDetailModal(data) {
     detailReviewItem.content = data.content;
     detailReviewItem.main_img = data.main_img;
     detailReviewItem.views = data.views;
-    console.log('조회수 = ', detailReviewItem.views);
+    // console.log('조회수 = ', detailReviewItem.views);
   }        
 }
 
@@ -129,7 +129,7 @@ function prevPage() {
 
 function nextPage() {
  store.dispatch('detailReviewTap', store.state.paginationReview.current_page+1);
- console.log(store.state.paginationReview.current_page);
+//  console.log(store.state.paginationReview.current_page);
 }
 
 </script>
