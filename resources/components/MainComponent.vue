@@ -204,17 +204,17 @@
                 <!-- <h1 class="modal-title fs-5" id="exampleModalLabel"></h1> -->
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                    <div class=" modal-body-gap">
-                        <div class="text-center first-line animate__animated animate__tada animate__repeat-3">축하 합니다!</div>
+            <div class="modal-body mo-stp-body">
+                    <div class=" modal-body-gap mo-stp-gap">
+                        <div class="text-center first-line animate__animated animate__tada animate__repeat-3 mo-stp-title">축하 합니다!</div>
                     </div>
-                    <div class="modal-body-gap">
-                        <div class="text-center second-line">벌써 <b>{{stampCnt.cnt + 1}}</b>번째 정복중</div>
+                    <div class="modal-body-gap mo-stp-gap mo-stp-yellow">
+                        <div class="text-center second-line mo-stp-cnt">벌써 <b>{{stampCnt.cnt + 1}}</b>번째 정복중</div>
                     </div>
-                    <div v-if="isWithinTargetArea" class="modal-body-gap">
-                        <div class="text-center third-line">{{currentTarget.name}}</div>
+                    <div v-if="isWithinTargetArea" class="modal-body-gap mo-stp-camp">
+                        <div class="text-center third-line mo-stp-camp-name">{{currentTarget.name}}</div>
                     </div>
-                    <button @click="createStamp" :class="{ stampBackGround: isStamped, animate__animated: isTrue, animate__bounce: isTrue }" class="modal-body-gap stampArea text-center">
+                    <button @click="createStamp" :class="{ stampBackGround: isStamped, animate__animated: isTrue, animate__bounce: isTrue }" class="modal-body-gap stampArea text-center mo-stp-btn1">
                         <div class="text-center stamp-pang">도장 팡팡!</div>
                         <div class="click text-center">click</div>
                     </button>

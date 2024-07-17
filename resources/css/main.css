@@ -116,6 +116,10 @@ a {
         background-position: top;
         background-size: 730%;
     }
+    .mobile-login {
+        width: 80%; 
+        margin: 0 auto;
+    }
 }
 
 .main-first {
@@ -1043,7 +1047,7 @@ a {
     }
 
     .slide img {
-        max-width: 70px;
+        max-width: 300px;
     }
 
     .slider {
@@ -1128,14 +1132,16 @@ a {
 }
 @media screen and (max-width: 780px){
     .mobile-float {
-        left: 8vh;
+        left: 23vw;
         padding: 0 10px;
-        bottom: 78vh;
+        bottom: 83vh;
+        z-index: 1000;
     }
     .my-stamp-btn {
         font-size: 0.6rem;
     }
 }
+
 .mobile-float, .small-float {
     transition: opacity 0.5s ease, visibility 0.5s ease;
   }
@@ -1203,6 +1209,14 @@ a {
     padding-top: 8px;
     font-family: 'SBAggroL';
     padding:8px 70px 0 70px;
+}
+@media screen and (max-width: 780px) {
+    .second-line {
+        font-size: 1.4rem;
+    }
+    .stampArea {
+        width: 75%;
+    }
 }
 .stamp-pang {
     font-size: 1.7rem;
