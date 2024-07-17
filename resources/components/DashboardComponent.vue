@@ -10,22 +10,22 @@
       <nav class="sidebar">
         <ul class="nav flex-column">
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('home')">홈</a>
+            <a href="#" class="nav-link" :class="{ 'active': selectedPage === 'home' }" @click.prevent="selectPage('home')">홈</a>
           </li>
           <li class="nav-item">
             <!-- <a href="#" class="nav-link" @click.prevent="selectPage('reservation')">예약관리</a> -->
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('users')">유저관리</a>
+            <a href="#" class="nav-link" :class="{ 'active': selectedPage === 'users' }" @click.prevent="selectPage('users')">유저관리</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('advertisement')">광고 요청 관리</a>
+            <a href="#" class="nav-link" :class="{ 'active': selectedPage === 'advertisement' }" @click.prevent="selectPage('advertisement')">광고 요청 관리</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('posts')">광고 게시 관리</a>
+            <a href="#" class="nav-link" :class="{ 'active': selectedPage === 'posts' }" @click.prevent="selectPage('posts')">광고 게시 관리</a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link" @click.prevent="selectPage('camping')">캠핑장관리</a>
+            <a href="#" class="nav-link" :class="{ 'active': selectedPage === 'camping' }" @click.prevent="selectPage('camping')">캠핑장관리</a>
           </li>
         </ul>
       </nav>
@@ -33,9 +33,6 @@
         <div v-if="selectedPage === 'home'">
           <Homepage />
         </div>
-        <!-- <div v-if="selectedPage === 'reservation'">
-          <ReservationManagement />
-        </div> -->
         <div v-if="selectedPage === 'users'">
           <UserManagement />
         </div>
@@ -94,5 +91,7 @@ function logout() {
 }
   </script>
   
-  <style scoped src="../css/admin.css"></style>
+  <style scoped src="../css/admin.css">
+
+</style>
   

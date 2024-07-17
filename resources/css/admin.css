@@ -250,3 +250,18 @@
 .admin-list-post {
   line-height: 100px;
 }
+
+.nav-item a:hover {
+  background-color: #ddd;
+}
+
+/* 선택된 페이지에 따라 active 스타일 적용 */
+/* .nav-item.active a {
+  background-color: #007bff; 
+  color: #fff; 
+} */
+
+.nav-link.active {
+  background-color: #ddd; /* 활성화된 항목 배경색 */
+  /* color: #fff;  */
+}
