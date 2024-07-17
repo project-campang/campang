@@ -32,7 +32,8 @@
               <tr v-for="(item, idx) in $store.state.adminAdverTise" :key="idx">
                 <td class="aggroL">{{ idx + 1 }}</td>
                 <td class="aggroL">{{ item.id }}</td>
-                <td class="aggroL">{{ item.title }}</td>
+                <td v-if="selectedAdType == 0" class="aggroL">{{ item.title }}</td>
+                <td v-else class="aggroL">{{ item.content }}</td>
                 <td class="aggroL">
                     <img :src="item.img_1" alt="" height="100">
                 </td>
@@ -85,8 +86,13 @@
                 <input type="hidden" v-model="modalData.amount">
                 <input type="hidden" v-model="modalData.status">
                 <div class="mb-3">
-                  <label for="advertisementTitle" class="form-label">{{ selectedAdType === '1' ? '브랜드명' : '사업장명' }}</label>
+                  <label for="advertisementTitle" class="form-label">상호명</label>
                   <input type="text" class="form-control" id="advertisementTitle" v-model="modalData.title">
+                </div>
+                <div class="mb-3">
+                  <label v-if="selectedAdType == 0" for="content" class="form-label">광고 문구</label>
+                  <label v-else for="content" class="form-label">브랜드명</label>
+                  <input type="text" class="form-control" id="content" v-model="modalData.content">
                 </div>
                 <div class="mb-3">
                   <label for="startDate" class="form-label">시작일</label>
@@ -135,6 +141,7 @@ const store = useStore();
 const modalData = reactive({
   id: '',
   title: '',
+  content: '',
   start_date: '',
   end_date: '',
   amount: '',
@@ -163,6 +170,7 @@ function openModal(item) {
   // 모달 데이터 초기화
   modalData.id = item.id;
   modalData.title = item.title;
+  modalData.content = item.content;
   modalData.start_date = item.start_date;
   modalData.end_date = item.end_date;
   modalData.amount = item.amount;
@@ -192,6 +200,7 @@ function submitForm() {
   const formData = {
     id: modalData.id,
     title: modalData.title,
+    content: modalData.content,
     start_date: modalData.start_date,
     end_date: modalData.end_date,
     amount: modalData.amount,

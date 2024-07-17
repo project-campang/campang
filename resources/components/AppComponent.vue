@@ -35,7 +35,7 @@
 
     <!-- loginModal -->
     <div v-show="loginFlg" class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog mobile-login">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="loginModalLabel">로그인</h1>
