@@ -86,23 +86,27 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <form id="insertForm" enctype="multipart/form-data">
-          <div v-if="isCommunity2">
-            리뷰를 남길 캠핑장은?
-            <div>
-              <!-- 드롭다운 메뉴 -->
-              <select v-model="selectedCamp" @change="updateCampId" name="camp_id">
-                <option v-for="(item, key) in $store.state.stampCampingzang" :key="key" :value="item.camp_id">{{ item.camp_name }}</option>
-              </select>
+          <div class="star-box">
+            <div v-if="isCommunity2" class="star-box-first">
+              리뷰를 남길 캠핑장은?
+              <div>
+                <!-- 드롭다운 메뉴 -->
+                <select v-model="selectedCamp" @change="updateCampId" name="camp_id">
+                  <option v-for="(item, key) in $store.state.stampCampingzang" :key="key" :value="item.camp_id">{{ item.camp_name }}</option>
+                </select>
+              </div>
+            </div>
+            <div v-if="isCommunity2" >
+            해당 캠핑장의 별점은?
+              <div class="star-rating">
+                        <span v-for="i in stars" :key="i" @click="setRating(i)" style="cursor: pointer;">
+                          <img v-if="i <= rating" src="../../public/img_nr/별점_활성화.png" alt="Active Star">
+                          <img v-else src="../../public/img_nr/별점_비활성화.png" alt="Inactive Star">
+                        </span>
+              </div>
             </div>
           </div>
-          <div v-if="isCommunity2">
-            해당 캠핑장의 별점은?
-            <div class="counter">
-              <button class="button" type="button" @click="decrease">-</button>
-              <input type="number" class="display" :value="count" readonly name="rating" />
-              <button class="button" type="button" @click="increase">+</button>
-          </div>
-          </div>
+          <input type="hidden" name="rating" :value="rating" />
           <input type="hidden" name="community-type" id="community-type" :value="route.params.id" />
           <!-- <input type="hidden" name="camp_id" :value="campId" /> -->
           <div class="modal-body">
@@ -568,25 +572,21 @@ function deletePost(id) {
   }
 }
 
-const count = ref(0);
-
-const decrease = () => {
-  if (count.value > 0) {
-    count.value -= 1;
-  }
-};
-
-const increase = () => {
-  if (count.value < 5) {
-    count.value += 1;
-  }
-};
+const stars = ref([1, 2, 3, 4, 5]);
+const rating = ref(0);  // 별점 저장을 위한 ref
 
 const isCommunity2 = computed(() => {
-  return route.path === '/community/2';
+  return route.params.id === '2';
 });
+
+const setRating = (star) => {
+  rating.value = star;
+};
+
+
 
 </script>
 
 <style scoped src="../css/community.css">
+
 </style>
