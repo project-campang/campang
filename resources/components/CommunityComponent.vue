@@ -120,7 +120,6 @@
               <label for="main_img" class="form-label">메인 이미지</label>
               <input type="file" class="form-control" id="main_img" accept="image/*" @change="handleImgUpload('main_img')">
               <img v-if="mainImgPreview" :src="mainImgPreview" alt="Main Image" style="width: 200px; margin-top: 10px;">
-              
             </div>
             <div class="mb-3">
               <label for="other_img2" class="form-label">이미지 2</label>
