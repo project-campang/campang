@@ -694,3 +694,29 @@ textarea.community-comment:focus {
   flex-direction: row;
   align-items: flex-end;
 }
+
+.star-rating {
+  display: flex;
+  
+}
+
+.star-rating img {
+  width: 25px;
+  height: 25px;
+}
+.star-box {
+  padding: 20px;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #666;
+}
+
+.star-box select {
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  color: #333;
+}
+
+.star-box-first {
+  margin-bottom: 15px;
+}
