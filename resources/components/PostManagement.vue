@@ -39,33 +39,14 @@
                 </td>
                 <td class="aggroL">{{ item.start_date + ' ~ ' + item.end_date }}</td>
                 <td class="aggroL">메인</td>
-                <td class="aggroL">{{ item.order }}</td>
+                <td class="aggroL" v-if="item.order === '6'">대기</td>
+                <td class="aggroL" v-else>{{ item.order }}</td>
                 <td>
-                  <!-- <button class="btn btn-link" @click="toggleAccordion(idx)">
-                    상세보기
-                  </button> -->
                   <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL" @click="openModal(item)">
                     수정
                   </button>
                 </td>
               </tr>
-              <!-- <tr v-if="isAccordionOpen(idx)" :key="'accordion' + item.id">
-                <td colspan="7">
-                  <div class="accordion-body">
-                    <div class="d-flex">
-                      <div v-if="item.img_1">
-                        <img :src="item.img_1" alt="이미지 미리보기 1" class="img-thumbnail me-2" style="max-width: 200px;">
-                      </div>
-                      <div v-if="item.img_2">
-                        <img :src="item.img_2" alt="이미지 미리보기 2" class="img-thumbnail me-2" style="max-width: 200px;">
-                      </div>
-                      <div v-if="item.img_3">
-                        <img :src="item.img_3" alt="이미지 미리보기 3" class="img-thumbnail me-2" style="max-width: 200px;">
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
             </tbody>
           </table>
         </div>
