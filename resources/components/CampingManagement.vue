@@ -45,13 +45,13 @@
             </thead>
             <tbody>
               <tr v-for="(item, idx) in $store.state.campData.data" :key="idx">
-                <td class="aggroL">{{ idx + 1 }}</td>
-                <td class="aggroL">{{ item.state }}</td>
-                <td class="aggroL">{{ item.county }}</td>
-                <td class="aggroL">{{ item.name}}</td>
-                <td class="aggroL">{{ item.address }}</td>
-                <td class="aggroL">{{ item.created_at }}</td>
-                <td class="aggroL">{{ item.deleted_at === null ? '영업중' : '폐업' }}</td>
+                <td class="aggroL admin-list">{{ idx + 1 }}</td>
+                <td class="aggroL admin-list">{{ item.state }}</td>
+                <td class="aggroL admin-list">{{ item.county }}</td>
+                <td class="aggroL admin-list">{{ item.name}}</td>
+                <td class="aggroL admin-list">{{ item.address }}</td>
+                <td class="aggroL admin-list">{{ item.created_at }}</td>
+                <td class="aggroL admin-list">{{ item.deleted_at === null ? '영업중' : '폐업' }}</td>
                 <td>
                   <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL" @click="openModal(item)">
                     수정
@@ -167,7 +167,7 @@
   const countySelete = ref('0');
   
   function changeState() {
-    console.log('메인 시군구 선택', stateSelete.value);
+    // console.log('메인 시군구 선택', stateSelete.value);
     store.dispatch('countyGet', stateSelete.value);
   }
   
@@ -198,7 +198,7 @@ function resetModalData() {
   modalData.created_at = '';
 }
   function searchBtn() {
-    console.log('선택된 값:', stateSelete.value, countySelete.value);
+    // console.log('선택된 값:', stateSelete.value, countySelete.value);
   
     store.commit('setLocalInfo', {
       state: stateSelete.value, // 선택된 시/도 값

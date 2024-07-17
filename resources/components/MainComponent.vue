@@ -208,17 +208,17 @@
                 <!-- <h1 class="modal-title fs-5" id="exampleModalLabel"></h1> -->
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <div class="modal-body">
-                    <div class=" modal-body-gap">
-                        <div class="text-center first-line animate__animated animate__tada animate__repeat-3">축하 합니다!</div>
+            <div class="modal-body mo-stp-body">
+                    <div class=" modal-body-gap mo-stp-gap">
+                        <div class="text-center first-line animate__animated animate__tada animate__repeat-3 mo-stp-title">축하 합니다!</div>
                     </div>
-                    <div class="modal-body-gap">
-                        <div class="text-center second-line">벌써 <b>{{stampCnt.cnt + 1}}</b>번째 정복중</div>
+                    <div class="modal-body-gap mo-stp-gap mo-stp-yellow">
+                        <div class="text-center second-line mo-stp-cnt">벌써 <b>{{stampCnt.cnt + 1}}</b>번째 정복중</div>
                     </div>
-                    <div v-if="isWithinTargetArea" class="modal-body-gap">
-                        <div class="text-center third-line">{{currentTarget.name}}</div>
+                    <div v-if="isWithinTargetArea" class="modal-body-gap mo-stp-camp">
+                        <div class="text-center third-line mo-stp-camp-name">{{currentTarget.name}}</div>
                     </div>
-                    <button @click="createStamp" :class="{ stampBackGround: isStamped, animate__animated: isTrue, animate__bounce: isTrue }" class="modal-body-gap stampArea text-center">
+                    <button @click="createStamp" :class="{ stampBackGround: isStamped, animate__animated: isTrue, animate__bounce: isTrue }" class="modal-body-gap stampArea text-center mo-stp-btn1">
                         <div class="text-center stamp-pang">도장 팡팡!</div>
                         <div class="click text-center">click</div>
                     </button>
@@ -429,7 +429,7 @@ function createStamp() {
     user_id: userId,
   })
   .then(function(response) {
-    console.log('Stamp created:', response.data);
+    // console.log('Stamp created:', response.data);
     // 성공적으로 stamp가 생성된 경우 추가적으로 할 작업이 필요하면 여기에 추가
     isStamped.value = true;
     isTrue = true;
@@ -459,13 +459,13 @@ const stateSelete = ref('0');
 const countySelete = ref('0');
 
 function changeState() {
-    console.log('메인 시군구 선택', stateSelete.value);
+    // console.log('메인 시군구 선택', stateSelete.value);
     store.dispatch('countyGet', stateSelete.value);
 }
 
 
 function searchBtn() {
-    console.log('선택된 값:', stateSelete.value, countySelete.value);
+    // console.log('선택된 값:', stateSelete.value, countySelete.value);
 
     store.commit('setLocalInfo',{
         state: stateSelete.value, // 선택된 시/도 값
@@ -482,25 +482,25 @@ const windowWidth = ref(window.innerWidth);
 // 윈도우 사이즈가 변경될 때 업데이트
 const updateWindowWidth = () => {
   windowWidth.value = window.innerWidth;
-  console.log('Window width updated:', windowWidth.value);
+//   console.log('Window width updated:', windowWidth.value);
 };
 
 // 윈도우 리사이즈 이벤트 리스너 등록
 onMounted(() => {
   window.addEventListener('resize', updateWindowWidth);
-  console.log('Mounted, window width:', windowWidth.value);
+//   console.log('Mounted, window width:', windowWidth.value);
 });
 
 // 컴포넌트 제거 전에 이벤트 리스너 제거
 onBeforeUnmount(() => {
   window.removeEventListener('resize', updateWindowWidth);
-  console.log('Unmounted');  // 콘솔 로그 추가
+//   console.log('Unmounted');  // 콘솔 로그 추가
 });
 
 // 모바일 화면인지 여부를 계산
 const isMobile = computed(() => {
   const mobile = windowWidth.value <= 768; // 예시로 768px 이하를 모바일로 간주
-  console.log('isMobile:', mobile);  // 콘솔 로그 추가
+//   console.log('isMobile:', mobile);  // 콘솔 로그 추가
   return mobile;    
 });
 

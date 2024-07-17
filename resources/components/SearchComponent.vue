@@ -253,7 +253,7 @@ const selectState = (e) => {
     const selectedStateId = e.target.value;
 
     store.dispatch('countyGet', selectedStateId);
-    console.log('실행?', selectedStateId);
+    // console.log('실행?', selectedStateId);
 };
 
 // 두 번째 셀렉트 박스에서 county 선택 시 실행되는 함수
@@ -281,7 +281,7 @@ function markerLoad() {
 
 // item 클릭시 이벤트
 function markerShow(item) {
-    console.log('기존 중심좌표', store.state.mapCenter);
+    // console.log('기존 중심좌표', store.state.mapCenter);
 
 // 중심 좌표 업데이트
 store.commit('updateMapCenter', {
@@ -289,7 +289,7 @@ store.commit('updateMapCenter', {
     lng: item.longitude
 });
 
-console.log('새 중심좌표', store.state.mapCenter);
+// console.log('새 중심좌표', store.state.mapCenter);
 
 const parentElement = document.querySelector('#map');
 const childElements = parentElement.querySelectorAll('img[title]');
@@ -314,7 +314,7 @@ const childElements = parentElement.querySelectorAll('img[title]');
     // 이미지 URL 관리 객체 업데이트
     imageUrls[item.name] = '/images/center-pin.png';
 
-    console.log('클릭이벤트 끝');
+    // console.log('클릭이벤트 끝');
 }
 
 // 검색 화면 리사이즈
@@ -340,10 +340,10 @@ const stopResize = () => {
 
 // 검색 버튼
 function searchBtn() {
-    console.log('선택된 값:', result.state, result.county, result.site_type, result.topo, result.amenity, result.amusement);
+    // console.log('선택된 값:', result.state, result.county, result.site_type, result.topo, result.amenity, result.amusement);
 
     store.commit('setLocalInfo', result)
-    console.log('resultresultresultresultresultresultresult', result);
+    // console.log('resultresultresultresultresultresultresult', result);
     store.dispatch('searchResult');
 }
 
@@ -360,7 +360,7 @@ function prevPage() {
         priceMin: result.priceMin,
         priceMax: result.priceMax,
     });
-    console.log('-1', store.state.campData.current_page-1);
+    // console.log('-1', store.state.campData.current_page-1);
 }
 function nextPage() {
     store.dispatch('campListGet', {
@@ -374,7 +374,7 @@ function nextPage() {
         priceMin: result.priceMin,
         priceMax: result.priceMax,
     });
-    console.log('+1', store.state.campData.current_page+1);
+    // console.log('+1', store.state.campData.current_page+1);
 }
 
 
@@ -407,7 +407,7 @@ onBeforeMount(() => {
     if(store.state.stateData.length <  1) {
         store.dispatch('stateGet');
     }
-    console.log('store.state.campData', store.state.campData);
+    // console.log('store.state.campData', store.state.campData);
     // store.dispatch('searchCount');
     store.dispatch('updateUserPosition');
 })

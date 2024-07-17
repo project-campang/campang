@@ -40,14 +40,14 @@
       </li>
       <!-- 검색어가 없을 때 전체 유저 목록을 보여주는 부분 -->
       <li v-else v-for="(item, index) in store.state.usermanagement" :key="index" class="user-item">
-        <span class="aggroL">{{ item.id }}</span>
-        <span class="aggroL">{{ item.business === '0' ? '일반' : '사업자' }}</span>
-        <span class="home-email aggroL">{{ item.email }}</span>
-        <span class="aggroL">{{ item.name }}</span>
-        <span class="aggroL">{{ item.nick_name }}</span>
-        <span class="aggroL">{{ item.tel }}</span>
-        <span class="aggroL">{{ item.post_count }}</span>
-        <span class="aggroL">{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
+        <span class="aggroL admin-list">{{ item.id }}</span>
+        <span class="aggroL admin-list">{{ item.business === '0' ? '일반' : '사업자' }}</span>
+        <span class="home-email aggroL admin-list">{{ item.email }}</span>
+        <span class="aggroL admin-list">{{ item.name }}</span>
+        <span class="aggroL admin-list">{{ item.nick_name }}</span>
+        <span class="aggroL admin-list">{{ item.tel }}</span>
+        <span class="aggroL admin-list">{{ item.post_count }}</span>
+        <span class="aggroL admin-list">{{ item.deleted_at ? '탈퇴' : '정상' }}</span>
         <div class="actions">
           <button 
               type="button" 
@@ -113,7 +113,7 @@ onBeforeMount(async () => {
     try {
         await store.dispatch('userManagement');
         userManagement.value = store.state.usermanagement; // 데이터 할당
-        console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
+        // console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
     } catch (error) {
         console.error('유저 정보를 가져오는 도중 에러 발생:', error);
     }
@@ -155,7 +155,7 @@ function userInfoGet() {
       try {
         store.dispatch('userManagement');
         userManagement.value = store.state.usermanagement; // 데이터 할당
-        console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
+        // console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
     } catch (error) {
         console.error('유저 정보를 가져오는 도중 에러 발생:', error);
     }

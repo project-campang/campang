@@ -26,7 +26,7 @@
                     </div>
                     <div v-else>
                         <button @click.prevent="logout" class="btn btn-outline-success">로그아웃</button>
-                        <router-link to="/mypage" class="btn btn-outline-success">마이페이지</router-link>
+                        <router-link to="/mypage" class="btn btn-outline-success a-green">마이페이지</router-link>
                     </div>
                 </form>
             </div>
@@ -35,7 +35,7 @@
 
     <!-- loginModal -->
     <div v-show="loginFlg" class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog mobile-login">
         <div class="modal-content">
             <div class="modal-header">
                 <h1 class="modal-title fs-5" id="loginModalLabel">로그인</h1>
@@ -57,7 +57,7 @@
                     </div>
                     <div class="mb-3">
                         <p>혹시 가입한 적 없으신가요?</p>
-                        <a href="#" @click.prevent="goToRegistration">회원가입하러가기</a>
+                        <a href="#" @click.prevent="goToRegistration"  class="text-primary">회원가입하러가기</a>
                     </div>
                     <div class="modal-footer">
                         <button @click="kakao_login" class="btn" type="button"><img src="/img/kakao-login.png" alt="카카오 로그인"></button>
@@ -744,7 +744,7 @@ function register() {
 
     if (isEmpty) {
         alert('내용을 입력해주세요.');
-        console.log(registerForm.value);
+        // console.log(registerForm.value);
 
         return;
     }
@@ -809,7 +809,7 @@ function bizRegister() {
 
     if (isEmpty) {
         alert('내용을 입력해주세요.');
-        console.log(bizRegisterForm.value);
+        // console.log(bizRegisterForm.value);
         return;
     }
 
@@ -1047,7 +1047,7 @@ async function checkEmail() {
         const response = await axios.post('/api/check-email', { email });
         emailCheckResult.value = response.data.duplicate;
         emailChecked.value = true; // 이메일 중복 체크 완료로 설정
-        console.log('Checking email:', email);
+        // console.log('Checking email:', email);
     } catch (error) {
         console.error('이메일 중복 확인 실패:', error);
         emailCheckResult.value = true;
@@ -1065,7 +1065,7 @@ async function BizCheckEmail() {
         const response = await axios.post('/api/check-email', { email });
         emailCheckResult.value = response.data.duplicate;
         emailChecked.value = true; // 이메일 중복 체크 완료로 설정
-        console.log('Checking email:', email);
+        // console.log('Checking email:', email);
     } catch (error) {
         console.error('이메일 중복 확인 실패:', error);
         emailCheckResult.value = true;
@@ -1192,7 +1192,7 @@ const userBusiness = ref(null);
 const openAdModal = () => {
   // 로그인 후에 Vuex 상태가 업데이트되지 않은 경우를 대비하여 userInfo를 직접 접근
   const userInfo = store.state.userInfo;
-  console.log(userInfo);
+//   console.log(userInfo);
   
   if (userInfo && userInfo.business === '2') {
     $('#exampleModal2').modal('show');
@@ -1222,7 +1222,7 @@ onMounted(async () => {
   if (store.state.bizInfo.length > 0) {
     form.value.title = store.state.bizInfo[0].business_name;
   }
-  console.log('bizInfo:', store.state.bizInfo); // bizInfo 확인
+//   console.log('bizInfo:', store.state.bizInfo); // bizInfo 확인
 });
 
 
@@ -1269,7 +1269,7 @@ const submitAdForm = async () => {
     try {
         // 서버로 데이터 전송
         const response = await axios.post('/api/submitAd', formData);
-        console.log('form.value', form.value);
+        // console.log('form.value', form.value);
         // 성공적으로 신청한 경우
         // 폼 초기화 (Vue 3 Composition API 방식)
         form.value = {

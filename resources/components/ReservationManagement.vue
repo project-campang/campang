@@ -34,12 +34,12 @@
             </thead>
             <tbody>
               <tr v-for="(refund, index) in refunds" :key="index">
-                <td>{{ refund.userId }}</td>
-                <td>{{ refund.businessName }}</td>
-                <td>{{ refund.reservationDate }}</td>
-                <td>{{ refund.customerName }}</td>
-                <td>{{ refund.phoneNumber }}</td>
-                <td>{{ refund.status }}</td>
+                <td class="admin-list">{{ refund.userId }}</td>
+                <td class="admin-list">{{ refund.businessName }}</td>
+                <td class="admin-list">{{ refund.reservationDate }}</td>
+                <td class="admin-list">{{ refund.customerName }}</td>
+                <td class="admin-list">{{ refund.phoneNumber }}</td>
+                <td class="admin-list">{{ refund.status }}</td>
                 <td>
                   <button class="btn btn-primary btn-sm">관리</button>
                 </td>

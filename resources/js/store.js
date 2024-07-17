@@ -395,7 +395,7 @@ const store = createStore({
                 const response = await axios.post('/api/bizRegister', bizRegisterForm);
                 commit('setAuthFlg', true);
                 commit('setUserInfo', response.data.data.user);
-                console.log('사업자 회원가입 response',response.data.data.user);
+                // console.log('사업자 회원가입 response',response.data.data.user);
                 // router.replace('/main');
             } catch (error) {
                 console.error('회원가입 실패:', error);
@@ -440,7 +440,7 @@ const store = createStore({
             try {
                 const response = await axios.get('/auth/kakao/user');
                 localStorage.setItem('userInfo', JSON.stringify(response.data.data));
-                console.log(response);
+                // console.log(response);
                 commit('setAuthFlg', true);
                 commit('setUserInfo', response.data.data);
                 commit('setAuth', { authFlg: true, userInfo: response.data.data });
@@ -455,11 +455,11 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setStampCampingzang', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
@@ -469,11 +469,11 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setMypageWishes', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
@@ -483,11 +483,11 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setMypageContent', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
@@ -497,11 +497,11 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setMypageReview', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
@@ -511,11 +511,11 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setMypageComment', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
@@ -552,7 +552,7 @@ const store = createStore({
             const url = `/api/posts/delete/${content.id}`; // content.id를 URL에 직접 포함시킴
             axios.delete(url) // DELETE 요청에는 데이터를 직접 전달하지 않음
                 .then(response => {
-                    console.log(response.data);
+                    // console.log(response.data);
                     context.commit('setMypageContent', response.data.data);
                 })
                 .catch(error => {
@@ -567,11 +567,11 @@ const store = createStore({
 
             axios.delete(url, content)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setMypageReview', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 alert(`리뷰 삭제 실패 (${error.response.data.code})`)
             })
         },
@@ -581,11 +581,11 @@ const store = createStore({
 
             axios.delete(url, content)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setMypageComment', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 alert(`리뷰 삭제 실패 (${error.response.data.code})`)
             })
         },
@@ -594,11 +594,11 @@ const store = createStore({
 
             axios.get(url)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setNewadverTisement', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 console.log(`게시글 획득 실패 (${error.response.data.code})`)
             })
         },
@@ -637,7 +637,7 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('setMainCampingler', response.data.data);
-                console.log(response.data.data);
+                // console.log(response.data.data);
             })
             .catch(error => {
                 alert('setMainCampingler 오류오류' + error.response.data);
@@ -650,7 +650,7 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('setMainCampingzang', response.data.data);
-                console.log(response.data.data);
+                // console.log(response.data.data);
             })
             .catch(error => {
                 alert('setMainCampingzang 오류오류' + error.response.data);
@@ -663,7 +663,7 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('setMainCommunity', response.data.data);
-                console.log(response.data.data);
+                // console.log(response.data.data);
             })
             .catch(error => {
                 alert('setMainCommunity 오류오류' + error.response.data);
@@ -676,7 +676,7 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('setTip', response.data.data);
-                console.log(response.data.data);
+                // console.log(response.data.data);
             })
             .catch(error => {
                 alert('setTip 오류오류' + error.response.data);
@@ -690,11 +690,11 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('setSuggestCam', response.data.data);
-                console.log(response.data.data);
+                // console.log(response.data.data);
             })
             .catch(error => {
-                alert('setSuggestCam 오류오류' + error.response.data);
-                console.log(response.data.data);
+                alert('setSuggestCam 오류' + error.response.data);
+                // console.log(response.data.data);
             })
         },
         // 메인추천 브랜드
@@ -704,7 +704,7 @@ const store = createStore({
         axios.get(url)
             .then(response => {
                 context.commit('setSuggestBrand', response.data.data); // 'data'는 API 응답 구조에 따라 다를 수 있습니다.
-                console.log(response.data.data);
+                // console.log(response.data.data);
             })
             .catch(error => {
                 if (error.response) {
@@ -729,7 +729,7 @@ const store = createStore({
             const url = '/api/comment/'+id;
             const data = new FormData(document.querySelector('#commentForm'));
             
-            console.log(data);
+            // console.log(data);
 
             axios.post(url, data)
                 .then(response => {
@@ -752,7 +752,7 @@ const store = createStore({
          */
         commentPageGet(context, { id, page }) {
             const url = `/api/camp/${id}/commentPage?page=${page}`;
-            console.log('페이지확인',url);
+            // console.log('페이지확인',url);
             axios.get(url)
             .then(response => {
                 // const test = response.data.data.links.filter((item, key) => {
@@ -772,7 +772,7 @@ const store = createStore({
                     links: response.data.data.links,
                     // test: test,
                 });
-                console.log('response.data.data.current_page', response.data.data.current_page);
+                // console.log('response.data.data.current_page', response.data.data.current_page);
                 // context.commit('setCurrentPage', data);
                 // console.log(test);
                 // console.log(response.data);
@@ -792,7 +792,7 @@ const store = createStore({
                     current_page: response.data.data.current_page, // 현재페이지
                     last_page: response.data.data.last_page, // 마지막페이지
                 });
-                console.log(response.data.data);
+                // console.log(response.data.data);
             })
             .catch(error => {
                 alert('detailReviewTap 오류오류' + error.response.data);
@@ -807,7 +807,7 @@ const store = createStore({
                 })
                 .catch(error=> {
                     alert('업설트 오류오류', error);
-                    console.log('이게뭐지',state.wishes);
+                    // console.log('이게뭐지',state.wishes);
                     console.error('Error details:', error);
                     console.log('State:', state.wishes);
                     console.log('URL:', upsertUrl);
@@ -847,12 +847,12 @@ const store = createStore({
             }
         
             const url = `/api/community/${id}/communityPage?page=${page}`;
-            console.log('API 요청 URL:', url); // 디버깅 로그 추가
+            // console.log('API 요청 URL:', url); // 디버깅 로그 추가
         
             axios.get(url)
             .then(response => {
                 const data = response.data.data;
-                console.log('API 응답 데이터:', data); // 디버깅 로그 추가
+                // console.log('API 응답 데이터:', data); // 디버깅 로그 추가
                 context.commit('setCommunityList', data.data);
                 context.commit('setPaginationCommunity', {
                 current_page: data.current_page,
@@ -880,7 +880,7 @@ const store = createStore({
                 // console.log('Response JSON:', data);
         
                 if (response.ok) {
-                    console.log('Response OK. Data:', data.data);
+                    // console.log('Response OK. Data:', data.data);
                     commit('setCommunityDetail', data.data); // API 응답 데이터가 `data` 속성에 들어있다면 사용
                     return data.data;
                 } else {
@@ -901,7 +901,7 @@ const store = createStore({
                 // console.log('Response JSON:', data);
         
                 if (response.ok) {
-                    console.log('Response OK. Data:', data.data);
+                    // console.log('Response OK. Data:', data.data);
                     commit('setCommentPageGet', data.data);
                     commit('setPaginationComment', {
                         current_page: data.pagination.current_page,
@@ -937,11 +937,11 @@ const store = createStore({
 
             axios.delete(url, content)
             .then(response => {
-                console.log(response.data); // TODO
+                // console.log(response.data); // TODO
                 context.commit('setCommentPost', response.data.data);
             })
             .catch(error => {
-                console.log(error.response); // TODO
+                // console.log(error.response); // TODO
                 alert(`리뷰 삭제 실패 (${error.response.data.code})`)
             })
         },
@@ -977,7 +977,7 @@ const store = createStore({
               comment: comment, // 전달받은 comment 값을 사용
             };
         
-            console.log('보낼 데이터:', data);
+            // console.log('보낼 데이터:', data);
         
             // 서버에 POST 요청 보내기
             axios.post(url, data, {
@@ -1005,12 +1005,10 @@ const store = createStore({
             const url = `/api/community/${id}`;
             const insertForm = document.querySelector('#insertForm');
             const formData = new FormData(insertForm);
-            console.log('zzzzzzzzzzzzzzzzzzzz',formData);
-        
             axios.post(url, formData)
             .then(response => {
                 context.commit('setUnshiftCommunityData', response.data.data);
-                console.log('게시글 작성 완료');
+                // console.log('게시글 작성 완료');
             })
             .catch(error => {
                 console.error('게시글 작성 실패:', error.response.data);
@@ -1021,7 +1019,7 @@ const store = createStore({
         async communityDelete({ commit }, id) {
             try {
                 const response = await axios.delete(`/api/posts/delete/${id}`);
-                console.log('삭제 성공:', response.data);
+                // console.log('삭제 성공:', response.data);
                 commit('setCommunityList', response.data.data);
             } catch (error) {
                 console.error('삭제 실패:', error.response.data);
@@ -1039,7 +1037,7 @@ const store = createStore({
         async communityViews({ commit }, id) {
             try {
                 const response = await axios.post(`/api/community/increase-view/${id}`);
-                console.log('조회수+1 성공:', response.data);
+                // console.log('조회수+1 성공:', response.data);
                 commit('setCommunityList', response.data.data);
             } catch (error) {
                 console.error('조회수 증가 실패:', error.response.data);
@@ -1060,12 +1058,12 @@ const store = createStore({
         // 캠핑장 상세페이지 get 
         campDetailGet(context, id){
             const url = '/api/camp/'+id;
-            console.log(url);
+            // console.log(url);
 
             axios.get(url)
             .then(response => {
                 context.commit('setCampDetail', response.data.data);
-                console.log(response.data.data);
+                // console.log(response.data.data);
             })
             .catch( error => {
                 console.log('정보획득 실패 : ', error);
@@ -1082,7 +1080,7 @@ const store = createStore({
         campListGet(context, inputData) {
             // const url = ('/api/search/searchPage?page=' + page);
             const url = ('/api/search');
-            console.log( "\u001b[1;36m campListGet", url);
+            // console.log( "\u001b[1;36m campListGet", url);
 
             const config = {
                 params: inputData
@@ -1096,7 +1094,7 @@ const store = createStore({
                 // context.commit('setCampList', response.data.data);
                 // console.log(response.data.data);
                 // console.log(setCampList);
-                console.log('store 캠프리스트', campList);
+                // console.log('store 캠프리스트', campList);
                 context.commit('setPaginationSearch', {
                     current_page: response.data.data.current_page, // 현재페이지
                     first_page_url: response.data.data.first_page_url, // 첫번째페이지 url
@@ -1118,7 +1116,7 @@ const store = createStore({
                     
                     // console.log('campList[0].name', campList.data[0].name);
                     context.commit('updateMapCenter', newCenter);
-                    console.log('\u001b[1;36m 중심 좌표 업데이트', newCenter);
+                    // console.log('\u001b[1;36m 중심 좌표 업데이트', newCenter);
                 };
                 
             })
@@ -1155,7 +1153,7 @@ const store = createStore({
             axios.get(url)
             .then(response => {
                 context.commit('setCountyData', response.data.data);
-                console.log('군구store',response.data.data);
+                // console.log('군구store',response.data.data);
             })
             .catch(error => {
                 alert('county 획득 실패' + error.response.data);
@@ -1169,10 +1167,10 @@ const store = createStore({
          * @param {*} context 
          */
         searchResult(context) {
-            console.log('searchResult Start');
+            // console.log('searchResult Start');
 
             const url = ('/api/search');
-            console.log( "\u001b[1;35m searchResult", url);
+            // console.log( "\u001b[1;35m searchResult", url);
 
             const reqData = {
                 params: context.state.localInfo
@@ -1181,10 +1179,10 @@ const store = createStore({
             axios.get(url, reqData)
             .then(response => {
                 const responseData = response.data.data;
-                console.log('\u001b[1;35m 검색 결과 획득 성공', responseData);
+                // console.log('\u001b[1;35m 검색 결과 획득 성공', responseData);
 
                 context.commit('setCampList', responseData);
-                console.log('store 캠프데이터', context.state.campData);
+                // console.log('store 캠프데이터', context.state.campData);
                 
                 // 정렬
                 
@@ -1195,7 +1193,7 @@ const store = createStore({
                         lng: context.campData[0].longitude
                     }
                     context.commit('updateMapCenter', newCenter);
-                    console.log('지도 중심 좌표 업데이트', newCenter);
+                    // console.log('지도 중심 좌표 업데이트', newCenter);
                 }
             })
             .catch(error => {
@@ -1289,7 +1287,7 @@ const store = createStore({
                             longitude: position.coords.longitude,
                             });
                         dispatch('checkPosition');
-                        console.log('\u001b[1;34m 유저 좌표', position.coords.latitude, position.coords.longitude);
+                        // console.log('\u001b[1;34m 유저 좌표', position.coords.latitude, position.coords.longitude);
                     },
                     () => {
                         console.error('유저 위치 확인 실패');
@@ -1332,7 +1330,7 @@ const store = createStore({
                     console.log('stampCnt then');
                     context.commit('setStampCnt', response.data.data[0]);
                 // console.log(response.data.data);
-                console.log('스탬프정보',response.data.data[0]);
+                // console.log('스탬프정보',response.data.data[0]);
                 })
                 .catch(error => {
                     console.log('stamp 갯수 획득 실패' + error.response);
@@ -1393,7 +1391,7 @@ const store = createStore({
                     if (response.data && response.data.data) {
                       commit('setBizInfo', response.data.data);
                     } else {
-                      console.log('Invalid response structure:', response.data);
+                    //   console.log('Invalid response structure:', response.data);
                     }
                   } catch (error) {
                     console.log('비즈니스 정보 획득 실패:', error.response);
@@ -1420,7 +1418,7 @@ const store = createStore({
             axios.get(url)
                 .then(response => {
                     context.commit('setNewMember', response.data.data);
-                    console.log(response.data.data);
+                    // console.log(response.data.data);
                 })
                 .catch(error => {
                     console.log(`신규유저 획득 실패 (${error.response.data.code})`);
@@ -1448,7 +1446,7 @@ const store = createStore({
             axios.get(url)
                 .then(response => {
                     context.commit('setUserManagement', response.data.data);
-                    console.log('\u001b[1;35m store 레스폰스데이타:', response.data.data);
+                    // console.log('\u001b[1;35m store 레스폰스데이타:', response.data.data);
                 })
                 .catch(error => {
                     console.log(`신규유저 획득 실패 (${error.response.data.code})`);
@@ -1461,7 +1459,7 @@ const store = createStore({
               const response = await axios.post(url, formData); // POST 요청으로 데이터 전송
       
               context.commit('setadminAdvertisement', response.data.data);
-              console.log('광고 수정 성공 이거?', response.data);
+            //   console.log('광고 수정 성공 이거?', response.data);
             } catch (error) {
               console.error(`광고 수정 실패 (${error.response.data.code})`);
               throw error; // 실패 시 예외 처리
@@ -1475,7 +1473,7 @@ const store = createStore({
               });
           
               context.commit('setadminAdvertisement', response.data);
-              console.log('광고 취소 성공');
+            //   console.log('광고 취소 성공');
             } catch (error) {
               console.error(`광고 취소 실패 (${error.response.data.code})`);
               throw error; 
@@ -1510,7 +1508,7 @@ const store = createStore({
               const response = await axios.post(url, formData); // POST 요청으로 데이터 전송
       
               context.commit('setadminAdverTise', response.data.data);
-              console.log('광고 수정 성공');
+            //   console.log('광고 수정 성공');
             } catch (error) {
               console.error(`광고 수정 실패 (${error.response.data.code})`);
               throw error; // 실패 시 예외 처리

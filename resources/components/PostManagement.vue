@@ -30,41 +30,23 @@
             </thead>
             <tbody class="aggroL">
               <tr v-for="(item, idx) in $store.state.adminAdverTise" :key="idx">
-                <td class="aggroL">{{ idx + 1 }}</td>
-                <td class="aggroL">{{ item.id }}</td>
-                <td class="aggroL">{{ item.title }}</td>
-                <td class="aggroL">
+                <td class="aggroL admin-list-post">{{ idx + 1 }}</td>
+                <td class="aggroL admin-list-post">{{ item.id }}</td>
+                <td v-if="selectedAdType == 0" class="aggroL admin-list-post">{{ item.title }}</td>
+                <td v-else class="aggroL admin-list-post">{{ item.content }}</td>
+                <td class="aggroL ">
                     <img :src="item.img_1" alt="" height="100">
                 </td>
-                <td class="aggroL">{{ item.start_date + ' ~ ' + item.end_date }}</td>
-                <td class="aggroL">메인</td>
-                <td class="aggroL">{{ item.order }}</td>
+                <td class="aggroL admin-list-post">{{ item.start_date + ' ~ ' + item.end_date }}</td>
+                <td class="aggroL admin-list-post">메인</td>
+                <td class="aggroL admin-list-post" v-if="item.order === '6'">대기</td>
+                <td class="aggroL admin-list-post" v-else>{{ item.order }}</td>
                 <td>
-                  <!-- <button class="btn btn-link" @click="toggleAccordion(idx)">
-                    상세보기
-                  </button> -->
-                  <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL" @click="openModal(item)">
+                  <button type="button" class="btn btn-outline-primary btn-sm m-1 aggroL mt-4" @click="openModal(item)">
                     수정
                   </button>
                 </td>
               </tr>
-              <!-- <tr v-if="isAccordionOpen(idx)" :key="'accordion' + item.id">
-                <td colspan="7">
-                  <div class="accordion-body">
-                    <div class="d-flex">
-                      <div v-if="item.img_1">
-                        <img :src="item.img_1" alt="이미지 미리보기 1" class="img-thumbnail me-2" style="max-width: 200px;">
-                      </div>
-                      <div v-if="item.img_2">
-                        <img :src="item.img_2" alt="이미지 미리보기 2" class="img-thumbnail me-2" style="max-width: 200px;">
-                      </div>
-                      <div v-if="item.img_3">
-                        <img :src="item.img_3" alt="이미지 미리보기 3" class="img-thumbnail me-2" style="max-width: 200px;">
-                      </div>
-                    </div>
-                  </div>
-                </td>
-              </tr> -->
             </tbody>
           </table>
         </div>
@@ -85,8 +67,13 @@
                 <input type="hidden" v-model="modalData.amount">
                 <input type="hidden" v-model="modalData.status">
                 <div class="mb-3">
-                  <label for="advertisementTitle" class="form-label">{{ selectedAdType === '1' ? '브랜드명' : '사업장명' }}</label>
+                  <label for="advertisementTitle" class="form-label">상호명</label>
                   <input type="text" class="form-control" id="advertisementTitle" v-model="modalData.title">
+                </div>
+                <div class="mb-3">
+                  <label v-if="selectedAdType == 0" for="content" class="form-label">광고 문구</label>
+                  <label v-else for="content" class="form-label">브랜드명</label>
+                  <input type="text" class="form-control" id="content" v-model="modalData.content">
                 </div>
                 <div class="mb-3">
                   <label for="startDate" class="form-label">시작일</label>
@@ -135,6 +122,7 @@ const store = useStore();
 const modalData = reactive({
   id: '',
   title: '',
+  content: '',
   start_date: '',
   end_date: '',
   amount: '',
@@ -163,6 +151,7 @@ function openModal(item) {
   // 모달 데이터 초기화
   modalData.id = item.id;
   modalData.title = item.title;
+  modalData.content = item.content;
   modalData.start_date = item.start_date;
   modalData.end_date = item.end_date;
   modalData.amount = item.amount;
@@ -192,6 +181,7 @@ function submitForm() {
   const formData = {
     id: modalData.id,
     title: modalData.title,
+    content: modalData.content,
     start_date: modalData.start_date,
     end_date: modalData.end_date,
     amount: modalData.amount,
