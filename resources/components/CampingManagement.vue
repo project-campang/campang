@@ -167,7 +167,7 @@
   const countySelete = ref('0');
   
   function changeState() {
-    console.log('메인 시군구 선택', stateSelete.value);
+    // console.log('메인 시군구 선택', stateSelete.value);
     store.dispatch('countyGet', stateSelete.value);
   }
   
@@ -198,7 +198,7 @@ function resetModalData() {
   modalData.created_at = '';
 }
   function searchBtn() {
-    console.log('선택된 값:', stateSelete.value, countySelete.value);
+    // console.log('선택된 값:', stateSelete.value, countySelete.value);
   
     store.commit('setLocalInfo', {
       state: stateSelete.value, // 선택된 시/도 값

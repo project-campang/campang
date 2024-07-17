@@ -113,7 +113,7 @@ onBeforeMount(async () => {
     try {
         await store.dispatch('userManagement');
         userManagement.value = store.state.usermanagement; // 데이터 할당
-        console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
+        // console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
     } catch (error) {
         console.error('유저 정보를 가져오는 도중 에러 발생:', error);
     }
@@ -155,7 +155,7 @@ function userInfoGet() {
       try {
         store.dispatch('userManagement');
         userManagement.value = store.state.usermanagement; // 데이터 할당
-        console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
+        // console.log('\u001b[1;36m 컴포넌트 유저정보:', userManagement.value); // 데이터 확인
     } catch (error) {
         console.error('유저 정보를 가져오는 도중 에러 발생:', error);
     }

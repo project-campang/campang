@@ -113,7 +113,7 @@ const selectedUser = ref(null);
 // 광고 신청 건수 계산
 const newAdvertisementRequestCount = computed(() => {
   if (!store.state.adminAdverTisement) return null;
-  console.log('신규광고',store.state.adminAdverTisement);
+  // console.log('신규광고',store.state.adminAdverTisement);
 
   return store.state.adminAdverTisement.filter(item => {
     const createdAt = new Date(item.created_at);

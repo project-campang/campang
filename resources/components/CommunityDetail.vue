@@ -161,7 +161,7 @@ const isAuthor = (userId) => {
 
 
 // 이 함수가 호출될 때마다 콘솔에 로그를 출력하여 확인
-console.log('로그인 사용자 ID:', Author.value);
+// console.log('로그인 사용자 ID:', Author.value);
 
 watch(
   () => route.params.id,
@@ -182,8 +182,8 @@ async function fetchPostDetail(id) {
       store.commit('setCommentPageGet', comments);
       communityTitle.value = store.state.communityTypes[route.params.id]?.name || '모름';
       communityTypeName.value = getCommunityTypeName(route.params.id);
-      console.log('Comments:', comments); // 댓글 데이터 확인
-      console.log(store.state.communityComment); // 댓글 데이터 확인
+      // console.log('Comments:', comments); // 댓글 데이터 확인
+      // console.log(store.state.communityComment); // 댓글 데이터 확인
     } else {
       console.error('게시글 정보를 불러올 수 없습니다.');
     }
@@ -270,15 +270,15 @@ const cancelEdit = () => {
 
 // 댓글 수정 모드로 전환하는 함수
 const editComment = (item) => {
-  console.log('수정할 댓글:', item);
+  // console.log('수정할 댓글:', item);
   editCommentId.value = item.id;
   editCommentText.value = item.comment;
 };
 
 // 댓글 저장 함수
 const saveComment = async (id) => {
-  console.log('저장할 댓글 ID:', id);
-  console.log('수정된 댓글 내용:', editCommentText.value);
+  // console.log('저장할 댓글 ID:', id);
+  // console.log('수정된 댓글 내용:', editCommentText.value);
   try {
     await axios.post(`/api/community/comment/${id}/update`, {
       comment: editCommentText.value
