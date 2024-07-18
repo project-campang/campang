@@ -18,10 +18,10 @@
                         </label>
                         <div class="search-btn-con">
                             <button class="search-btn btn-bg-yellow" type="button" @click="searchBtn">빠른 검색 
-                                <img src="/img/search-icon.png" style="width: 15px;" alt="">
+                                <img src="/img/search-icon.png" style="width: 15px;" alt="돋보기 아이콘"">
                             </button>
                             <button class="search-btn btn-bg-grey" type="button" @click="toggleAccordion">상세 검색 
-                                <img src="/img/arrow-icon.png" style="width: 12px;" alt=""></button>
+                                <img src="/img/arrow-icon.png" style="width: 12px;" alt="아래 보기 아이콘"></button>
                             <!-- {{ result }} -->
                         </div>
                         <!-- 아코디언 영역 -->
